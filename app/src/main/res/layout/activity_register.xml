@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <EditText
+        android:id="@+id/repassword"
+        android:layout_width="328dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Re-password"
+        app:layout_constraintStart_toStartOf="@+id/Re-pwlabel"
+        app:layout_constraintTop_toBottomOf="@+id/Re-pwlabel" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="328dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Password"
+        app:layout_constraintStart_toStartOf="@+id/pwlabel"
+        app:layout_constraintTop_toBottomOf="@+id/pwlabel" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/userlabel"
+        app:layout_constraintTop_toBottomOf="@+id/userlabel" />
+
+    <EditText
+        android:id="@+id/fullname"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Full name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/fullnamelabel"
+        app:layout_constraintTop_toBottomOf="@+id/fullnamelabel" />
+
+    <TextView
+        android:id="@+id/fullnamelabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:text="Full name"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress" />
+
+    <TextView
+        android:id="@+id/userlabel"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Username"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+
+        app:layout_constraintStart_toStartOf="@+id/fullnamelabel"
+        app:layout_constraintTop_toBottomOf="@+id/fullname" />
+
+    <TextView
+        android:id="@+id/pwlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="21dp"
+        android:layout_marginTop="16dp"
+        android:text="Password"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/userlabel"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <TextView
+        android:id="@+id/Re-pwlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Re-password"
+        app:layout_constraintStart_toStartOf="@+id/pwlabel"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <view
+        android:id="@+id/progress"
+        class="android.support.constraint.ConstraintLayout"
+        id="@+id/view1"
+        android:layout_width="300dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <view
+        android:id="@+id/noneprogress"
+        class="android.support.constraint.ConstraintLayout"
+        id="@+id/view2"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rectangleback"
+        app:layout_constraintEnd_toEndOf="@+id/progress"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/loginbutton"
+        android:text="Next"
+        app:layout_constraintEnd_toEndOf="@+id/repassword"
+        app:layout_constraintTop_toBottomOf="@+id/repassword" />
+
+</android.support.constraint.ConstraintLayout>

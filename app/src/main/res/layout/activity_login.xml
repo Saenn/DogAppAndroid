@@ -16,7 +16,7 @@
     <!-- Login progress -->
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/userlabel"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
@@ -53,15 +53,13 @@
         android:textColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/userlabel" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/loginbutton"
