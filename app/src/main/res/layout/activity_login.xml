@@ -11,12 +11,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@color/bgcolor"
+    >
 
     <!-- Login progress -->
 
     <EditText
-        android:id="@+id/userlabel"
+        android:id="@+id/roadlabel"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
@@ -53,7 +55,7 @@
         android:textColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userlabel" />
+        app:layout_constraintTop_toBottomOf="@+id/roadlabel" />
 
     <Button
         android:id="@+id/loginButton"
@@ -113,7 +115,7 @@
             android:buttonTint="@color/skyblue"
             android:checked="true"
             android:text="@string/radio_user"
-            />
+            android:textColor="@android:color/black" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -127,7 +129,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:buttonTint="@color/skyblue"
-            android:text="@string/radio_admin" />
+            android:text="@string/radio_admin"
+            android:textColor="@android:color/black" />
 
         <RadioButton
             android:layout_width="wrap_content"

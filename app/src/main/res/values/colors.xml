@@ -6,4 +6,6 @@
     <color name="skyblue">#65C8FF</color>
     <color name="limegreen">#21ba45</color>
     <color name="backblue">#a2cbf6</color>
+    <color name="bgcolor">#f5f5f5</color>
+
 </resources>
