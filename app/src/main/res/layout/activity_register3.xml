@@ -23,22 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <view
-        android:id="@+id/progress"
-        class="android.support.constraint.ConstraintLayout"
-        id="@+id/view1"
-        android:layout_width="300dp"
-        android:layout_height="20dp"
-
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rectangle"
-        app:layout_constraintBottom_toTopOf="@+id/housenolabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <Button
         android:id="@+id/addprofilepic"
         android:layout_width="60dp"
@@ -53,14 +37,14 @@
         android:id="@+id/photo"
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar3"
         app:srcCompat="@drawable/noimage" />
 
     <LinearLayout
@@ -79,25 +63,30 @@
         app:layout_constraintTop_toTopOf="@+id/photo"></LinearLayout>
 
     <Button
-        android:id="@+id/backButton2"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/loginbutton"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/doneButton" />
-
-    <Button
         android:id="@+id/doneButton"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/loginbutton"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:max="100"
+        android:progress="66"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </android.support.constraint.ConstraintLayout>

@@ -22,18 +22,9 @@ public class RegisterActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_register3);
 
         // declare variables //
-        Button backButton2 = (Button) findViewById(R.id.backButton2);
         Button doneButton = (Button) findViewById(R.id.doneButton);
         Button addPhotoButton = (Button) findViewById(R.id.addprofilepic);
         imageView = (ImageView) findViewById(R.id.photo);
-
-        // declare onClick //
-        backButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         addPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
