@@ -162,7 +162,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="0dp"
-        android:weightSum="2"
+        android:weightSum="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Houseroadlabel">
@@ -173,7 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:ems="10"
             android:inputType="textPersonName"
             android:paddingLeft="0dp"
@@ -185,7 +185,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:ems="10"
             android:inputType="textPersonName"
             android:paddingLeft="0dp"
@@ -220,19 +220,33 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/provincelabel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="0.5"
+            android:paddingLeft="0dp"
+            android:text="Province"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:weightSum="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Alleyprovince">
@@ -241,23 +255,27 @@
             android:id="@+id/alley"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="20dp"
             android:layout_weight="0.5"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             android:text="Alley" />
 
-        <Spinner
-            android:id="@+id/spinprovince"
+        <EditText
+            android:id="@+id/province"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_margin="8dp"
-            android:layout_marginLeft="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:layout_marginLeft="4dp"
+            android:ems="10"
+            android:inputType="textPersonName"
             android:paddingLeft="0dp"
-            android:paddingRight="0dp" />
+            android:paddingRight="0dp"
+            android:text="Province" />
+
 
     </LinearLayout>
 
@@ -279,23 +297,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-        <Spinner
-            android:id="@+id/spindistrict"
+        <EditText
+            android:id="@+id/district"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="20dp"
             android:layout_weight="0.5"
-            android:paddingRight="0dp" />
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="District" />
 
-        <Spinner
-            android:id="@+id/spinsubdistrict"
+        <EditText
+            android:id="@+id/subdistrict"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:ems="10"
+            android:layout_marginLeft="4dp"
+            android:inputType="textPersonName"
             android:paddingLeft="0dp"
-            android:paddingRight="0dp" />
-
+            android:paddingRight="0dp"
+            android:text="Subdistrict" />
     </LinearLayout>
 
     <LinearLayout
