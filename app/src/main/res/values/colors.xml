@@ -8,6 +8,5 @@
     <color name="backblue">#a2cbf6</color>
     <color name="bgcolor">#f5f5f5</color>
     <color name="violet">#783cd6</color>
-
-
+    <color name="redError">#97EF5350</color>
 </resources>
