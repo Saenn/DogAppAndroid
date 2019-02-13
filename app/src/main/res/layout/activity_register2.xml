@@ -42,7 +42,7 @@
         android:layout_marginTop="8dp"
         android:text="Address"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneEditText" />
 
     <EditText
         android:id="@+id/addressEditText"
@@ -127,27 +127,28 @@
         app:layout_constraintTop_toBottomOf="@+id/provinceLabel" />
 
     <TextView
-        android:id="@+id/postalLabel"
+        android:id="@+id/phoneLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="17dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Postal Code"
+        android:layout_marginTop="16dp"
+        android:text="Phone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/provinceEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
     <EditText
-        android:id="@+id/postalEditText"
+        android:id="@+id/phoneEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="10330"
+        android:hint="022153555"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postalLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneLabel" />
 
     <Button
         android:id="@+id/nextButtonRegister2"
@@ -155,10 +156,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postalEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/provinceEditText" />
 </android.support.constraint.ConstraintLayout>

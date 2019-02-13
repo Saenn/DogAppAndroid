@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 public class RegisterActivity2 extends AppCompatActivity {
 
-    private EditText addressEditText, subdistrictEditText, districtEditText, provinceEditText, postalEditText;
+    private EditText addressEditText, subdistrictEditText, districtEditText, provinceEditText, phoneEditText;
     private Button nextButton;
 
     @Override
@@ -21,26 +21,19 @@ public class RegisterActivity2 extends AppCompatActivity {
         subdistrictEditText = (EditText) findViewById(R.id.subdistrictEditText);
         districtEditText = (EditText) findViewById(R.id.districtEditText);
         provinceEditText = (EditText) findViewById(R.id.provinceEditText);
-        postalEditText = (EditText) findViewById(R.id.postalEditText);
+        phoneEditText = (EditText) findViewById(R.id.phoneEditText);
         nextButton = (Button) findViewById(R.id.nextButtonRegister2);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity2.this, RegisterActivity3.class);
-                String fullAddress = addressEditText.getText().toString() + ", ";
-                fullAddress += subdistrictEditText.getText().toString() + ", ";
-                fullAddress += districtEditText.getText().toString() + ", ";
-                fullAddress += provinceEditText.getText().toString() + " ";
-                fullAddress += postalEditText.getText().toString();
-                intent.putExtra("fullAddress",fullAddress);
+                intent.putExtra("address",addressEditText.getText().toString());
+                intent.putExtra("subdistrict",subdistrictEditText.getText().toString());
+                intent.putExtra("district",districtEditText.getText().toString());
+                intent.putExtra("province",provinceEditText.getText().toString());
+                intent.putExtra("phone",phoneEditText.getText().toString());
                 startActivity(intent);
-//              intent.putExtra("address",addressEditText.getText().toString());
-//              intent.putExtra("subdistrict",subdistrictEditText.getText().toString());
-//              intent.putExtra("district",districtEditText.getText().toString());
-//              intent.putExtra("province",provinceEditText.getText().toString());
-//              intent.putExtra("postal",postalEditText.getText().toString());
-
             }
         });
 
