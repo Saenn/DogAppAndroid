@@ -18,8 +18,6 @@ public class RegisterActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
-        Intent intent = getIntent();
-
         addressEditText = (EditText) findViewById(R.id.addressEditText);
         subdistrictEditText = (EditText) findViewById(R.id.subdistrictEditText);
         districtEditText = (EditText) findViewById(R.id.districtEditText);
@@ -31,10 +29,11 @@ public class RegisterActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity2.this, RegisterActivity3.class);
-                intent.putExtra("firstname", intent.getStringExtra("firstname"));
-                intent.putExtra("lastname", intent.getStringExtra("lastname"));
-                intent.putExtra("email", intent.getStringExtra("email"));
-                intent.putExtra("password", intent.getStringExtra("password"));
+                Intent prevIntent = getIntent();
+                intent.putExtra("firstname", prevIntent.getStringExtra("firstname"));
+                intent.putExtra("lastname", prevIntent.getStringExtra("lastname"));
+                intent.putExtra("email", prevIntent.getStringExtra("email"));
+                intent.putExtra("password", prevIntent.getStringExtra("password"));
                 intent.putExtra("address",addressEditText.getText().toString());
                 intent.putExtra("subdistrict",subdistrictEditText.getText().toString());
                 intent.putExtra("district",districtEditText.getText().toString());

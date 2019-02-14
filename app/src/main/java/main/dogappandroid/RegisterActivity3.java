@@ -29,8 +29,6 @@ public class RegisterActivity3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register3);
 
-        final Intent intent = new Intent();
-
         // declare variables //
         Button doneButton = (Button) findViewById(R.id.doneButton);
         Button addPhotoButton = (Button) findViewById(R.id.addprofilepic);
@@ -40,6 +38,7 @@ public class RegisterActivity3 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Map<String,String> params = new HashMap<>();
+                Intent intent = getIntent();
                 params.put("email",intent.getStringExtra("email"));
                 params.put("password",intent.getStringExtra("password"));
                 params.put("firstName",intent.getStringExtra("firstname"));
