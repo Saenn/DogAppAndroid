@@ -22,23 +22,23 @@ public class RegisterActivity extends AppCompatActivity {
 
         firstname = (EditText) findViewById(R.id.firstNameEditText);
         lastname = (EditText) findViewById(R.id.lastNameEditText);
-        email = (EditText) findViewById(R.id.emailEditText);
-        password = (EditText) findViewById(R.id.passwordEditText);
-        repassword = (EditText) findViewById(R.id.repasswordEditText);
-        nextButton = (Button) findViewById(R.id.nextButton);
+        email = (EditText) findViewById(R.id.emailRegister);
+        password = (EditText) findViewById(R.id.passwordRegister);
+        repassword = (EditText) findViewById(R.id.repasswordRegister);
+        nextButton = (Button) findViewById(R.id.nextButtonRegister1);
         originalStyle = firstname.getBackground();
-
         firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
                     if (!firstname.getText().toString().matches(regex))
-                        firstname.setBackgroundColor(getResources().getColor(R.color.redError));
+                        firstname.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else firstname.setBackground(originalStyle);
                 }
             }
         });
+
 
         lastname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!hasFocus) {
                     String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
                     if (!lastname.getText().toString().matches(regex))
-                        lastname.setBackgroundColor(getResources().getColor(R.color.redError));
+                        lastname.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else lastname.setBackground(originalStyle);
                 }
             }
@@ -58,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!hasFocus) {
                     String regex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
                     if (!email.getText().toString().matches(regex))
-                        email.setBackgroundColor(getResources().getColor(R.color.redError));
+                        email.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else email.setBackground(originalStyle);
                 }
             }
@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (!repassword.getText().toString().equals(password.getText().toString())) {
-                        repassword.setBackgroundColor(getResources().getColor(R.color.redError));
+                        repassword.setBackgroundColor(getResources().getColor(R.color.pink100));
                     } else {
                         repassword.setBackground(originalStyle);
                     }
