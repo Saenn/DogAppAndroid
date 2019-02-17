@@ -1,6 +1,8 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,11 +17,16 @@ public class RegisterActivity2 extends AppCompatActivity {
     private EditText addressEditText, subdistrictEditText, districtEditText, provinceEditText, phoneEditText;
     private Button nextButton;
     private Drawable originalStyle;
+    private static final String MY_PREFS = "my_prefs";
+    SharedPreferences shared = getSharedPreferences(MY_PREFS,
+            Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = shared.edit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
+
 
         phoneEditText = (EditText) findViewById(R.id.phoneEditText);
         addressEditText = (EditText) findViewById(R.id.addressEditText);
@@ -111,6 +118,15 @@ public class RegisterActivity2 extends AppCompatActivity {
                 }
             }
         });
+
+        if(validateAllInput()){
+            editor.putString("addressKey", addressEditText.getText().toString());
+            editor.putString("subdistrictKey", subdistrictEditText.getText().toString());
+            editor.putString("districtKey", districtEditText.getText().toString());
+            editor.putString("provinceKey", provinceEditText.getText().toString());
+            editor.putString("phone", phoneEditText.getText().toString());
+            editor.commit();
+        }
     }
     protected boolean validateAllInput() {
         String phoneRegex = "[0-9]*";

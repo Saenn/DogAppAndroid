@@ -8,17 +8,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.SharedPreferences.Editor;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText firstname,lastname, email, password, repassword;
     private Button nextButton;
     private Drawable originalStyle;
+    private static final String MY_PREFS = "my_prefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        SharedPreferences shared = getSharedPreferences(MY_PREFS,
+                Context.MODE_PRIVATE);
+        Editor editor = shared.edit();
 
         firstname = (EditText) findViewById(R.id.firstNameEditText);
         lastname = (EditText) findViewById(R.id.lastNameEditText);
@@ -93,6 +100,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if(validateAllInput()){
+            editor.putString("firstnameKey", firstname.getText().toString());
+            editor.putString("lastnameKey", lastname.getText().toString());
+            editor.putString("emailKey", email.getText().toString());
+            editor.commit();
+        }
 
 
     }
