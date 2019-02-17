@@ -81,7 +81,7 @@ public class NetworkUtils {
 
         HttpURLConnection httpConnection = null;
         BufferedReader reader = null;
-        String responseFromRequest = "";
+        String responseFromRequest = null;
 
         try {
             URL requestURL = new URL(LOGIN_URL);
@@ -102,7 +102,6 @@ public class NetworkUtils {
                 contentBuilder.append(line);
                 contentBuilder.append("\n");
             }
-            System.out.println("This is content: "+contentBuilder.length());
             if (contentBuilder.length() == 0) {
                 return "";
             }
