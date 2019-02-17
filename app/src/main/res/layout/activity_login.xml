@@ -90,7 +90,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@color/pink200"
-        android:onClick="onRegisterButtonClicked"
         android:text="@string/registerButton"
         android:textColor="@color/black"
         android:textSize="18sp"

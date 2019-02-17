@@ -14,18 +14,18 @@ import android.content.SharedPreferences.Editor;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText firstname,lastname, email, password, repassword;
+    private EditText firstname, lastname, email, password, repassword;
     private Button nextButton;
     private Drawable originalStyle;
-    private static final String MY_PREFS = "my_prefs";
+
+    private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
+    SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        SharedPreferences shared = getSharedPreferences(MY_PREFS,
-                Context.MODE_PRIVATE);
-        Editor editor = shared.edit();
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         firstname = (EditText) findViewById(R.id.firstNameEditText);
         lastname = (EditText) findViewById(R.id.lastNameEditText);
@@ -88,6 +88,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateAllInput()) {
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    editor.putString("firstnameKey", firstname.getText().toString());
+                    editor.putString("lastnameKey", lastname.getText().toString());
+                    editor.putString("emailKey", email.getText().toString());
+                    editor.apply();
                     Intent intent = new Intent(RegisterActivity.this, RegisterActivity2.class);
                     intent.putExtra("firstname", firstname.getText().toString());
                     intent.putExtra("lastname", lastname.getText().toString());
@@ -100,14 +105,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
-        if(validateAllInput()){
-            editor.putString("firstnameKey", firstname.getText().toString());
-            editor.putString("lastnameKey", lastname.getText().toString());
-            editor.putString("emailKey", email.getText().toString());
-            editor.commit();
-        }
-
 
     }
 

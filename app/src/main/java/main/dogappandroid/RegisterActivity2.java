@@ -17,16 +17,14 @@ public class RegisterActivity2 extends AppCompatActivity {
     private EditText addressEditText, subdistrictEditText, districtEditText, provinceEditText, phoneEditText;
     private Button nextButton;
     private Drawable originalStyle;
-    private static final String MY_PREFS = "my_prefs";
-    SharedPreferences shared = getSharedPreferences(MY_PREFS,
-            Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = shared.edit();
+
+    private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
+    SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
-
 
         phoneEditText = (EditText) findViewById(R.id.phoneEditText);
         addressEditText = (EditText) findViewById(R.id.addressEditText);
@@ -35,6 +33,7 @@ public class RegisterActivity2 extends AppCompatActivity {
         provinceEditText = (EditText) findViewById(R.id.provinceEditText);
         nextButton = (Button) findViewById(R.id.nextButtonRegister2);
         originalStyle = addressEditText.getBackground();
+        mPreferences = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
 
         phoneEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -100,6 +99,14 @@ public class RegisterActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateAllInput()){
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    editor.putString("addressKey", addressEditText.getText().toString());
+                    editor.putString("subdistrictKey", subdistrictEditText.getText().toString());
+                    editor.putString("districtKey", districtEditText.getText().toString());
+                    editor.putString("provinceKey", provinceEditText.getText().toString());
+                    editor.putString("phone", phoneEditText.getText().toString());
+                    editor.apply();
+
                     Intent intent = new Intent(RegisterActivity2.this, RegisterActivity3.class);
                     Intent prevIntent = getIntent();
                     intent.putExtra("firstname", prevIntent.getStringExtra("firstname"));
@@ -118,15 +125,6 @@ public class RegisterActivity2 extends AppCompatActivity {
                 }
             }
         });
-
-        if(validateAllInput()){
-            editor.putString("addressKey", addressEditText.getText().toString());
-            editor.putString("subdistrictKey", subdistrictEditText.getText().toString());
-            editor.putString("districtKey", districtEditText.getText().toString());
-            editor.putString("provinceKey", provinceEditText.getText().toString());
-            editor.putString("phone", phoneEditText.getText().toString());
-            editor.commit();
-        }
     }
     protected boolean validateAllInput() {
         String phoneRegex = "[0-9]*";

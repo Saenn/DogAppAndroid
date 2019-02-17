@@ -37,20 +37,20 @@ public class RegisterActivity3 extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String,String> params = new HashMap<>();
+                Map<String, String> params = new HashMap<>();
                 Intent intent = getIntent();
-                params.put("email",intent.getStringExtra("email"));
-                params.put("password",intent.getStringExtra("password"));
-                params.put("firstName",intent.getStringExtra("firstname"));
-                params.put("lastName",intent.getStringExtra("lastname"));
-                params.put("address",intent.getStringExtra("address"));
-                params.put("subdistrict",intent.getStringExtra("subdistrict"));
-                params.put("district",intent.getStringExtra("district"));
-                params.put("province",intent.getStringExtra("province"));
-                params.put("profilePicture","1");
-                params.put("phone",intent.getStringExtra("phone"));
-                params.put("forgotQuestion","1");
-                params.put("forgotAnswer","1");
+                params.put("email", intent.getStringExtra("email"));
+                params.put("password", intent.getStringExtra("password"));
+                params.put("firstName", intent.getStringExtra("firstname"));
+                params.put("lastName", intent.getStringExtra("lastname"));
+                params.put("address", intent.getStringExtra("address"));
+                params.put("subdistrict", intent.getStringExtra("subdistrict"));
+                params.put("district", intent.getStringExtra("district"));
+                params.put("province", intent.getStringExtra("province"));
+                params.put("profilePicture", "1");
+                params.put("phone", intent.getStringExtra("phone"));
+                params.put("forgotQuestion", "1");
+                params.put("forgotAnswer", "1");
                 new onRegister().execute(params);
             }
         });
@@ -71,8 +71,8 @@ public class RegisterActivity3 extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
@@ -80,10 +80,11 @@ public class RegisterActivity3 extends AppCompatActivity {
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
     }
-    public class onRegister extends AsyncTask<Map<String,String>,Void,String> {
+
+    public class onRegister extends AsyncTask<Map<String, String>, Void, String> {
         @Override
         protected String doInBackground(Map<String, String>... maps) {
-            return NetworkUtils.registerNewUser(maps[0]);
+            return NetworkUtils.register(maps[0]);
         }
 
         @Override
@@ -92,9 +93,9 @@ public class RegisterActivity3 extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 String message = jsonObject.getString("message");
-                Toast toast = Toast.makeText(RegisterActivity3.this,message,Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(RegisterActivity3.this, message, Toast.LENGTH_LONG);
                 toast.show();
-            }catch (JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }

@@ -1,5 +1,7 @@
 package main.dogappandroid;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,8 +13,9 @@ import java.util.Map;
 
 public class NetworkUtils {
     private static final String REGISTER_URL = "http://10.0.2.2:9000/register";
+    private static final String LOGIN_URL = "http://10.0.2.2:9000/login";
 
-    static String registerNewUser(Map<String, String> queryParams) {
+    static String register(Map<String, String> queryParams) {
         String urlParams = "email=" + queryParams.get("email") + "&";
         urlParams += "password=" + queryParams.get("password") + "&";
         urlParams += "firstName=" + queryParams.get("firstName") + "&";
@@ -52,6 +55,56 @@ public class NetworkUtils {
             }
             if (contentBuilder.length() == 0) {
                 return null;
+            }
+            responseFromRequest = contentBuilder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (httpConnection != null) {
+                httpConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return responseFromRequest;
+    }
+
+    static String login(Map<String, String> queryParams) {
+        String urlParams = "email=" + queryParams.get("email") + "&";
+        urlParams += "password=" + queryParams.get("password");
+        byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+
+        HttpURLConnection httpConnection = null;
+        BufferedReader reader = null;
+        String responseFromRequest = "";
+
+        try {
+            URL requestURL = new URL(LOGIN_URL);
+            httpConnection = (HttpURLConnection) requestURL.openConnection();
+
+            httpConnection.setRequestMethod("POST");
+            httpConnection.setDoOutput(true);
+            httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
+            wr.write(postData);
+
+            StringBuilder contentBuilder;
+            reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+            String line;
+            contentBuilder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line);
+                contentBuilder.append("\n");
+            }
+            System.out.println("This is content: "+contentBuilder.length());
+            if (contentBuilder.length() == 0) {
+                return "";
             }
             responseFromRequest = contentBuilder.toString();
         } catch (IOException e) {
