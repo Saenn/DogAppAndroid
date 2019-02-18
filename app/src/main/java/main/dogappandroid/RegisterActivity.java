@@ -1,22 +1,25 @@
 package main.dogappandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-import android.content.SharedPreferences;
-import android.content.Context;
-import android.content.SharedPreferences.Editor;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText firstname, lastname, email, password, repassword;
+    private EditText firstname, lastname, email, password, repassword, securityAnswer;
     private Button nextButton;
+    private Spinner securityQuestionSpinner;
     private Drawable originalStyle;
+    private int securityQuestionSelect;
 
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
@@ -32,8 +35,16 @@ public class RegisterActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.emailRegister);
         password = (EditText) findViewById(R.id.passwordRegister);
         repassword = (EditText) findViewById(R.id.repasswordRegister);
+        securityAnswer = (EditText) findViewById(R.id.securityAnswer);
         nextButton = (Button) findViewById(R.id.nextButtonRegister1);
+        Spinner securityQuestionSpinner = (Spinner) findViewById(R.id.securityQuestion);
         originalStyle = firstname.getBackground();
+
+        ArrayAdapter<String> securityQuestionSet = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.securityQuestionArray));
+        securityQuestionSpinner.setAdapter(securityQuestionSet);
+
         firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -84,20 +95,38 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        securityAnswer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (securityAnswer.getText().toString() == "") {
+                        securityAnswer.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        securityAnswer.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateAllInput()) {
                     SharedPreferences.Editor editor = mPreferences.edit();
-                    editor.putString("firstnameKey", firstname.getText().toString());
-                    editor.putString("lastnameKey", lastname.getText().toString());
-                    editor.putString("emailKey", email.getText().toString());
+                    editor.putString("firstName", firstname.getText().toString());
+                    editor.putString("lastName", lastname.getText().toString());
+                    editor.putString("email", email.getText().toString());
+                    editor.putString("forgotQuestion", securityQuestionSelect + "");
+                    editor.putString("forgotAnswer", securityAnswer.getText().toString());
                     editor.apply();
+
                     Intent intent = new Intent(RegisterActivity.this, RegisterActivity2.class);
                     intent.putExtra("firstname", firstname.getText().toString());
                     intent.putExtra("lastname", lastname.getText().toString());
                     intent.putExtra("email", email.getText().toString());
                     intent.putExtra("password", password.getText().toString());
+                    intent.putExtra("forgotQuestion", securityQuestionSelect + "");
+                    intent.putExtra("forgotAnswer", securityAnswer.getText().toString());
                     startActivity(intent);
                 } else {
                     Toast toast = Toast.makeText(RegisterActivity.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
@@ -106,12 +135,27 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        securityQuestionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                securityQuestionSelect = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                securityQuestionSelect = 400;
+            }
+        });
+
     }
 
     protected boolean validateAllInput() {
         String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
         String emailRegex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
-        if (firstname.getText().toString().matches(fullnameRegex) && lastname.getText().toString().matches(fullnameRegex) && email.getText().toString().matches(emailRegex) && repassword.getText().toString().equals(password.getText().toString()))
+        if (firstname.getText().toString().matches(fullnameRegex) &&
+                lastname.getText().toString().matches(fullnameRegex) &&
+                email.getText().toString().matches(emailRegex) &&
+                repassword.getText().toString().equals(password.getText().toString()) && securityAnswer.getText().toString() != "")
             return true;
         return false;
     }
