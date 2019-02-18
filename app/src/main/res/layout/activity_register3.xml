@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity3"
-    android:background="@color/bgcolor"
+    android:background="@color/pink50"
     >
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/headerRegister1"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@color/skyblue"
+        android:background="@color/pink600"
         android:gravity="center_vertical|center_horizontal"
         android:text="Registeration"
         android:textColor="@android:color/white"
@@ -87,6 +87,41 @@
         android:progress="66"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/headerRegister1" />
+
+    <TextView
+        android:id="@+id/questionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/secure_question"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addprofilepic" />
+
+
+    <Spinner android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/secure_questionDD"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionLabel"/>
+
+    <EditText
+        android:id="@+id/answerEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/secure_answer"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secure_questionDD" />
 
 </android.support.constraint.ConstraintLayout>

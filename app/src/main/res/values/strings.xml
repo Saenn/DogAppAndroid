@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DogAppAndroid</string>
+    <string name="app_name">Pupify</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -16,6 +16,34 @@
     <string name="chooseprovince">Choose a province</string>
     <string name="radio_user">User</string>
     <string name="radio_admin">Admin</string>
+    <string name="emailLogin">Email</string>
+    <string name="passwordLogin">Password</string>
+    <string name="loginButton">Login</string>
+    <string name="registerButton">Register</string>
+    <string name="application_logo_description">This is a logo for Pupify application</string>
+    <string name="firstNameLabel">First Name</string>
+    <string name="firstNameHint">Enter your first name</string>
+    <string name="lastNameHint">Enter your last name</string>
+    <string name="lastNameLabel">Last name</string>
+    <string name="emailLabel">Email</string>
+    <string name="emailHint">Enter your email</string>
+    <string name="passwordLabel">Password</string>
+    <string name="passwordHint">Enter your password</string>
+    <string name="repasswordLabel">Re-password</string>
+    <string name="repasswordHint">Enter your password again</string>
+    <string name="nextButton">Next</string>
+    <string name="registrationHeader">Registeration</string>
+    <string name="phoneLabel">Phone</string>
+    <string name="phoneHint">022153555</string>
+    <string name="addressLabel">Address</string>
+    <string name="addressHint">254 Phayathai Rd</string>
+    <string name="subdistrictLabel">Subdistrict</string>
+    <string name="subdistrictHint">Wang Mai</string>
+    <string name="districtHint">Pathum Wan</string>
+    <string name="districtLabel">District</string>
+    <string name="provinceLabel">Province</string>
+    <string name="provinceHint">Bangkok</string>
+    <string name="registrationHeader2">Registration (Optional)</string>
     <string-array name="province_eng">
         <item>Bangkok</item>
         <item>Pattaya</item>
@@ -176,6 +204,24 @@
         <item>อุบลราชธานี</item>
         <item>อ่างทอง</item>
     </string-array>
+    <string name="title_activity_home">Home</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_navigation_bar">NavigationBar</string>
 
+    <string-array name="squestion">
+        <item>สัตว์เลี้ยงชนิดแรกที่เลี้ยง</item>
+        <item>ชื่อของสัตว์เลี้ยงตัวแรก</item>
+        <item>ชื่อของเพื่อนสนิทคนแรก</item>
+        <item>ชื่อนักร้องที่ชอบที่สุด</item>
+        <item>ชื่อเพลงที่ชอบที่สุด</item>
+
+    </string-array>
+    <string name="secure_question">Security Question</string>
+    <string name="secure_answer">ANSWER HERE</string>
 
 </resources>

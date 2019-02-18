@@ -1,61 +1,72 @@
 package main.dogappandroid;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.SharedPreferences.Editor;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText fullname, username, password, repassword;
+    private EditText firstname, lastname, email, password, repassword;
     private Button nextButton;
     private Drawable originalStyle;
+
+    private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
+    SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
-        fullname = (EditText) findViewById(R.id.fullnameEditText);
-        username = (EditText) findViewById(R.id.usernameEditText);
-        password = (EditText) findViewById(R.id.passwordEditText);
-        repassword = (EditText) findViewById(R.id.repasswordEditText);
-        nextButton = (Button) findViewById(R.id.nextButton);
-        originalStyle = fullname.getBackground();
-
-        fullname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        firstname = (EditText) findViewById(R.id.firstNameEditText);
+        lastname = (EditText) findViewById(R.id.lastNameEditText);
+        email = (EditText) findViewById(R.id.emailRegister);
+        password = (EditText) findViewById(R.id.passwordRegister);
+        repassword = (EditText) findViewById(R.id.repasswordRegister);
+        nextButton = (Button) findViewById(R.id.nextButtonRegister1);
+        originalStyle = firstname.getBackground();
+        firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
-                    if (!fullname.getText().toString().matches(regex))
-                        fullname.setBackgroundColor(getResources().getColor(R.color.redError));
-                    else fullname.setBackground(originalStyle);
+                    if (!firstname.getText().toString().matches(regex))
+                        firstname.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    else firstname.setBackground(originalStyle);
                 }
             }
         });
 
-        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        lastname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z0-9.]+";
-                    if (!username.getText().toString().matches(regex))
-                        username.setBackgroundColor(getResources().getColor(R.color.redError));
-                    else username.setBackground(originalStyle);
+                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+                    if (!lastname.getText().toString().matches(regex))
+                        lastname.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    else lastname.setBackground(originalStyle);
+                }
+            }
+        });
+
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String regex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
+                    if (!email.getText().toString().matches(regex))
+                        email.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    else email.setBackground(originalStyle);
                 }
             }
         });
@@ -65,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (!repassword.getText().toString().equals(password.getText().toString())) {
-                        repassword.setBackgroundColor(getResources().getColor(R.color.redError));
+                        repassword.setBackgroundColor(getResources().getColor(R.color.pink100));
                     } else {
                         repassword.setBackground(originalStyle);
                     }
@@ -77,9 +88,15 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateAllInput()) {
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    editor.putString("firstnameKey", firstname.getText().toString());
+                    editor.putString("lastnameKey", lastname.getText().toString());
+                    editor.putString("emailKey", email.getText().toString());
+                    editor.apply();
                     Intent intent = new Intent(RegisterActivity.this, RegisterActivity2.class);
-                    intent.putExtra("fullname", fullname.getText().toString());
-                    intent.putExtra("username", username.getText().toString());
+                    intent.putExtra("firstname", firstname.getText().toString());
+                    intent.putExtra("lastname", lastname.getText().toString());
+                    intent.putExtra("email", email.getText().toString());
                     intent.putExtra("password", password.getText().toString());
                     startActivity(intent);
                 } else {
@@ -89,13 +106,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     protected boolean validateAllInput() {
         String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
-        String usernameRegex = "[a-zA-Z0-9.]+";
-        if (fullname.getText().toString().matches(fullnameRegex) && username.getText().toString().matches(usernameRegex) && repassword.getText().toString().equals(password.getText().toString()))
+        String emailRegex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
+        if (firstname.getText().toString().matches(fullnameRegex) && lastname.getText().toString().matches(fullnameRegex) && email.getText().toString().matches(emailRegex) && repassword.getText().toString().equals(password.getText().toString()))
             return true;
         return false;
     }
