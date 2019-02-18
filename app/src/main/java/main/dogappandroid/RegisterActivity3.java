@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ public class RegisterActivity3 extends AppCompatActivity {
     ImageView imageView;
     private EditText secureAnswerEditText;
     private Drawable originalStyle;
+    private String sqQuestionText;
 
 
     @Override
@@ -43,13 +45,12 @@ public class RegisterActivity3 extends AppCompatActivity {
         secureAnswerEditText = (EditText) findViewById(R.id.answerEditText);
         originalStyle = secureAnswerEditText.getBackground();
 
-
         Spinner sp = (Spinner) findViewById(R.id.secure_questionDD);
 
-        String[] englishClub = getResources().getStringArray(R.array.squestion);
-        ArrayAdapter<String> adapterEnglish = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, englishClub);
-        sp.setAdapter(adapterEnglish);
+        final String[] sqList = getResources().getStringArray(R.array.squestion);
+        ArrayAdapter<String> adapterS = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, sqList);
+        sp.setAdapter(adapterS);
 
         secureAnswerEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -63,6 +64,20 @@ public class RegisterActivity3 extends AppCompatActivity {
             }
         });
 
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                /*Toast.makeText(RegisterActivity3.this,
+                        "Select : " + sqList[position],
+                        Toast.LENGTH_SHORT).show();*/
+                sqQuestionText = sqList[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+        });
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +94,8 @@ public class RegisterActivity3 extends AppCompatActivity {
                 params.put("province", intent.getStringExtra("province"));
                 params.put("profilePicture", "1");
                 params.put("phone", intent.getStringExtra("phone"));
-                params.put("forgotQuestion", "1");
-                params.put("forgotAnswer", "1");
+                params.put("forgotQuestion", sqQuestionText);
+                params.put("forgotAnswer", secureAnswerEditText.getText().toString());
                 new onRegister().execute(params);
             }
         });
