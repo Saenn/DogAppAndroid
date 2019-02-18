@@ -2,6 +2,8 @@ package main.dogappandroid;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,11 +26,12 @@ import java.util.Date;
 
 public class RegisterActivity2 extends AppCompatActivity {
 
+    static final int REQUEST_TAKE_PHOTO = 1;
+    static final int RESULT_LOAD_IMAGE = 2;
+
     private EditText addressEditText, subdistrictEditText, districtEditText, provinceEditText, phoneEditText;
     private Button nextButton;
     private Drawable originalStyle;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
     private ImageView userImage;
     private ImageButton takePhotoButton, loadPhotoButton;
     private String userImagePath;
@@ -74,6 +77,15 @@ public class RegisterActivity2 extends AppCompatActivity {
                         startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                     }
                 }
+            }
+        });
+
+        loadPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
             }
         });
 
@@ -173,12 +185,22 @@ public class RegisterActivity2 extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            System.out.println(userImagePath);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             File imgFile = new File(userImagePath);
             if (imgFile.exists()) {
                 userImage.setImageURI(Uri.fromFile(imgFile));
+                galleryAddPic();
             }
+        }
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            userImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
     }
 
@@ -191,16 +213,10 @@ public class RegisterActivity2 extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "userImage_" + timeStamp;
+        String imageFileName = "pupify_user_image_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        // Save a file: path for use with ACTION_VIEW intents
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         userImagePath = image.getAbsolutePath();
         return image;
     }
