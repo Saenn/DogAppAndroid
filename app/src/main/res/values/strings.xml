@@ -213,5 +213,15 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_navigation_bar">NavigationBar</string>
 
+    <string-array name="squestion">
+        <item>สัตว์เลี้ยงชนิดแรกที่เลี้ยง</item>
+        <item>ชื่อของสัตว์เลี้ยงตัวแรก</item>
+        <item>ชื่อของเพื่อนสนิทคนแรก</item>
+        <item>ชื่อนักร้องที่ชอบที่สุด</item>
+        <item>ชื่อเพลงที่ชอบที่สุด</item>
+
+    </string-array>
+    <string name="secure_question">Security Question</string>
+    <string name="secure_answer">ANSWER HERE</string>
 
 </resources>

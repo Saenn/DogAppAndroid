@@ -3,6 +3,7 @@ package main.dogappandroid;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -10,8 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +27,9 @@ public class RegisterActivity3 extends AppCompatActivity {
 
     public static final int RESULT_LOAD_IMAGE = 1;
     ImageView imageView;
+    private EditText secureAnswerEditText;
+    private Drawable originalStyle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +40,29 @@ public class RegisterActivity3 extends AppCompatActivity {
         Button doneButton = (Button) findViewById(R.id.doneButton);
         Button addPhotoButton = (Button) findViewById(R.id.addprofilepic);
         imageView = (ImageView) findViewById(R.id.photo);
+        secureAnswerEditText = (EditText) findViewById(R.id.answerEditText);
+        originalStyle = secureAnswerEditText.getBackground();
+
+
+        Spinner sp = (Spinner) findViewById(R.id.secure_questionDD);
+
+        String[] englishClub = getResources().getStringArray(R.array.squestion);
+        ArrayAdapter<String> adapterEnglish = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, englishClub);
+        sp.setAdapter(adapterEnglish);
+
+        secureAnswerEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String regex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
+                    if (!secureAnswerEditText.getText().toString().matches(regex))
+                        secureAnswerEditText.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    else secureAnswerEditText.setBackground(originalStyle);
+                }
+            }
+        });
+
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
