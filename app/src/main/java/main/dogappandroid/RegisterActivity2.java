@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,10 +19,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegisterActivity2 extends AppCompatActivity {
@@ -84,7 +90,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
+                photoPickerIntent.setType("image/jpg");
                 startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
             }
         });
@@ -159,22 +165,27 @@ public class RegisterActivity2 extends AppCompatActivity {
                     editor.putString("district", districtEditText.getText().toString());
                     editor.putString("province", provinceEditText.getText().toString());
                     editor.putString("phone", phoneEditText.getText().toString());
+                    editor.putString("pictureProfilePath", userImagePath);
                     editor.apply();
 
-                    Intent intent = new Intent(RegisterActivity2.this, RegisterActivity3.class);
-                    Intent prevIntent = getIntent();
-                    intent.putExtra("firstname", prevIntent.getStringExtra("firstname"));
-                    intent.putExtra("lastname", prevIntent.getStringExtra("lastname"));
-                    intent.putExtra("email", prevIntent.getStringExtra("email"));
-                    intent.putExtra("password", prevIntent.getStringExtra("password"));
-                    intent.putExtra("forgotQuestion", prevIntent.getStringExtra("forgotQuestion"));
-                    intent.putExtra("forgotAnswer", prevIntent.getStringExtra("forgotAnswer"));
-                    intent.putExtra("address", addressEditText.getText().toString());
-                    intent.putExtra("subdistrict", subdistrictEditText.getText().toString());
-                    intent.putExtra("district", districtEditText.getText().toString());
-                    intent.putExtra("province", provinceEditText.getText().toString());
-                    intent.putExtra("phone", phoneEditText.getText().toString());
-                    startActivity(intent);
+                    Map<String, String> params = new HashMap<>();
+                    Intent intent = getIntent();
+                    params.put("email", intent.getStringExtra("email"));
+                    params.put("password", intent.getStringExtra("password"));
+                    params.put("firstName", intent.getStringExtra("firstname"));
+                    params.put("lastName", intent.getStringExtra("lastname"));
+                    params.put("address", addressEditText.getText().toString());
+                    params.put("subdistrict", subdistrictEditText.getText().toString());
+                    params.put("district", districtEditText.getText().toString());
+                    params.put("province", provinceEditText.getText().toString());
+                    params.put("phone", phoneEditText.getText().toString());
+                    params.put("forgotQuestion", intent.getStringExtra("forgotQuestion"));
+                    params.put("forgotAnswer", intent.getStringExtra("forgotAnswer"));
+                    params.put("profilePicturePath", userImagePath);
+                    new RegisterActivity2.onRegister().execute(params);
+
+                    Intent loginActivity = new Intent(RegisterActivity2.this, LoginActivity.class);
+                    startActivity(loginActivity);
                 } else {
                     Toast toast = Toast.makeText(RegisterActivity2.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
                     toast.show();
@@ -188,6 +199,8 @@ public class RegisterActivity2 extends AppCompatActivity {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             File imgFile = new File(userImagePath);
             if (imgFile.exists()) {
+                userImagePath = imgFile.getPath();
+//              add image into gallery
                 userImage.setImageURI(Uri.fromFile(imgFile));
                 galleryAddPic();
             }
@@ -200,6 +213,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
+            userImagePath = picturePath;
             userImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
     }
@@ -230,5 +244,25 @@ public class RegisterActivity2 extends AppCompatActivity {
                 provinceEditText.getText().toString().matches(regex))
             return true;
         return false;
+    }
+
+    public class onRegister extends AsyncTask<Map<String, String>, Void, String> {
+        @Override
+        protected String doInBackground(Map<String, String>... maps) {
+            return NetworkUtils.register(maps[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                String message = jsonObject.getString("message");
+                Toast toast = Toast.makeText(RegisterActivity2.this, message, Toast.LENGTH_LONG);
+                toast.show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

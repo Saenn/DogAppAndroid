@@ -45,9 +45,6 @@
             android:name=".RegisterActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".RegisterActivity3"
-            android:launchMode="singleTask" />
-        <activity
             android:name=".RegisterActivity2"
             android:launchMode="singleTask" />
     </application>
