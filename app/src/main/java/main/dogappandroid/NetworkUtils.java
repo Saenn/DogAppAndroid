@@ -68,10 +68,9 @@ public class NetworkUtils {
             DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
             wr.write(postData);
 
-            StringBuilder contentBuilder;
             reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
             String line;
-            contentBuilder = new StringBuilder();
+            StringBuilder contentBuilder = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 contentBuilder.append(line);
                 contentBuilder.append("\n");
@@ -81,7 +80,24 @@ public class NetworkUtils {
             }
             responseFromRequest = contentBuilder.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                reader = new BufferedReader(new InputStreamReader(
+                        httpConnection.getErrorStream()));
+                String line = null;
+                StringBuilder contentBuilder = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+//                response.add(line);
+                    contentBuilder.append(line);
+                    contentBuilder.append("\n");
+                }
+                reader.close();
+                if (contentBuilder.length() == 0) {
+                    return "";
+                }
+                responseFromRequest = contentBuilder.toString();
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
         } finally {
             if (httpConnection != null) {
                 httpConnection.disconnect();
