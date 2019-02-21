@@ -1,22 +1,46 @@
 package main.dogappandroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegisterActivity2 extends AppCompatActivity {
 
+    static final int REQUEST_TAKE_PHOTO = 1;
+    static final int RESULT_LOAD_IMAGE = 2;
+
     private EditText addressEditText, subdistrictEditText, districtEditText, provinceEditText, phoneEditText;
     private Button nextButton;
     private Drawable originalStyle;
+    private ImageView userImage;
+    private ImageButton takePhotoButton, loadPhotoButton;
+    private String userImagePath;
 
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
@@ -32,8 +56,44 @@ public class RegisterActivity2 extends AppCompatActivity {
         districtEditText = (EditText) findViewById(R.id.districtEditText);
         provinceEditText = (EditText) findViewById(R.id.provinceEditText);
         nextButton = (Button) findViewById(R.id.nextButtonRegister2);
+        userImage = (ImageView) findViewById(R.id.userImage);
+        takePhotoButton = (ImageButton) findViewById(R.id.takePhotoButton);
+        loadPhotoButton = (ImageButton) findViewById(R.id.loadPhotoButton);
         originalStyle = addressEditText.getBackground();
-        mPreferences = getSharedPreferences(sharedPrefFile,MODE_PRIVATE);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+
+        takePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    // Create the File where the photo should go
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(RegisterActivity2.this,
+                                "main.dogappandroid.fileprovider",
+                                photoFile);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    }
+                }
+            }
+        });
+
+        loadPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/jpg");
+                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+            }
+        });
 
         phoneEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -98,42 +158,111 @@ public class RegisterActivity2 extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateAllInput()){
+                if (validateAllInput()) {
                     SharedPreferences.Editor editor = mPreferences.edit();
-                    editor.putString("addressKey", addressEditText.getText().toString());
-                    editor.putString("subdistrictKey", subdistrictEditText.getText().toString());
-                    editor.putString("districtKey", districtEditText.getText().toString());
-                    editor.putString("provinceKey", provinceEditText.getText().toString());
+                    editor.putString("address", addressEditText.getText().toString());
+                    editor.putString("subdistrict", subdistrictEditText.getText().toString());
+                    editor.putString("district", districtEditText.getText().toString());
+                    editor.putString("province", provinceEditText.getText().toString());
                     editor.putString("phone", phoneEditText.getText().toString());
+                    editor.putString("pictureProfilePath", userImagePath);
                     editor.apply();
 
-                    Intent intent = new Intent(RegisterActivity2.this, RegisterActivity3.class);
-                    Intent prevIntent = getIntent();
-                    intent.putExtra("firstname", prevIntent.getStringExtra("firstname"));
-                    intent.putExtra("lastname", prevIntent.getStringExtra("lastname"));
-                    intent.putExtra("email", prevIntent.getStringExtra("email"));
-                    intent.putExtra("password", prevIntent.getStringExtra("password"));
-                    intent.putExtra("address",addressEditText.getText().toString());
-                    intent.putExtra("subdistrict",subdistrictEditText.getText().toString());
-                    intent.putExtra("district",districtEditText.getText().toString());
-                    intent.putExtra("province",provinceEditText.getText().toString());
-                    intent.putExtra("phone",phoneEditText.getText().toString());
-                    startActivity(intent);
-                }else{
-                    Toast toast = Toast.makeText(RegisterActivity2.this,"Your inputs are incorrect",Toast.LENGTH_LONG);
+                    Map<String, String> params = new HashMap<>();
+                    Intent intent = getIntent();
+                    params.put("email", intent.getStringExtra("email"));
+                    params.put("password", intent.getStringExtra("password"));
+                    params.put("firstName", intent.getStringExtra("firstname"));
+                    params.put("lastName", intent.getStringExtra("lastname"));
+                    params.put("address", addressEditText.getText().toString());
+                    params.put("subdistrict", subdistrictEditText.getText().toString());
+                    params.put("district", districtEditText.getText().toString());
+                    params.put("province", provinceEditText.getText().toString());
+                    params.put("phone", phoneEditText.getText().toString());
+                    params.put("forgotQuestion", intent.getStringExtra("forgotQuestion"));
+                    params.put("forgotAnswer", intent.getStringExtra("forgotAnswer"));
+                    params.put("profilePicturePath", userImagePath);
+                    new RegisterActivity2.onRegister().execute(params);
+
+                    Intent loginActivity = new Intent(RegisterActivity2.this, LoginActivity.class);
+                    startActivity(loginActivity);
+                } else {
+                    Toast toast = Toast.makeText(RegisterActivity2.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
                     toast.show();
                 }
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            File imgFile = new File(userImagePath);
+            if (imgFile.exists()) {
+                userImagePath = imgFile.getPath();
+//              add image into gallery
+                userImage.setImageURI(Uri.fromFile(imgFile));
+                galleryAddPic();
+            }
+        }
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            userImagePath = picturePath;
+            userImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }
+    }
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(userImagePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "pupify_user_image_" + timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        userImagePath = image.getAbsolutePath();
+        return image;
+    }
+
     protected boolean validateAllInput() {
         String phoneRegex = "[0-9]*";
         String addressRegex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-        if(phoneEditText.getText().toString().matches(phoneRegex) && addressEditText.getText().toString().matches(addressRegex) &&
+        if (phoneEditText.getText().toString().matches(phoneRegex) && addressEditText.getText().toString().matches(addressRegex) &&
                 subdistrictEditText.getText().toString().matches(regex) && districtEditText.getText().toString().matches(regex) &&
                 provinceEditText.getText().toString().matches(regex))
             return true;
         return false;
+    }
+
+    public class onRegister extends AsyncTask<Map<String, String>, Void, String> {
+        @Override
+        protected String doInBackground(Map<String, String>... maps) {
+            return NetworkUtils.register(maps[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                String message = jsonObject.getString("message");
+                Toast toast = Toast.makeText(RegisterActivity2.this, message, Toast.LENGTH_LONG);
+                toast.show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
