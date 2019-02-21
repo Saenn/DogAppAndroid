@@ -1,16 +1,20 @@
 package main.dogappandroid;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Vaccine extends AppCompatActivity {
@@ -18,17 +22,25 @@ public class Vaccine extends AppCompatActivity {
     private RecyclerView recyclerViewRabies,recyclerViewOthers;
     private RecyclerView.LayoutManager layoutManagerRabies,layoutManagerOther;
     private RecyclerView.Adapter mAdapterRabies,mAdapterOther;
-    private Map<String, String> mDatasetRabies,mDatasetOther;
+    private List<DogVaccine> rabiesVaccine,othersVaccine,allVaccine;
     private Button addButton,doneButton;
+    private DBHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vaccine);
-
         // set var //
+        rabiesVaccine = new ArrayList<DogVaccine>();
+        othersVaccine = new ArrayList<DogVaccine>();
         addButton = (Button) findViewById(R.id.vaccine_addbutton);
         doneButton = (Button) findViewById(R.id.vaccine_doneButton);
+
+        mHelper = new DBHelper(this);
+        rabiesVaccine = mHelper.getRabiesVaccineList();
+        othersVaccine = mHelper.getOtherVaccineList();
+//        allVaccine = mHelper.getVaccineList();
+//        seperateData(allVaccine);
 
         // set recycle view //
         recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
@@ -36,12 +48,12 @@ public class Vaccine extends AppCompatActivity {
 
         layoutManagerRabies = new LinearLayoutManager(this);
         recyclerViewRabies.setLayoutManager(layoutManagerRabies);
-        mAdapterRabies = new RecyclerViewAdapter(mDatasetRabies);
+        mAdapterRabies = new RecyclerViewAdapter(rabiesVaccine);
         recyclerViewRabies.setAdapter(mAdapterRabies);
 
         layoutManagerOther = new LinearLayoutManager(this);
         recyclerViewOthers.setLayoutManager(layoutManagerOther);
-        mAdapterOther = new RecyclerViewAdapter(mDatasetOther);
+        mAdapterOther = new RecyclerViewAdapter(othersVaccine);
         recyclerViewOthers.setAdapter(mAdapterOther);
 
         // set up button //
@@ -50,6 +62,7 @@ public class Vaccine extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
                 startActivity(intent);
+                finish();
             }
         });
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -59,14 +72,30 @@ public class Vaccine extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Log.i("Vaccine",  String.valueOf(othersVaccine.size()));
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+//        Intent intent = getIntent();
+//        finish();
+//        startActivity(intent);
+        // remove
+//        list.remove(position);
+//        recycler.removeViewAt(position);
+//        mAdapter.notifyItemRemoved(position);
+//        mAdapter.notifyItemRangeChanged(position, list.size());
     }
 
     // Recycler class //
     protected class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder>{
 
-        private Map<String, String> myDataset;
+        private List<DogVaccine> myDataset;
 
-        public RecyclerViewAdapter(Map<String, String> mDataset) {
+        public RecyclerViewAdapter(List<DogVaccine> mDataset) {
             myDataset = mDataset;
         }
 
@@ -80,13 +109,21 @@ public class Vaccine extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.vaccine.setText("DHPP");
-            holder.vaccinatedDate.setText("16-02-2009");
+            DogVaccine v = myDataset.get(position);
+            holder.vaccine.setText(v.getName());
+            holder.vaccinatedDate.setText(v.getDate());
         }
 
         @Override
         public int getItemCount() {
-            return 3;
+            return myDataset.size();
+        }
+
+        public void swap(ArrayList<DogVaccine> datas)
+        {
+            myDataset.clear();
+            myDataset.addAll(datas);
+            notifyDataSetChanged();
         }
     }
 
@@ -100,12 +137,18 @@ public class Vaccine extends AppCompatActivity {
             vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_date);
         }
     }
-//
-//    protected void addMdataset(){
-//        mDatasetRabies.put("Rabies","16-08-2018");
-//        mDatasetOther.put("DHPP","16-08-2018");
-//        mDatasetOther.put("DHPP","02-02-2019");
-//    }
+
+    private void seperateData(List<DogVaccine> data){
+        for(int i = 0 ; i < data.size() ; i++){
+            DogVaccine d = data.get(i);
+            if(d.getName().equals("Rabies")){
+                rabiesVaccine.add(d);
+            }
+            else{
+                othersVaccine.add(d);
+            }
+        }
+    }
 
 }
 

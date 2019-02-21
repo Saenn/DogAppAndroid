@@ -15,6 +15,9 @@
     </string>
 
     <!-- Strings related to adddog -->
+    <string name="addvaccinetitle">Add Vaccine</string>
+    <string name="addmessage">Are you sure to add this vaccine?</string>
+
     <string name="header_mandatory">Dog Info (mandatory)</string>
     <string name="header_optional">Dog Info (optional)</string>
     <string name="age_label">Age</string>
