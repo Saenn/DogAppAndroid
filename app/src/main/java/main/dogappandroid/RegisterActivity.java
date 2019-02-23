@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText firstname, lastname, email, password, repassword, securityAnswer;
+    private EditText username, firstname, lastname, email, password, repassword, securityAnswer;
     private Button nextButton;
     private Spinner securityQuestionSpinner;
     private Drawable originalStyle;
@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         firstname = (EditText) findViewById(R.id.firstNameEditText);
         lastname = (EditText) findViewById(R.id.lastNameEditText);
+        username = (EditText) findViewById(R.id.usernameRegister);
         email = (EditText) findViewById(R.id.emailRegister);
         password = (EditText) findViewById(R.id.passwordRegister);
         repassword = (EditText) findViewById(R.id.repasswordRegister);
@@ -70,14 +71,33 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String regex = "[a-zA-Z0-9.]+";
+                    if (!username.getText().toString().matches(regex))
+                        username.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    else{
+                        username.setBackground(originalStyle);
+                        username.setHint("should only be 0-9 A-Z a-z .");
+                    }
+                }
+            }
+        });
+
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
-                    if (!email.getText().toString().matches(regex))
-                        email.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else email.setBackground(originalStyle);
+                    if (email.getText().toString().length() != 0) {
+                        String regex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
+                        if (!email.getText().toString().matches(regex))
+                            email.setBackgroundColor(getResources().getColor(R.color.pink100));
+                        else email.setBackground(originalStyle);
+                    } else {
+                        email.setBackground(originalStyle);
+                    }
                 }
             }
         });
@@ -116,6 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
                     editor.putString("firstName", firstname.getText().toString());
                     editor.putString("lastName", lastname.getText().toString());
                     editor.putString("email", email.getText().toString());
+                    editor.putString("username",username.getText().toString());
                     editor.putString("forgotQuestion", securityQuestionSelect + "");
                     editor.putString("forgotAnswer", securityAnswer.getText().toString());
                     editor.apply();
@@ -124,6 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
                     intent.putExtra("firstname", firstname.getText().toString());
                     intent.putExtra("lastname", lastname.getText().toString());
                     intent.putExtra("email", email.getText().toString());
+                    intent.putExtra("username",username.getText().toString());
                     intent.putExtra("password", password.getText().toString());
                     intent.putExtra("forgotQuestion", securityQuestionSelect + "");
                     intent.putExtra("forgotAnswer", securityAnswer.getText().toString());
@@ -150,11 +172,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     protected boolean validateAllInput() {
+        String usenameRegex = "[a-zA-Z0-9.]+";
         String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
         String emailRegex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
-        if (firstname.getText().toString().matches(fullnameRegex) &&
+        if (username.getText().toString().matches(usenameRegex) &&
+                firstname.getText().toString().matches(fullnameRegex) &&
                 lastname.getText().toString().matches(fullnameRegex) &&
-                email.getText().toString().matches(emailRegex) &&
+                (email.getText().toString().length() == 0 || email.getText().toString().matches(emailRegex)) &&
                 repassword.getText().toString().equals(password.getText().toString()) && securityAnswer.getText().toString() != "")
             return true;
         return false;

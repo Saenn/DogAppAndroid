@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Pupify</string>
 
     <!-- Strings related to login -->
@@ -15,7 +15,7 @@
     </string>
 
     <!-- Strings related to adddog -->
-    <string name="addvaccinetitle">Add Vaccine</string>
+    <string name="addvaccinetitle" tools:ignore="ExtraTranslation">Add Vaccine</string>
     <string name="addmessage">Are you sure to add this vaccine?</string>
 
     <string name="header_mandatory">Dog Info (mandatory)</string>
@@ -53,7 +53,7 @@
     <string name="chooseprovince">Choose a province</string>
     <string name="radio_user">User</string>
     <string name="radio_admin">Admin</string>
-    <string name="emailLogin">Email</string>
+    <string name="usernameLogin">Username</string>
     <string name="passwordLogin">Password</string>
     <string name="loginButton">Login</string>
     <string name="registerButton">Register</string>
@@ -251,11 +251,16 @@
     <string name="title_activity_navigation_bar">NavigationBar</string>
 
     <string-array name="securityQuestionArray">
-        <item>สัตว์เลี้ยงชนิดแรกที่เลี้ยง</item>
-        <item>ชื่อของสัตว์เลี้ยงตัวแรก</item>
-        <item>ชื่อของเพื่อนสนิทคนแรก</item>
-        <item>ชื่อนักร้องที่ชอบที่สุด</item>
-        <item>ชื่อเพลงที่ชอบที่สุด</item>
+        <item>What Is your favorite book?</item>
+        <item>What is the name of the road you grew up on?</item>
+        <item>What is your mother’s maiden name?</item>
+        <item>What was the name of your first/current/favorite pet?</item>
+        <item>What was the first company that you worked for?</item>
+        <item>Where did you meet your spouse?</item>
+        <item>Where did you go to high school/college?</item>
+        <item>What is your favorite food?</item>
+        <item>What city were you born in?</item>
+        <item>Where is your favorite place to vacation?</item>
     </string-array>
 
     <string name="secure_question">Security Question</string>
@@ -263,5 +268,8 @@
     <string name="takePictureButton">TakePictureButton</string>
     <string name="loadPictureButton">Load Picture Button</string>
     <string name="anonymousPicture">Anonymous Picture</string>
+    <string name="usernameLabel">Username</string>
+    <string name="usernameHint">Enter your username</string>
+    <string name="mandatorySign">*</string>
 
 </resources>

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
@@ -45,10 +46,10 @@
             android:id="@+id/firstNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="@string/firstNameLabel"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mandatory"
             app:layout_constraintTop_toBottomOf="@+id/progressRegister1" />
 
         <EditText
@@ -70,10 +71,10 @@
             android:id="@+id/lastNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="@string/lastNameLabel"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mandatory2"
             app:layout_constraintTop_toBottomOf="@+id/firstNameEditText" />
 
         <EditText
@@ -99,6 +100,16 @@
             android:layout_marginTop="16dp"
             android:text="@string/emailLabel"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repasswordRegister" />
+
+        <TextView
+            android:id="@+id/usernameRegisterLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/usernameLabel"
+            app:layout_constraintStart_toEndOf="@+id/mandatory3"
             app:layout_constraintTop_toBottomOf="@+id/lastNameEditText" />
 
         <EditText
@@ -116,15 +127,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailRegisterLabel" />
 
+        <EditText
+            android:id="@+id/usernameRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="@string/usernameHint"
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usernameRegisterLabel" />
+
         <TextView
             android:id="@+id/passwordRegisterLabel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="@string/passwordLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+            app:layout_constraintStart_toEndOf="@+id/mandatory4"
+            app:layout_constraintTop_toBottomOf="@+id/usernameRegister" />
 
         <EditText
             android:id="@+id/passwordRegister"
@@ -146,10 +174,10 @@
             android:id="@+id/repasswordRegisterLabel"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="@string/repasswordLabel"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mandatory5"
             app:layout_constraintTop_toBottomOf="@+id/passwordRegister" />
 
         <EditText
@@ -186,12 +214,12 @@
             android:id="@+id/securityQuestionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:text="@string/secure_question"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repasswordRegister" />
+            app:layout_constraintStart_toEndOf="@+id/mandatory6"
+            app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
 
         <EditText
             android:id="@+id/securityAnswer"
@@ -216,7 +244,7 @@
             android:id="@+id/nextButtonRegister1"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -224,7 +252,75 @@
             android:text="@string/nextButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/mandatory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/mandatorySign"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressRegister1" />
+
+        <TextView
+            android:id="@+id/mandatory2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/mandatorySign"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/firstNameEditText" />
+
+        <TextView
+            android:id="@+id/mandatory3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/mandatorySign"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lastNameEditText" />
+
+        <TextView
+            android:id="@+id/mandatory4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/mandatorySign"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usernameRegister" />
+
+        <TextView
+            android:id="@+id/mandatory6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/mandatorySign"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+
+        <TextView
+            android:id="@+id/mandatory5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/mandatorySign"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordRegister" />
+
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

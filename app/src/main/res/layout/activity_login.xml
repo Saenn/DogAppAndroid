@@ -33,7 +33,7 @@
         android:background="@color/white"
         android:ems="10"
         android:fontFamily="sans-serif"
-        android:hint="@string/emailLogin"
+        android:hint="@string/usernameLogin"
         android:inputType="text"
         android:padding="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat"

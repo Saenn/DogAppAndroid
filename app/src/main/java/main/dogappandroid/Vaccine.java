@@ -1,7 +1,6 @@
 package main.dogappandroid;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Vaccine extends AppCompatActivity {
 
@@ -102,7 +100,7 @@ public class Vaccine extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.vaccinelist, parent, false);
+                    .inflate(R.layout.vaccine_list_item, parent, false);
             ViewHolder vh = new ViewHolder(v);
             return vh;
         }

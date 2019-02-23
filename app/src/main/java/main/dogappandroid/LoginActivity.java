@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Map<String, String> params = new HashMap<>();
                 if (username.getText().toString() != "" && password.getText().toString() != "") {
-                    params.put("email", username.getText().toString());
+                    params.put("username", username.getText().toString());
                     params.put("password", password.getText().toString());
                     new onLogin().execute(params);
                 } else {

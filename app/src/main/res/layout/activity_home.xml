@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/doglist" />
+        tools:listitem="@layout/dog_list_item" />
 
 
 </android.support.constraint.ConstraintLayout>

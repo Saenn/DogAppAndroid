@@ -170,6 +170,7 @@ public class RegisterActivity2 extends AppCompatActivity {
 
                     Map<String, String> params = new HashMap<>();
                     Intent intent = getIntent();
+                    params.put("username",intent.getStringExtra("username"));
                     params.put("email", intent.getStringExtra("email"));
                     params.put("password", intent.getStringExtra("password"));
                     params.put("firstName", intent.getStringExtra("firstname"));

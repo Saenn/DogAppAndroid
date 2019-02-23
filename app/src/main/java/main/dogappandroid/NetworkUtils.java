@@ -19,11 +19,13 @@ public class NetworkUtils {
         try {
             MultipartUtility multipart = new MultipartUtility(REGISTER_URL, "UTF-8");
 //            mandatory field
-            multipart.addFormField("email", queryParams.get("email"));
+            multipart.addFormField("username", queryParams.get("username"));
             multipart.addFormField("password", queryParams.get("password"));
             multipart.addFormField("firstName", queryParams.get("firstName"));
             multipart.addFormField("lastName", queryParams.get("lastName"));
 //            optional field
+            if (!(queryParams.get("email") == ""))
+                multipart.addFormField("email", queryParams.get("email"));
             if (!(queryParams.get("address") == ""))
                 multipart.addFormField("address", queryParams.get("address"));
             if (!(queryParams.get("subdistrict") == ""))
@@ -49,7 +51,7 @@ public class NetworkUtils {
     }
 
     static String login(Map<String, String> queryParams) {
-        String urlParams = "email=" + queryParams.get("email") + "&";
+        String urlParams = "username=" + queryParams.get("username") + "&";
         urlParams += "password=" + queryParams.get("password");
         byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
 

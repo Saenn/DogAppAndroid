@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.doglist, parent, false);
+                .inflate(R.layout.dog_list_item, parent, false);
             ViewHolder vh = new ViewHolder(v);
             return vh;
         }
