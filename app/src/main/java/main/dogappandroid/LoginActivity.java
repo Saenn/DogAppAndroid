@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -16,11 +17,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.dogappandroid.Utilities.NetworkUtils;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
+    private TextView forgotPassword;
     private Button loginButton;
     private Button registerButton;
 
@@ -41,8 +45,17 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.usernameLogin);
         password = (EditText) findViewById(R.id.passwordLogin);
+        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
         loginButton = (Button) findViewById(R.id.loginButton);
         registerButton = (Button) findViewById(R.id.registerButton);
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent forgotPasswordActivity = new Intent(LoginActivity.this, ForgotPassword.class);
+                startActivity(forgotPasswordActivity);
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

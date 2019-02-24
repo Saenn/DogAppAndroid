@@ -1,4 +1,4 @@
-package main.dogappandroid;
+package main.dogappandroid.Utilities;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -13,8 +13,9 @@ import java.util.Map;
 public class NetworkUtils {
     private static final String REGISTER_URL = "http://10.0.2.2:9000/register";
     private static final String LOGIN_URL = "http://10.0.2.2:9000/login";
+    private static final String FORGOT_URL = "http://10.0.2.2:9000/forgot";
 
-    static String register(Map<String, String> queryParams) {
+    public static String register(Map<String, String> queryParams) {
         String response = null;
         try {
             MultipartUtility multipart = new MultipartUtility(REGISTER_URL, "UTF-8");
@@ -50,7 +51,7 @@ public class NetworkUtils {
         return response;
     }
 
-    static String login(Map<String, String> queryParams) {
+    public static String login(Map<String, String> queryParams) {
         String urlParams = "username=" + queryParams.get("username") + "&";
         urlParams += "password=" + queryParams.get("password");
         byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
@@ -114,4 +115,21 @@ public class NetworkUtils {
         }
         return responseFromRequest;
     }
+
+    public static String forgotPassword(Map<String, String> queryParams) {
+        String response = null;
+        try {
+            MultipartUtility multipart = new MultipartUtility(FORGOT_URL, "UTF-8");
+//            mandatory field
+            multipart.addFormField("username", queryParams.get("username"));
+            multipart.addFormField("password", queryParams.get("password"));
+            multipart.addFormField("forgotQuestion", queryParams.get("forgotQuestion"));
+            multipart.addFormField("forgotAnswer", queryParams.get("forgotAnswer"));
+            response = multipart.finish();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
 }

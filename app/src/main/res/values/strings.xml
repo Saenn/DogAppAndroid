@@ -271,5 +271,9 @@
     <string name="usernameLabel">Username</string>
     <string name="usernameHint">Enter your username</string>
     <string name="mandatorySign">*</string>
+    <string name="forgotPassword">forgot password ?</string>
+    <string name="forgotPasswordHeader">Forgot Password</string>
+    <string name="newPasswordHint">Enter your new password</string>
+    <string name="re_newPasswordHint">Enter your new password again</string>
 
 </resources>

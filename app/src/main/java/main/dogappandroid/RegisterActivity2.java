@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.dogappandroid.Utilities.NetworkUtils;
+
 
 public class RegisterActivity2 extends AppCompatActivity {
 
