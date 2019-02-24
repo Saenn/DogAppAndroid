@@ -29,7 +29,7 @@
         </provider>
 
         <activity
-            android:name=".NavigationBar"
+            android:name=".HomeActivity"
             android:label="@string/title_activity_navigation_bar"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -49,7 +49,7 @@
             android:name=".RegisterActivity2"
             android:launchMode="singleTask" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".HomeActivityOld"
             android:launchMode="singleTask"></activity>
         <activity
             android:name=".AddDomestic"

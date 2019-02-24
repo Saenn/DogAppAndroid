@@ -94,7 +94,7 @@ public class ForgotPassword extends AppCompatActivity {
     private boolean validateInputs() {
         String usernameRegex = "[a-zA-Z0-9.]+";
         if (username.getText().toString().matches(usernameRegex)
-//                && !password.getText().toString().equals(repassword.getText().toString())
+                && password.getText().toString().equals(repassword.getText().toString())
                 && !password.getText().toString().equals("")
                 && !securityAnswer.getText().toString().equals(""))
             return true;

@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         if (mPreferences.getString("token", "") != "") {
-            Intent intent = new Intent(LoginActivity.this, NavigationBar.class);
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
         }
 
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("token", token);
                     editor.apply();
 
-                    Intent intent = new Intent(LoginActivity.this, NavigationBar.class);
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                 } catch (JSONException e) {
                     String message = jsonObject.getString("message");

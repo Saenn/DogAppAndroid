@@ -28,7 +28,7 @@ public class VaccineConsentForm extends AppCompatActivity {
         declineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(VaccineConsentForm.this, HomeActivity.class);
+                Intent intent = new Intent(VaccineConsentForm.this, HomeActivityOld.class);
                 startActivity(intent);
                 addDog();
             }
