@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Map;
@@ -26,31 +28,50 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Map<String, String> mDataset;
+    private Button addDomesticBtn,addStrayBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        addDomesticBtn = (Button) findViewById(R.id.adddomestic);
+        addStrayBtn = (Button) findViewById(R.id.addstray);
+
+//        handle recycler view
         recyclerView = (RecyclerView) findViewById(R.id.dogListView);
         recyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
         mAdapter = new DogListAdapter(mDataset);
         recyclerView.setAdapter(mAdapter);
 
+//        handle navigation bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        handle button
+        addDomesticBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addDomestic = new Intent(HomeActivity.this,AddDomestic.class);
+                startActivity(addDomestic);
+            }
+        });
+
+        addStrayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addStray = new Intent(HomeActivity.this, AddStray.class);
+                startActivity(addStray);
+            }
+        });
     }
 
     @Override
@@ -62,28 +83,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.navigation_bar, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -107,9 +106,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public class DogListAdapter extends RecyclerView.Adapter<DogListViewHolder> {
-        private Map<String,String> mDataset;
+        private Map<String, String> mDataset;
 
-        public DogListAdapter(Map<String,String> mDataset){
+        public DogListAdapter(Map<String, String> mDataset) {
             this.mDataset = mDataset;
         }
 
@@ -129,13 +128,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public int getItemCount() {
-            return 2;
+            return 10;
         }
     }
 
     public class DogListViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView dogName,lastUpdate;
+        public TextView dogName, lastUpdate;
+
         public DogListViewHolder(View v) {
             super(v);
             dogName = (TextView) v.findViewById(R.id.dogName);

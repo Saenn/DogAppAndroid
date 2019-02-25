@@ -1,6 +1,7 @@
 package main.dogappandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,18 +13,25 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddDomestic extends AppCompatActivity {
 
-    private TextView addressLabel,districtLabel,subdistrictLabel,provinceLabel;
-    private EditText addressText,districtText,subdistrictText,provinceText;
+    private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
+    SharedPreferences mPreferences;
+
+    private TextView addressLabel, districtLabel, subdistrictLabel, provinceLabel;
+    private EditText addressText, districtText, subdistrictText, provinceText, dogDomesticNameText;
     private Button nextButton;
-    private RadioButton yesBtn,noBtn,maleBtn,femaleBtn;
+    private RadioButton yesBtn, noBtn, maleBtn, femaleBtn;
+    private RadioGroup sameAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_domestic);
 
+        dogDomesticNameText = (EditText) findViewById(R.id.dogDomesticNameText);
         nextButton = (Button) findViewById(R.id.nextButtonAddDomestic);
         addressLabel = (TextView) findViewById(R.id.dogdomesticaddresslabel);
         districtLabel = (TextView) findViewById(R.id.dogdomesticdistrictlabel);
@@ -37,22 +45,13 @@ public class AddDomestic extends AppCompatActivity {
         noBtn = (RadioButton) findViewById(R.id.nodosmestic);
         maleBtn = (RadioButton) findViewById(R.id.dogmale);
         femaleBtn = (RadioButton) findViewById(R.id.dogfemale);
+        sameAddress = (RadioGroup) findViewById(R.id.sameaddress);
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddDomestic.this, AddDomestic2.class);
-                startActivity(intent);
-            }
-        });
-
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.sameaddress);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        sameAddress.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
-                if (noBtn.isChecked()){
+                if (noBtn.isChecked()) {
                     addressLabel.setVisibility(View.VISIBLE);
                     districtLabel.setVisibility(View.VISIBLE);
                     subdistrictLabel.setVisibility(View.VISIBLE);
@@ -61,8 +60,7 @@ public class AddDomestic extends AppCompatActivity {
                     districtText.setVisibility(View.VISIBLE);
                     subdistrictText.setVisibility(View.VISIBLE);
                     provinceText.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     addressLabel.setVisibility(View.GONE);
                     districtLabel.setVisibility(View.GONE);
                     subdistrictLabel.setVisibility(View.GONE);
@@ -74,6 +72,55 @@ public class AddDomestic extends AppCompatActivity {
                 }
             }
         });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle extras = new Bundle();
+                if (dogDomesticNameText.getText().toString().equals("")) {
+                    Toast.makeText(AddDomestic.this, "Please fill all required inputs", Toast.LENGTH_LONG).show();
+                } else {
+                    extras.putString("name", dogDomesticNameText.getText().toString());
+                    if (maleBtn.isChecked()) extras.putString("gender", "M");
+                    else if (femaleBtn.isChecked()) extras.putString("gender", "F");
+                    if (yesBtn.isChecked()) {
+                        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+                        String address = mPreferences.getString("address", "");
+                        String subdistrict = mPreferences.getString("subdistrict", "");
+                        String district = mPreferences.getString("district", "");
+                        String province = mPreferences.getString("province", "");
+                        if (!address.equals("") && !subdistrict.equals("") && !district.equals("") && !province.equals("")) {
+                            extras.putString("address", address);
+                            extras.putString("subdistrict", subdistrict);
+                            extras.putString("district", district);
+                            extras.putString("province", province);
+                            Intent intent = new Intent(AddDomestic.this, AddDomestic2.class);
+                            intent.putExtras(extras);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(AddDomestic.this, "You have yet record your address", Toast.LENGTH_LONG).show();
+                        }
+                    } else if (noBtn.isChecked()) {
+                        String address = addressText.getText().toString();
+                        String subdistrict = subdistrictText.getText().toString();
+                        String district = districtText.getText().toString();
+                        String province = provinceText.getText().toString();
+                        if (address.equals("") && subdistrict.equals("") && district.equals("") && province.equals("")) {
+                            Toast.makeText(AddDomestic.this, "Please fill all required inputs", Toast.LENGTH_LONG).show();
+                        } else {
+                            extras.putString("address", address);
+                            extras.putString("subdistrict", subdistrict);
+                            extras.putString("district", district);
+                            extras.putString("province", province);
+                            Intent intent = new Intent(AddDomestic.this, AddDomestic2.class);
+                            intent.putExtras(extras);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
 }

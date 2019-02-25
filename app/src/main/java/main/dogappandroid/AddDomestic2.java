@@ -22,7 +22,7 @@ public class AddDomestic2 extends AppCompatActivity {
     private EditText sterilizeDate;
     private TextView sterilizeDateLabel;
     private Button nextButton;
-    private RadioButton SterilizedBtn, notSterilizedBtn;
+    private RadioButton sterilizedBtn, notSterilizedBtn;
     private Spinner ageRangeSpinner;
     private ArrayList<String> ageRangeList = new ArrayList<String>();
 
@@ -32,7 +32,7 @@ public class AddDomestic2 extends AppCompatActivity {
         setContentView(R.layout.activity_add_domestic2);
 
         // Setup Var //
-        SterilizedBtn = (RadioButton) findViewById(R.id.sterilized);
+        sterilizedBtn = (RadioButton) findViewById(R.id.sterilized);
         notSterilizedBtn = (RadioButton) findViewById(R.id.notSterilized);
         sterilizeDateLabel = (TextView) findViewById(R.id.sterilizeddatelabel);
         sterilizeDate = (EditText) findViewById(R.id.sterilizedEditText);
@@ -77,7 +77,7 @@ public class AddDomestic2 extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
-                if (SterilizedBtn.isChecked()){
+                if (sterilizedBtn.isChecked()){
                     sterilizeDateLabel.setVisibility(View.VISIBLE);
                     sterilizeDate.setVisibility(View.VISIBLE);
                 }
