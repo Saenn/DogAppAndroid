@@ -18,15 +18,15 @@
     <string name="addvaccinetitle" tools:ignore="ExtraTranslation">Add Vaccine</string>
     <string name="addmessage">Are you sure to add this vaccine?</string>
 
-    <string name="header_mandatory">Dog Info (mandatory)</string>
+    <string name="header_mandatory">Add Domestic Dog</string>
     <string name="header_optional">Dog Info (optional)</string>
     <string name="age_label">Age</string>
-    <string name="age_hint">13</string>
+    <string name="age_hint">Enter your puppy\'s age</string>
     <string name="color_label">Color</string>
-    <string name="color_hint">Brown</string>
+    <string name="color_hint">Enter your puppy\'s color</string>
     <string name="breed_label">Breed</string>
-    <string name="breed_hint">Beagle</string>
-    <string name="sterilization_label">Sterilization</string>
+    <string name="breed_hint">Enter your puppy\'s breed</string>
+    <string name="sterilization_label">Have your puppy been sterilized?</string>
     <string name="sterilized">Already</string>
     <string name="not_sterilized">Not yet</string>
     <string name="sterilized_date_label">Sterilized Date</string>
@@ -44,9 +44,9 @@
     <string name="gender">Gender</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="dogaddress">Is your "dog'" address same as yours?</string>
-    <string name="dogname">Dog Name</string>
-    <string name="dogname_hint">Lucky</string>
+    <string name="dogaddress">Do you want to apply your address as dog\'s address?</string>
+    <string name="dogname">Name</string>
+    <string name="dogname_hint">Enter your puppy\'s name</string>
     <string name="nextandaccept">Accept and Continue</string>
     <string name="done">Done</string>
     <string name="declineandnext">Decline and Continue</string>
@@ -275,5 +275,8 @@
     <string name="forgotPasswordHeader">Forgot Password</string>
     <string name="newPasswordHint">Enter your new password</string>
     <string name="re_newPasswordHint">Enter your new password again</string>
+    <string name="lifestyle_question_1">What kind of lifestyles did you raise your puppy?</string>
+    <string name="outdoor">Outdoor</string>
+    <string name="indoor">Indoor</string>
 
 </resources>

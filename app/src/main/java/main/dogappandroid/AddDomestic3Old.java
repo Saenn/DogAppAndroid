@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class AddDomestic3 extends AppCompatActivity {
+public class AddDomestic3Old extends AppCompatActivity {
 
     private Button nextButton,addfront,addback,addside;
     private ImageView frontview,sideview,backview;
@@ -67,7 +67,7 @@ public class AddDomestic3 extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddDomestic3.this, VaccineConsentForm.class);
+                Intent intent = new Intent(AddDomestic3Old.this, VaccineConsentForm.class);
                 startActivity(intent);
             }
         });

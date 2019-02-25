@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".AddDomestic"
-    tools:showIn="@layout/activity_add_domestic">
+    tools:context=".AddDomesticOld"
+    tools:showIn="@layout/activity_add_domestic_old">
 
 </android.support.constraint.ConstraintLayout>

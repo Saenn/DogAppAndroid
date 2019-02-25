@@ -42,7 +42,7 @@ public class HomeActivityOld extends AppCompatActivity {
         addDomesticBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivityOld.this, AddDomestic.class);
+                Intent intent = new Intent(HomeActivityOld.this, AddDomesticOld.class);
                 startActivity(intent);
             }
         });
@@ -92,7 +92,7 @@ public class HomeActivityOld extends AppCompatActivity {
 
         public ViewHolder(View v) {
             super(v);
-            dogNameView = (TextView) v.findViewById(R.id.dogName);
+            dogNameView = (TextView) v.findViewById(R.id.nameDomestic);
             lastUpdatedView = (TextView) v.findViewById(R.id.lastupdated);
         }
     }
