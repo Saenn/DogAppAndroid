@@ -15,6 +15,7 @@ import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,6 +28,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
     private Button confirmButton;
     private String curDate,selectedValue;
     private CalendarView calendarView;
+    public static final DecimalFormat mFormat= new DecimalFormat("00");
     private DBHelper mHelper;
     private int ID = -1;
 
@@ -36,6 +38,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
         setContentView(R.layout.activity_add_vaccine_dropdown);
 
         // Setup var //
+
         confirmButton = (Button) findViewById(R.id.vaccine_dropdown_confirmbutton);
         calendarView = (CalendarView) findViewById(R.id.addvaccine_dropdown_calendar);
         addVaccineDataToList();
@@ -98,8 +101,14 @@ public class AddVaccineDropdown extends AppCompatActivity {
                 } else {
                     AlertDialog.Builder builder =
                             new AlertDialog.Builder(AddVaccineDropdown.this);
-                    builder.setTitle(getString(R.string.addvaccinetitle));
-                    builder.setMessage(getString(R.string.addmessage));
+                    if(ID == -1) {
+                        builder.setTitle(getString(R.string.addvaccinetitle));
+                        builder.setMessage(getString(R.string.addmessage));
+                    }
+                    else{
+                        builder.setTitle(getString(R.string.editvaccine));
+                        builder.setMessage(getString(R.string.editvaccinemessage));
+                    }
 
                     builder.setPositiveButton(getString(android.R.string.ok),
                             new DialogInterface.OnClickListener() {
@@ -108,12 +117,12 @@ public class AddVaccineDropdown extends AppCompatActivity {
                                     DogVaccine vaccine = new DogVaccine();
                                     vaccine.setName(selectedValue);
                                     vaccine.setDate(curDate);
-
                                     if (ID == -1) {
                                         mHelper.addVaccine(vaccine);
                                     } else {
+                                        Log.i("updating :", String.valueOf(ID));
                                         vaccine.setId(ID);
-                                        //mHelper.updateFriend(friend);
+                                        mHelper.updateVaccine(vaccine);
                                     }
                                     Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
                                     startActivity(I);
@@ -142,18 +151,20 @@ public class AddVaccineDropdown extends AppCompatActivity {
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
                 int d = dayOfMonth;
-                curDate = String.valueOf(d) + '/' + String.valueOf(month+1) + '/' + String.valueOf(year);
+                curDate = mFormat.format(Double.valueOf(d)) + '/' + mFormat.format(Double.valueOf(month+1)) + '/' + String.valueOf(year);
             }
         });
+
+        editVaccine();
     }
 
     private void addVaccineDataToList() {
         vaccineList.add(0,"Select a Vaccine");
         vaccineList.add(1,"Rabies");
         vaccineList.add(2,"DHPP");
-        vaccineList.add("Distemper");
-        vaccineList.add("Measles");
-        vaccineList.add("Parainfluenza");
+        vaccineList.add(3,"Distemper");
+        vaccineList.add(4,"Measles");
+        vaccineList.add(5,"Parainfluenza");
     }
 
     @Override
@@ -164,5 +175,49 @@ public class AddVaccineDropdown extends AppCompatActivity {
         Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
         startActivity(I);
         finish();
+    }
+
+    protected void editVaccine(){
+
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+
+            ID = bundle.getInt("vid");
+            String vname = bundle.getString("vname");
+            String vdate = bundle.getString("vdate");
+            Log.i("Vname :" , vname);
+            String parts[] = vdate.split("/");
+            int day = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]);
+            int year = Integer.parseInt(parts[2]);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month-1);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+
+            long milliTime = calendar.getTimeInMillis();
+            if(vname.equals("Rabies")){
+                vaccineSpinner.setSelection(1);
+
+            }
+            else if(vname.equals("DHPP")){
+                vaccineSpinner.setSelection(2);
+
+            }
+            else if(vname.equals("Distemper")){
+                vaccineSpinner.setSelection(3);
+
+            }
+            else if(vname.equals("Measles")){
+                vaccineSpinner.setSelection(4);
+
+            }
+            else if(vname.equals("Parainfluenza")){
+                vaccineSpinner.setSelection(5);
+            }
+
+            calendarView.setDate(milliTime,true,true);
+        }
     }
 }

@@ -17,7 +17,10 @@
     <!-- Strings related to adddog -->
     <string name="addvaccinetitle" tools:ignore="ExtraTranslation">Add Vaccine</string>
     <string name="addmessage">Are you sure to add this vaccine?</string>
-
+    <string name="edit">Edit</string>
+    <string name="editvaccine">Edit Vaccine</string>
+    <string name="editvaccinemessage">Are you sure to edit this info?</string>
+    <string name="delete">Del</string>
     <string name="header_mandatory">Add Domestic Dog</string>
     <string name="header_optional">Dog Info (optional)</string>
     <string name="age_label">Age</string>

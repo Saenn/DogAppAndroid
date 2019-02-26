@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String CREATE_VACCINE_TABLE = String.format("CREATE TABLE %s " +
-                        "(%s INTEGER PRIMARY KEY  AUTOINCREMENT, %s TEXT, %s TEXT)",
+                        "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT)",
                 DogVaccine.TABLE,
                 DogVaccine.Column.ID,
                 DogVaccine.Column.VACCINE_NAME,
@@ -85,6 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
         while(!cursor.isAfterLast()) {
 
             DogVaccine tmp = new DogVaccine();
+            tmp.setId(cursor.getInt(0));
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             vaccines.add(tmp);
@@ -113,6 +114,7 @@ public class DBHelper extends SQLiteOpenHelper {
         while(!cursor.isAfterLast()) {
 
             DogVaccine tmp = new DogVaccine();
+            tmp.setId(cursor.getInt(0));
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             vaccines.add(tmp);
@@ -125,6 +127,63 @@ public class DBHelper extends SQLiteOpenHelper {
         return vaccines;
     }
 
+    public List<DogVaccine> getRabiesVaccineListById(int id) {
+        List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
+        sqLiteDatabase = this.getWritableDatabase();
+        String[] whereArgs = new String[]{"Rabies", String.valueOf(id)};
+
+        Cursor cursor = sqLiteDatabase.query
+                (DogVaccine.TABLE, null, "vaccine_name != ? && ID = ?", whereArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while(!cursor.isAfterLast()) {
+
+            DogVaccine tmp = new DogVaccine();
+            tmp.setId(cursor.getInt(0));
+            tmp.setName(cursor.getString(1));
+            tmp.setDate(cursor.getString(2));
+            vaccines.add(tmp);
+
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+
+        return vaccines;
+    }
+
+    public List<DogVaccine> getOtherVaccineListById(int id) {
+        List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
+
+        sqLiteDatabase = this.getWritableDatabase();
+        String[] whereArgs = new String[]{"Rabies", String.valueOf(id)};
+
+        Cursor cursor = sqLiteDatabase.query
+                (DogVaccine.TABLE, null, "vaccine_name != ? && ID = ?", whereArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while(!cursor.isAfterLast()) {
+
+            DogVaccine tmp = new DogVaccine();
+            tmp.setName(cursor.getString(1));
+            tmp.setDate(cursor.getString(2));
+            vaccines.add(tmp);
+
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+
+        return vaccines;
+    }
+
+
     public void addVaccine(DogVaccine vaccine) {
 
         sqLiteDatabase = this.getWritableDatabase();
@@ -134,6 +193,35 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogVaccine.Column.VACCINE_DATE, vaccine.getDate());
 
         sqLiteDatabase.insert(DogVaccine.TABLE, null, values);
+        sqLiteDatabase.close();
+    }
+
+    public void updateVaccine(DogVaccine vaccine) {
+
+        sqLiteDatabase  = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DogVaccine.Column.ID, vaccine.getId());
+        values.put(DogVaccine.Column.VACCINE_NAME, vaccine.getName());
+        values.put(DogVaccine.Column.VACCINE_DATE, vaccine.getDate());
+
+
+        int row = sqLiteDatabase.update(DogVaccine.TABLE,
+                values,
+                DogVaccine.Column.ID + " = ? ",
+                new String[] { String.valueOf(vaccine.getId()) });
+
+        sqLiteDatabase.close();
+    }
+
+    public void deleteVaccine(String id) {
+
+        sqLiteDatabase = this.getWritableDatabase();
+
+    /*sqLiteDatabase.delete(Friend.TABLE, Friend.Column.ID + " = ? ",
+            new String[] { String.valueOf(friend.getId()) });*/
+        sqLiteDatabase.delete(DogVaccine.TABLE, DogVaccine.Column.ID + " = " + id, null);
+//        sqLiteDatabase.delete(DogVaccine.TABLE,null,null);
         sqLiteDatabase.close();
     }
 
