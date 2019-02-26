@@ -36,7 +36,10 @@
             android:name=".LoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".RegisterActivity"
@@ -49,11 +52,15 @@
             android:launchMode="singleTask"></activity>
         <activity
             android:name=".AddDomestic"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".AddDomestic2"
+            android:launchMode="standard"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".AddDomesticOld"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustNothing" />
         <activity
@@ -83,13 +90,7 @@
         <activity
             android:name=".Vaccine"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustNothing" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustNothing"></activity>
         <activity
             android:name=".AddVaccineWithDog"
             android:launchMode="singleTask"

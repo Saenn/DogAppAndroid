@@ -53,17 +53,17 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/lifestyleQuestionDomesticLabel"
+                android:id="@+id/homeConditionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/lifestyle_question_1"
-                app:layout_constraintStart_toEndOf="@+id/requiredDomestic11"
+                app:layout_constraintStart_toEndOf="@+id/requiredFence"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RadioGroup
-                android:id="@+id/lifestyleQuestionDomestic"
+                android:id="@+id/homeCondition"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -72,21 +72,93 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lifestyleQuestionDomesticLabel">
+                app:layout_constraintTop_toBottomOf="@+id/homeConditionLabel">
 
                 <RadioButton
-                    android:id="@+id/outdoorLifestyleButton"
+                    android:id="@+id/yesHomeCondition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/outdoor" />
+                    android:text="@string/yes" />
 
                 <RadioButton
-                    android:id="@+id/indoorLifestyleButton"
+                    android:id="@+id/noHomeCondition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/no" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/dayLifestyleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/lifestyle_question_2"
+                app:layout_constraintStart_toEndOf="@+id/requiredDayLifestyle"
+                app:layout_constraintTop_toBottomOf="@+id/homeCondition" />
+
+            <RadioGroup
+                android:id="@+id/dayLifestyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dayLifestyleLabel">
+
+                <RadioButton
+                    android:id="@+id/indoorDayLifestyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/indoor" />
+
+                <RadioButton
+                    android:id="@+id/outdoorDayLifestyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/outdoor" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/nightLifestyleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/lifestyle_question_3"
+                app:layout_constraintStart_toEndOf="@+id/requiredNightLifestyle"
+                app:layout_constraintTop_toBottomOf="@+id/dayLifestyle" />
+
+            <RadioGroup
+                android:id="@+id/nightLifestyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nightLifestyleLabel">
+
+                <RadioButton
+                    android:id="@+id/indoorNightLifestyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/indoor" />
+
+                <RadioButton
+                    android:id="@+id/outdoorNightLifestyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/outdoor" />
             </RadioGroup>
 
             <TextView
@@ -96,8 +168,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/dogaddress"
-                app:layout_constraintStart_toEndOf="@+id/requiredDomestic"
-                app:layout_constraintTop_toBottomOf="@+id/lifestyleQuestionDomestic" />
+                app:layout_constraintStart_toEndOf="@+id/requireSameAddress"
+                app:layout_constraintTop_toBottomOf="@+id/nightLifestyle" />
 
             <RadioGroup
                 android:id="@+id/sameAddressDomestic"
@@ -127,7 +199,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/requiredDomestic"
+                android:id="@+id/requireSameAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -135,10 +207,10 @@
                 android:text="@string/mandatorySign"
                 android:textColor="@color/red"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lifestyleQuestionDomestic" />
+                app:layout_constraintTop_toBottomOf="@+id/nightLifestyle" />
 
             <TextView
-                android:id="@+id/requiredDomestic11"
+                android:id="@+id/requiredFence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -149,7 +221,29 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/requiredDomestic2"
+                android:id="@+id/requiredDayLifestyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/mandatorySign"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeCondition" />
+
+            <TextView
+                android:id="@+id/requiredNightLifestyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/mandatorySign"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dayLifestyle" />
+
+            <TextView
+                android:id="@+id/requiredAddressDomestic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -160,17 +254,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/sameAddressDomestic" />
 
             <TextView
-                android:id="@+id/requiredDomestic3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/mandatorySign"
-                android:textColor="@color/red"
-                app:layout_constraintBaseline_toBaselineOf="@+id/subdistrictDomesticLabel"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/requiredDomestic4"
+                android:id="@+id/requiredSubdistrictDomestic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -181,7 +265,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/addressDomestic" />
 
             <TextView
-                android:id="@+id/requiredDomestic5"
+                android:id="@+id/requiredDistrictDomestic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -192,7 +276,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/subdistrictDomestic" />
 
             <TextView
-                android:id="@+id/requiredDomestic10"
+                android:id="@+id/requiredProvinceDomestic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -209,7 +293,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/addressLabel"
-                app:layout_constraintStart_toEndOf="@+id/requiredDomestic2"
+                app:layout_constraintStart_toEndOf="@+id/requiredAddressDomestic"
                 app:layout_constraintTop_toBottomOf="@+id/sameAddressDomestic" />
 
             <TextView
@@ -219,7 +303,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/subdistrictLabel"
-                app:layout_constraintStart_toEndOf="@+id/requiredDomestic3"
+                app:layout_constraintStart_toEndOf="@+id/requiredSubdistrictDomestic"
                 app:layout_constraintTop_toBottomOf="@+id/addressDomestic" />
 
             <TextView
@@ -229,7 +313,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/districtLabel"
-                app:layout_constraintStart_toEndOf="@+id/requiredDomestic5"
+                app:layout_constraintStart_toEndOf="@+id/requiredDistrictDomestic"
                 app:layout_constraintTop_toBottomOf="@+id/subdistrictDomestic" />
 
             <TextView
@@ -239,7 +323,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/provinceLabel"
-                app:layout_constraintStart_toEndOf="@+id/requiredDomestic10"
+                app:layout_constraintStart_toEndOf="@+id/requiredProvinceDomestic"
                 app:layout_constraintTop_toBottomOf="@+id/districtDomestic" />
 
             <EditText

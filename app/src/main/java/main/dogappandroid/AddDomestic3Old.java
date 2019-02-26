@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,6 +33,23 @@ public class AddDomestic3Old extends AppCompatActivity {
         addfront = (Button) findViewById(R.id.domestic3_addfrontpic);
         addback = (Button) findViewById(R.id.domestic3_addbackpic);
         addside = (Button) findViewById(R.id.domestic3_addsidepic);
+
+        Intent prevAdd = getIntent();
+
+        Log.d("AddDog3","name :" + prevAdd.getStringExtra("name"));
+        Log.d("AddDog3","age :" + prevAdd.getIntExtra("age",0)+"");
+        Log.d("AddDog3","ageRange :" + prevAdd.getStringExtra("ageRange"));
+        Log.d("AddDog3","breed :" + prevAdd.getStringExtra("breed"));
+        Log.d("AddDog3","color :" + prevAdd.getStringExtra("color"));
+
+        Log.d("AddDog3","sterilized :" + prevAdd.getBooleanExtra("sterilized",false));
+        Log.d("AddDog3","sterilizedDate :" + prevAdd.getStringExtra("sterilizedDate"));
+        Log.d("AddDog3","address :" + prevAdd.getStringExtra("address"));
+        Log.d("AddDog3","subdistrict :" + prevAdd.getStringExtra("subdistrict"));
+        Log.d("AddDog3","district :" + prevAdd.getStringExtra("district"));
+        Log.d("AddDog3","province :" + prevAdd.getStringExtra("province"));
+        Log.d("AddDog3","dogType :" + prevAdd.getStringExtra("dogType"));
+
 
         setAllButtonOnClick();
     }

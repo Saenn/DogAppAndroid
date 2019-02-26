@@ -278,7 +278,9 @@
     <string name="forgotPasswordHeader">Forgot Password</string>
     <string name="newPasswordHint">Enter your new password</string>
     <string name="re_newPasswordHint">Enter your new password again</string>
-    <string name="lifestyle_question_1">What kind of lifestyles did you raise your puppy?</string>
+    <string name="lifestyle_question_1">Does your house have fences?</string>
+    <string name="lifestyle_question_2">Where is the place that your puppy stays during day time?</string>
+    <string name="lifestyle_question_3">Where is the place that your puppy stays during night time?</string>
     <string name="outdoor">Outdoor</string>
     <string name="indoor">Indoor</string>
 
