@@ -76,32 +76,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/domestic3_backside_layout"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            android:gravity="center_vertical|center_horizontal"
-            app:layout_constraintTop_toBottomOf="@id/domestic3_fullfrontal_layout"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/domestic3_backpic"
-                android:layout_width="190dp"
-                android:layout_height="160dp"
-                android:layout_marginRight="50dp"
-                app:srcCompat="@drawable/back" />
-
-            <Button
-                android:id="@+id/domestic3_addbackpic"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/roundbutton"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="Add" />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/domestic3_sideview_layout"
@@ -110,7 +84,7 @@
             android:gravity="center_vertical|center_horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/domestic3_backside_layout"
+            app:layout_constraintTop_toBottomOf="@id/domestic3_fullfrontal_layout"
             android:orientation="horizontal">
 
             <ImageView
