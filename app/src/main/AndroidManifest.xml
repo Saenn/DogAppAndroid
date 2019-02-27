@@ -48,9 +48,6 @@
             android:name=".RegisterActivity2"
             android:launchMode="singleTask" />
         <activity
-            android:name=".HomeActivityOld"
-            android:launchMode="singleTask"></activity>
-        <activity
             android:name=".AddDomestic"
             android:launchMode="standard"
             android:windowSoftInputMode="adjustNothing" />
@@ -59,20 +56,11 @@
             android:launchMode="standard"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".AddDomesticOld"
-            android:launchMode="standard"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
             android:name=".AddStray"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".AddDomestic2Old"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".AddDomestic3Old"
+            android:name=".AddDomestic3"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustNothing" />
         <activity

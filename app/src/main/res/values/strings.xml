@@ -19,7 +19,7 @@
     <string name="addmessage">Are you sure to add this vaccine?</string>
     <string name="edit">Edit</string>
     <string name="picmissing">Picture Missing!</string>
-    <string name="picmissingmessage">Please upload picture to the form before continue</string>
+    <string name="picmissingmessage" tools:ignore="ExtraTranslation">Please upload picture to the form before continue</string>
     <string name="editvaccine">Edit Vaccine</string>
     <string name="editvaccinemessage">Are you sure to edit this info?</string>
     <string name="delete">Del</string>
@@ -285,5 +285,7 @@
     <string name="lifestyle_question_3">Where is the place that your puppy stays during night time?</string>
     <string name="outdoor">Outdoor</string>
     <string name="indoor">Indoor</string>
+    <string name="dogFront_label">Face</string>
+    <string name="dogSide_label">Side</string>
 
 </resources>

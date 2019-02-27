@@ -70,7 +70,7 @@ public class Vaccine extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Vaccine.this, HomeActivityOld.class);
+                Intent intent = new Intent(Vaccine.this, HomeActivity.class);
                 startActivity(intent);
             }
         });

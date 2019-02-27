@@ -88,7 +88,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putString("color",prevAdd.getStringExtra("color"));
                         extras.putBoolean("sterilized",prevAdd.getBooleanExtra("sterilized",false));
                         extras.putString("sterilizedDate",prevAdd.getStringExtra("sterilizedDate"));
-                        Intent addDomestic3 = new Intent(AddDomestic2.this,AddDomestic3Old.class);
+                        Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
                     }
@@ -112,7 +112,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putString("color",prevAdd.getStringExtra("color"));
                         extras.putBoolean("sterilized",prevAdd.getBooleanExtra("sterilized",false));
                         extras.putString("sterilizedDate",prevAdd.getStringExtra("sterilizedDate"));
-                        Intent addDomestic3 = new Intent(AddDomestic2.this,AddDomestic3Old.class);
+                        Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
                     }
