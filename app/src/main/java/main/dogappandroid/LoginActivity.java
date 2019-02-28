@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent service = new Intent(this, ServiceRunning.class);
+        startService(service);
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 

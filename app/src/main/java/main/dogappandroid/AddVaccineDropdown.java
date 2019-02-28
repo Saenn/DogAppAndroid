@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class AddVaccineDropdown extends AppCompatActivity {
 
@@ -47,7 +48,6 @@ public class AddVaccineDropdown extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         curDate = sdf.format(new Date(calendarView.getDate()));
 
-        Log.i("Date : " , curDate);
 
         // Setup Spinner //
         vaccineSpinner = (Spinner) findViewById(R.id.vaccine_dropdown_spinner);
@@ -120,9 +120,13 @@ public class AddVaccineDropdown extends AppCompatActivity {
                                     if (ID == -1) {
                                         mHelper.addVaccine(vaccine);
                                     } else {
-                                        Log.i("updating :", String.valueOf(ID));
                                         vaccine.setId(ID);
-                                        mHelper.updateVaccine(vaccine);
+                                        if(getIntent().getExtras().getInt("isAdding") == 1){
+                                            mHelper.updateVaccineWhileAddingDog(vaccine);
+                                        }
+                                        else {
+                                            mHelper.updateVaccine(vaccine);
+                                        }
                                     }
                                     Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
                                     startActivity(I);
@@ -151,6 +155,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
                 int d = dayOfMonth;
+                Log.i("SelectedDay :" , String.valueOf(d));
                 curDate = mFormat.format(Double.valueOf(d)) + '/' + mFormat.format(Double.valueOf(month+1)) + '/' + String.valueOf(year);
             }
         });
@@ -181,12 +186,11 @@ public class AddVaccineDropdown extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        if (bundle != null) {
+        if (bundle.containsKey("vname")) {
 
             ID = bundle.getInt("vid");
             String vname = bundle.getString("vname");
             String vdate = bundle.getString("vdate");
-            Log.i("Vname :" , vname);
             String parts[] = vdate.split("/");
             int day = Integer.parseInt(parts[0]);
             int month = Integer.parseInt(parts[1]);

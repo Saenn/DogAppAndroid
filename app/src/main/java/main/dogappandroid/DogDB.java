@@ -150,6 +150,7 @@ public final class DogDB {
             sqLiteDatabase = this.getWritableDatabase();
             ContentValues values = new ContentValues();
 
+            values.put(DogDBEntry.ID, dog.getId());
             values.put(DogDBEntry.COLUMN_NAME_DOG_ID, dog.getDogID());
             values.put(DogDBEntry.COLUMN_NAME_BREED, dog.getBreed());
             values.put(DogDBEntry.COLUMN_NAME_COLOR, dog.getColor());
@@ -203,7 +204,7 @@ public final class DogDB {
             sqLiteDatabase  = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(DogVaccine.Column.ID, dog.getId());
+            values.put(DogDBEntry.ID, dog.getId());
             values.put(DogDBEntry.COLUMN_NAME_DOG_ID, dog.getDogID());
             values.put(DogDBEntry.COLUMN_NAME_BREED, dog.getBreed());
             values.put(DogDBEntry.COLUMN_NAME_COLOR, dog.getColor());

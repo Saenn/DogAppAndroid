@@ -8,20 +8,47 @@
     android:background="@color/pink50"
     tools:context=".Vaccine">
 
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/consent_constraint"
+    <LinearLayout
+        android:id="@+id/vaccine_linearcover"
         android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_height="match_parent">
-
 
         <LinearLayout
             android:id="@+id/vaccine_linear"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             >
 
+            <TextView
+                android:id="@+id/addVaccine_header"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/pink600"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/vaccine"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                 />
+
+            <ProgressBar
+                android:id="@+id/vaccine_progressbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:max="100"
+                android:progress="75"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addVaccine_header" />
             <TextView
                 android:id="@+id/vaccine_rabies_label"
                 android:layout_width="wrap_content"
@@ -93,49 +120,42 @@
 
         </LinearLayout>
 
-        <LinearLayout app:layout_constraintBottom_toTopOf="@+id/vaccine_doneButton"
-            app:layout_constraintTop_toBottomOf="@+id/vaccine_linear"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:id="@+id/vaccine_last" >
+
+        <Button
+            android:id="@+id/vaccine_addbutton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/roundbutton"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/vaccine_doneButton"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="12dp"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/vaccine_addbutton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/roundbutton"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="Add"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/pink300"
+            android:text="@string/done"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         </LinearLayout>
-
-
-
-            <Button
-                android:id="@+id/vaccine_doneButton"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:background="@color/pink300"
-                android:text="@string/done"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-
-
-
-
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>

@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ForgotPassword"></activity>
-
+        <service android:name=".ServiceRunning" android:stopWithTask="false"></service>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="main.dogappandroid.fileprovider"
@@ -31,7 +31,9 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_navigation_bar"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+           
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
@@ -60,7 +62,10 @@
         <activity
             android:name=".AddDomestic3"
             android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            >
+
+        </activity>
         <activity
             android:name=".AddStray"
             android:launchMode="standard"
@@ -74,17 +79,12 @@
             android:launchMode="standard"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".VaccineConsentForm"
-            android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".Vaccine"
             android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".AddVaccineWithDog"
-            android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            >
+
+        </activity>
         <activity android:name=".AddVaccineDropdown" />
     </application>
 

@@ -13,6 +13,7 @@ public class DogVaccine {
         public static final String ID = BaseColumns._ID;
         public static final String VACCINE_NAME = "vaccine_name";
         public static final String VACCINE_DATE = "vaccine_date";
+        public static final String VACCINE_DOG_INTERNAL_ID = "vaccine_dog_internal_id";
     }
 
     public DogVaccine(){
@@ -20,7 +21,17 @@ public class DogVaccine {
     }
 
     private String name,date;
-    private int id;
+    private int id,internalId;
+
+    public int getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(int id) {
+        this.internalId = id;
+    }
+
+    private int dogID;
 
 
     public DogVaccine(int id,String name, String date){

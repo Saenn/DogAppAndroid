@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,24 +26,43 @@ public class Vaccine extends AppCompatActivity {
     private RecyclerView recyclerViewRabies,recyclerViewOthers;
     private RecyclerView.LayoutManager layoutManagerRabies,layoutManagerOther;
     private RecyclerView.Adapter mAdapterRabies,mAdapterOther;
-    private List<DogVaccine> rabiesVaccine,othersVaccine,allVaccine;
+    private List<DogVaccine> rabiesVaccine,othersVaccine;
     private Button addButton,doneButton;
     private DBHelper mHelper;
     private ClickListener rabiesListener, othersListener;
+    private ProgressBar bar;
+    private int isAdding = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vaccine);
+        Intent service = new Intent(this, ServiceRunning.class);
+        startService(service);
+        Bundle prevBundle = getIntent().getExtras();
+
         // set var //
+        mHelper = new DBHelper(this);
         rabiesVaccine = new ArrayList<DogVaccine>();
         othersVaccine = new ArrayList<DogVaccine>();
         addButton = (Button) findViewById(R.id.vaccine_addbutton);
         doneButton = (Button) findViewById(R.id.vaccine_doneButton);
+        bar = (ProgressBar) findViewById(R.id.vaccine_progressbar);
 
-        mHelper = new DBHelper(this);
-        rabiesVaccine = mHelper.getRabiesVaccineList();
-        othersVaccine = mHelper.getOtherVaccineList();
+        if(prevBundle != null && !prevBundle.containsKey("addingdog")){
+            bar.setVisibility(View.GONE);
+            if(prevBundle.containsKey("internal_dog_id")){
+                rabiesVaccine = mHelper.getRabiesVaccineListById(prevBundle.getInt("internal_dog_id"));
+                othersVaccine = mHelper.getOtherVaccineListById(prevBundle.getInt("internal_dog_id"));
+            }
+        }
+        else{
+            // มาจากหน้า add dog //
+            isAdding = 1;
+            rabiesVaccine = mHelper.getRabiesVaccineList();
+            othersVaccine = mHelper.getOtherVaccineList();
+        }
+
 
         // set recycle view //
         recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
@@ -63,6 +83,7 @@ public class Vaccine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                intent.putExtra("isAdding", isAdding);
                 startActivity(intent);
                 finish();
             }
@@ -116,7 +137,6 @@ public class Vaccine extends AppCompatActivity {
 
                                 // DB Helper Delete //
 
-                                Log.i("VID : " , String.valueOf(v.getId()));
                                 mHelper.deleteVaccine(String.valueOf(v.getId()));
                                 reload();
 
@@ -133,6 +153,7 @@ public class Vaccine extends AppCompatActivity {
                     } else {
                         //not LongClick
                         Intent I = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                        I.putExtra("isAdding", isAdding);
                         I.putExtra("vid",v.getId());
                         I.putExtra("vname",v.getName());
                         I.putExtra("vdate",v.getDate());
@@ -196,17 +217,6 @@ public class Vaccine extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void seperateData(List<DogVaccine> data){
-        for(int i = 0 ; i < data.size() ; i++){
-            DogVaccine d = data.get(i);
-            if(d.getName().equals("Rabies")){
-                rabiesVaccine.add(d);
-            }
-            else{
-                othersVaccine.add(d);
-            }
-        }
-    }
 
 }
 

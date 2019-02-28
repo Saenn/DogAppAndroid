@@ -128,6 +128,7 @@ public class AddDomestic3 extends AppCompatActivity {
                 if (!frontImagePath.equals("") && !sideImagePath.equals("")) {
                     prevExtras.putString("frontview", frontImagePath);
                     prevExtras.putString("sideview", sideImagePath);
+                    prevExtras.putString("addingdog","yes");
                     intent.putExtras(prevExtras);
                     startActivity(intent);
                 } else {
