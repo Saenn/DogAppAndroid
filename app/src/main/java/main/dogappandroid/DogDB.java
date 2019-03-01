@@ -164,6 +164,40 @@ public final class DogDB {
             sqLiteDatabase.close();
         }
 
+        public DogDB getDogDBById(String id) {
+
+            DogDB dog = new DogDB();
+
+            sqLiteDatabase = this.getWritableDatabase();
+
+            Cursor cursor = sqLiteDatabase.query
+                    (DogDBEntry.TABLE_NAME, null, DogDBEntry.ID + " = " + id, null, null, null, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
+
+            while(!cursor.isAfterLast()) {
+
+                DogDB tmp = new DogDB();
+                tmp.setId(cursor.getInt(0));
+                tmp.setDogID(cursor.getInt(1));
+                tmp.setGender(cursor.getString(2));
+                tmp.setColor(cursor.getString(3));
+                tmp.setSterilized(cursor.getInt(4));
+                tmp.setSterilizedDate(cursor.getString(5));
+                tmp.setBreed(cursor.getString(6));
+                tmp.setRegisterDate(cursor.getString(7));
+                tmp.setIsSubmit(0);
+
+                cursor.moveToNext();
+            }
+
+            sqLiteDatabase.close();
+
+            return dog;
+        }
+
         public List<DogDB> getDogDB() {
 
             List<DogDB> dogs = new ArrayList<DogDB>();

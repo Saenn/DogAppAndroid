@@ -15,9 +15,12 @@
     </string>
 
     <!-- Strings related to adddog -->
+    <string name="editdogprofilebutton">Profile</string>
+    <string name="editdogvaccinebutton">Edit Vaccine</string>
     <string name="addvaccinetitle" tools:ignore="ExtraTranslation">Add Vaccine</string>
     <string name="addmessage">Are you sure to add this vaccine?</string>
     <string name="edit">Edit</string>
+    <string name="dogprofilename">Your Dog Name</string>
     <string name="picmissing">Picture Missing!</string>
     <string name="picmissingmessage" tools:ignore="ExtraTranslation">Please upload picture to the form before continue</string>
     <string name="editvaccine">Edit Vaccine</string>

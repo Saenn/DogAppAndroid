@@ -20,6 +20,8 @@ public class AddDomestic extends AppCompatActivity {
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
     private Button nextBtn;
+    private DogDB dog;
+    private DogDB.DogDBHelper helper;
 
     private String sterilizedDateSelected;
 
@@ -99,6 +101,16 @@ public class AddDomestic extends AppCompatActivity {
                 }
             }
         });
+
+        // from edit //
+        getDogInfo();
+    }
+
+    private void getDogInfo(){
+        Bundle prevBundle = getIntent().getExtras();
+        if(prevBundle != null && prevBundle.containsKey("id")){
+            dog = helper.getDogDBById(prevBundle.getString("id"));
+        }
     }
 
 }

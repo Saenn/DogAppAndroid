@@ -217,7 +217,11 @@ public class Vaccine extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        mHelper.deleteNull();
+        finish();
+    }
 }
 
 
