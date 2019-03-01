@@ -5,17 +5,37 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.provider.BaseColumns;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class DogDB {
 
-    private String gender,color,sterilizedDate,breed,registerDate;
-    private int id,dogID,sterilized,isSubmit;
+    private String gender, color, sterilizedDate, breed, registerDate;
+    private int id, dogID, sterilized, isSubmit;
 
     public DogDB() {
+    }
+
+    public DogDB(Bundle bundle) {
+        gender = bundle.getString("gender");
+        color = bundle.getString("color");
+        breed = bundle.getString("breed");
+        if(bundle.getBoolean("sterilized")){
+            sterilized = 1;
+            sterilizedDate = bundle.getString("sterilizedDate");
+        }else{
+            sterilized = 0;
+        }
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        registerDate = dateFormat.format(date);
+        isSubmit = 0;
     }
 
     // getter & setter //
@@ -122,7 +142,7 @@ public final class DogDB {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DogDBEntry.TABLE_NAME;
 
-    public class DogDBHelper extends SQLiteOpenHelper {
+    public static class DogDBHelper extends SQLiteOpenHelper {
 
         private SQLiteDatabase sqLiteDatabase;
         public static final int DATABASE_VERSION = 1;
@@ -177,7 +197,7 @@ public final class DogDB {
                 cursor.moveToFirst();
             }
 
-            while(!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast()) {
 
                 DogDB tmp = new DogDB();
                 tmp.setId(cursor.getInt(0));
@@ -211,7 +231,7 @@ public final class DogDB {
                 cursor.moveToFirst();
             }
 
-            while(!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast()) {
 
                 DogDB tmp = new DogDB();
                 tmp.setId(cursor.getInt(0));
@@ -235,7 +255,7 @@ public final class DogDB {
 
         public void updateDogDB(DogDB dog) {
 
-            sqLiteDatabase  = this.getWritableDatabase();
+            sqLiteDatabase = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
             values.put(DogDBEntry.ID, dog.getId());
@@ -252,7 +272,7 @@ public final class DogDB {
             int row = sqLiteDatabase.update(DogDBEntry.TABLE_NAME,
                     values,
                     DogDBEntry.ID + " = ? ",
-                    new String[] { String.valueOf(dog.getId()) });
+                    new String[]{String.valueOf(dog.getId())});
 
             sqLiteDatabase.close();
         }
