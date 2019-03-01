@@ -129,7 +129,7 @@ public final class DogDB {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DogDBEntry.TABLE_NAME + " (" +
-                    DogDBEntry._ID + " INTEGER PRIMARY KEY," +
+                    DogDBEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DogDBEntry.COLUMN_NAME_DOG_ID + " INTEGER," +
                     DogDBEntry.COLUMN_NAME_GENDER + " TEXT," +
                     DogDBEntry.COLUMN_NAME_COLOR + " TEXT," +
@@ -165,13 +165,13 @@ public final class DogDB {
             onUpgrade(db, oldVersion, newVersion);
         }
 
-        public void addDogDB(DogDB dog) {
+        public long addDogDB(DogDB dog) {
 
             sqLiteDatabase = this.getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put(DogDBEntry.ID, dog.getId());
-            values.put(DogDBEntry.COLUMN_NAME_DOG_ID, dog.getDogID());
+//            values.put(DogDBEntry.ID, dog.getId());
+//            values.put(DogDBEntry.COLUMN_NAME_DOG_ID, dog.getDogID());
             values.put(DogDBEntry.COLUMN_NAME_BREED, dog.getBreed());
             values.put(DogDBEntry.COLUMN_NAME_COLOR, dog.getColor());
             values.put(DogDBEntry.COLUMN_NAME_GENDER, dog.getGender());
@@ -180,8 +180,9 @@ public final class DogDB {
             values.put(DogDBEntry.COLUMN_NAME_STERILIZED_DATE, dog.getSterilizedDate());
             values.put(DogDBEntry.COLUMN_NAME_IS_SUBMIT, 0);
 
-            sqLiteDatabase.insert(DogVaccine.TABLE, null, values);
+            long index = sqLiteDatabase.insert(DogDBEntry.TABLE_NAME, null, values);
             sqLiteDatabase.close();
+            return index;
         }
 
         public DogDB getDogDBById(String id) {

@@ -93,7 +93,8 @@ public class Vaccine extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                dogDBHelper.addDogDB(new DogDB(prevBundle));
+
+                int newDogIndex = (int) dogDBHelper.addDogDB(new DogDB(prevBundle));
                 Intent intent = new Intent(Vaccine.this, HomeActivity.class);
                 startActivity(intent);
                 mHelper.deleteNull();
