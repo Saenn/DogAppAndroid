@@ -147,6 +147,66 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    //    Dog Information
+    public long addDogInformation(DogInformation dogInformation) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DogInformation.DogInformationEntry.INTERNAL_DOG_ID, dogInformation.getDogID());
+        values.put(DogInformation.DogInformationEntry.SUBMIT_DATE, dogInformation.getSubmitDate());
+        values.put(DogInformation.DogInformationEntry.DOG_TYPE, dogInformation.getDogType());
+        values.put(DogInformation.DogInformationEntry.AGE, dogInformation.getAge());
+        values.put(DogInformation.DogInformationEntry.AGE_RANGE, dogInformation.getAgeRange());
+        values.put(DogInformation.DogInformationEntry.ADDRESS, dogInformation.getAddress());
+        values.put(DogInformation.DogInformationEntry.SUBDISTRICT, dogInformation.getSubdistrict());
+        values.put(DogInformation.DogInformationEntry.DISTRICT, dogInformation.getDistrict());
+        values.put(DogInformation.DogInformationEntry.PROVINCE, dogInformation.getProvince());
+        values.put(DogInformation.DogInformationEntry.LATITUDE, dogInformation.getLatitude());
+        values.put(DogInformation.DogInformationEntry.LONGITUDE, dogInformation.getLongitude());
+        values.put(DogInformation.DogInformationEntry.IS_SUBMIT, dogInformation.getIsSubmit());
+        long index = sqLiteDatabase.insert(DogInformation.DogInformationEntry.TABLE_NAME, null, values);
+        sqLiteDatabase.close();
+        return index;
+    }
+
+    public List<DogInformation> getAllDogInformationByDogID(int dogID) {
+        List<DogInformation> dogInformations = new ArrayList<DogInformation>();
+        sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.query
+                (DogInformation.DogInformationEntry.TABLE_NAME,
+                        null,
+                        DogInformation.DogInformationEntry.INTERNAL_DOG_ID + " = " + dogID,
+                        null,
+                        null,
+                        null,
+                        null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+            DogInformation dogInformation = new DogInformation();
+            dogInformation.setId(cursor.getInt(0));
+            dogInformation.setDogID(cursor.getInt(1));
+            dogInformation.setDogType(cursor.getString(2));
+            dogInformation.setAge(cursor.getInt(3));
+            dogInformation.setAgeRange(cursor.getString(4));
+            dogInformation.setAddress(cursor.getString(5));
+            dogInformation.setSubdistrict(cursor.getString(6));
+            dogInformation.setDistrict(cursor.getString(7));
+            dogInformation.setProvince(cursor.getString(8));
+            dogInformation.setLatitude(cursor.getString(9));
+            dogInformation.setLongitude(cursor.getString(10));
+            dogInformation.setSubmitDate(cursor.getString(11));
+            dogInformation.setIsSubmit(cursor.getInt(12));
+            dogInformations.add(dogInformation);
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+        return dogInformations;
+    }
+
     //    Vaccine
     public List<DogVaccine> getRabiesVaccineList() {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();

@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
 public class DogInformation {
 
     private String dogType, address, subdistrict, district, province, submitDate, ageRange, latitude, longitude;
-    private int age, isSubmit;
+    private int age, isSubmit, id, dogID;
 
     public DogInformation() {
     }
@@ -29,7 +29,6 @@ public class DogInformation {
         public static final String TABLE_NAME = "information";
         public static final String ID = BaseColumns._ID;
         public static final String INTERNAL_DOG_ID = "internalDogID";
-        public static final String DOG_ID = "dogID";
         public static final String DOG_TYPE = "dogType";
         public static final String AGE = "age";
         public static final String AGE_RANGE = "ageRange";
@@ -47,7 +46,6 @@ public class DogInformation {
             "CREATE TABLE " + DogInformationEntry.TABLE_NAME + " (" +
                     DogInformationEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DogInformationEntry.INTERNAL_DOG_ID + "INTEGER," +
-                    DogInformationEntry.DOG_ID + "INTEGER," +
                     DogInformationEntry.DOG_TYPE + "TEXT," +
                     DogInformationEntry.AGE + "INTEGER," +
                     DogInformationEntry.AGE_RANGE + "TEXT," +
@@ -64,6 +62,24 @@ public class DogInformation {
             "DROP TABLE IF EXISTS " + DogInformationEntry.TABLE_NAME;
 
     // getter and setter
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getDogID() {
+        return dogID;
+    }
+
+    public void setDogID(int dogID) {
+        this.dogID = dogID;
+    }
+
     public String getDogType() {
         return dogType;
     }
