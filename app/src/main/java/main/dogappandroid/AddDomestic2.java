@@ -84,6 +84,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putString("name",prevAdd.getStringExtra("name"));
                         extras.putInt("age",prevAdd.getIntExtra("age",0));
                         extras.putString("ageRange",prevAdd.getStringExtra("ageRange"));
+                        extras.putString("gender",prevAdd.getStringExtra("gender"));
                         extras.putString("breed",prevAdd.getStringExtra("breed"));
                         extras.putString("color",prevAdd.getStringExtra("color"));
                         extras.putBoolean("sterilized",prevAdd.getBooleanExtra("sterilized",false));
@@ -108,6 +109,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putString("name",prevAdd.getStringExtra("name"));
                         extras.putInt("age",prevAdd.getIntExtra("age",0));
                         extras.putString("ageRange",prevAdd.getStringExtra("ageRange"));
+                        extras.putString("gender",prevAdd.getStringExtra("gender"));
                         extras.putString("breed",prevAdd.getStringExtra("breed"));
                         extras.putString("color",prevAdd.getStringExtra("color"));
                         extras.putBoolean("sterilized",prevAdd.getBooleanExtra("sterilized",false));

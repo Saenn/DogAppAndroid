@@ -33,6 +33,7 @@ public class Vaccine extends AppCompatActivity {
     private ClickListener rabiesListener, othersListener;
     private ProgressBar bar;
     private int isAdding = 0;
+    private Bundle prevBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,6 @@ public class Vaccine extends AppCompatActivity {
         setContentView(R.layout.activity_vaccine);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
-        final Bundle prevBundle = getIntent().getExtras();
 
         // set var //
         mHelper = new DBHelper(this);
@@ -50,6 +50,7 @@ public class Vaccine extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.vaccine_addbutton);
         doneButton = (Button) findViewById(R.id.vaccine_doneButton);
         bar = (ProgressBar) findViewById(R.id.vaccine_progressbar);
+        prevBundle = getIntent().getExtras();
 
         if(prevBundle != null && !prevBundle.containsKey("addingdog")){
             bar.setVisibility(View.GONE);
@@ -85,6 +86,8 @@ public class Vaccine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                Log.d("prevBundleCheck",prevBundle.getString("gender"));
+                intent.putExtras(prevBundle);
                 intent.putExtra("isAdding", isAdding);
                 startActivity(intent);
                 finish();
@@ -93,8 +96,25 @@ public class Vaccine extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Log.d("DogGender", prevBundle.getString("gender"));
                 int newDogIndex = (int) dogDBHelper.addDogDB(new DogDB(prevBundle));
+                for(DogVaccine v : rabiesVaccine){
+                    v.setInternalId(newDogIndex);
+                    mHelper.updateVaccine(v);
+                }
+                for(DogVaccine v : othersVaccine){
+                    v.setInternalId(newDogIndex);
+                    mHelper.updateVaccine(v);
+                }
+                Log.d("DogDB","index : " + newDogIndex);
+                List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogIndex);
+                List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogIndex);
+                for(DogVaccine v : dvr){
+                    Log.d("DogVaccineRabies",v.getId() + " " + v.getDate());
+                }
+                for(DogVaccine v : dvo){
+                    Log.d("DogVaccineOthers",v.getId() + " " + v.getDate());
+                }
                 Intent intent = new Intent(Vaccine.this, HomeActivity.class);
                 startActivity(intent);
                 mHelper.deleteNull();
@@ -158,6 +178,8 @@ public class Vaccine extends AppCompatActivity {
                     } else {
                         //not LongClick
                         Intent I = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                        I.putExtras(prevBundle);
+                        Log.d("prevBundleCheck",prevBundle.getString("gender"));
                         I.putExtra("isAdding", isAdding);
                         I.putExtra("vid",v.getId());
                         I.putExtra("vname",v.getName());

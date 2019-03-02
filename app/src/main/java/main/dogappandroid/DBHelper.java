@@ -109,7 +109,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies", String.valueOf(dogID)};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.TABLE, null, "vaccine_name != ? && ID = ?", whereArgs, null, null, null);
+                (DogVaccine.TABLE, null, "vaccine_name = ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -138,7 +138,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies", String.valueOf(id)};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.TABLE, null, "vaccine_name != ? && ID = ?", whereArgs, null, null, null);
+                (DogVaccine.TABLE, null, "vaccine_name != ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -147,6 +147,7 @@ public class DBHelper extends SQLiteOpenHelper {
         while(!cursor.isAfterLast()) {
 
             DogVaccine tmp = new DogVaccine();
+            tmp.setId(cursor.getInt(0));
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             vaccines.add(tmp);
@@ -181,7 +182,6 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase  = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DogVaccine.Column.ID, vaccine.getId());
         values.put(DogVaccine.Column.VACCINE_NAME, vaccine.getName());
         values.put(DogVaccine.Column.VACCINE_DATE, vaccine.getDate());
         values.put(DogVaccine.Column.VACCINE_DOG_INTERNAL_ID, vaccine.getInternalId());

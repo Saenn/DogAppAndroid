@@ -2,7 +2,6 @@ package main.dogappandroid;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.CalendarContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,11 +31,13 @@ public class AddVaccineDropdown extends AppCompatActivity {
     public static final DecimalFormat mFormat= new DecimalFormat("00");
     private DBHelper mHelper;
     private int ID = -1;
+    private Bundle prevBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vaccine_dropdown);
+        prevBundle = getIntent().getExtras();
 
         // Setup var //
 
@@ -87,6 +88,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
                     builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
+                            I.putExtras(prevBundle);
                             startActivity(I);
                             finish();
                         }
@@ -129,6 +131,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
                                         }
                                     }
                                     Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
+                                    I.putExtras(prevBundle);
                                     startActivity(I);
                                     finish();
                                 }
@@ -178,19 +181,18 @@ public class AddVaccineDropdown extends AppCompatActivity {
         super.onBackPressed();
         System.gc();
         Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
+        I.putExtras(prevBundle);
         startActivity(I);
         finish();
     }
 
     protected void editVaccine(){
 
-        Bundle bundle = getIntent().getExtras();
+        if (prevBundle.containsKey("vname")) {
 
-        if (bundle.containsKey("vname")) {
-
-            ID = bundle.getInt("vid");
-            String vname = bundle.getString("vname");
-            String vdate = bundle.getString("vdate");
+            ID = prevBundle.getInt("vid");
+            String vname = prevBundle.getString("vname");
+            String vdate = prevBundle.getString("vdate");
             String parts[] = vdate.split("/");
             int day = Integer.parseInt(parts[0]);
             int month = Integer.parseInt(parts[1]);
