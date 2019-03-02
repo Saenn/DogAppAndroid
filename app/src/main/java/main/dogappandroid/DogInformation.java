@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 
 public class DogInformation {
+
     private String dogType, address, subdistrict, district, province, submitDate, ageRange, latitude, longitude;
     private int age, isSubmit;
 
@@ -23,96 +24,6 @@ public class DogInformation {
         age = dogInformation.getInt("age");
         isSubmit = 0; // 0 represent false 1 represent true
     }
-
-    //    getter & setter
-    public String getDogType() {
-        return dogType;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getSubdistrict() {
-        return subdistrict;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public String getSubmitDate() {
-        return submitDate;
-    }
-
-    public String getAgeRange() {
-        return ageRange;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public int getIsSubmit() {
-        return isSubmit;
-    }
-
-    public void setDogType(String dogType) {
-        this.dogType = dogType;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setSubdistrict(String subdistrict) {
-        this.subdistrict = subdistrict;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public void setSubmitDate(String submitDate) {
-        this.submitDate = submitDate;
-    }
-
-    public void setAgeRange(String ageRange) {
-        this.ageRange = ageRange;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setIsSubmit(int isSubmit) {
-        this.isSubmit = isSubmit;
-    }
-    //    end getter & setter
 
     public static class DogInformationEntry implements BaseColumns {
         public static final String TABLE_NAME = "information";
@@ -149,4 +60,95 @@ public class DogInformation {
                     DogInformationEntry.SUBMIT_DATE + "TEXT," +
                     DogInformationEntry.IS_SUBMIT + "INTEGER)";
 
+    public static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + DogInformationEntry.TABLE_NAME;
+
+    // getter and setter
+    public String getDogType() {
+        return dogType;
+    }
+
+    public void setDogType(String dogType) {
+        this.dogType = dogType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getSubdistrict() {
+        return subdistrict;
+    }
+
+    public void setSubdistrict(String subdistrict) {
+        this.subdistrict = subdistrict;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getSubmitDate() {
+        return submitDate;
+    }
+
+    public void setSubmitDate(String submitDate) {
+        this.submitDate = submitDate;
+    }
+
+    public String getAgeRange() {
+        return ageRange;
+    }
+
+    public void setAgeRange(String ageRange) {
+        this.ageRange = ageRange;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getIsSubmit() {
+        return isSubmit;
+    }
+
+    public void setIsSubmit(int isSubmit) {
+        this.isSubmit = isSubmit;
+    }
 }

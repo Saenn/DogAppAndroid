@@ -13,52 +13,155 @@ import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+    private static final String DATABASE_NAME = "dog.db";
+    private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase sqLiteDatabase;
 
     public DBHelper(Context context) {
-        super(context, DogVaccine.DATABASE_NAME, null, DogVaccine.DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        String CREATE_VACCINE_TABLE = String.format("CREATE TABLE %s " +
-                        "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT )",
-                DogVaccine.TABLE,
-                DogVaccine.Column.ID,
-                DogVaccine.Column.VACCINE_NAME,
-                DogVaccine.Column.VACCINE_DATE,
-                DogVaccine.Column.VACCINE_DOG_INTERNAL_ID
-                );
-
-        // create friend table
-        db.execSQL(CREATE_VACCINE_TABLE);
+        db.execSQL(Dog.SQL_CREATE_ENTRIES);
+        db.execSQL(DogInformation.SQL_CREATE_ENTRIES);
+        db.execSQL(DogVaccine.SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        String DROP_VACCINE_TABLE = "DROP TABLE IF EXISTS " + DogVaccine.TABLE;
-
-        db.execSQL(DROP_VACCINE_TABLE);
-
+        db.execSQL(Dog.SQL_DELETE_ENTRIES);
+        db.execSQL(DogInformation.SQL_DELETE_ENTRIES);
+        db.execSQL(DogVaccine.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 
-   public List<DogVaccine> getRabiesVaccineList() {
+    //    Dog
+    public long addDog(Dog dog) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Dog.DogEntry.BREED, dog.getBreed());
+        values.put(Dog.DogEntry.COLOR, dog.getColor());
+        values.put(Dog.DogEntry.GENDER, dog.getGender());
+        values.put(Dog.DogEntry.REGISTER_DATE, dog.getRegisterDate());
+        values.put(Dog.DogEntry.STERILIZED, dog.getSterilized());
+        values.put(Dog.DogEntry.STERILIZED_DATE, dog.getSterilizedDate());
+        values.put(Dog.DogEntry.IS_SUBMIT, 0);
+        long index = sqLiteDatabase.insert(Dog.DogEntry.TABLE_NAME, null, values);
+        sqLiteDatabase.close();
+        return index;
+    }
+
+    public Dog getDogById(int id) {
+        Dog dog = new Dog();
+        sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query
+                (Dog.DogEntry.TABLE_NAME, null, Dog.DogEntry.ID + " = " + id, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+            Dog tmp = new Dog();
+            tmp.setId(cursor.getInt(0));
+            tmp.setDogID(cursor.getInt(1));
+            tmp.setGender(cursor.getString(2));
+            tmp.setColor(cursor.getString(3));
+            tmp.setSterilized(cursor.getInt(4));
+            tmp.setSterilizedDate(cursor.getString(5));
+            tmp.setBreed(cursor.getString(6));
+            tmp.setRegisterDate(cursor.getString(7));
+            tmp.setIsSubmit(0);
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+        return dog;
+    }
+
+    public List<Dog> getDog() {
+
+        List<Dog> dogs = new ArrayList<Dog>();
+
+        sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query
+                (Dog.DogEntry.TABLE_NAME, null, null, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+
+            Dog tmp = new Dog();
+            tmp.setId(cursor.getInt(0));
+            tmp.setDogID(cursor.getInt(1));
+            tmp.setGender(cursor.getString(2));
+            tmp.setColor(cursor.getString(3));
+            tmp.setSterilized(cursor.getInt(4));
+            tmp.setSterilizedDate(cursor.getString(5));
+            tmp.setBreed(cursor.getString(6));
+            tmp.setRegisterDate(cursor.getString(7));
+            tmp.setIsSubmit(0);
+            dogs.add(tmp);
+
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+
+        return dogs;
+    }
+
+    public void updateDog(Dog dog) {
+
+        sqLiteDatabase = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Dog.DogEntry.ID, dog.getId());
+        values.put(Dog.DogEntry.DOG_ID, dog.getDogID());
+        values.put(Dog.DogEntry.BREED, dog.getBreed());
+        values.put(Dog.DogEntry.COLOR, dog.getColor());
+        values.put(Dog.DogEntry.GENDER, dog.getGender());
+        values.put(Dog.DogEntry.REGISTER_DATE, dog.getRegisterDate());
+        values.put(Dog.DogEntry.STERILIZED, dog.getSterilized());
+        values.put(Dog.DogEntry.STERILIZED_DATE, dog.getSterilizedDate());
+        values.put(Dog.DogEntry.IS_SUBMIT, 0);
+
+
+        int row = sqLiteDatabase.update(Dog.DogEntry.TABLE_NAME,
+                values,
+                Dog.DogEntry.ID + " = ? ",
+                new String[]{String.valueOf(dog.getId())});
+
+        sqLiteDatabase.close();
+    }
+
+    public void deleteDog(String id) {
+
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(Dog.DogEntry.TABLE_NAME, Dog.DogEntry.ID + " = " + id, null);
+        sqLiteDatabase.close();
+    }
+
+    //    Vaccine
+    public List<DogVaccine> getRabiesVaccineList() {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
 
         sqLiteDatabase = this.getWritableDatabase();
         String[] whereArgs = new String[]{"Rabies"};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.TABLE, null, "vaccine_name = ? and vaccine_dog_internal_id is null",whereArgs , null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name = ? and vaccine_dog_internal_id is null", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
 
             DogVaccine tmp = new DogVaccine();
             tmp.setId(cursor.getInt(0));
@@ -81,13 +184,13 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies"};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.TABLE, null, "vaccine_name != ? and vaccine_dog_internal_id is null", whereArgs, null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name != ? and vaccine_dog_internal_id is null", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
 
             DogVaccine tmp = new DogVaccine();
             tmp.setId(cursor.getInt(0));
@@ -109,13 +212,13 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies", String.valueOf(dogID)};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.TABLE, null, "vaccine_name = ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name = ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
 
             DogVaccine tmp = new DogVaccine();
             tmp.setId(cursor.getInt(0));
@@ -138,13 +241,13 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies", String.valueOf(id)};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.TABLE, null, "vaccine_name != ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name != ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
 
             DogVaccine tmp = new DogVaccine();
             tmp.setId(cursor.getInt(0));
@@ -164,72 +267,62 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addVaccine(DogVaccine vaccine) {
 
         sqLiteDatabase = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
 
-        values.put(DogVaccine.Column.VACCINE_NAME, vaccine.getName());
-        values.put(DogVaccine.Column.VACCINE_DATE, vaccine.getDate());
-        Log.i("InternalID :" , String.valueOf(vaccine.getInternalId()));
-        if(vaccine.getInternalId() != 0) {
-            values.put(DogVaccine.Column.VACCINE_DOG_INTERNAL_ID, vaccine.getInternalId());
+        ContentValues values = new ContentValues();
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
+
+        if (vaccine.getDogID() != 0) {
+            values.put(DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID, vaccine.getDogID());
         }
 
-        sqLiteDatabase.insert(DogVaccine.TABLE, null, values);
+        sqLiteDatabase.insert(DogVaccine.DogVaccineEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
     }
 
     public void updateVaccine(DogVaccine vaccine) {
 
-        sqLiteDatabase  = this.getWritableDatabase();
+        sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DogVaccine.Column.VACCINE_NAME, vaccine.getName());
-        values.put(DogVaccine.Column.VACCINE_DATE, vaccine.getDate());
-        values.put(DogVaccine.Column.VACCINE_DOG_INTERNAL_ID, vaccine.getInternalId());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID, vaccine.getDogID());
 
-        int row = sqLiteDatabase.update(DogVaccine.TABLE,
+        int row = sqLiteDatabase.update(DogVaccine.DogVaccineEntry.TABLE_NAME,
                 values,
-                DogVaccine.Column.ID + " = ? ",
-                new String[] { String.valueOf(vaccine.getId()) });
+                DogVaccine.DogVaccineEntry.ID + " = ? ",
+                new String[]{String.valueOf(vaccine.getId())});
 
         sqLiteDatabase.close();
     }
 
     public void updateVaccineWhileAddingDog(DogVaccine vaccine) {
 
-        sqLiteDatabase  = this.getWritableDatabase();
+        sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DogVaccine.Column.ID, vaccine.getId());
-        values.put(DogVaccine.Column.VACCINE_NAME, vaccine.getName());
-        values.put(DogVaccine.Column.VACCINE_DATE, vaccine.getDate());
+        values.put(DogVaccine.DogVaccineEntry.ID, vaccine.getId());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
 
-        int row = sqLiteDatabase.update(DogVaccine.TABLE,
+        int row = sqLiteDatabase.update(DogVaccine.DogVaccineEntry.TABLE_NAME,
                 values,
-                DogVaccine.Column.ID + " = ? ",
-                new String[] { String.valueOf(vaccine.getId()) });
+                DogVaccine.DogVaccineEntry.ID + " = ? ",
+                new String[]{String.valueOf(vaccine.getId())});
 
         sqLiteDatabase.close();
     }
 
     public void deleteVaccine(String id) {
-
         sqLiteDatabase = this.getWritableDatabase();
-
-    /*sqLiteDatabase.delete(Friend.TABLE, Friend.Column.ID + " = ? ",
-            new String[] { String.valueOf(friend.getId()) });*/
-        sqLiteDatabase.delete(DogVaccine.TABLE, DogVaccine.Column.ID + " = " + id, null);
-//        sqLiteDatabase.delete(DogVaccine.TABLE,null,null);
+        sqLiteDatabase.delete(DogVaccine.DogVaccineEntry.TABLE_NAME, DogVaccine.DogVaccineEntry.ID + " = " + id, null);
         sqLiteDatabase.close();
     }
 
-    public void deleteNull(){
-
+    public void deleteNull() {
         sqLiteDatabase = this.getWritableDatabase();
-
-    /*sqLiteDatabase.delete(Friend.TABLE, Friend.Column.ID + " = ? ",
-            new String[] { String.valueOf(friend.getId()) });*/
-        sqLiteDatabase.delete(DogVaccine.TABLE, DogVaccine.Column.VACCINE_DOG_INTERNAL_ID + " is null ", null);
-//        sqLiteDatabase.delete(DogVaccine.TABLE,null,null);
+        sqLiteDatabase.delete(DogVaccine.DogVaccineEntry.TABLE_NAME, DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID + " is null ", null);
         sqLiteDatabase.close();
     }
 }

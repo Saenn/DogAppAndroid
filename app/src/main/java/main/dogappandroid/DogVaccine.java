@@ -4,41 +4,37 @@ import android.provider.BaseColumns;
 
 public class DogVaccine {
 
-    //Database
-    public static final String DATABASE_NAME = "vaccine.db";
-    public static final int DATABASE_VERSION = 1;
-    public static final String TABLE = "vaccine";
+    private String name, date;
+    private int id, dogID, isSubmit;
 
-    public class Column {
+    public DogVaccine() {
+    }
+
+    public DogVaccine(String name, String date) {
+        this.name = name;
+        this.date = date;
+        this.isSubmit = 0;
+    }
+
+    public class DogVaccineEntry {
+        public static final String TABLE_NAME = "vaccine";
         public static final String ID = BaseColumns._ID;
         public static final String VACCINE_NAME = "vaccine_name";
         public static final String VACCINE_DATE = "vaccine_date";
         public static final String VACCINE_DOG_INTERNAL_ID = "vaccine_dog_internal_id";
+        public static final String IS_SUBMIT = "isSubmit";
     }
 
-    public DogVaccine(){
+    public static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE " + DogVaccineEntry.TABLE_NAME + " (" +
+                    DogVaccineEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DogVaccineEntry.VACCINE_NAME + " TEXT," +
+                    DogVaccineEntry.VACCINE_DATE + " TEXT," +
+                    DogVaccineEntry.VACCINE_DOG_INTERNAL_ID + " INTEGER," +
+                    DogVaccineEntry.IS_SUBMIT + " INTEGER)";
 
-    }
-
-    private String name,date;
-    private int id,internalId;
-
-    public int getInternalId() {
-        return internalId;
-    }
-
-    public void setInternalId(int id) {
-        this.internalId = id;
-    }
-
-    private int dogID;
-
-
-    public DogVaccine(int id,String name, String date){
-        this.id = id;
-        this.name = name;
-        this.date = date;
-    }
+    public static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + Dog.DogEntry.TABLE_NAME;
 
     public String getName() {
         return name;
@@ -62,5 +58,21 @@ public class DogVaccine {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getDogID() {
+        return dogID;
+    }
+
+    public void setDogID(int dogID) {
+        this.dogID = dogID;
+    }
+
+    public int getIsSubmit() {
+        return isSubmit;
+    }
+
+    public void setIsSubmit(int isSubmit) {
+        this.isSubmit = isSubmit;
     }
 }

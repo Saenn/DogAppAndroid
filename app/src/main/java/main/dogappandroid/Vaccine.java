@@ -23,13 +23,12 @@ import java.util.List;
 
 public class Vaccine extends AppCompatActivity {
 
-    private RecyclerView recyclerViewRabies,recyclerViewOthers;
-    private RecyclerView.LayoutManager layoutManagerRabies,layoutManagerOther;
-    private RecyclerView.Adapter mAdapterRabies,mAdapterOther;
-    private List<DogVaccine> rabiesVaccine,othersVaccine;
-    private Button addButton,doneButton;
+    private RecyclerView recyclerViewRabies, recyclerViewOthers;
+    private RecyclerView.LayoutManager layoutManagerRabies, layoutManagerOther;
+    private RecyclerView.Adapter mAdapterRabies, mAdapterOther;
+    private List<DogVaccine> rabiesVaccine, othersVaccine;
+    private Button addButton, doneButton;
     private DBHelper mHelper;
-    private DogDB.DogDBHelper dogDBHelper;
     private ClickListener rabiesListener, othersListener;
     private ProgressBar bar;
     private int isAdding = 0;
@@ -44,7 +43,6 @@ public class Vaccine extends AppCompatActivity {
 
         // set var //
         mHelper = new DBHelper(this);
-        dogDBHelper = new DogDB.DogDBHelper(this);
         rabiesVaccine = new ArrayList<DogVaccine>();
         othersVaccine = new ArrayList<DogVaccine>();
         addButton = (Button) findViewById(R.id.vaccine_addbutton);
@@ -52,14 +50,13 @@ public class Vaccine extends AppCompatActivity {
         bar = (ProgressBar) findViewById(R.id.vaccine_progressbar);
         prevBundle = getIntent().getExtras();
 
-        if(prevBundle != null && !prevBundle.containsKey("addingdog")){
+        if (prevBundle != null && !prevBundle.containsKey("addingdog")) {
             bar.setVisibility(View.GONE);
-            if(prevBundle.containsKey("internal_dog_id")){
+            if (prevBundle.containsKey("internal_dog_id")) {
                 rabiesVaccine = mHelper.getRabiesVaccineListById(prevBundle.getInt("internal_dog_id"));
                 othersVaccine = mHelper.getOtherVaccineListById(prevBundle.getInt("internal_dog_id"));
             }
-        }
-        else{
+        } else {
             // มาจากหน้า add dog //
             isAdding = 1;
             rabiesVaccine = mHelper.getRabiesVaccineList();
@@ -86,7 +83,7 @@ public class Vaccine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
-                Log.d("prevBundleCheck",prevBundle.getString("gender"));
+                Log.d("prevBundleCheck", prevBundle.getString("gender"));
                 intent.putExtras(prevBundle);
                 intent.putExtra("isAdding", isAdding);
                 startActivity(intent);
@@ -97,23 +94,23 @@ public class Vaccine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("DogGender", prevBundle.getString("gender"));
-                int newDogIndex = (int) dogDBHelper.addDogDB(new DogDB(prevBundle));
-                for(DogVaccine v : rabiesVaccine){
-                    v.setInternalId(newDogIndex);
+                int newDogIndex = (int) mHelper.addDog(new Dog(prevBundle));
+                for (DogVaccine v : rabiesVaccine) {
+                    v.setDogID(newDogIndex);
                     mHelper.updateVaccine(v);
                 }
-                for(DogVaccine v : othersVaccine){
-                    v.setInternalId(newDogIndex);
+                for (DogVaccine v : othersVaccine) {
+                    v.setDogID(newDogIndex);
                     mHelper.updateVaccine(v);
                 }
-                Log.d("DogDB","index : " + newDogIndex);
+                Log.d("Dog", "index : " + newDogIndex);
                 List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogIndex);
                 List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogIndex);
-                for(DogVaccine v : dvr){
-                    Log.d("DogVaccineRabies",v.getId() + " " + v.getDate());
+                for (DogVaccine v : dvr) {
+                    Log.d("DogVaccineRabies", v.getId() + " " + v.getDate());
                 }
-                for(DogVaccine v : dvo){
-                    Log.d("DogVaccineOthers",v.getId() + " " + v.getDate());
+                for (DogVaccine v : dvo) {
+                    Log.d("DogVaccineOthers", v.getId() + " " + v.getDate());
                 }
                 Intent intent = new Intent(Vaccine.this, HomeActivity.class);
                 startActivity(intent);
@@ -126,7 +123,7 @@ public class Vaccine extends AppCompatActivity {
 
 
     // Recycler class //
-    protected class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder>{
+    protected class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private List<DogVaccine> myDataset;
 
@@ -145,7 +142,7 @@ public class Vaccine extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            Log.i("VID : " , String.valueOf(v.getId()));
+            Log.i("VID : ", String.valueOf(v.getId()));
             holder.vaccine.setText(v.getName());
             holder.vaccinatedDate.setText(v.getDate());
 
@@ -179,11 +176,11 @@ public class Vaccine extends AppCompatActivity {
                         //not LongClick
                         Intent I = new Intent(Vaccine.this, AddVaccineDropdown.class);
                         I.putExtras(prevBundle);
-                        Log.d("prevBundleCheck",prevBundle.getString("gender"));
+                        Log.d("prevBundleCheck", prevBundle.getString("gender"));
                         I.putExtra("isAdding", isAdding);
-                        I.putExtra("vid",v.getId());
-                        I.putExtra("vname",v.getName());
-                        I.putExtra("vdate",v.getDate());
+                        I.putExtra("vid", v.getId());
+                        I.putExtra("vname", v.getName());
+                        I.putExtra("vdate", v.getDate());
                         startActivity(I);
                         finish();
                     }
@@ -200,9 +197,9 @@ public class Vaccine extends AppCompatActivity {
 
     }
 
-    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnTouchListener, View.OnLongClickListener{
+    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
         // each data item is just a string in this case
-        TextView vaccine,vaccinatedDate;
+        TextView vaccine, vaccinatedDate;
         private ClickListener myListener;
 
         public ViewHolder(View v) {

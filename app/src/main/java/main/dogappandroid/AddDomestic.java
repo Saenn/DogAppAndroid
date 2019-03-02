@@ -20,8 +20,8 @@ public class AddDomestic extends AppCompatActivity {
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
     private Button nextBtn;
-    private DogDB dog;
-    private DogDB.DogDBHelper helper;
+    private Dog dog;
+    private DBHelper dbHelper;
 
     private String sterilizedDateSelected;
 
@@ -89,11 +89,11 @@ public class AddDomestic extends AppCompatActivity {
                     extras.putString("breed", breed.getText().toString());
                     extras.putString("color", color.getText().toString());
                     if (yesBtn.isChecked()) {
-                        extras.putBoolean("sterilized",true);
-                        extras.putString("sterilizedDate",sterilizedDateSelected);
-                    }else if(noBtn.isChecked()){
-                        extras.putBoolean("sterilized",false);
-                        extras.putString("sterilizedDate","");
+                        extras.putBoolean("sterilized", true);
+                        extras.putString("sterilizedDate", sterilizedDateSelected);
+                    } else if (noBtn.isChecked()) {
+                        extras.putBoolean("sterilized", false);
+                        extras.putString("sterilizedDate", "");
                     }
                     Intent addDomestic2 = new Intent(AddDomestic.this, AddDomestic2.class);
                     addDomestic2.putExtras(extras);
@@ -106,10 +106,10 @@ public class AddDomestic extends AppCompatActivity {
         getDogInfo();
     }
 
-    private void getDogInfo(){
+    private void getDogInfo() {
         Bundle prevBundle = getIntent().getExtras();
-        if(prevBundle != null && prevBundle.containsKey("id")){
-            dog = helper.getDogDBById(prevBundle.getString("id"));
+        if (prevBundle != null && prevBundle.containsKey("id")) {
+            dog = dbHelper.getDogById(prevBundle.getInt("id"));
         }
     }
 

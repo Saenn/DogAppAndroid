@@ -13,8 +13,8 @@ public class DogProfileActivity extends AppCompatActivity {
     private ImageView dogProfilePic;
     private TextView dogName;
     private Button editProfileButton, editVaccineButton;
-    private DogDB dog;
-    private DogDB.DogDBHelper helper;
+    private Dog dog;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class DogProfileActivity extends AppCompatActivity {
     private void getDogInfo(){
         Bundle prevBundle = getIntent().getExtras();
         if(prevBundle != null && prevBundle.containsKey("id")){
-            dog = helper.getDogDBById(prevBundle.getString("id"));
+            dog = dbHelper.getDogById(prevBundle.getInt("id"));
         }
     }
 
