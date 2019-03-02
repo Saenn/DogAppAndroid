@@ -1,0 +1,152 @@
+package main.dogappandroid;
+
+import android.os.Bundle;
+import android.provider.BaseColumns;
+
+public class DogInformation {
+    private String dogType, address, subdistrict, district, province, submitDate, ageRange, latitude, longitude;
+    private int age, isSubmit;
+
+    public DogInformation() {
+    }
+
+    public DogInformation(Bundle dogInformation) {
+        dogType = dogInformation.getString("dogType");
+        ageRange = dogInformation.getString("ageRange");
+        address = dogInformation.getString("address");
+        subdistrict = dogInformation.getString("subdistrict");
+        district = dogInformation.getString("district");
+        province = dogInformation.getString("province");
+        latitude = dogInformation.getString("latitude");
+        longitude = dogInformation.getString("longitude");
+        submitDate = dogInformation.getString("submitDate");
+        age = dogInformation.getInt("age");
+        isSubmit = 0; // 0 represent false 1 represent true
+    }
+
+    //    getter & setter
+    public String getDogType() {
+        return dogType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getSubdistrict() {
+        return subdistrict;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public String getSubmitDate() {
+        return submitDate;
+    }
+
+    public String getAgeRange() {
+        return ageRange;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getIsSubmit() {
+        return isSubmit;
+    }
+
+    public void setDogType(String dogType) {
+        this.dogType = dogType;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setSubdistrict(String subdistrict) {
+        this.subdistrict = subdistrict;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public void setSubmitDate(String submitDate) {
+        this.submitDate = submitDate;
+    }
+
+    public void setAgeRange(String ageRange) {
+        this.ageRange = ageRange;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setIsSubmit(int isSubmit) {
+        this.isSubmit = isSubmit;
+    }
+    //    end getter & setter
+
+    public static class DogInformationEntry implements BaseColumns {
+        public static final String TABLE_NAME = "information";
+        public static final String ID = BaseColumns._ID;
+        public static final String INTERNAL_DOG_ID = "internalDogID";
+        public static final String DOG_ID = "dogID";
+        public static final String DOG_TYPE = "dogType";
+        public static final String AGE = "age";
+        public static final String AGE_RANGE = "ageRange";
+        public static final String ADDRESS = "address";
+        public static final String SUBDISTRICT = "subdistrict";
+        public static final String DISTRICT = "district";
+        public static final String PROVINCE = "province";
+        public static final String LATITUDE = "latitude";
+        public static final String LONGITUDE = "longitude";
+        public static final String SUBMIT_DATE = "submitDate";
+        public static final String IS_SUBMIT = "isSubmit";
+    }
+
+    public static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE " + DogInformationEntry.TABLE_NAME + " (" +
+                    DogInformationEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DogInformationEntry.INTERNAL_DOG_ID + "INTEGER," +
+                    DogInformationEntry.DOG_ID + "INTEGER," +
+                    DogInformationEntry.DOG_TYPE + "TEXT," +
+                    DogInformationEntry.AGE + "INTEGER," +
+                    DogInformationEntry.AGE_RANGE + "TEXT," +
+                    DogInformationEntry.ADDRESS + "TEXT," +
+                    DogInformationEntry.SUBDISTRICT + "TEXT," +
+                    DogInformationEntry.DISTRICT + "TEXT," +
+                    DogInformationEntry.PROVINCE + "TEXT," +
+                    DogInformationEntry.LATITUDE + "TEXT," +
+                    DogInformationEntry.LONGITUDE + "TEXT," +
+                    DogInformationEntry.SUBMIT_DATE + "TEXT," +
+                    DogInformationEntry.IS_SUBMIT + "INTEGER)";
+
+}
