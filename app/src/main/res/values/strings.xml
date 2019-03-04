@@ -20,6 +20,7 @@
     <string name="addvaccinetitle" tools:ignore="ExtraTranslation">Add Vaccine</string>
     <string name="addmessage">Are you sure to add this vaccine?</string>
     <string name="edit">Edit</string>
+    <string name="latestvaccine">Latest Added Vaccines</string>
     <string name="type">Type</string>
     <string name="submitdate">Submitted Date</string>
     <string name="sterilizedlabel">Sterilized</string>

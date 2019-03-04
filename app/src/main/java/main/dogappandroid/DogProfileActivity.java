@@ -113,7 +113,6 @@ public class DogProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(DogProfileActivity.this, Vaccine.class);
                 intent.putExtra("internal_dog_id",dog.getId());
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -123,8 +122,15 @@ public class DogProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(DogProfileActivity.this, AddDomestic.class);
                 intent.putExtra("internal_dog_id",dog.getId());
                 startActivity(intent);
-                finish();
+
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        // put your code here...
+        getDogInfo();
     }
 }

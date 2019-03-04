@@ -272,7 +272,7 @@
                 android:id="@+id/vaccinehead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/vaccine"
+                android:text="@string/latestvaccine"
                 android:layout_marginBottom="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
