@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="8dp"
@@ -9,34 +11,86 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="125dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|center_horizontal"
         android:layout_margin="8dp"
+        android:layout_marginStart="0dp"
         android:background="@drawable/boarder"
         >
 
-        <TextView
-            android:id="@+id/nameDomestic"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Hey1"
-            android:paddingLeft="24dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            />
+            android:orientation="vertical"
+            android:layout_marginStart="8dp"
 
-        <TextView
-            android:id="@+id/lastupdated"
+            android:layout_weight="0.5"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/dog_list_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/pug" />
+
+            <TextView
+                android:id="@+id/dog_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hey2"
+                android:gravity="center_horizontal"
+                />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="hey2"
             android:layout_weight="1"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            />
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="24dp"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/dog_list_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hey2"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/dog_list_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hey2"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/dog_list_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hey2"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/dog_list_breed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hey2"
+                android:gravity="center_vertical"
+                />
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -53,14 +53,69 @@ public class Vaccine extends AppCompatActivity {
         if (prevBundle != null && !prevBundle.containsKey("addingdog")) {
             bar.setVisibility(View.GONE);
             if (prevBundle.containsKey("internal_dog_id")) {
+
+                Log.i("มาจกาหน้า edit " , " ครับ");
                 rabiesVaccine = mHelper.getRabiesVaccineListById(prevBundle.getInt("internal_dog_id"));
                 othersVaccine = mHelper.getOtherVaccineListById(prevBundle.getInt("internal_dog_id"));
+
+                doneButton.setVisibility(View.GONE);
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                        intent.putExtras(prevBundle);
+                        intent.putExtra("isAdding", isAdding);
+                        intent.putExtra("internal_dog_id", prevBundle.getInt("internal_dog_id"));
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
             }
         } else {
             // มาจากหน้า add dog //
+            Log.i("มาจากหน้า add dog", " ครับ");
             isAdding = 1;
             rabiesVaccine = mHelper.getRabiesVaccineList();
             othersVaccine = mHelper.getOtherVaccineList();
+            addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                    intent.putExtras(prevBundle);
+                    intent.putExtra("isAdding", isAdding);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+            doneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int newDogIndex = (int) mHelper.addDog(new Dog(prevBundle));
+                    Log.i("ถูกต้องแล้ว", String.valueOf(newDogIndex));
+                    for (DogVaccine v : rabiesVaccine) {
+                        v.setDogID(newDogIndex);
+                        mHelper.updateVaccine(v);
+                    }
+                    for (DogVaccine v : othersVaccine) {
+                        v.setDogID(newDogIndex);
+                        mHelper.updateVaccine(v);
+                    }
+                    Log.d("Dog", "index : " + newDogIndex);
+                    List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogIndex);
+                    List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogIndex);
+                    for (DogVaccine v : dvr) {
+                        Log.d("DogVaccineRabies", v.getId() + " " + v.getDate());
+                    }
+                    for (DogVaccine v : dvo) {
+                        Log.d("DogVaccineOthers", v.getId() + " " + v.getDate());
+                    }
+                    Intent intent = new Intent(Vaccine.this, HomeActivity.class);
+                    startActivity(intent);
+                    mHelper.deleteNull();
+                }
+            });
         }
 
 
@@ -79,44 +134,7 @@ public class Vaccine extends AppCompatActivity {
         recyclerViewOthers.setAdapter(mAdapterOther);
 
         // set up button //
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
-                Log.d("prevBundleCheck", prevBundle.getString("gender"));
-                intent.putExtras(prevBundle);
-                intent.putExtra("isAdding", isAdding);
-                startActivity(intent);
-                finish();
-            }
-        });
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("DogGender", prevBundle.getString("gender"));
-                int newDogIndex = (int) mHelper.addDog(new Dog(prevBundle));
-                for (DogVaccine v : rabiesVaccine) {
-                    v.setDogID(newDogIndex);
-                    mHelper.updateVaccine(v);
-                }
-                for (DogVaccine v : othersVaccine) {
-                    v.setDogID(newDogIndex);
-                    mHelper.updateVaccine(v);
-                }
-                Log.d("Dog", "index : " + newDogIndex);
-                List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogIndex);
-                List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogIndex);
-                for (DogVaccine v : dvr) {
-                    Log.d("DogVaccineRabies", v.getId() + " " + v.getDate());
-                }
-                for (DogVaccine v : dvo) {
-                    Log.d("DogVaccineOthers", v.getId() + " " + v.getDate());
-                }
-                Intent intent = new Intent(Vaccine.this, HomeActivity.class);
-                startActivity(intent);
-                mHelper.deleteNull();
-            }
-        });
+
 
 
     }
@@ -142,7 +160,6 @@ public class Vaccine extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            Log.i("VID : ", String.valueOf(v.getId()));
             holder.vaccine.setText(v.getName());
             holder.vaccinatedDate.setText(v.getDate());
 
@@ -176,7 +193,6 @@ public class Vaccine extends AppCompatActivity {
                         //not LongClick
                         Intent I = new Intent(Vaccine.this, AddVaccineDropdown.class);
                         I.putExtras(prevBundle);
-                        Log.d("prevBundleCheck", prevBundle.getString("gender"));
                         I.putExtra("isAdding", isAdding);
                         I.putExtra("vid", v.getId());
                         I.putExtra("vname", v.getName());

@@ -16,13 +16,14 @@ import java.util.List;
 
 public final class Dog {
 
-    private String gender, color, sterilizedDate, breed, registerDate;
+    private String gender, color, sterilizedDate, breed, registerDate, name;
     private int id, dogID, sterilized, isSubmit;
 
     public Dog() {
     }
 
     public Dog(Bundle bundle) {
+        name = bundle.getString("name");
         gender = bundle.getString("gender");
         color = bundle.getString("color");
         breed = bundle.getString("breed");
@@ -41,6 +42,7 @@ public final class Dog {
     public static class DogEntry implements BaseColumns {
         public static final String TABLE_NAME = "dog";
         public static final String ID = BaseColumns._ID;
+        public static final String NAME = "name";
         public static final String DOG_ID = "dogID"; // from rds database
         public static final String GENDER = "gender";
         public static final String COLOR = "color";
@@ -61,12 +63,22 @@ public final class Dog {
                     DogEntry.STERILIZED_DATE + " TEXT," +
                     DogEntry.BREED + " TEXT," +
                     DogEntry.REGISTER_DATE + " TEXT," +
-                    DogEntry.IS_SUBMIT + " INTEGER)";
+                    DogEntry.IS_SUBMIT + " INTEGER," +
+                    DogEntry.NAME + " TEXT)";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DogEntry.TABLE_NAME;
 
     //    getter and setter
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getGender() {
         return gender;
     }

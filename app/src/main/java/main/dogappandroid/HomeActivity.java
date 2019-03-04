@@ -1,10 +1,14 @@
 package main.dogappandroid;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,7 +29,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private Map<String, String> mDataset;
+    private List<Dog> mDataset;
+    private DBHelper mHelper;
     private Button addDomesticBtn,addStrayBtn;
 
     @Override
@@ -34,6 +40,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         addDomesticBtn = (Button) findViewById(R.id.adddomestic);
         addStrayBtn = (Button) findViewById(R.id.addstray);
+        mHelper = new DBHelper(this);
+        mDataset = mHelper.getDog();
 
 //        handle recycler view
         recyclerView = (RecyclerView) findViewById(R.id.dogListView);
@@ -103,9 +111,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public class DogListAdapter extends RecyclerView.Adapter<DogListViewHolder> {
-        private Map<String, String> mDataset;
+        private List<Dog> mDataset;
 
-        public DogListAdapter(Map<String, String> mDataset) {
+        public DogListAdapter(List<Dog> mDataset) {
             this.mDataset = mDataset;
         }
 
@@ -119,25 +127,106 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public void onBindViewHolder(DogListViewHolder holder, int position) {
-            holder.dogName.setText("NIKKY");
-            holder.lastUpdate.setText("Kuy");
+            final Dog dog = mDataset.get(position);
+
+            // need to setimage //
+            if(dog.getName().equals("")){
+                holder.name.setVisibility(View.GONE);
+            }
+            else{
+                holder.name.setText(dog.getName().toUpperCase());
+            }
+            holder.age.setText("Age : " + "1000");
+            holder.color.setText("Color : " + dog.getColor());
+            holder.gender.setText("Gender : " + dog.getGender());
+            holder.breed.setText("Breed :" + dog.getBreed());
+
+
+            holder.setOnClickListener(new ClickListener() {
+                @Override
+                public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
+
+                    if(isLongClick){
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(HomeActivity.this);
+                        builder.setMessage("Are you sure to delete this vaccine?");
+                        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                // DB Helper Delete //
+
+                                mHelper.deleteDog(String.valueOf(dog.getId()));
+                                reload();
+
+                            }
+                        });
+                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }
+                    else {
+                        Intent I = new Intent(HomeActivity.this, DogProfileActivity.class);
+                        I.putExtra("internal_dog_id", dog.getId());
+                        startActivity(I);
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return 10;
+            return mDataset.size();
         }
     }
 
-    public class DogListViewHolder extends RecyclerView.ViewHolder {
+    public class DogListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
         // each data item is just a string in this case
-        public TextView dogName, lastUpdate;
+        public TextView age,gender,breed,color,name;
+        private ClickListener myListener;
 
         public DogListViewHolder(View v) {
             super(v);
-            dogName = (TextView) v.findViewById(R.id.nameDomestic);
-            lastUpdate = (TextView) v.findViewById(R.id.lastupdated);
+            v.setOnLongClickListener(this);
+            v.setOnClickListener(this);
+            name = (TextView) v.findViewById(R.id.dog_list_name);
+            age = (TextView) v.findViewById(R.id.dog_list_age);
+            gender = (TextView) v.findViewById(R.id.dog_list_gender);
+            breed = (TextView) v.findViewById(R.id.dog_list_breed);
+            color = (TextView) v.findViewById(R.id.dog_list_color);
+        }
+
+        @Override
+        public void onClick(View v) {
+            myListener.onClick(v, getAdapterPosition(), false, null);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            myListener.onClick(view, getAdapterPosition(), true, null);
+            return true;
+        }
+
+        public void setOnClickListener(ClickListener listener) {
+            this.myListener = listener;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            myListener.onClick(view, getAdapterPosition(), false, motionEvent);
+            return true;
         }
     }
 
+    public void reload() {
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
 }

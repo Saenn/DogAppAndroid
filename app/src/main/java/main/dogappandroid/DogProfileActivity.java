@@ -3,6 +3,7 @@ package main.dogappandroid;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,18 +27,27 @@ public class DogProfileActivity extends AppCompatActivity {
             dogName = (TextView) findViewById(R.id.dog_profile_name);
             editProfileButton = (Button) findViewById(R.id.dog_profile_editprofile_button);
             editVaccineButton = (Button) findViewById(R.id.dog_profile_editvaccine_button);
+            dbHelper = new DBHelper(this);
             getDogInfo();
             setAllButton();
         // finished setup var //
-
 
     }
 
     private void getDogInfo(){
         Bundle prevBundle = getIntent().getExtras();
-        if(prevBundle != null && prevBundle.containsKey("id")){
-            dog = dbHelper.getDogById(prevBundle.getInt("id"));
+        if(prevBundle != null && prevBundle.containsKey("internal_dog_id")){
+            Log.i("internal id : " , String.valueOf(prevBundle.getInt("internal_dog_id")));
+            dog = dbHelper.getDogById(prevBundle.getInt("internal_dog_id"));
         }
+    }
+
+    private void setAllField(){
+
+
+        // need to set name and image //
+
+
     }
 
     private void setAllButton(){
@@ -45,7 +55,7 @@ public class DogProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DogProfileActivity.this, Vaccine.class);
-                intent.putExtra("id",dog.getId());
+                intent.putExtra("internal_dog_id",dog.getId());
                 startActivity(intent);
             }
         });
@@ -54,7 +64,7 @@ public class DogProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DogProfileActivity.this, AddDomestic.class);
-                intent.putExtra("id",dog.getId());
+                intent.putExtra("internal_dog_id",dog.getId());
                 startActivity(intent);
             }
         });

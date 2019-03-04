@@ -34,7 +34,7 @@ public class DogVaccine {
                     DogVaccineEntry.IS_SUBMIT + " INTEGER)";
 
     public static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + Dog.DogEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + DogVaccineEntry.TABLE_NAME;
 
     public String getName() {
         return name;

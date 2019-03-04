@@ -119,6 +119,9 @@ public class AddVaccineDropdown extends AppCompatActivity {
                                     DogVaccine vaccine = new DogVaccine();
                                     vaccine.setName(selectedValue);
                                     vaccine.setDate(curDate);
+                                    if(prevBundle.containsKey("internal_dog_id")){
+                                        vaccine.setDogID(getIntent().getExtras().getInt("internal_dog_id"));
+                                    }
                                     if (ID == -1) {
                                         mHelper.addVaccine(vaccine);
                                     } else {
@@ -131,6 +134,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
                                         }
                                     }
                                     Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
+                                    removeVaccineBundle();
                                     I.putExtras(prevBundle);
                                     startActivity(I);
                                     finish();
@@ -175,12 +179,18 @@ public class AddVaccineDropdown extends AppCompatActivity {
         vaccineList.add(5,"Parainfluenza");
     }
 
+    public void removeVaccineBundle(){
+        prevBundle.remove("vid");
+        prevBundle.remove("vname");
+        prevBundle.remove("vdate");
+    }
     @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
         super.onBackPressed();
         System.gc();
         Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
+        removeVaccineBundle();
         I.putExtras(prevBundle);
         startActivity(I);
         finish();

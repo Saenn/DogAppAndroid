@@ -40,6 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public long addDog(Dog dog) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
         values.put(Dog.DogEntry.BREED, dog.getBreed());
         values.put(Dog.DogEntry.COLOR, dog.getColor());
         values.put(Dog.DogEntry.GENDER, dog.getGender());
@@ -47,13 +48,18 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Dog.DogEntry.STERILIZED, dog.getSterilized());
         values.put(Dog.DogEntry.STERILIZED_DATE, dog.getSterilizedDate());
         values.put(Dog.DogEntry.IS_SUBMIT, 0);
+        values.put(Dog.DogEntry.NAME, dog.getName());
+
+        Log.i("Adding Dog" , dog.getName());
+
         long index = sqLiteDatabase.insert(Dog.DogEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
+
         return index;
     }
 
     public Dog getDogById(int id) {
-        Dog dog = new Dog();
+        Dog tmp = new Dog();
         sqLiteDatabase = this.getWritableDatabase();
 
         Cursor cursor = sqLiteDatabase.query
@@ -64,7 +70,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         while (!cursor.isAfterLast()) {
-            Dog tmp = new Dog();
             tmp.setId(cursor.getInt(0));
             tmp.setDogID(cursor.getInt(1));
             tmp.setGender(cursor.getString(2));
@@ -74,11 +79,13 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setBreed(cursor.getString(6));
             tmp.setRegisterDate(cursor.getString(7));
             tmp.setIsSubmit(0);
+            tmp.setName(cursor.getString(9));
+
             cursor.moveToNext();
         }
 
         sqLiteDatabase.close();
-        return dog;
+        return tmp;
     }
 
     public List<Dog> getDog() {
@@ -105,6 +112,7 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setSterilizedDate(cursor.getString(5));
             tmp.setBreed(cursor.getString(6));
             tmp.setRegisterDate(cursor.getString(7));
+            tmp.setName(cursor.getString(9));
             tmp.setIsSubmit(0);
             dogs.add(tmp);
 
@@ -284,6 +292,7 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setId(cursor.getInt(0));
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
+            tmp.setDogID(cursor.getInt(3));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -313,6 +322,7 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setId(cursor.getInt(0));
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
+            tmp.setDogID(cursor.getInt(3));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -345,6 +355,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(DogVaccine.DogVaccineEntry.ID, vaccine.getId());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID, vaccine.getDogID());
