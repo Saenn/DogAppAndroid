@@ -20,7 +20,11 @@
     <string name="addvaccinetitle" tools:ignore="ExtraTranslation">Add Vaccine</string>
     <string name="addmessage">Are you sure to add this vaccine?</string>
     <string name="edit">Edit</string>
+    <string name="type">Type</string>
+    <string name="submitdate">Submitted Date</string>
+    <string name="sterilizedlabel">Sterilized</string>
     <string name="dogprofilename">Your Dog Name</string>
+    <string name="profile">Profile</string>
     <string name="picmissing">Picture Missing!</string>
     <string name="picmissingmessage" tools:ignore="ExtraTranslation">Please upload picture to the form before continue</string>
     <string name="editvaccine">Edit Vaccine</string>

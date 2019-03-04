@@ -176,8 +176,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return index;
     }
 
-    public List<DogInformation> getAllDogInformationByDogID(int dogID) {
-        List<DogInformation> dogInformations = new ArrayList<DogInformation>();
+    public DogInformation getAllDogInformationByDogID(int dogID) {
+        DogInformation dogInformation = new DogInformation();
         sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.query
                 (DogInformation.DogInformationEntry.TABLE_NAME,
@@ -193,7 +193,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         while (!cursor.isAfterLast()) {
-            DogInformation dogInformation = new DogInformation();
+
             dogInformation.setId(cursor.getInt(0));
             dogInformation.setDogID(cursor.getInt(1));
             dogInformation.setDogType(cursor.getString(2));
@@ -207,12 +207,44 @@ public class DBHelper extends SQLiteOpenHelper {
             dogInformation.setLongitude(cursor.getString(10));
             dogInformation.setSubmitDate(cursor.getString(11));
             dogInformation.setIsSubmit(cursor.getInt(12));
-            dogInformations.add(dogInformation);
+
             cursor.moveToNext();
         }
 
         sqLiteDatabase.close();
-        return dogInformations;
+        return dogInformation;
+    }
+
+    public void updateDogInfo(DogInformation dogInformation) {
+
+        sqLiteDatabase = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DogInformation.DogInformationEntry.INTERNAL_DOG_ID, dogInformation.getDogID());
+        values.put(DogInformation.DogInformationEntry.SUBMIT_DATE, dogInformation.getSubmitDate());
+        values.put(DogInformation.DogInformationEntry.DOG_TYPE, dogInformation.getDogType());
+        values.put(DogInformation.DogInformationEntry.AGE, dogInformation.getAge());
+        values.put(DogInformation.DogInformationEntry.AGE_RANGE, dogInformation.getAgeRange());
+        values.put(DogInformation.DogInformationEntry.ADDRESS, dogInformation.getAddress());
+        values.put(DogInformation.DogInformationEntry.SUBDISTRICT, dogInformation.getSubdistrict());
+        values.put(DogInformation.DogInformationEntry.DISTRICT, dogInformation.getDistrict());
+        values.put(DogInformation.DogInformationEntry.PROVINCE, dogInformation.getProvince());
+        values.put(DogInformation.DogInformationEntry.LATITUDE, dogInformation.getLatitude());
+        values.put(DogInformation.DogInformationEntry.LONGITUDE, dogInformation.getLongitude());
+        values.put(DogInformation.DogInformationEntry.IS_SUBMIT, dogInformation.getIsSubmit());
+
+        int row = sqLiteDatabase.update(DogInformation.DogInformationEntry.TABLE_NAME,
+                values,
+                DogInformation.DogInformationEntry.ID + " = ? ",
+                new String[]{String.valueOf(dogInformation.getId())});
+
+        sqLiteDatabase.close();
+    }
+
+    public void deleteDogInfo(String id) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(DogInformation.DogInformationEntry.TABLE_NAME, DogInformation.DogInformationEntry.ID + " = " + id, null);
+        sqLiteDatabase.close();
     }
 
     //    Vaccine
@@ -325,6 +357,36 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setDogID(cursor.getInt(3));
             vaccines.add(tmp);
 
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+
+        return vaccines;
+    }
+
+    public List<DogVaccine> getTwoLatestVaccines(int dogID) {
+        List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
+        sqLiteDatabase = this.getWritableDatabase();
+        int i = 0;
+        String[] whereArgs = new String[]{String.valueOf(dogID)};
+
+        Cursor cursor = sqLiteDatabase.query
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_dog_internal_id = ?", whereArgs, null, null, DogVaccine.DogVaccineEntry.ID + " DESC");
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast() && i < 2) {
+
+            DogVaccine tmp = new DogVaccine();
+            tmp.setId(cursor.getInt(0));
+            tmp.setName(cursor.getString(1));
+            tmp.setDate(cursor.getString(2));
+            tmp.setDogID(cursor.getInt(3));
+            vaccines.add(tmp);
+            i++;
             cursor.moveToNext();
         }
 

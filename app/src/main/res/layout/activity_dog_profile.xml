@@ -6,113 +6,414 @@
     android:layout_height="match_parent"
     tools:context=".DogProfileActivity">
 
-    <LinearLayout android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1"
+        android:background="#f5f5f5"
+
         >
 
-
-
         <LinearLayout
-            android:id="@+id/dog_profile_topsection"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
 
-            <ImageView
-                android:id="@+id/dog_profile_imageview"
+
+            <LinearLayout
+                android:id="@+id/dog_profile_topsection"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:cropToPadding="false"
-                android:scaleType="fitXY"
-                android:layout_margin="0dp"
-                android:padding="0dp"
-                app:srcCompat="@drawable/pug" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal|center_vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/dog_profile_imageview"
+                    android:layout_width="165dp"
+                    android:layout_height="165dp"
+                    android:src="@drawable/pug"
+                    android:layout_marginBottom="15dp"
+                    app:civ_border_width="2.5dp"
+                    app:civ_border_color="@color/black"/>
+
+                <TextView
+                    android:id="@+id/dog_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/dogprofilename"
+                    android:textColor="@color/black"
+                    android:textSize="22sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile"
+                    android:layout_marginBottom="20dp"
+                    android:textColor="@color/pink600"
+                    android:textSize="26sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="20dp"
+                    android:background="@drawable/dogname_bg"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gender"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/dog_profile_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/age_label"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_age"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/color_label"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_color"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/breed_label"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_breed"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sterilizedlabel"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_sterilized"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/type"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_type"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
 
 
-        <LinearLayout
-            android:id="@+id/dog_profile_middlesection"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
-            android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/addressLabel"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subdistrictLabel"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_subdistrict"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/districtLabel"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_district"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/provinceLabel"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_province"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/submitdate"
+                        android:textColor="@color/pink600"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/dog_profile_submitDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="7dp"
+
+                        android:textSize="18sp"/>
+
+
+                </LinearLayout>
+                
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/dog_profile_name"
+                android:id="@+id/vaccinehead"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="@string/dogprofilename"
-                android:textSize="40dp" />
+                android:layout_height="wrap_content"
+                android:text="@string/vaccine"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/pink600"
+                android:textSize="26sp"/>
+
+            <LinearLayout
+                android:id="@+id/vaccine1"
+                android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/dogname_bg"
+            >
+
+                <TextView
+                    android:id="@+id/dog_profile_vaccine1_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="24dp"
+                    android:textColor="@color/black"
+                    android:paddingTop="16dp"
+                    android:gravity="center_vertical"
+                    android:text="Hey1" />
+
+                <TextView
+                    android:id="@+id/dog_profile_vaccine1_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:text="hey2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vaccine2"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:orientation="horizontal"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="45dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/dogname_bg"
+                >
+
+                <TextView
+                    android:id="@+id/dog_profile_vaccine2_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="16dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:text="Hey1" />
+
+                <TextView
+                    android:id="@+id/dog_profile_vaccine2_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:gravity="center_vertical"
+                    android:text="hey2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dog_profile_bottomsection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="13dp"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/button321"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.3"
+                    android:background="@color/pink100"
+                    android:text="Button"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/dog_profile_editprofile_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:background="@color/pink100"
+                    android:drawableLeft="@drawable/ic_edit_black_24dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="0dp"
+                    android:text="@string/editdogprofilebutton" />
+
+                <Button
+                    android:id="@+id/button3212"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.2"
+                    android:background="@color/pink100"
+                    android:text="Button"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/dog_profile_editvaccine_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:background="@color/pink100"
+                    android:drawableLeft="@drawable/ic_edit_black_24dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="0dp"
+                    android:text="@string/vaccine" />
+
+                <Button
+                    android:id="@+id/button212"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:background="@color/pink100"
+                    android:text="Button"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
 
         </LinearLayout>
+    </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/dog_profile_bottomsection"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
-            android:padding="10dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button321"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="0.3"
-                android:background="@color/pink100"
-                android:visibility="invisible"
-                android:text="Button" />
-
-            <Button
-                android:id="@+id/dog_profile_editprofile_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_edit_black_24dp"
-                android:paddingRight="0dp"
-                android:paddingLeft="10dp"
-                android:layout_weight="0.9"
-                android:background="@color/pink100"
-                android:text="@string/editdogprofilebutton" />
-
-            <Button
-                android:id="@+id/button3212"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="0.2"
-                android:background="@color/pink100"
-                android:visibility="invisible"
-                android:text="Button" />
-
-            <Button
-                android:id="@+id/dog_profile_editvaccine_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.9"
-                android:paddingRight="0dp"
-                android:paddingLeft="10dp"
-                android:background="@color/pink100"
-                android:drawableLeft="@drawable/ic_edit_black_24dp"
-                android:text="@string/vaccine" />
-
-            <Button
-                android:id="@+id/button212"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:background="@color/pink100"
-                android:visibility="invisible"
-                android:text="Button" />
-        </LinearLayout>
-
-
-
-
-    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
