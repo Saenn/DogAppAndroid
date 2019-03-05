@@ -8,9 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
+
 
 
 public class AddDomestic extends AppCompatActivity {
@@ -21,6 +26,8 @@ public class AddDomestic extends AppCompatActivity {
     private RadioGroup gender, sterilized;
     private Button nextBtn;
     private Dog dog;
+    private DogInformation info;
+    private int edit = 0;
     private DBHelper dbHelper;
 
     private String sterilizedDateSelected;
@@ -95,6 +102,7 @@ public class AddDomestic extends AppCompatActivity {
                         extras.putBoolean("sterilized", false);
                         extras.putString("sterilizedDate", "");
                     }
+                    extras.putString("edit",String.valueOf(edit));
                     Intent addDomestic2 = new Intent(AddDomestic.this, AddDomestic2.class);
                     addDomestic2.putExtras(extras);
                     startActivity(addDomestic2);
@@ -103,14 +111,56 @@ public class AddDomestic extends AppCompatActivity {
         });
 
         // from edit //
-        getDogInfo();
+//        getDogInfo();
     }
 
     private void getDogInfo() {
         Bundle prevBundle = getIntent().getExtras();
-        if (prevBundle != null && prevBundle.containsKey("id")) {
-            dog = dbHelper.getDogById(prevBundle.getInt("id"));
+        if (prevBundle != null && prevBundle.containsKey("internal_dog_id")) {
+            dog = dbHelper.getDogById(prevBundle.getInt("internal_dog_id"));
+
+            // waiting for doginfo //
+            edit = 1;
+            info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internal_dog_id"));
+//
+            // hide //
+            TextView header = (TextView) findViewById(R.id.addDomesticHeader);
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progressBarAddDomestic);
+            header.setText(R.string.editdog);
+            bar.setVisibility(View.GONE);
+
+            // set text //
+            name.setText(dog.getName());
+            if(dog.getGender().equals("M")){
+                maleBtn.setChecked(true);
+            }
+            else{
+                femaleBtn.setChecked(true);
+            }
+            color.setText(dog.getColor());
+            breed.setText(dog.getColor());
+            age.setText(info.getAge());
+            if(dog.getSterilized() == 1){
+                yesBtn.setChecked(true);
+                sterilizedDate.setVisibility(View.VISIBLE);
+                String parts[] = dog.getSterilizedDate().split("/");
+                int day = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]);
+                int year = Integer.parseInt(parts[2]);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month-1);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                long milliTime = calendar.getTimeInMillis();
+                sterilizedDate.setDate(milliTime,true,true);
+            }
+            else{
+                noBtn.setChecked(true);
+            }
+
+
         }
     }
+
 
 }

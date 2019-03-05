@@ -33,6 +33,7 @@ public class AddDomestic3 extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
     private Bundle prevExtras;
     private String frontImagePath = "", sideImagePath = "";
+    private int edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,53 @@ public class AddDomestic3 extends AppCompatActivity {
 
         Intent prevAdd = getIntent();
         prevExtras = prevAdd.getExtras();
+        edit = prevExtras.getInt("edit");
 
         setAllButtonOnClick();
+        setNextButton();
     }
 
+    private void setNextButton(){
+
+        if(edit == 0) {
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(AddDomestic3.this, Vaccine.class);
+                    if (!frontImagePath.equals("") && !sideImagePath.equals("")) {
+                        prevExtras.putString("frontview", frontImagePath);
+                        prevExtras.putString("sideview", sideImagePath);
+                        prevExtras.putString("addingdog", "yes");
+                        intent.putExtras(prevExtras);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(AddDomestic3.this, "You have yet to take a photo of your puppy", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+        else{
+            nextButton.setText(R.string.done);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(AddDomestic3.this, DogProfileActivity.class);
+                    if (!frontImagePath.equals("") && !sideImagePath.equals("")) {
+                        prevExtras.putString("frontview", frontImagePath);
+                        prevExtras.putString("sideview", sideImagePath);
+                        prevExtras.remove("edit");
+                        intent.putExtras(prevExtras);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(AddDomestic3.this, "You have yet to take a photo of your puppy", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
     public void setAllButtonOnClick() {
         takeFrontPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,22 +164,7 @@ public class AddDomestic3 extends AppCompatActivity {
             }
         });
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(AddDomestic3.this, Vaccine.class);
-                if (!frontImagePath.equals("") && !sideImagePath.equals("")) {
-                    prevExtras.putString("frontview", frontImagePath);
-                    prevExtras.putString("sideview", sideImagePath);
-                    prevExtras.putString("addingdog","yes");
-                    intent.putExtras(prevExtras);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(AddDomestic3.this, "You have yet to take a photo of your puppy", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
