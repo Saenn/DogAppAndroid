@@ -62,7 +62,6 @@ public class DogProfileActivity extends AppCompatActivity {
     private void getDogInfo(){
         Bundle prevBundle = getIntent().getExtras();
         if(prevBundle != null && prevBundle.containsKey("internal_dog_id")){
-            Log.i("internal id : " , String.valueOf(prevBundle.getInt("internal_dog_id")));
             dog = dbHelper.getDogById(prevBundle.getInt("internal_dog_id"));
             vaccines = dbHelper.getTwoLatestVaccines(prevBundle.getInt("internal_dog_id"));
 //            info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internal_dog_id"));
@@ -122,7 +121,6 @@ public class DogProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(DogProfileActivity.this, AddDomestic.class);
                 intent.putExtra("internal_dog_id",dog.getId());
                 startActivity(intent);
-
             }
         });
     }

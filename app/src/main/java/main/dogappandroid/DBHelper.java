@@ -26,6 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(Dog.SQL_CREATE_ENTRIES);
         db.execSQL(DogInformation.SQL_CREATE_ENTRIES);
         db.execSQL(DogVaccine.SQL_CREATE_ENTRIES);
+        db.execSQL(DogImage.SQL_CREATE_ENTRIES);
     }
 
     @Override
@@ -33,7 +34,56 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(Dog.SQL_DELETE_ENTRIES);
         db.execSQL(DogInformation.SQL_DELETE_ENTRIES);
         db.execSQL(DogVaccine.SQL_DELETE_ENTRIES);
+        db.execSQL(DogImage.SQL_DELETE_ENTRIES);
         onCreate(db);
+    }
+
+    // Dog Image
+
+    public long addDogImage(DogImage dogImage) {
+
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(DogImage.DogImageEntry.KEY_IMAGE, dogImage.getKeyImage());
+        values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDog_internal_id());
+        values.put(DogImage.DogImageEntry.TYPE, dogImage.getType());
+
+        long index = sqLiteDatabase.insert(DogImage.DogImageEntry.TABLE_NAME, null, values);
+        sqLiteDatabase.close();
+
+        return index;
+
+        // getImage byte[] image = cursor.getBlob(1);
+
+    }
+
+    public List<DogImage> getDogImageById(int id) {
+        List<DogImage> dogImages = new ArrayList<>();
+        sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query
+                (DogImage.DogImageEntry.TABLE_NAME, null, DogImage.DogImageEntry.ID + " = " + id, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+
+            DogImage tmp = new DogImage();
+
+            tmp.setId(cursor.getInt(0));
+            tmp.setKeyImage(cursor.getBlob(1));
+            tmp.setType(cursor.getInt(2));
+            tmp.setDog_internal_id(cursor.getInt(3));
+
+            dogImages.add(tmp);
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+        return dogImages;
     }
 
     //    Dog
@@ -49,8 +99,6 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Dog.DogEntry.STERILIZED_DATE, dog.getSterilizedDate());
         values.put(Dog.DogEntry.IS_SUBMIT, 0);
         values.put(Dog.DogEntry.NAME, dog.getName());
-
-        Log.i("Adding Dog" , dog.getName());
 
         long index = sqLiteDatabase.insert(Dog.DogEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
@@ -458,4 +506,5 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(DogVaccine.DogVaccineEntry.TABLE_NAME, DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID + " is null ", null);
         sqLiteDatabase.close();
     }
+
 }
