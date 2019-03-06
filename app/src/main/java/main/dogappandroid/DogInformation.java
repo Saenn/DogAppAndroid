@@ -5,7 +5,8 @@ import android.provider.BaseColumns;
 
 public class DogInformation {
 
-    private String dogType, address, subdistrict, district, province, submitDate, ageRange, latitude, longitude;
+    private String dogType, address, subdistrict, district, province, submitDate, ageRange;
+    private double latitude, longitude;
     private int age, isSubmit, id, dogID;
 
     public DogInformation() {
@@ -18,8 +19,8 @@ public class DogInformation {
         subdistrict = dogInformation.getString("subdistrict");
         district = dogInformation.getString("district");
         province = dogInformation.getString("province");
-        latitude = dogInformation.getString("latitude");
-        longitude = dogInformation.getString("longitude");
+        latitude = dogInformation.getDouble("latitude");
+        longitude = dogInformation.getDouble("longitude");
         submitDate = dogInformation.getString("submitDate");
         age = dogInformation.getInt("age");
         isSubmit = 0; // 0 represent false 1 represent true
@@ -53,8 +54,8 @@ public class DogInformation {
                     DogInformationEntry.SUBDISTRICT + "TEXT," +
                     DogInformationEntry.DISTRICT + "TEXT," +
                     DogInformationEntry.PROVINCE + "TEXT," +
-                    DogInformationEntry.LATITUDE + "TEXT," +
-                    DogInformationEntry.LONGITUDE + "TEXT," +
+                    DogInformationEntry.LATITUDE + "REAL," +
+                    DogInformationEntry.LONGITUDE + "REAL," +
                     DogInformationEntry.SUBMIT_DATE + "TEXT," +
                     DogInformationEntry.IS_SUBMIT + "INTEGER)";
 
@@ -62,7 +63,6 @@ public class DogInformation {
             "DROP TABLE IF EXISTS " + DogInformationEntry.TABLE_NAME;
 
     // getter and setter
-
 
     public int getId() {
         return id;
@@ -136,19 +136,19 @@ public class DogInformation {
         this.ageRange = ageRange;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

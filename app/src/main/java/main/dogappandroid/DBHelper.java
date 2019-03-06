@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -251,8 +250,8 @@ public class DBHelper extends SQLiteOpenHelper {
             dogInformation.setSubdistrict(cursor.getString(6));
             dogInformation.setDistrict(cursor.getString(7));
             dogInformation.setProvince(cursor.getString(8));
-            dogInformation.setLatitude(cursor.getString(9));
-            dogInformation.setLongitude(cursor.getString(10));
+            dogInformation.setLatitude(cursor.getDouble(9));
+            dogInformation.setLongitude(cursor.getDouble(10));
             dogInformation.setSubmitDate(cursor.getString(11));
             dogInformation.setIsSubmit(cursor.getInt(12));
 
