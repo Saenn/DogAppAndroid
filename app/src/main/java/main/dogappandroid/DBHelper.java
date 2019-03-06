@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +42,20 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // Dog Image
 
+    // convert from bitmap to byte array
+    // insert to db
+    public static byte[] getBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
+    // convert from byte array to bitmap
+    // retrieve data
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
     public long addDogImage(DogImage dogImage) {
 
         sqLiteDatabase = this.getWritableDatabase();
@@ -51,6 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
         long index = sqLiteDatabase.insert(DogImage.DogImageEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
 
+        Log.i("add picture ได้แล้วเด้อ"," xD");
         return index;
 
         // getImage byte[] image = cursor.getBlob(1);

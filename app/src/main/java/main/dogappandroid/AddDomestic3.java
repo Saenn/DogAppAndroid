@@ -3,6 +3,7 @@ package main.dogappandroid;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
@@ -34,12 +35,14 @@ public class AddDomestic3 extends AppCompatActivity {
     private Bundle prevExtras;
     private String frontImagePath = "", sideImagePath = "";
     private int edit;
+    private DBHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_domestic3);
 
+        mHelper = new DBHelper(this);
         nextButton = (Button) findViewById(R.id.nextDomestic3);
         frontview = (ImageView) findViewById(R.id.dogFaceDomestic);
         sideview = (ImageView) findViewById(R.id.dogSideDomestic);
@@ -87,6 +90,8 @@ public class AddDomestic3 extends AppCompatActivity {
                         prevExtras.putString("frontview", frontImagePath);
                         prevExtras.putString("sideview", sideImagePath);
                         prevExtras.remove("edit");
+                        addPicToSqlite(frontImagePath,1);
+                        addPicToSqlite(sideImagePath,2);
                         intent.putExtras(prevExtras);
                         startActivity(intent);
                         finish();
@@ -223,6 +228,24 @@ public class AddDomestic3 extends AppCompatActivity {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
+    }
+
+    private void addPicToSqlite(String imagePath, int type){
+        Bitmap src = BitmapFactory.decodeFile(imagePath);
+        byte[] image = mHelper.getBytes(src);
+        DogImage dogImage = new DogImage();
+        if(prevExtras.containsKey("internal_dog_id")){
+            dogImage.setDog_internal_id(prevExtras.getInt("internal_dog_id"));
+            if(type == 1){
+                dogImage.setType(1);
+            }
+            else{
+                dogImage.setType(2);
+            }
+            dogImage.setKeyImage(image);
+            mHelper.addDogImage(dogImage);
+        }
+
     }
 
 

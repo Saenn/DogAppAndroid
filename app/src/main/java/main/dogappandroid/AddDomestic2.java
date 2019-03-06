@@ -100,7 +100,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
                         extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
                         Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
-                        addDomestic3.putExtra("edit", String.valueOf(edit));
+                        addDomestic3.putExtra("edit", edit);
                         if (edit == 1) {
                             addDomestic3.putExtra("internal_dog_id", dog.getId());
                         }
@@ -129,7 +129,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
                         extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
                         Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
-                        addDomestic3.putExtra("edit", String.valueOf(edit));
+                        addDomestic3.putExtra("edit", edit);
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
                     }

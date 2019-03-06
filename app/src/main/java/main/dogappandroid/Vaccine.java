@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class Vaccine extends AppCompatActivity {
     private ProgressBar bar;
     private int isAdding = 0;
     private Bundle prevBundle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +105,7 @@ public class Vaccine extends AppCompatActivity {
                     criteria.setAccuracy(Criteria.ACCURACY_FINE);
                     String bestProvider = lm.getBestProvider(criteria, true);
                     Location location = lm.getLastKnownLocation(bestProvider);
-                    Log.i("location-lat", location.getLatitude() + "");
-                    Log.i("location-long", location.getLongitude() + "");
+
                     if (location != null) {
                         int newDogIndex = (int) mHelper.addDog(new Dog(prevBundle));
                         DogInformation newDogInfo = new DogInformation();

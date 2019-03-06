@@ -102,7 +102,7 @@ public class AddDomestic extends AppCompatActivity {
                         extras.putBoolean("sterilized", false);
                         extras.putString("sterilizedDate", "");
                     }
-                    extras.putString("edit",String.valueOf(edit));
+                    extras.putInt("edit",edit);
                     Intent addDomestic2 = new Intent(AddDomestic.this, AddDomestic2.class);
                     addDomestic2.putExtras(extras);
                     startActivity(addDomestic2);
