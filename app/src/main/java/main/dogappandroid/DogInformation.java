@@ -46,18 +46,18 @@ public class DogInformation {
     public static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DogInformationEntry.TABLE_NAME + " (" +
                     DogInformationEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    DogInformationEntry.INTERNAL_DOG_ID + "INTEGER," +
-                    DogInformationEntry.DOG_TYPE + "TEXT," +
-                    DogInformationEntry.AGE + "INTEGER," +
-                    DogInformationEntry.AGE_RANGE + "TEXT," +
-                    DogInformationEntry.ADDRESS + "TEXT," +
-                    DogInformationEntry.SUBDISTRICT + "TEXT," +
-                    DogInformationEntry.DISTRICT + "TEXT," +
-                    DogInformationEntry.PROVINCE + "TEXT," +
-                    DogInformationEntry.LATITUDE + "REAL," +
-                    DogInformationEntry.LONGITUDE + "REAL," +
-                    DogInformationEntry.SUBMIT_DATE + "TEXT," +
-                    DogInformationEntry.IS_SUBMIT + "INTEGER)";
+                    DogInformationEntry.INTERNAL_DOG_ID + " INTEGER," +
+                    DogInformationEntry.DOG_TYPE + " TEXT," +
+                    DogInformationEntry.AGE + " INTEGER," +
+                    DogInformationEntry.AGE_RANGE + " TEXT," +
+                    DogInformationEntry.ADDRESS + " TEXT," +
+                    DogInformationEntry.SUBDISTRICT + " TEXT," +
+                    DogInformationEntry.DISTRICT + " TEXT," +
+                    DogInformationEntry.PROVINCE + " TEXT," +
+                    DogInformationEntry.LATITUDE + " REAL," +
+                    DogInformationEntry.LONGITUDE + " REAL," +
+                    DogInformationEntry.SUBMIT_DATE + " TEXT," +
+                    DogInformationEntry.IS_SUBMIT + " INTEGER)";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DogInformationEntry.TABLE_NAME;
