@@ -85,22 +85,24 @@ public class AddDomestic2 extends AppCompatActivity {
                     else {
                         extras.putString("address", mPreferences.getString("address", null));
                         extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
+                        extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
                         extras.putString("district", mPreferences.getString("district", null));
                         extras.putString("province", mPreferences.getString("province", null));
-                        extras.putString("dogType",calculateDomesticType()+"");
+                        extras.putString("dogType", calculateDomesticType() + "");
                         Intent prevAdd = getIntent();
-                        extras.putString("name",prevAdd.getStringExtra("name"));
-                        extras.putInt("age",prevAdd.getIntExtra("age",0));
-                        extras.putString("ageRange",prevAdd.getStringExtra("ageRange"));
-                        extras.putString("gender",prevAdd.getStringExtra("gender"));
-                        extras.putString("breed",prevAdd.getStringExtra("breed"));
-                        extras.putString("color",prevAdd.getStringExtra("color"));
-                        extras.putBoolean("sterilized",prevAdd.getBooleanExtra("sterilized",false));
-                        extras.putString("sterilizedDate",prevAdd.getStringExtra("sterilizedDate"));
+                        extras.putString("name", prevAdd.getStringExtra("name"));
+                        if (prevAdd.getIntExtra("age", -1) != -1)
+                            extras.putInt("age", prevAdd.getIntExtra("age", -1));
+                        extras.putString("ageRange", prevAdd.getStringExtra("ageRange"));
+                        extras.putString("gender", prevAdd.getStringExtra("gender"));
+                        extras.putString("breed", prevAdd.getStringExtra("breed"));
+                        extras.putString("color", prevAdd.getStringExtra("color"));
+                        extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
+                        extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
                         Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
-                        addDomestic3.putExtra("edit",String.valueOf(edit));
-                        if(edit == 1){
-                            addDomestic3.putExtra("internal_dog_id",dog.getId());
+                        addDomestic3.putExtra("edit", String.valueOf(edit));
+                        if (edit == 1) {
+                            addDomestic3.putExtra("internal_dog_id", dog.getId());
                         }
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
@@ -116,18 +118,18 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putString("subdistrict", subdistrict.getText().toString());
                         extras.putString("district", district.getText().toString());
                         extras.putString("province", province.getText().toString());
-                        extras.putString("dogType",calculateDomesticType()+"");
+                        extras.putString("dogType", calculateDomesticType() + "");
                         Intent prevAdd = getIntent();
-                        extras.putString("name",prevAdd.getStringExtra("name"));
-                        extras.putInt("age",prevAdd.getIntExtra("age",0));
-                        extras.putString("ageRange",prevAdd.getStringExtra("ageRange"));
-                        extras.putString("gender",prevAdd.getStringExtra("gender"));
-                        extras.putString("breed",prevAdd.getStringExtra("breed"));
-                        extras.putString("color",prevAdd.getStringExtra("color"));
-                        extras.putBoolean("sterilized",prevAdd.getBooleanExtra("sterilized",false));
-                        extras.putString("sterilizedDate",prevAdd.getStringExtra("sterilizedDate"));
+                        extras.putString("name", prevAdd.getStringExtra("name"));
+                        extras.putInt("age", prevAdd.getIntExtra("age", 0));
+                        extras.putString("ageRange", prevAdd.getStringExtra("ageRange"));
+                        extras.putString("gender", prevAdd.getStringExtra("gender"));
+                        extras.putString("breed", prevAdd.getStringExtra("breed"));
+                        extras.putString("color", prevAdd.getStringExtra("color"));
+                        extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
+                        extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
                         Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
-                        addDomestic3.putExtra("edit",String.valueOf(edit));
+                        addDomestic3.putExtra("edit", String.valueOf(edit));
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
                     }
@@ -135,7 +137,7 @@ public class AddDomestic2 extends AppCompatActivity {
             }
         });
 
-        if(edit == 1){
+        if (edit == 1) {
 //            getDogInfo();
         }
 

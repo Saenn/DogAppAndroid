@@ -1,7 +1,11 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Vaccine extends AppCompatActivity {
@@ -54,7 +60,7 @@ public class Vaccine extends AppCompatActivity {
             bar.setVisibility(View.GONE);
             if (prevBundle.containsKey("internal_dog_id")) {
 
-                Log.i("มาจกาหน้า edit " , " ครับ");
+                Log.i("มาจกาหน้า edit ", " ครับ");
                 rabiesVaccine = mHelper.getRabiesVaccineListById(prevBundle.getInt("internal_dog_id"));
                 othersVaccine = mHelper.getOtherVaccineListById(prevBundle.getInt("internal_dog_id"));
 
@@ -92,24 +98,58 @@ public class Vaccine extends AppCompatActivity {
             doneButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int newDogIndex = (int) mHelper.addDog(new Dog(prevBundle));
-                    Log.i("ถูกต้องแล้ว", String.valueOf(newDogIndex));
-                    for (DogVaccine v : rabiesVaccine) {
-                        v.setDogID(newDogIndex);
-                        mHelper.updateVaccine(v);
-                    }
-                    for (DogVaccine v : othersVaccine) {
-                        v.setDogID(newDogIndex);
-                        mHelper.updateVaccine(v);
-                    }
-                    Log.d("Dog", "index : " + newDogIndex);
-                    List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogIndex);
-                    List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogIndex);
-                    for (DogVaccine v : dvr) {
-                        Log.d("DogVaccineRabies", v.getId() + " " + v.getDate());
-                    }
-                    for (DogVaccine v : dvo) {
-                        Log.d("DogVaccineOthers", v.getId() + " " + v.getDate());
+                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    Criteria criteria = new Criteria();
+                    criteria.setAccuracy(Criteria.ACCURACY_FINE);
+                    String bestProvider = lm.getBestProvider(criteria, true);
+                    Location location = lm.getLastKnownLocation(bestProvider);
+                    Log.i("location-lat", location.getLatitude() + "");
+                    Log.i("location-long", location.getLongitude() + "");
+                    if (location != null) {
+                        int newDogIndex = (int) mHelper.addDog(new Dog(prevBundle));
+                        DogInformation newDogInfo = new DogInformation();
+                        newDogInfo.setDogID(newDogIndex);
+                        newDogInfo.setDogType(prevBundle.getString("dogType"));
+                        if (prevBundle.getInt("age", -1) != -1)
+                            newDogInfo.setAge(prevBundle.getInt("age"));
+                        newDogInfo.setAgeRange(prevBundle.getString("ageRange"));
+                        newDogInfo.setAddress(prevBundle.getString("address"));
+                        newDogInfo.setSubdistrict(prevBundle.getString("subdistrict"));
+                        newDogInfo.setDistrict(prevBundle.getString("district"));
+                        newDogInfo.setProvince(prevBundle.getString("province"));
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String submitDate = dateFormat.format(new Date());
+                        newDogInfo.setSubmitDate(submitDate);
+                        newDogInfo.setLatitude(location.getLatitude());
+                        newDogInfo.setLongitude(location.getLongitude());
+                        newDogInfo.setIsSubmit(0);
+                        long dogInfoIndex = mHelper.addDogInformation(newDogInfo);
+                        Log.i("ถูกต้องแล้ว-ID", String.valueOf(dogInfoIndex));
+                        Log.i("ถูกต้องแล้ว-dogID", String.valueOf(newDogIndex));
+                        Log.i("ข้อมูลหมา-dogtype", prevBundle.getString("dogType"));
+                        Log.i("ข้อมูลหมา-age", prevBundle.getInt("age") + "");
+                        Log.i("ข้อมูลหมา-agerange", newDogInfo.getAgeRange());
+                        Log.i("ข้อมูลหมา-address", prevBundle.getString("address"));
+                        Log.i("ข้อมูลหมา-subdistrict", prevBundle.getString("subdistrict"));
+                        Log.i("ข้อมูลหมา-district", prevBundle.getString("district"));
+                        Log.i("ข้อมูลหมา-province", prevBundle.getString("province"));
+                        Log.i("ข้อมูลหมา-submitDate",submitDate);
+                        for (DogVaccine v : rabiesVaccine) {
+                            v.setDogID(newDogIndex);
+                            mHelper.updateVaccine(v);
+                        }
+                        for (DogVaccine v : othersVaccine) {
+                            v.setDogID(newDogIndex);
+                            mHelper.updateVaccine(v);
+                        }
+                        List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogIndex);
+                        List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogIndex);
+                        for (DogVaccine v : dvr) {
+                            Log.i("DogVaccineRabies", v.getId() + " " + v.getDate());
+                        }
+                        for (DogVaccine v : dvo) {
+                            Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
+                        }
                     }
                     Intent intent = new Intent(Vaccine.this, HomeActivity.class);
                     startActivity(intent);
@@ -134,7 +174,6 @@ public class Vaccine extends AppCompatActivity {
         recyclerViewOthers.setAdapter(mAdapterOther);
 
         // set up button //
-
 
 
     }
