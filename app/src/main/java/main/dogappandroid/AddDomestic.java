@@ -21,6 +21,7 @@ import java.util.Calendar;
 public class AddDomestic extends AppCompatActivity {
 
     private EditText name, age, breed, color;
+    private TextView ageView, genderView , sterizlizedView;
     private CalendarView sterilizedDate;
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
@@ -36,6 +37,8 @@ public class AddDomestic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_domestic);
+        dbHelper = new DBHelper(this);
+
         name = (EditText) findViewById(R.id.nameDomestic);
         age = (EditText) findViewById(R.id.ageDomestic);
         breed = (EditText) findViewById(R.id.breedDomestic);
@@ -48,8 +51,13 @@ public class AddDomestic extends AppCompatActivity {
         gender = (RadioGroup) findViewById(R.id.genderDomestic);
         sterilized = (RadioGroup) findViewById(R.id.sterilizedDomestic);
         nextBtn = (Button) findViewById(R.id.nextDomesticButton);
+        genderView = (TextView) findViewById(R.id.genderDomesticLabel);
+        ageView = (TextView) findViewById(R.id.ageDomesticLabel);
+        sterizlizedView = (TextView) findViewById(R.id.sterilizedDomesticLabel);
 
         sterilizedDate.setVisibility(View.GONE);
+        // from edit //
+        getDogInfo();
 
         sterilized.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -103,15 +111,22 @@ public class AddDomestic extends AppCompatActivity {
                         extras.putString("sterilizedDate", "");
                     }
                     extras.putInt("edit",edit);
-                    Intent addDomestic2 = new Intent(AddDomestic.this, AddDomestic2.class);
-                    addDomestic2.putExtras(extras);
-                    startActivity(addDomestic2);
+                    if(edit == 1){
+                        Intent addDomestic3 = new Intent(AddDomestic.this, AddDomestic3.class);
+                        addDomestic3.putExtras(extras);
+                        startActivity(addDomestic3);
+                    }
+                    else{
+                        Intent addDomestic2 = new Intent(AddDomestic.this, AddDomestic2.class);
+                        addDomestic2.putExtras(extras);
+                        startActivity(addDomestic2);
+                    }
+
                 }
             }
         });
 
-        // from edit //
-//        getDogInfo();
+
     }
 
     private void getDogInfo() {
@@ -139,7 +154,7 @@ public class AddDomestic extends AppCompatActivity {
             }
             color.setText(dog.getColor());
             breed.setText(dog.getColor());
-            age.setText(info.getAge());
+            age.setText(String.valueOf(info.getAge()));
             if(dog.getSterilized() == 1){
                 yesBtn.setChecked(true);
                 sterilizedDate.setVisibility(View.VISIBLE);
@@ -158,6 +173,12 @@ public class AddDomestic extends AppCompatActivity {
                 noBtn.setChecked(true);
             }
 
+            genderView.setVisibility(View.GONE);
+            ageView.setVisibility(View.GONE);
+            sterizlizedView.setVisibility(View.GONE);
+            gender.setVisibility(View.GONE);
+            age.setVisibility(View.GONE);
+            sterilized.setVisibility(View.GONE);
 
         }
     }

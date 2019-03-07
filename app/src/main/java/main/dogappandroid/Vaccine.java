@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -198,6 +200,10 @@ public class Vaccine extends AppCompatActivity {
                         for (DogVaccine v : dvo) {
                             Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
                         }
+                        // add picture to sqlite //
+                        addPicToSqlite(prevBundle.getString("frontview"), 1, newDogIndex);
+                        addPicToSqlite(prevBundle.getString("sideview"), 2, newDogIndex);
+
                         Intent intent = new Intent(Vaccine.this, HomeActivity.class);
                         startActivity(intent);
                         mHelper.deleteNull();
@@ -344,6 +350,29 @@ public class Vaccine extends AppCompatActivity {
         mHelper.deleteNull();
         finish();
     }
+
+    private void addPicToSqlite(String imagePath, int type, int index){
+        Bitmap src = BitmapFactory.decodeFile(imagePath);
+        byte[] image = mHelper.getBytes(src);
+        DogImage dogImage = new DogImage();
+        if(prevBundle.containsKey("internal_dog_id")){
+            dogImage.setDog_internal_id(prevBundle.getInt("internal_dog_id"));
+        }
+        else{
+            dogImage.setDog_internal_id(index);
+        }
+
+        if(type == 1){
+            dogImage.setType(1);
+        }
+        else{
+            dogImage.setType(2);
+        }
+        dogImage.setKeyImage(image);
+        mHelper.addDogImage(dogImage);
+
+    }
+
 }
 
 

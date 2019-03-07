@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DogProfileActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class DogProfileActivity extends AppCompatActivity {
     private List<DogVaccine> vaccines;
     private DogInformation info;
     private DBHelper dbHelper;
+    private List<DogImage> imageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class DogProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dog_profile);
 
         // setup var //
+            imageList = new ArrayList<>();
             dogProfilePic = (ImageView) findViewById(R.id.dog_profile_imageview);
             dogName = (TextView) findViewById(R.id.dog_profile_name);
             editProfileButton = (Button) findViewById(R.id.dog_profile_editprofile_button);
@@ -52,7 +55,7 @@ public class DogProfileActivity extends AppCompatActivity {
             vaccine1 = (LinearLayout) findViewById(R.id.vaccine1);
             vaccine2 = (LinearLayout) findViewById(R.id.vaccine2);
             vaccinehead = (TextView) findViewById(R.id.vaccinehead);
-        dbHelper = new DBHelper(this);
+            dbHelper = new DBHelper(this);
             getDogInfo();
             setAllButton();
         // finished setup var //
@@ -64,7 +67,8 @@ public class DogProfileActivity extends AppCompatActivity {
         if(prevBundle != null && prevBundle.containsKey("internal_dog_id")){
             dog = dbHelper.getDogById(prevBundle.getInt("internal_dog_id"));
             vaccines = dbHelper.getTwoLatestVaccines(prevBundle.getInt("internal_dog_id"));
-//            info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internal_dog_id"));
+            info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internal_dog_id"));
+            imageList = dbHelper.getDogImageById(prevBundle.getInt("internal_dog_id"));
             int s = vaccines.size();
             if(s == 0){
                 vaccine1.setVisibility(View.GONE);
@@ -82,6 +86,7 @@ public class DogProfileActivity extends AppCompatActivity {
                 vaccine_name2.setText(vaccines.get(1).getName());
                 vaccine_date2.setText(vaccines.get(1).getDate());
             }
+            setAllField();
         }
     }
 
@@ -92,17 +97,22 @@ public class DogProfileActivity extends AppCompatActivity {
         gender.setText(dog.getColor());
         color.setText(dog.getColor());
         breed.setText(dog.getBreed());
-        sterilized.setText(dog.getSterilized());
+        if(dog.getSterilized() == 1){
+            sterilized.setText("Yes (" + dog.getSterilizedDate() + ")");
+        }
+        else{
+            sterilized.setText("No");
+        }
 
         // info //
-        age.setText(info.getAgeRange());
+        age.setText(String.valueOf(info.getAgeRange()));
         subdistrict.setText(info.getSubdistrict());
         address.setText(info.getAddress());
         district.setText(info.getDistrict());
         province.setText(info.getProvince());
         type.setText(info.getDogType());
         submittedDate.setText(info.getSubmitDate());
-
+        dogProfilePic.setImageBitmap(dbHelper.getImage(imageList.get(0).getKeyImage()));
     }
 
     private void setAllButton(){

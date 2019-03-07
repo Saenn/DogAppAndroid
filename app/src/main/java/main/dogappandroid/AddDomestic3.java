@@ -12,6 +12,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,7 +22,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AddDomestic3 extends AppCompatActivity {
 
@@ -35,6 +38,7 @@ public class AddDomestic3 extends AppCompatActivity {
     private Bundle prevExtras;
     private String frontImagePath = "", sideImagePath = "";
     private int edit;
+    private List<DogImage> imageList;
     private DBHelper mHelper;
 
     @Override
@@ -42,6 +46,7 @@ public class AddDomestic3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_domestic3);
 
+        imageList = new ArrayList<>();
         mHelper = new DBHelper(this);
         nextButton = (Button) findViewById(R.id.nextDomestic3);
         frontview = (ImageView) findViewById(R.id.dogFaceDomestic);
@@ -57,6 +62,7 @@ public class AddDomestic3 extends AppCompatActivity {
 
         setAllButtonOnClick();
         setNextButton();
+        getDogImage();
     }
 
     private void setNextButton(){
@@ -246,6 +252,18 @@ public class AddDomestic3 extends AppCompatActivity {
             mHelper.addDogImage(dogImage);
         }
 
+    }
+
+    private void getDogImage(){
+        if(prevExtras.containsKey("internal_dog_id")){
+            Log.i("s;ajdlsad", ";lsjad;aslkd");
+            imageList =  mHelper.getDogImageById(prevExtras.getInt("internal_dog_id"));
+            if(imageList.size() >0){
+                Log.i("dksaldnjakd" , "kuy");
+                frontview.setImageBitmap(mHelper.getImage(imageList.get(0).getKeyImage()));
+                sideview.setImageBitmap(mHelper.getImage(imageList.get(1).getKeyImage()));
+            }
+        }
     }
 
 

@@ -103,6 +103,31 @@ public class DBHelper extends SQLiteOpenHelper {
         return dogImages;
     }
 
+    public DogImage getDogFrontImageById(int id) {
+        DogImage tmp = new DogImage();
+        sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query
+                (DogImage.DogImageEntry.TABLE_NAME, null, DogImage.DogImageEntry.ID + " = " + id + " and " + DogImage.DogImageEntry.TYPE + " = " + 1, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+
+            tmp.setId(cursor.getInt(0));
+            tmp.setKeyImage(cursor.getBlob(1));
+            tmp.setType(cursor.getInt(2));
+            tmp.setDog_internal_id(cursor.getInt(3));
+
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+        return tmp;
+    }
+
     //    Dog
     public long addDog(Dog dog) {
         sqLiteDatabase = this.getWritableDatabase();

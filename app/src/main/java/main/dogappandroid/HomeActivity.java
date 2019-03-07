@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -128,18 +129,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onBindViewHolder(DogListViewHolder holder, int position) {
             final Dog dog = mDataset.get(position);
+            final DogInformation info = mHelper.getAllDogInformationByDogID(dog.getId());
+//            final List<DogImage> image = mHelper.getDogImageById(dog.getId());
 
-            // need to setimage //
+            // need to set image //
             if(dog.getName().equals("")){
                 holder.name.setVisibility(View.GONE);
             }
             else{
                 holder.name.setText(dog.getName().toUpperCase());
             }
-            holder.age.setText("Age : " + "1000");
+            holder.age.setText("Age : " + info.getAge());
             holder.color.setText("Color : " + dog.getColor());
             holder.gender.setText("Gender : " + dog.getGender());
             holder.breed.setText("Breed :" + dog.getBreed());
+//            holder.pic.setImageBitmap(mHelper.getImage(image.get(0).getKeyImage()));
 
 
             holder.setOnClickListener(new ClickListener() {
@@ -186,6 +190,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public class DogListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
         // each data item is just a string in this case
         public TextView age,gender,breed,color,name;
+        public ImageView pic;
         private ClickListener myListener;
 
         public DogListViewHolder(View v) {
@@ -197,6 +202,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             gender = (TextView) v.findViewById(R.id.dog_list_gender);
             breed = (TextView) v.findViewById(R.id.dog_list_breed);
             color = (TextView) v.findViewById(R.id.dog_list_color);
+            pic = (ImageView) findViewById(R.id.dog_list_image);
         }
 
         @Override

@@ -138,7 +138,7 @@ public class AddDomestic2 extends AppCompatActivity {
         });
 
         if (edit == 1) {
-//            getDogInfo();
+            getDogInfo();
         }
 
 
