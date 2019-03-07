@@ -130,7 +130,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         public void onBindViewHolder(DogListViewHolder holder, int position) {
             final Dog dog = mDataset.get(position);
             final DogInformation info = mHelper.getAllDogInformationByDogID(dog.getId());
-//            final List<DogImage> image = mHelper.getDogImageById(dog.getId());
+            final DogImage image = mHelper.getDogFrontImageById(dog.getId());
 
             // need to set image //
             if(dog.getName().equals("")){
@@ -143,7 +143,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             holder.color.setText("Color : " + dog.getColor());
             holder.gender.setText("Gender : " + dog.getGender());
             holder.breed.setText("Breed :" + dog.getBreed());
-//            holder.pic.setImageBitmap(mHelper.getImage(image.get(0).getKeyImage()));
+            holder.pic.setImageBitmap(mHelper.getImage(image.getKeyImage()));
 
 
             holder.setOnClickListener(new ClickListener() {
@@ -202,7 +202,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             gender = (TextView) v.findViewById(R.id.dog_list_gender);
             breed = (TextView) v.findViewById(R.id.dog_list_breed);
             color = (TextView) v.findViewById(R.id.dog_list_color);
-            pic = (ImageView) findViewById(R.id.dog_list_image);
+            pic = (ImageView) v.findViewById(R.id.dog_list_image);
         }
 
         @Override

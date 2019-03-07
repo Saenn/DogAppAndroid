@@ -24,7 +24,7 @@ public class DogProfileActivity extends AppCompatActivity {
     private List<DogVaccine> vaccines;
     private DogInformation info;
     private DBHelper dbHelper;
-    private List<DogImage> imageList;
+    private DogImage image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,6 @@ public class DogProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dog_profile);
 
         // setup var //
-            imageList = new ArrayList<>();
             dogProfilePic = (ImageView) findViewById(R.id.dog_profile_imageview);
             dogName = (TextView) findViewById(R.id.dog_profile_name);
             editProfileButton = (Button) findViewById(R.id.dog_profile_editprofile_button);
@@ -68,7 +67,7 @@ public class DogProfileActivity extends AppCompatActivity {
             dog = dbHelper.getDogById(prevBundle.getInt("internal_dog_id"));
             vaccines = dbHelper.getTwoLatestVaccines(prevBundle.getInt("internal_dog_id"));
             info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internal_dog_id"));
-            imageList = dbHelper.getDogImageById(prevBundle.getInt("internal_dog_id"));
+            image = dbHelper.getDogFrontImageById(prevBundle.getInt("internal_dog_id"));
             int s = vaccines.size();
             if(s == 0){
                 vaccine1.setVisibility(View.GONE);
@@ -112,7 +111,7 @@ public class DogProfileActivity extends AppCompatActivity {
         province.setText(info.getProvince());
         type.setText(info.getDogType());
         submittedDate.setText(info.getSubmitDate());
-        dogProfilePic.setImageBitmap(dbHelper.getImage(imageList.get(0).getKeyImage()));
+        dogProfilePic.setImageBitmap(dbHelper.getImage(image.getKeyImage()));
     }
 
     private void setAllButton(){
@@ -122,6 +121,7 @@ public class DogProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(DogProfileActivity.this, Vaccine.class);
                 intent.putExtra("internal_dog_id",dog.getId());
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -131,6 +131,7 @@ public class DogProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(DogProfileActivity.this, AddDomestic.class);
                 intent.putExtra("internal_dog_id",dog.getId());
                 startActivity(intent);
+                finish();
             }
         });
     }

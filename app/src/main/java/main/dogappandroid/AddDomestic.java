@@ -21,7 +21,7 @@ import java.util.Calendar;
 public class AddDomestic extends AppCompatActivity {
 
     private EditText name, age, breed, color;
-    private TextView ageView, genderView , sterizlizedView;
+    private TextView ageView, genderView , sterizlizedView, colorage, colorgender, sterilizegender;
     private CalendarView sterilizedDate;
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
@@ -54,6 +54,9 @@ public class AddDomestic extends AppCompatActivity {
         genderView = (TextView) findViewById(R.id.genderDomesticLabel);
         ageView = (TextView) findViewById(R.id.ageDomesticLabel);
         sterizlizedView = (TextView) findViewById(R.id.sterilizedDomesticLabel);
+        colorage = (TextView) findViewById(R.id.addDogRequired);
+        colorgender = (TextView) findViewById(R.id.addDogRequired2);
+        sterilizegender = (TextView) findViewById(R.id.addDogRequired3);
 
         sterilizedDate.setVisibility(View.GONE);
         // from edit //
@@ -113,6 +116,7 @@ public class AddDomestic extends AppCompatActivity {
                     extras.putInt("edit",edit);
                     if(edit == 1){
                         Intent addDomestic3 = new Intent(AddDomestic.this, AddDomestic3.class);
+                        extras.putInt("internal_dog_id",getIntent().getExtras().getInt("internal_dog_id"));
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
                     }
@@ -127,6 +131,17 @@ public class AddDomestic extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (edit == 1) {
+            Intent intent = new Intent(AddDomestic.this, DogProfileActivity.class);
+            intent.putExtra("internal_dog_id", getIntent().getExtras().getInt("internal_dog_id"));
+            startActivity(intent);
+        }
+        finish();
     }
 
     private void getDogInfo() {
@@ -153,7 +168,7 @@ public class AddDomestic extends AppCompatActivity {
                 femaleBtn.setChecked(true);
             }
             color.setText(dog.getColor());
-            breed.setText(dog.getColor());
+            breed.setText(dog.getBreed());
             age.setText(String.valueOf(info.getAge()));
             if(dog.getSterilized() == 1){
                 yesBtn.setChecked(true);
@@ -179,6 +194,9 @@ public class AddDomestic extends AppCompatActivity {
             gender.setVisibility(View.GONE);
             age.setVisibility(View.GONE);
             sterilized.setVisibility(View.GONE);
+            colorage.setVisibility(View.GONE);
+            colorgender.setVisibility(View.GONE);
+            sterilizegender.setVisibility(View.GONE);
 
         }
     }

@@ -75,12 +75,31 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    public void updateDogImage(DogImage dogImage, int type) {
+
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(DogImage.DogImageEntry.ID, dogImage.getId());
+        values.put(DogImage.DogImageEntry.KEY_IMAGE, dogImage.getKeyImage());
+        values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDog_internal_id());
+        values.put(DogImage.DogImageEntry.TYPE, dogImage.getType());
+
+
+        int row = sqLiteDatabase.update(DogImage.DogImageEntry.TABLE_NAME,
+                values,
+                DogImage.DogImageEntry.ID + " = ? and " + DogImage.DogImageEntry.TYPE + " = " + type,
+                new String[]{String.valueOf(dogImage.getId())});
+
+        sqLiteDatabase.close();
+    }
+
     public List<DogImage> getDogImageById(int id) {
         List<DogImage> dogImages = new ArrayList<>();
         sqLiteDatabase = this.getWritableDatabase();
 
         Cursor cursor = sqLiteDatabase.query
-                (DogImage.DogImageEntry.TABLE_NAME, null, DogImage.DogImageEntry.ID + " = " + id, null, null, null, null);
+                (DogImage.DogImageEntry.TABLE_NAME, null, DogImage.DogImageEntry.DOG_INTERNAL_ID + " = " + id, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -108,7 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
 
         Cursor cursor = sqLiteDatabase.query
-                (DogImage.DogImageEntry.TABLE_NAME, null, DogImage.DogImageEntry.ID + " = " + id + " and " + DogImage.DogImageEntry.TYPE + " = " + 1, null, null, null, null);
+                (DogImage.DogImageEntry.TABLE_NAME, null, DogImage.DogImageEntry.DOG_INTERNAL_ID + " = " + id + " and " + DogImage.DogImageEntry.TYPE + " = " + 1, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -128,7 +147,32 @@ public class DBHelper extends SQLiteOpenHelper {
         return tmp;
     }
 
-    //    Dog
+    public DogImage getDogSizeImageById(int id) {
+        DogImage tmp = new DogImage();
+        sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query
+                (DogImage.DogImageEntry.TABLE_NAME, null, DogImage.DogImageEntry.DOG_INTERNAL_ID + " = " + id + " and " + DogImage.DogImageEntry.TYPE + " = " + 2, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+
+            tmp.setId(cursor.getInt(0));
+            tmp.setKeyImage(cursor.getBlob(1));
+            tmp.setType(cursor.getInt(2));
+            tmp.setDog_internal_id(cursor.getInt(3));
+
+            cursor.moveToNext();
+        }
+
+        sqLiteDatabase.close();
+        return tmp;
+    }
+
+        //    Dog
     public long addDog(Dog dog) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();

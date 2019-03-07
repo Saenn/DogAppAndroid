@@ -348,6 +348,11 @@ public class Vaccine extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         mHelper.deleteNull();
+        if (prevBundle != null && !prevBundle.containsKey("addingdog")) {
+            Intent intent = new Intent(Vaccine.this, DogProfileActivity.class);
+            intent.putExtra("internal_dog_id", prevBundle.getInt("internal_dog_id"));
+            startActivity(intent);
+        }
         finish();
     }
 
@@ -355,12 +360,7 @@ public class Vaccine extends AppCompatActivity {
         Bitmap src = BitmapFactory.decodeFile(imagePath);
         byte[] image = mHelper.getBytes(src);
         DogImage dogImage = new DogImage();
-        if(prevBundle.containsKey("internal_dog_id")){
-            dogImage.setDog_internal_id(prevBundle.getInt("internal_dog_id"));
-        }
-        else{
-            dogImage.setDog_internal_id(index);
-        }
+        dogImage.setDog_internal_id(index);
 
         if(type == 1){
             dogImage.setType(1);
