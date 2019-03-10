@@ -96,8 +96,8 @@ public class DogProfileActivity extends AppCompatActivity {
         gender.setText(dog.getColor());
         color.setText(dog.getColor());
         breed.setText(dog.getBreed());
-        if(dog.getSterilized() == 1){
-            sterilized.setText("Yes (" + dog.getSterilizedDate() + ")");
+        if(info.getSterilized() == 1){
+            sterilized.setText("Yes (" + info.getSterilizedDate() + ")");
         }
         else{
             sterilized.setText("No");
@@ -105,12 +105,11 @@ public class DogProfileActivity extends AppCompatActivity {
 
         // info //
         age.setText(String.valueOf(info.getAgeRange()));
-        subdistrict.setText(info.getSubdistrict());
-        address.setText(info.getAddress());
-        district.setText(info.getDistrict());
-        province.setText(info.getProvince());
-        type.setText(info.getDogType());
-        submittedDate.setText(info.getSubmitDate());
+        subdistrict.setText(dog.getSubdistrict());
+        address.setText(dog.getAddress());
+        district.setText(dog.getDistrict());
+        province.setText(dog.getProvince());
+        type.setText(dog.getDogType());
         dogProfilePic.setImageBitmap(dbHelper.getImage(image.getKeyImage()));
     }
 

@@ -16,40 +16,49 @@ import java.util.List;
 
 public final class Dog {
 
-    private String gender, color, sterilizedDate, breed, registerDate, name;
-    private int id, dogID, sterilized, isSubmit;
+    //    private String gender, color, sterilizedDate, breed, registerDate, name;
+//    private int id, dogID, sterilized, isSubmit;
+    private int id, dogID, age, isSubmit;
+    private String dogType, gender, color, name, breed, ageRange, address, subdistrict, district, province;
+    private double latitude, longitude;
 
     public Dog() {
     }
 
     public Dog(Bundle bundle) {
+        dogType = bundle.getString("dogType");
         name = bundle.getString("name");
         gender = bundle.getString("gender");
         color = bundle.getString("color");
         breed = bundle.getString("breed");
-        if (bundle.getBoolean("sterilized")) {
-            sterilized = 1;
-            sterilizedDate = bundle.getString("sterilizedDate");
-        } else {
-            sterilized = 0;
-        }
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        registerDate = dateFormat.format(date);
+        if (bundle.getInt("age", -1) != -1) age = bundle.getInt("age");
+        ageRange = bundle.getString("ageRange");
+        address = bundle.getString("address");
+        subdistrict = bundle.getString("subdistrict");
+        district = bundle.getString("district");
+        province = bundle.getString("province");
+        latitude = bundle.getDouble("latitude");
+        longitude = bundle.getDouble("longitude");
         isSubmit = 0;
     }
 
     public static class DogEntry implements BaseColumns {
         public static final String TABLE_NAME = "dog";
         public static final String ID = BaseColumns._ID;
-        public static final String NAME = "name";
         public static final String DOG_ID = "dogID"; // from rds database
+        public static final String DOG_TYPE = "dogType";
+        public static final String NAME = "name";
         public static final String GENDER = "gender";
         public static final String COLOR = "color";
-        public static final String STERILIZED = "sterilized";
-        public static final String STERILIZED_DATE = "sterilizedDate";
         public static final String BREED = "breed";
-        public static final String REGISTER_DATE = "registerDate";
+        public static final String AGE = "age";
+        public static final String AGE_RANGE = "ageRange";
+        public static final String ADDRESS = "address";
+        public static final String SUBDISTRICT = "subdistrict";
+        public static final String DISTRICT = "district";
+        public static final String PROVINCE = "province";
+        public static final String LATITUDE = "latitude";
+        public static final String LONGITUDE = "longitude";
         public static final String IS_SUBMIT = "isSubmit";
     }
 
@@ -57,26 +66,64 @@ public final class Dog {
             "CREATE TABLE " + DogEntry.TABLE_NAME + " (" +
                     DogEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DogEntry.DOG_ID + " INTEGER," +
+                    DogEntry.DOG_TYPE + " TEXT," +
                     DogEntry.GENDER + " TEXT," +
                     DogEntry.COLOR + " TEXT," +
-                    DogEntry.STERILIZED + " INTEGER," +
-                    DogEntry.STERILIZED_DATE + " TEXT," +
                     DogEntry.BREED + " TEXT," +
-                    DogEntry.REGISTER_DATE + " TEXT," +
-                    DogEntry.IS_SUBMIT + " INTEGER," +
-                    DogEntry.NAME + " TEXT)";
+                    DogEntry.NAME + " TEXT," +
+                    DogEntry.AGE + " INTEGER," +
+                    DogEntry.AGE_RANGE + " TEXT," +
+                    DogEntry.ADDRESS + " TEXT," +
+                    DogEntry.SUBDISTRICT + " TEXT," +
+                    DogEntry.DISTRICT + " TEXT," +
+                    DogEntry.PROVINCE + " TEXT," +
+                    DogEntry.LATITUDE + " REAL," +
+                    DogEntry.LONGITUDE + " REAL," +
+                    DogEntry.IS_SUBMIT + " INTEGER)";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DogEntry.TABLE_NAME;
 
     //    getter and setter
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getDogID() {
+        return dogID;
+    }
+
+    public void setDogID(int dogID) {
+        this.dogID = dogID;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getIsSubmit() {
+        return isSubmit;
+    }
+
+    public void setIsSubmit(int isSubmit) {
+        this.isSubmit = isSubmit;
+    }
+
+    public String getDogType() {
+        return dogType;
+    }
+
+    public void setDogType(String dogType) {
+        this.dogType = dogType;
     }
 
     public String getGender() {
@@ -95,12 +142,12 @@ public final class Dog {
         this.color = color;
     }
 
-    public String getSterilizedDate() {
-        return sterilizedDate;
+    public String getName() {
+        return name;
     }
 
-    public void setSterilizedDate(String sterilizedDate) {
-        this.sterilizedDate = sterilizedDate;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBreed() {
@@ -111,44 +158,59 @@ public final class Dog {
         this.breed = breed;
     }
 
-    public String getRegisterDate() {
-        return registerDate;
+    public String getAgeRange() {
+        return ageRange;
     }
 
-    public void setRegisterDate(String registerDate) {
-        this.registerDate = registerDate;
+    public void setAgeRange(String ageRange) {
+        this.ageRange = ageRange;
     }
 
-    public int getId() {
-        return id;
+    public String getAddress() {
+        return address;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getDogID() {
-        return dogID;
+    public String getSubdistrict() {
+        return subdistrict;
     }
 
-    public void setDogID(int dogID) {
-        this.dogID = dogID;
+    public void setSubdistrict(String subdistrict) {
+        this.subdistrict = subdistrict;
     }
 
-    public int getSterilized() {
-        return sterilized;
+    public String getDistrict() {
+        return district;
     }
 
-    public void setSterilized(int sterilized) {
-        this.sterilized = sterilized;
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
-    public int getIsSubmit() {
-        return isSubmit;
+    public String getProvince() {
+        return province;
     }
 
-    public void setIsSubmit(int isSubmit) {
-        this.isSubmit = isSubmit;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

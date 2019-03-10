@@ -5,24 +5,23 @@ import android.provider.BaseColumns;
 
 public class DogInformation {
 
-    private String dogType, address, subdistrict, district, province, submitDate, ageRange;
-    private double latitude, longitude;
-    private int age, isSubmit, id, dogID;
+    private String dogStatus, deathRemark, missingDate, sterilizedDate, ageRange;
+    private int id, pregnant, childNumber, sterilized, age, isSubmit, dogID;
+//    note, dogID is id from internal db
 
     public DogInformation() {
     }
 
     public DogInformation(Bundle dogInformation) {
-        dogType = dogInformation.getString("dogType");
+        dogStatus = dogInformation.getString("dogStatus");
         ageRange = dogInformation.getString("ageRange");
-        address = dogInformation.getString("address");
-        subdistrict = dogInformation.getString("subdistrict");
-        district = dogInformation.getString("district");
-        province = dogInformation.getString("province");
-        latitude = dogInformation.getDouble("latitude");
-        longitude = dogInformation.getDouble("longitude");
-        submitDate = dogInformation.getString("submitDate");
+        deathRemark = dogInformation.getString("deathRemark");
+        missingDate = dogInformation.getString("missingDate");
+        sterilizedDate = dogInformation.getString("sterilizedDate");
         age = dogInformation.getInt("age");
+        childNumber = dogInformation.getInt("childNumber");
+        sterilized = dogInformation.getInt("sterilized");
+        pregnant = dogInformation.getInt("pregnant");
         isSubmit = 0; // 0 represent false 1 represent true
     }
 
@@ -30,16 +29,15 @@ public class DogInformation {
         public static final String TABLE_NAME = "information";
         public static final String ID = BaseColumns._ID;
         public static final String INTERNAL_DOG_ID = "internalDogID";
-        public static final String DOG_TYPE = "dogType";
+        public static final String DOG_STATUS = "dogStatus";
+        public static final String PREGNANT = "pregnant";
+        public static final String CHILD_NUMBER = "childNumber";
+        public static final String DEATH_REMARK = "deathRemark";
+        public static final String MISSING_DATE = "missingDate";
+        public static final String STERILIZED = "sterilized";
+        public static final String STERILIZED_DATE = "sterilizedDate";
         public static final String AGE = "age";
         public static final String AGE_RANGE = "ageRange";
-        public static final String ADDRESS = "address";
-        public static final String SUBDISTRICT = "subdistrict";
-        public static final String DISTRICT = "district";
-        public static final String PROVINCE = "province";
-        public static final String LATITUDE = "latitude";
-        public static final String LONGITUDE = "longitude";
-        public static final String SUBMIT_DATE = "submitDate";
         public static final String IS_SUBMIT = "isSubmit";
     }
 
@@ -47,22 +45,22 @@ public class DogInformation {
             "CREATE TABLE " + DogInformationEntry.TABLE_NAME + " (" +
                     DogInformationEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DogInformationEntry.INTERNAL_DOG_ID + " INTEGER," +
-                    DogInformationEntry.DOG_TYPE + " TEXT," +
+                    DogInformationEntry.DOG_STATUS + " TEXT," +
+                    DogInformationEntry.PREGNANT + " INTEGER," +
+                    DogInformationEntry.CHILD_NUMBER + " INTEGER," +
+                    DogInformationEntry.DEATH_REMARK + " TEXT," +
+                    DogInformationEntry.MISSING_DATE + " TEXT," +
+                    DogInformationEntry.STERILIZED + " INTEGER," +
+                    DogInformationEntry.STERILIZED_DATE + " TEXT," +
                     DogInformationEntry.AGE + " INTEGER," +
                     DogInformationEntry.AGE_RANGE + " TEXT," +
-                    DogInformationEntry.ADDRESS + " TEXT," +
-                    DogInformationEntry.SUBDISTRICT + " TEXT," +
-                    DogInformationEntry.DISTRICT + " TEXT," +
-                    DogInformationEntry.PROVINCE + " TEXT," +
-                    DogInformationEntry.LATITUDE + " REAL," +
-                    DogInformationEntry.LONGITUDE + " REAL," +
-                    DogInformationEntry.SUBMIT_DATE + " TEXT," +
                     DogInformationEntry.IS_SUBMIT + " INTEGER)";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DogInformationEntry.TABLE_NAME;
 
     // getter and setter
+
 
     public int getId() {
         return id;
@@ -80,52 +78,36 @@ public class DogInformation {
         this.dogID = dogID;
     }
 
-    public String getDogType() {
-        return dogType;
+    public String getDogStatus() {
+        return dogStatus;
     }
 
-    public void setDogType(String dogType) {
-        this.dogType = dogType;
+    public void setDogStatus(String dogStatus) {
+        this.dogStatus = dogStatus;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDeathRemark() {
+        return deathRemark;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDeathRemark(String deathRemark) {
+        this.deathRemark = deathRemark;
     }
 
-    public String getSubdistrict() {
-        return subdistrict;
+    public String getMissingDate() {
+        return missingDate;
     }
 
-    public void setSubdistrict(String subdistrict) {
-        this.subdistrict = subdistrict;
+    public void setMissingDate(String missingDate) {
+        this.missingDate = missingDate;
     }
 
-    public String getDistrict() {
-        return district;
+    public String getSterilizedDate() {
+        return sterilizedDate;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getSubmitDate() {
-        return submitDate;
-    }
-
-    public void setSubmitDate(String submitDate) {
-        this.submitDate = submitDate;
+    public void setSterilizedDate(String sterilizedDate) {
+        this.sterilizedDate = sterilizedDate;
     }
 
     public String getAgeRange() {
@@ -136,20 +118,28 @@ public class DogInformation {
         this.ageRange = ageRange;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public int getPregnant() {
+        return pregnant;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setPregnant(int pregnant) {
+        this.pregnant = pregnant;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public int getChildNumber() {
+        return childNumber;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setChildNumber(int childNumber) {
+        this.childNumber = childNumber;
+    }
+
+    public int getSterilized() {
+        return sterilized;
+    }
+
+    public void setSterilized(int sterilized) {
+        this.sterilized = sterilized;
     }
 
     public int getAge() {

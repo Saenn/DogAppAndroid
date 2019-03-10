@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
         long index = sqLiteDatabase.insert(DogImage.DogImageEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
 
-        Log.i("add picture ได้แล้วเด้อ"," xD");
+        Log.i("add picture ได้แล้วเด้อ", " xD");
         return index;
 
         // getImage byte[] image = cursor.getBlob(1);
@@ -172,19 +172,25 @@ public class DBHelper extends SQLiteOpenHelper {
         return tmp;
     }
 
-        //    Dog
+    //    Dog
     public long addDog(Dog dog) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
-        values.put(Dog.DogEntry.BREED, dog.getBreed());
-        values.put(Dog.DogEntry.COLOR, dog.getColor());
+        values.put(Dog.DogEntry.DOG_ID, dog.getDogID());
+        values.put(Dog.DogEntry.DOG_TYPE, dog.getDogType());
         values.put(Dog.DogEntry.GENDER, dog.getGender());
-        values.put(Dog.DogEntry.REGISTER_DATE, dog.getRegisterDate());
-        values.put(Dog.DogEntry.STERILIZED, dog.getSterilized());
-        values.put(Dog.DogEntry.STERILIZED_DATE, dog.getSterilizedDate());
-        values.put(Dog.DogEntry.IS_SUBMIT, 0);
+        values.put(Dog.DogEntry.COLOR, dog.getColor());
+        values.put(Dog.DogEntry.BREED, dog.getBreed());
         values.put(Dog.DogEntry.NAME, dog.getName());
+        values.put(Dog.DogEntry.AGE, dog.getAge());
+        values.put(Dog.DogEntry.AGE_RANGE, dog.getAgeRange());
+        values.put(Dog.DogEntry.ADDRESS, dog.getAddress());
+        values.put(Dog.DogEntry.SUBDISTRICT, dog.getSubdistrict());
+        values.put(Dog.DogEntry.DISTRICT, dog.getDistrict());
+        values.put(Dog.DogEntry.PROVINCE, dog.getProvince());
+        values.put(Dog.DogEntry.LATITUDE, dog.getLatitude());
+        values.put(Dog.DogEntry.LONGITUDE, dog.getLongitude());
+        values.put(Dog.DogEntry.IS_SUBMIT, 0);
 
         long index = sqLiteDatabase.insert(Dog.DogEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
@@ -206,15 +212,20 @@ public class DBHelper extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
             tmp.setId(cursor.getInt(0));
             tmp.setDogID(cursor.getInt(1));
-            tmp.setGender(cursor.getString(2));
-            tmp.setColor(cursor.getString(3));
-            tmp.setSterilized(cursor.getInt(4));
-            tmp.setSterilizedDate(cursor.getString(5));
-            tmp.setBreed(cursor.getString(6));
-            tmp.setRegisterDate(cursor.getString(7));
-            tmp.setIsSubmit(0);
-            tmp.setName(cursor.getString(9));
-
+            tmp.setDogType(cursor.getString(2));
+            tmp.setGender(cursor.getString(3));
+            tmp.setColor(cursor.getString(4));
+            tmp.setBreed(cursor.getString(5));
+            tmp.setName(cursor.getString(6));
+            tmp.setAge(cursor.getInt(7));
+            tmp.setAgeRange(cursor.getString(8));
+            tmp.setAddress(cursor.getString(9));
+            tmp.setSubdistrict(cursor.getString(10));
+            tmp.setDistrict(cursor.getString(11));
+            tmp.setProvince(cursor.getString(12));
+            tmp.setLatitude(cursor.getDouble(13));
+            tmp.setLongitude(cursor.getDouble(14));
+            tmp.setIsSubmit(cursor.getInt(15));
             cursor.moveToNext();
         }
 
@@ -236,25 +247,27 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         while (!cursor.isAfterLast()) {
-
             Dog tmp = new Dog();
             tmp.setId(cursor.getInt(0));
             tmp.setDogID(cursor.getInt(1));
-            tmp.setGender(cursor.getString(2));
-            tmp.setColor(cursor.getString(3));
-            tmp.setSterilized(cursor.getInt(4));
-            tmp.setSterilizedDate(cursor.getString(5));
-            tmp.setBreed(cursor.getString(6));
-            tmp.setRegisterDate(cursor.getString(7));
-            tmp.setName(cursor.getString(9));
-            tmp.setIsSubmit(0);
+            tmp.setDogType(cursor.getString(2));
+            tmp.setGender(cursor.getString(3));
+            tmp.setColor(cursor.getString(4));
+            tmp.setBreed(cursor.getString(5));
+            tmp.setName(cursor.getString(6));
+            tmp.setAge(cursor.getInt(7));
+            tmp.setAgeRange(cursor.getString(8));
+            tmp.setAddress(cursor.getString(9));
+            tmp.setSubdistrict(cursor.getString(10));
+            tmp.setDistrict(cursor.getString(11));
+            tmp.setProvince(cursor.getString(12));
+            tmp.setLatitude(cursor.getDouble(13));
+            tmp.setLongitude(cursor.getDouble(14));
+            tmp.setIsSubmit(cursor.getInt(15));
             dogs.add(tmp);
-
             cursor.moveToNext();
         }
-
         sqLiteDatabase.close();
-
         return dogs;
     }
 
@@ -265,14 +278,20 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(Dog.DogEntry.ID, dog.getId());
         values.put(Dog.DogEntry.DOG_ID, dog.getDogID());
-        values.put(Dog.DogEntry.BREED, dog.getBreed());
-        values.put(Dog.DogEntry.COLOR, dog.getColor());
+        values.put(Dog.DogEntry.DOG_TYPE, dog.getDogType());
         values.put(Dog.DogEntry.GENDER, dog.getGender());
-        values.put(Dog.DogEntry.REGISTER_DATE, dog.getRegisterDate());
-        values.put(Dog.DogEntry.STERILIZED, dog.getSterilized());
-        values.put(Dog.DogEntry.STERILIZED_DATE, dog.getSterilizedDate());
+        values.put(Dog.DogEntry.COLOR, dog.getColor());
+        values.put(Dog.DogEntry.BREED, dog.getBreed());
+        values.put(Dog.DogEntry.NAME, dog.getName());
+        values.put(Dog.DogEntry.AGE, dog.getAge());
+        values.put(Dog.DogEntry.AGE_RANGE, dog.getAgeRange());
+        values.put(Dog.DogEntry.ADDRESS, dog.getAddress());
+        values.put(Dog.DogEntry.SUBDISTRICT, dog.getSubdistrict());
+        values.put(Dog.DogEntry.DISTRICT, dog.getDistrict());
+        values.put(Dog.DogEntry.PROVINCE, dog.getProvince());
+        values.put(Dog.DogEntry.LATITUDE, dog.getLatitude());
+        values.put(Dog.DogEntry.LONGITUDE, dog.getLongitude());
         values.put(Dog.DogEntry.IS_SUBMIT, 0);
-
 
         int row = sqLiteDatabase.update(Dog.DogEntry.TABLE_NAME,
                 values,
@@ -294,16 +313,15 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DogInformation.DogInformationEntry.INTERNAL_DOG_ID, dogInformation.getDogID());
-        values.put(DogInformation.DogInformationEntry.SUBMIT_DATE, dogInformation.getSubmitDate());
-        values.put(DogInformation.DogInformationEntry.DOG_TYPE, dogInformation.getDogType());
+        values.put(DogInformation.DogInformationEntry.DOG_STATUS, dogInformation.getDogStatus());
+        values.put(DogInformation.DogInformationEntry.PREGNANT, dogInformation.getPregnant());
+        values.put(DogInformation.DogInformationEntry.CHILD_NUMBER, dogInformation.getChildNumber());
+        values.put(DogInformation.DogInformationEntry.DEATH_REMARK, dogInformation.getDeathRemark());
+        values.put(DogInformation.DogInformationEntry.MISSING_DATE, dogInformation.getMissingDate());
+        values.put(DogInformation.DogInformationEntry.STERILIZED, dogInformation.getSterilized());
+        values.put(DogInformation.DogInformationEntry.STERILIZED_DATE, dogInformation.getSterilizedDate());
         values.put(DogInformation.DogInformationEntry.AGE, dogInformation.getAge());
         values.put(DogInformation.DogInformationEntry.AGE_RANGE, dogInformation.getAgeRange());
-        values.put(DogInformation.DogInformationEntry.ADDRESS, dogInformation.getAddress());
-        values.put(DogInformation.DogInformationEntry.SUBDISTRICT, dogInformation.getSubdistrict());
-        values.put(DogInformation.DogInformationEntry.DISTRICT, dogInformation.getDistrict());
-        values.put(DogInformation.DogInformationEntry.PROVINCE, dogInformation.getProvince());
-        values.put(DogInformation.DogInformationEntry.LATITUDE, dogInformation.getLatitude());
-        values.put(DogInformation.DogInformationEntry.LONGITUDE, dogInformation.getLongitude());
         values.put(DogInformation.DogInformationEntry.IS_SUBMIT, dogInformation.getIsSubmit());
         long index = sqLiteDatabase.insert(DogInformation.DogInformationEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
@@ -330,17 +348,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
             dogInformation.setId(cursor.getInt(0));
             dogInformation.setDogID(cursor.getInt(1));
-            dogInformation.setDogType(cursor.getString(2));
-            dogInformation.setAge(cursor.getInt(3));
-            dogInformation.setAgeRange(cursor.getString(4));
-            dogInformation.setAddress(cursor.getString(5));
-            dogInformation.setSubdistrict(cursor.getString(6));
-            dogInformation.setDistrict(cursor.getString(7));
-            dogInformation.setProvince(cursor.getString(8));
-            dogInformation.setLatitude(cursor.getDouble(9));
-            dogInformation.setLongitude(cursor.getDouble(10));
-            dogInformation.setSubmitDate(cursor.getString(11));
-            dogInformation.setIsSubmit(cursor.getInt(12));
+            dogInformation.setDogStatus(cursor.getString(2));
+            dogInformation.setPregnant(cursor.getInt(3));
+            dogInformation.setChildNumber(cursor.getInt(4));
+            dogInformation.setDeathRemark(cursor.getString(5));
+            dogInformation.setMissingDate(cursor.getString(6));
+            dogInformation.setSterilized(cursor.getInt(7));
+            dogInformation.setSterilizedDate(cursor.getString(8));
+            dogInformation.setAge(cursor.getInt(9));
+            dogInformation.setAgeRange(cursor.getString(10));
+            dogInformation.setIsSubmit(cursor.getInt(11));
 
             cursor.moveToNext();
         }
@@ -355,16 +372,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(DogInformation.DogInformationEntry.INTERNAL_DOG_ID, dogInformation.getDogID());
-        values.put(DogInformation.DogInformationEntry.SUBMIT_DATE, dogInformation.getSubmitDate());
-        values.put(DogInformation.DogInformationEntry.DOG_TYPE, dogInformation.getDogType());
+        values.put(DogInformation.DogInformationEntry.DOG_STATUS, dogInformation.getDogStatus());
+        values.put(DogInformation.DogInformationEntry.PREGNANT, dogInformation.getPregnant());
+        values.put(DogInformation.DogInformationEntry.CHILD_NUMBER, dogInformation.getChildNumber());
+        values.put(DogInformation.DogInformationEntry.DEATH_REMARK, dogInformation.getDeathRemark());
+        values.put(DogInformation.DogInformationEntry.MISSING_DATE, dogInformation.getMissingDate());
+        values.put(DogInformation.DogInformationEntry.STERILIZED, dogInformation.getSterilized());
+        values.put(DogInformation.DogInformationEntry.STERILIZED_DATE, dogInformation.getSterilizedDate());
         values.put(DogInformation.DogInformationEntry.AGE, dogInformation.getAge());
         values.put(DogInformation.DogInformationEntry.AGE_RANGE, dogInformation.getAgeRange());
-        values.put(DogInformation.DogInformationEntry.ADDRESS, dogInformation.getAddress());
-        values.put(DogInformation.DogInformationEntry.SUBDISTRICT, dogInformation.getSubdistrict());
-        values.put(DogInformation.DogInformationEntry.DISTRICT, dogInformation.getDistrict());
-        values.put(DogInformation.DogInformationEntry.PROVINCE, dogInformation.getProvince());
-        values.put(DogInformation.DogInformationEntry.LATITUDE, dogInformation.getLatitude());
-        values.put(DogInformation.DogInformationEntry.LONGITUDE, dogInformation.getLongitude());
         values.put(DogInformation.DogInformationEntry.IS_SUBMIT, dogInformation.getIsSubmit());
 
         int row = sqLiteDatabase.update(DogInformation.DogInformationEntry.TABLE_NAME,
@@ -389,7 +405,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies"};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name = ? and vaccine_dog_internal_id is null", whereArgs, null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccineName = ? and dogInternalID is null", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -418,7 +434,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies"};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name != ? and vaccine_dog_internal_id is null", whereArgs, null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccineName != ? and dogInternalID is null", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -446,7 +462,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies", String.valueOf(dogID)};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name = ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccineName = ? and dogInternalID = ?", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -476,7 +492,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{"Rabies", String.valueOf(id)};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_name != ? and vaccine_dog_internal_id = ?", whereArgs, null, null, null);
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccineName != ? and dogInternalID = ?", whereArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -506,7 +522,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{String.valueOf(dogID)};
 
         Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "vaccine_dog_internal_id = ?", whereArgs, null, null, DogVaccine.DogVaccineEntry.ID + " DESC");
+                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "dogInternalID = ?", whereArgs, null, null, DogVaccine.DogVaccineEntry.ID + " DESC");
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -539,7 +555,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
 
         if (vaccine.getDogID() != 0) {
-            values.put(DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID, vaccine.getDogID());
+            values.put(DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID, vaccine.getDogID());
         }
 
         sqLiteDatabase.insert(DogVaccine.DogVaccineEntry.TABLE_NAME, null, values);
@@ -554,7 +570,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogVaccine.DogVaccineEntry.ID, vaccine.getId());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
-        values.put(DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID, vaccine.getDogID());
+        values.put(DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID, vaccine.getDogID());
 
         int row = sqLiteDatabase.update(DogVaccine.DogVaccineEntry.TABLE_NAME,
                 values,
@@ -589,7 +605,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void deleteNull() {
         sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(DogVaccine.DogVaccineEntry.TABLE_NAME, DogVaccine.DogVaccineEntry.VACCINE_DOG_INTERNAL_ID + " is null ", null);
+        sqLiteDatabase.delete(DogVaccine.DogVaccineEntry.TABLE_NAME, DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID + " is null ", null);
         sqLiteDatabase.close();
     }
 

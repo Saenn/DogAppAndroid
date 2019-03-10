@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.LayoutManager layoutManager;
     private List<Dog> mDataset;
     private DBHelper mHelper;
-    private Button addDomesticBtn,addStrayBtn;
+    private Button addDomesticBtn, addStrayBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,10 +133,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             final DogImage image = mHelper.getDogFrontImageById(dog.getId());
 
             // need to set image //
-            if(dog.getName().equals("")){
+            if (dog.getName().equals("")) {
                 holder.name.setVisibility(View.GONE);
-            }
-            else{
+            } else {
                 holder.name.setText(dog.getName().toUpperCase());
             }
             holder.age.setText("Age : " + info.getAge());
@@ -150,7 +149,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
 
-                    if(isLongClick){
+                    if (isLongClick) {
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(HomeActivity.this);
                         builder.setMessage("Are you sure to delete this vaccine?");
@@ -171,8 +170,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             }
                         });
                         builder.show();
-                    }
-                    else {
+                    } else {
                         Intent I = new Intent(HomeActivity.this, DogProfileActivity.class);
                         I.putExtra("internal_dog_id", dog.getId());
                         startActivity(I);
@@ -189,7 +187,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public class DogListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
         // each data item is just a string in this case
-        public TextView age,gender,breed,color,name;
+        public TextView age, gender, breed, color, name;
         public ImageView pic;
         private ClickListener myListener;
 

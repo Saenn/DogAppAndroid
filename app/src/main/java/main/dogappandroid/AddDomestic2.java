@@ -26,10 +26,7 @@ public class AddDomestic2 extends AppCompatActivity {
     private EditText address, subdistrict, district, province;
     private RadioGroup homeCondition, dayLifestyle, nightLifestyle, sameAddress;
     private Button nextBtn;
-    private Dog dog;
-    private DogInformation info;
     private DBHelper mHelper;
-    private int edit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +34,6 @@ public class AddDomestic2 extends AppCompatActivity {
         setContentView(R.layout.activity_add_domestic2);
         mHelper = new DBHelper(this);
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        edit = getIntent().getExtras().getInt("edit");
 
         requiredAddress = (TextView) findViewById(R.id.requiredAddressDomestic);
         requiredSubdistrict = (TextView) findViewById(R.id.requiredSubdistrictDomestic);
@@ -70,7 +66,7 @@ public class AddDomestic2 extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle extras = new Bundle();
+                Bundle extras = getIntent().getExtras();
                 if (homeCondition.getCheckedRadioButtonId() == RadioButton.NO_ID
                         || dayLifestyle.getCheckedRadioButtonId() == RadioButton.NO_ID
                         || nightLifestyle.getCheckedRadioButtonId() == RadioButton.NO_ID
@@ -89,21 +85,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putString("district", mPreferences.getString("district", null));
                         extras.putString("province", mPreferences.getString("province", null));
                         extras.putString("dogType", calculateDomesticType() + "");
-                        Intent prevAdd = getIntent();
-                        extras.putString("name", prevAdd.getStringExtra("name"));
-                        if (prevAdd.getIntExtra("age", -1) != -1)
-                            extras.putInt("age", prevAdd.getIntExtra("age", -1));
-                        extras.putString("ageRange", prevAdd.getStringExtra("ageRange"));
-                        extras.putString("gender", prevAdd.getStringExtra("gender"));
-                        extras.putString("breed", prevAdd.getStringExtra("breed"));
-                        extras.putString("color", prevAdd.getStringExtra("color"));
-                        extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
-                        extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
                         Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
-                        addDomestic3.putExtra("edit", edit);
-                        if (edit == 1) {
-                            addDomestic3.putExtra("internal_dog_id", dog.getId());
-                        }
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
                     }
@@ -129,19 +111,12 @@ public class AddDomestic2 extends AppCompatActivity {
                         extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
                         extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
                         Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
-                        addDomestic3.putExtra("edit", edit);
                         addDomestic3.putExtras(extras);
                         startActivity(addDomestic3);
                     }
                 }
             }
         });
-
-        if (edit == 1) {
-            getDogInfo();
-        }
-
-
     }
 
     private void handleAddressField(int visibility) {
@@ -188,29 +163,5 @@ public class AddDomestic2 extends AppCompatActivity {
         else return 0;
 
     }
-
-    private void getDogInfo() {
-        Bundle prevBundle = getIntent().getExtras();
-        if (prevBundle != null && prevBundle.containsKey("internal_dog_id")) {
-            dog = mHelper.getDogById(prevBundle.getInt("internal_dog_id"));
-
-            // waiting for doginfo //
-
-            info = mHelper.getAllDogInformationByDogID(prevBundle.getInt("internal_dog_id"));
-
-            // hide //
-            TextView header = (TextView) findViewById(R.id.addDomesticHeader2);
-            ProgressBar bar = (ProgressBar) findViewById(R.id.progressBarAddDomestic2);
-            header.setText(R.string.editdog);
-            bar.setVisibility(View.GONE);
-
-            // set text //
-
-            address.setText(info.getAddress());
-            subdistrict.setText(info.getSubdistrict());
-            district.setText(info.getDistrict());
-            province.setText(info.getProvince());
-
-        }
-    }
+    
 }

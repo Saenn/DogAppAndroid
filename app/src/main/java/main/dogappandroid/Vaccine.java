@@ -45,8 +45,6 @@ public class Vaccine extends AppCompatActivity {
     private DBHelper mHelper;
     private ClickListener rabiesListener, othersListener;
     private ProgressBar bar;
-    private int isAdding = 0;
-    private Bundle prevBundle;
     private double latitude, longitude;
 
     @Override
@@ -108,92 +106,76 @@ public class Vaccine extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.vaccine_addbutton);
         doneButton = (Button) findViewById(R.id.vaccine_doneButton);
         bar = (ProgressBar) findViewById(R.id.vaccine_progressbar);
-        prevBundle = getIntent().getExtras();
 
-        if (prevBundle != null && !prevBundle.containsKey("addingdog")) {
-            bar.setVisibility(View.GONE);
-            if (prevBundle.containsKey("internal_dog_id")) {
-                Log.i("มาจกาหน้า edit ", " ครับ");
-                rabiesVaccine = mHelper.getRabiesVaccineListById(prevBundle.getInt("internal_dog_id"));
-                othersVaccine = mHelper.getOtherVaccineListById(prevBundle.getInt("internal_dog_id"));
+        rabiesVaccine = mHelper.getRabiesVaccineList();
+        othersVaccine = mHelper.getOtherVaccineList();
 
-                doneButton.setVisibility(View.GONE);
-                addButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
-                        intent.putExtras(prevBundle);
-                        intent.putExtra("isAdding", isAdding);
-                        intent.putExtra("internal_dog_id", prevBundle.getInt("internal_dog_id"));
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle extras = getIntent().getExtras();
+                Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                intent.putExtras(extras);
+                startActivity(intent);
+                finish();
             }
-        } else {
-            // มาจากหน้า add dog //
-            Log.i("มาจากหน้า add dog", " ครับ");
-            isAdding = 1;
-            rabiesVaccine = mHelper.getRabiesVaccineList();
-            othersVaccine = mHelper.getOtherVaccineList();
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
-                    intent.putExtras(prevBundle);
-                    intent.putExtra("isAdding", isAdding);
-                    startActivity(intent);
-                    finish();
-                }
-            });
+        });
 
-            doneButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (Double.isNaN(latitude) || Double.isNaN(longitude)) {
-                        Toast.makeText(Vaccine.this, "Calibrating location ...", Toast.LENGTH_LONG).show();
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Double.isNaN(latitude) || Double.isNaN(longitude)) {
+                    Toast.makeText(Vaccine.this, "Calibrating location ...", Toast.LENGTH_LONG).show();
+                } else {
+                    Bundle extras = getIntent().getExtras();
+//                    insert data into dog table -- prepare data
+                    Dog dog = new Dog();
+                    dog.setDogType(extras.getString("dogType"));
+                    dog.setGender(extras.getString("gender"));
+                    if (extras.getString("color") != "") dog.setColor(extras.getString("color"));
+                    if (extras.getString("name") != "") dog.setName(extras.getString("name"));
+                    if (extras.getString("breed") != "") dog.setBreed(extras.getString("breed"));
+                    if (extras.getInt("age", -1) != -1) dog.setAge(extras.getInt("age"));
+                    dog.setAgeRange(extras.getString("ageRange"));
+                    dog.setAddress(extras.getString("address"));
+                    dog.setSubdistrict(extras.getString("subdistrict"));
+                    dog.setDistrict(extras.getString("district"));
+                    dog.setProvince(extras.getString("province"));
+                    dog.setLatitude(latitude);
+                    dog.setLongitude(longitude);
+                    dog.setIsSubmit(0);
+//                    insert data into dog table -- put data into table
+                    int newDogID = (int) mHelper.addDog(dog);
+                    if (newDogID == -1) {
+                        Toast.makeText(Vaccine.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
                     } else {
-                        int newDogIndex = (int) mHelper.addDog(new Dog(prevBundle));
-                        DogInformation newDogInfo = new DogInformation();
-                        newDogInfo.setDogID(newDogIndex);
-                        newDogInfo.setDogType(prevBundle.getString("dogType"));
-                        if (prevBundle.getInt("age", -1) != -1)
-                            newDogInfo.setAge(prevBundle.getInt("age"));
-                        newDogInfo.setAgeRange(prevBundle.getString("ageRange"));
-                        newDogInfo.setAddress(prevBundle.getString("address"));
-                        newDogInfo.setSubdistrict(prevBundle.getString("subdistrict"));
-                        newDogInfo.setDistrict(prevBundle.getString("district"));
-                        newDogInfo.setProvince(prevBundle.getString("province"));
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        String submitDate = dateFormat.format(new Date());
-                        newDogInfo.setSubmitDate(submitDate);
-                        newDogInfo.setLatitude(latitude);
-                        newDogInfo.setLongitude(longitude);
-                        newDogInfo.setIsSubmit(0);
-                        long dogInfoIndex = mHelper.addDogInformation(newDogInfo);
-                        Log.i("ข้อมูลหมา-ID", String.valueOf(dogInfoIndex));
-                        Log.i("ข้อมูลหมา-dogID", String.valueOf(newDogIndex));
-                        Log.i("ข้อมูลหมา-dogtype", prevBundle.getString("dogType"));
-                        Log.i("ข้อมูลหมา-age", prevBundle.getInt("age") + "");
-                        Log.i("ข้อมูลหมา-agerange", newDogInfo.getAgeRange());
-                        Log.i("ข้อมูลหมา-address", prevBundle.getString("address"));
-                        Log.i("ข้อมูลหมา-subdistrict", prevBundle.getString("subdistrict"));
-                        Log.i("ข้อมูลหมา-district", prevBundle.getString("district"));
-                        Log.i("ข้อมูลหมา-province", prevBundle.getString("province"));
-                        Log.i("ข้อมูลหมา-submitDate", submitDate);
-                        Log.i("ข้อมูลหมา-lat", latitude + "");
-                        Log.i("ข้อมูลหมา-long", longitude + "");
+                        DogInformation dogInformation = new DogInformation();
+                        dogInformation.setDogID(newDogID);
+                        dogInformation.setDogStatus("1"); // 1 = stay with owner, 2 = missing, 3 = dead
+                        if (extras.getBoolean("sterilized")) {
+                            dogInformation.setSterilized(1);
+                            dogInformation.setSterilizedDate(extras.getString("sterilizedDate"));
+                        } else {
+                            dogInformation.setSterilized(0);
+                        }
+                        if (extras.getInt("age", -1) != -1)
+                            dogInformation.setAge(extras.getInt("age"));
+                        dogInformation.setAgeRange(extras.getString("ageRange"));
+                        int newDogInfo = (int) mHelper.addDogInformation(dogInformation);
+                        if (newDogInfo == -1) {
+                            Toast.makeText(Vaccine.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
+//                                need to delete dog from internal db
+                        }
                         for (DogVaccine v : rabiesVaccine) {
-                            v.setDogID(newDogIndex);
+                            v.setDogID(newDogID);
                             mHelper.updateVaccine(v);
                         }
                         for (DogVaccine v : othersVaccine) {
-                            v.setDogID(newDogIndex);
+                            v.setDogID(newDogID);
                             mHelper.updateVaccine(v);
                         }
-                        List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogIndex);
-                        List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogIndex);
+                        List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogID);
+                        List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogID);
                         for (DogVaccine v : dvr) {
                             Log.i("DogVaccineRabies", v.getId() + " " + v.getDate());
                         }
@@ -201,31 +183,28 @@ public class Vaccine extends AppCompatActivity {
                             Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
                         }
                         // add picture to sqlite //
-                        addPicToSqlite(prevBundle.getString("frontview"), 1, newDogIndex);
-                        addPicToSqlite(prevBundle.getString("sideview"), 2, newDogIndex);
-
-                        Intent intent = new Intent(Vaccine.this, HomeActivity.class);
-                        startActivity(intent);
-                        mHelper.deleteNull();
+                        addPicToSqlite(extras.getString("frontview"), 1, newDogID);
+                        addPicToSqlite(extras.getString("sideview"), 2, newDogID);
                     }
+                    Intent intent = new Intent(Vaccine.this, HomeActivity.class);
+                    startActivity(intent);
+                    mHelper.deleteNull();
+                    finish();
                 }
-            });
-        }
+            }
+        });
 
         // set recycle view //
         recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
         recyclerViewOthers = (RecyclerView) findViewById(R.id.vaccine_listview_other);
-
         layoutManagerRabies = new LinearLayoutManager(this);
         recyclerViewRabies.setLayoutManager(layoutManagerRabies);
         mAdapterRabies = new RecyclerViewAdapter(rabiesVaccine);
         recyclerViewRabies.setAdapter(mAdapterRabies);
-
         layoutManagerOther = new LinearLayoutManager(this);
         recyclerViewOthers.setLayoutManager(layoutManagerOther);
         mAdapterOther = new RecyclerViewAdapter(othersVaccine);
         recyclerViewOthers.setAdapter(mAdapterOther);
-
     }
 
     // Recycler class //
@@ -280,8 +259,9 @@ public class Vaccine extends AppCompatActivity {
                     } else {
                         //not LongClick
                         Intent I = new Intent(Vaccine.this, AddVaccineDropdown.class);
-                        I.putExtras(prevBundle);
-                        I.putExtra("isAdding", isAdding);
+                        Bundle extras = getIntent().getExtras();
+                        I.putExtras(extras);
+                        I.putExtra("isAdding", 1);
                         I.putExtra("vid", v.getId());
                         I.putExtra("vname", v.getName());
                         I.putExtra("vdate", v.getDate());
@@ -334,6 +314,7 @@ public class Vaccine extends AppCompatActivity {
             myListener.onClick(view, getAdapterPosition(), false, motionEvent);
             return true;
         }
+
     }
 
     public void reload() {
@@ -345,27 +326,15 @@ public class Vaccine extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onBackPressed() {
-        mHelper.deleteNull();
-        if (prevBundle != null && !prevBundle.containsKey("addingdog")) {
-            Intent intent = new Intent(Vaccine.this, DogProfileActivity.class);
-            intent.putExtra("internal_dog_id", prevBundle.getInt("internal_dog_id"));
-            startActivity(intent);
-        }
-        finish();
-    }
-
-    private void addPicToSqlite(String imagePath, int type, int index){
+    private void addPicToSqlite(String imagePath, int type, int index) {
         Bitmap src = BitmapFactory.decodeFile(imagePath);
         byte[] image = mHelper.getBytes(src);
         DogImage dogImage = new DogImage();
         dogImage.setDog_internal_id(index);
 
-        if(type == 1){
+        if (type == 1) {
             dogImage.setType(1);
-        }
-        else{
+        } else {
             dogImage.setType(2);
         }
         dogImage.setKeyImage(image);

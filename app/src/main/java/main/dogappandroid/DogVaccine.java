@@ -19,9 +19,9 @@ public class DogVaccine {
     public class DogVaccineEntry {
         public static final String TABLE_NAME = "vaccine";
         public static final String ID = BaseColumns._ID;
-        public static final String VACCINE_NAME = "vaccine_name";
-        public static final String VACCINE_DATE = "vaccine_date";
-        public static final String VACCINE_DOG_INTERNAL_ID = "vaccine_dog_internal_id";
+        public static final String VACCINE_NAME = "vaccineName";
+        public static final String VACCINE_DATE = "vaccineDate";
+        public static final String DOG_INTERNAL_ID = "dogInternalID";
         public static final String IS_SUBMIT = "isSubmit";
     }
 
@@ -30,7 +30,7 @@ public class DogVaccine {
                     DogVaccineEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DogVaccineEntry.VACCINE_NAME + " TEXT," +
                     DogVaccineEntry.VACCINE_DATE + " TEXT," +
-                    DogVaccineEntry.VACCINE_DOG_INTERNAL_ID + " INTEGER," +
+                    DogVaccineEntry.DOG_INTERNAL_ID + " INTEGER," +
                     DogVaccineEntry.IS_SUBMIT + " INTEGER)";
 
     public static final String SQL_DELETE_ENTRIES =
