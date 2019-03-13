@@ -124,13 +124,8 @@ public class DogProfileActivity extends AppCompatActivity {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< Updated upstream
-                Intent intent = new Intent(DogProfileActivity.this, AddDomestic.class);
-                intent.putExtra("internal_dog_id", dog.getId());
-=======
                 Intent intent = new Intent(DogProfileActivity.this, EditDomestic.class);
-                intent.putExtra("internal_dog_id",dog.getId());
->>>>>>> Stashed changes
+                intent.putExtra("internal_dog_id", dog.getId());
                 startActivity(intent);
                 finish();
             }
