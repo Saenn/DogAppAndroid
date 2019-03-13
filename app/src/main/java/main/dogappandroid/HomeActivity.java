@@ -172,7 +172,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         builder.show();
                     } else {
                         Intent I = new Intent(HomeActivity.this, DogProfileActivity2.class);
-                        I.putExtra("internal_dog_id", dog.getId());
+                        I.putExtra("internalDogID", dog.getId());
                         startActivity(I);
                     }
                 }
