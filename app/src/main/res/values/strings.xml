@@ -296,5 +296,26 @@
     <string name="indoor">Indoor</string>
     <string name="dogFront_label">Face</string>
     <string name="dogSide_label">Side</string>
+    <string name="dog_profile_content_description">This is an image of your puppy</string>
+    <string name="dog_profile_header">Dog Profile</string>
+    <string name="dog_information_label">Information</string>
+    <string name="profile_dog_label">Name :</string>
+    <string name="profile_age">Age :</string>
+    <string name="profile_not_record">not record</string>
+    <string name="profile_dog_gender_label">Gender :</string>
+    <string name="profile_dog_color_label">Color :</string>
+    <string name="profile_dog_breed_label">Breed :</string>
+    <string name="profile_dog_address_label">Address :</string>
+    <string name="profile_dog_subdistrict_label">Subdistrict :</string>
+    <string name="profile_dog_district_label">District :</string>
+    <string name="profile_dog_province_label">Province :</string>
+    <string name="profile_dog_status_header">Status</string>
+    <string name="dog_profile_status_label">Status :</string>
+    <string name="profile_dog_pregnant_label">Pregnant :</string>
+    <string name="profile_dog_child_label">Children :</string>
+    <string name="profile_dog_death_label">Death :</string>
+    <string name="profile_dog_missing_label">Missing :</string>
+    <string name="profile_dog_sterilized_label">Sterilized :</string>
+    <string name="profile_dog_submit_label">Updated :</string>
 
 </resources>
