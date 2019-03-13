@@ -26,6 +26,9 @@ public class AddDomestic extends AppCompatActivity {
     private RadioGroup gender, sterilized;
     private Button nextBtn;
     private DBHelper dbHelper;
+    private Dog dog;
+    private DogInformation info;
+
 
     private String sterilizedDateSelected;
 
@@ -113,5 +116,9 @@ public class AddDomestic extends AppCompatActivity {
                 }
             }
         });
+
+
     }
+
+
 }

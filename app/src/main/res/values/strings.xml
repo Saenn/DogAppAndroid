@@ -14,6 +14,9 @@
         completions."
     </string>
 
+    <!-- Strings related to editdog -->
+    <string name="header_edit_domestic">Edit Domestic Dog</string>
+
     <!-- Strings related to adddog -->
     <string name="editdogprofilebutton">Profile</string>
     <string name="editdogvaccinebutton">Edit Vaccine</string>

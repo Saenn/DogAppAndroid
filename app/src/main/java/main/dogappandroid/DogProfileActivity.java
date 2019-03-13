@@ -91,7 +91,7 @@ public class DogProfileActivity extends AppCompatActivity {
 
         // need to set name and image //
         dogName.setText(dog.getName());
-        gender.setText(dog.getColor());
+        gender.setText(dog.getGender());
         color.setText(dog.getColor());
         breed.setText(dog.getBreed());
         if (info.getSterilized() == 1) {
@@ -124,8 +124,13 @@ public class DogProfileActivity extends AppCompatActivity {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< Updated upstream
                 Intent intent = new Intent(DogProfileActivity.this, AddDomestic.class);
                 intent.putExtra("internal_dog_id", dog.getId());
+=======
+                Intent intent = new Intent(DogProfileActivity.this, EditDomestic.class);
+                intent.putExtra("internal_dog_id",dog.getId());
+>>>>>>> Stashed changes
                 startActivity(intent);
                 finish();
             }
