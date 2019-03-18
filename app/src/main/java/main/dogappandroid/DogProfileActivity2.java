@@ -1,12 +1,20 @@
 package main.dogappandroid;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +28,9 @@ public class DogProfileActivity2 extends AppCompatActivity {
             status, pregnant, children, death, missing, sterilized, updated;
     private LinearLayout pregnantLayout, childrenLayout, deathLayout, missingLayout, sterilizedLayout;
     private ImageButton editProfileButton;
+    private RecyclerView vaccineRecycler;
+    private RecyclerView.Adapter vaccineAdapter;
+    private RecyclerView.LayoutManager vaccineLayoutManager;
 
     private DBHelper dbHelper;
     private Dog dog;
@@ -38,6 +49,10 @@ public class DogProfileActivity2 extends AppCompatActivity {
         bindImageButton();
         queryFromDB();
         setAllButton();
+        for(DogVaccine dv : vaccines){
+            Log.d("This is vaccine",dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
+        }
+        bindRecyclerView();
     }
     private void bindImageButton(){
         editProfileButton = (ImageButton) findViewById(R.id.edit_dog_button);
@@ -75,13 +90,24 @@ public class DogProfileActivity2 extends AppCompatActivity {
         sterilizedLayout = (LinearLayout) findViewById(R.id.sterilizedLayout);
     }
 
+    private void bindRecyclerView() {
+        vaccineRecycler = (RecyclerView) findViewById(R.id.dog_profile_vaccine_recycler);
+//        setup layout manager
+        vaccineLayoutManager = new LinearLayoutManager(DogProfileActivity2.this);
+        vaccineRecycler.setLayoutManager(vaccineLayoutManager);
+//        set adapter
+        Log.d("before adapter", vaccines.size() + "");
+        vaccineAdapter = new RecyclerViewAdapter(vaccines);
+        vaccineRecycler.setAdapter(vaccineAdapter);
+    }
+
     private void queryFromDB() {
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey("internalDogID")) {
             dog = dbHelper.getDogById(extras.getInt("internalDogID"));
             dogImageData = dbHelper.getDogFrontImageById(extras.getInt("internalDogID"));
             dogInformation = dbHelper.getAllDogInformationByDogID(extras.getInt("internalDogID"));
-            List<DogVaccine> vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
+            vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
             vaccines.addAll(dbHelper.getOtherVaccineListById(extras.getInt("internalDogID")));
             Log.i("DogVaccineList", vaccines.size() + "");
             setAllFields();
@@ -103,6 +129,50 @@ public class DogProfileActivity2 extends AppCompatActivity {
         district.setText(dog.getDistrict());
         province.setText(dog.getProvince());
     }
+
+    protected class RecyclerViewAdapter extends RecyclerView.Adapter<DogProfileActivity2.ViewHolder> {
+
+        private List<DogVaccine> myDataset;
+
+        public RecyclerViewAdapter(List<DogVaccine> mDataset) {
+            myDataset = mDataset;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.vaccine_item, parent, false);
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(DogProfileActivity2.ViewHolder holder, int position) {
+            final DogVaccine v = myDataset.get(position);
+            holder.vaccine.setText(v.getName());
+            holder.vaccinatedDate.setText(v.getDate());
+        }
+
+        @Override
+        public int getItemCount() {
+            return myDataset.size();
+        }
+
+
+    }
+
+    protected class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        TextView vaccine, vaccinatedDate;
+
+        public ViewHolder(View v) {
+            super(v);
+            vaccine = (TextView) v.findViewById(R.id.vaccine_item_name);
+            vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_item_date);
+        }
+
+    }
+
 
     private void setAllButton() {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
