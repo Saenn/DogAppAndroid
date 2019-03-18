@@ -106,10 +106,7 @@ public class EditDomestic extends AppCompatActivity {
         dogbreed.setText(dog.getBreed());
         dogaddress.setText(dog.getAddress());
         dogsubdistrict.setText(dog.getSubdistrict());
-        dogage.setText(String.valueOf(info.getAge()));
-
-        // info //
-//        dogage.setText(String.valueOf(info.getAgeRange()));
+        dogage.setText(String.valueOf(dog.getAge()));
 
     }
 }
