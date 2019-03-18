@@ -84,6 +84,7 @@ public class EditDomestic extends AppCompatActivity {
 //                    extras.putString("subdistrict", dogsubdistrict.getText().toString());
                     dbHelper.updateDog(dog);
                     Intent DogProfile = new Intent(EditDomestic.this, DogProfileActivity2.class);
+                    DogProfile.putExtra("internalDogID", dog.getId());
                     DogProfile.putExtras(extras);
                     startActivity(DogProfile);
                     finish();
