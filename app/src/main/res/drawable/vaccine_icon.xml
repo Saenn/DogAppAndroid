@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/pink600" />
+        </shape>
+    </item>
+    <item
+        android:width="35dp"
+        android:height="35dp"
+        android:drawable="@drawable/syringe_pngrepo_com"
+        android:gravity="center" />
+</layer-list>

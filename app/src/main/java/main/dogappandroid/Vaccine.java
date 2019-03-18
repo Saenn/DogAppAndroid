@@ -1,19 +1,13 @@
 package main.dogappandroid;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,10 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Vaccine extends AppCompatActivity {
@@ -290,7 +281,7 @@ public class Vaccine extends AppCompatActivity {
             super(v);
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
-            vaccine = (TextView) v.findViewById(R.id.vaccine_name);
+            vaccine = (TextView) v.findViewById(R.id.vaccine_name_label);
             vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_date);
         }
 
