@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,10 +48,12 @@ public class DogProfileActivity2 extends AppCompatActivity {
         bindImageButton();
         queryFromDB();
         setAllButton();
-        for(DogVaccine dv : vaccines){
-            Log.d("This is vaccine",dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
+        if(vaccines != null) {
+            for (DogVaccine dv : vaccines) {
+                Log.d("This is vaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
+            }
+            bindRecyclerView();
         }
-        bindRecyclerView();
     }
     private void bindImageButton(){
         editProfileButton = (ImageButton) findViewById(R.id.edit_dog_button);
