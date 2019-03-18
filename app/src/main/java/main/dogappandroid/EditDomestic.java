@@ -55,24 +55,37 @@ public class EditDomestic extends AppCompatActivity {
                     Toast.makeText(EditDomestic.this, "Please enter your puppy's gender", Toast.LENGTH_LONG).show();
                 } else {
                     Bundle extras = new Bundle();
+                    dog.setName(dogname.getText().toString());
                     extras.putString("name", dogname.getText().toString());
-                    if (maleBtn.isChecked()) extras.putString("gender", "M");
-                    else if (femaleBtn.isChecked()) extras.putString("gender", "F");
+                    if (maleBtn.isChecked()) {
+                        dog.setGender("M");
+                        extras.putString("gender", "M");
+                    }else if (femaleBtn.isChecked()) {
+                        dog.setGender("F");
+                        extras.putString("gender", "F");
+                    }
                     if (Integer.parseInt(dogage.getText().toString()) <= 3) {
+                        dog.setAgeRange("1");
                         extras.putInt("age", Integer.parseInt(dogage.getText().toString()));
                         extras.putString("ageRange", "1"); // 1 represent less than or equal to 3
                     } else {
+                        dog.setAgeRange("2");
                         extras.putInt("age", Integer.parseInt(dogage.getText().toString()));
                         extras.putString("ageRange", "2"); // 2 represent more than 3
                     }
+                    dog.setAge(Integer.parseInt(dogage.getText().toString()));
+                    dog.setBreed(dogbreed.getText().toString());
+                    dog.setColor(dogcolor.getText().toString());
+                    dog.setAddress(dogaddress.getText().toString());
+                    dog.setSubdistrict(dogsubdistrict.getText().toString());
                     extras.putString("breed", dogbreed.getText().toString());
                     extras.putString("color", dogcolor.getText().toString());
                     extras.putString("address", dogaddress.getText().toString());
                     extras.putString("subdistrict", dogsubdistrict.getText().toString());
 
-                    Intent Home = new Intent(EditDomestic.this, HomeActivity.class);
-                    Home.putExtras(extras);
-                    startActivity(Home);
+                    Intent DogProfile = new Intent(EditDomestic.this, DogProfileActivity2.class);
+                    DogProfile.putExtras(extras);
+                    startActivity(DogProfile);
                 }
             }
         });
@@ -91,10 +104,10 @@ public class EditDomestic extends AppCompatActivity {
 
         // need to set name and image //
         dogname.setText(dog.getName());
-        if(dog.getGender() == "M"){
+        if(dog.getGender().equals("M")){
             maleBtn.setChecked(true);
             femaleBtn.setChecked(false);
-        }else{
+        }else if(dog.getGender().equals("F")){
             maleBtn.setChecked(false);
             femaleBtn.setChecked(true);
         }

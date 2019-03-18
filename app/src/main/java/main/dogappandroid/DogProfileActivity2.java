@@ -1,8 +1,12 @@
 package main.dogappandroid;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ public class DogProfileActivity2 extends AppCompatActivity {
     private TextView name, age, gender, color, breed, address, subdistrict, district, province,
             status, pregnant, children, death, missing, sterilized, updated;
     private LinearLayout pregnantLayout, childrenLayout, deathLayout, missingLayout, sterilizedLayout;
+    private ImageButton editProfileButton;
 
     private DBHelper dbHelper;
     private Dog dog;
@@ -30,7 +35,13 @@ public class DogProfileActivity2 extends AppCompatActivity {
         bindImageView();
         bindTextView();
         bindLinearLayout();
+        bindImageButton();
         queryFromDB();
+        setAllButton();
+    }
+    private void bindImageButton(){
+        editProfileButton = (ImageButton) findViewById(R.id.edit_dog_button);
+
     }
 
     private void bindImageView() {
@@ -92,4 +103,26 @@ public class DogProfileActivity2 extends AppCompatActivity {
         district.setText(dog.getDistrict());
         province.setText(dog.getProvince());
     }
+
+    private void setAllButton() {
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DogProfileActivity2.this, EditDomestic.class);
+                intent.putExtra("internal_dog_id", dog.getId());
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // put your code here...
+        queryFromDB();
+    }
+
+
+
 }
