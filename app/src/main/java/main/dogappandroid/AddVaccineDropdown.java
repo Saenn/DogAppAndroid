@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class AddVaccineDropdown extends AppCompatActivity {
 
@@ -78,83 +77,50 @@ public class AddVaccineDropdown extends AppCompatActivity {
         });
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                                             @Override
+                                             public void onClick(View view) {
 
-                if (selectedValue.equals("") || curDate.equals("")) {
-                    AlertDialog.Builder builder =
-                            new AlertDialog.Builder(AddVaccineDropdown.this);
-                    builder.setMessage("No Vaccine is selected. Do you want to go back to the previuos page?");
-                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
-                            I.putExtras(prevBundle);
-                            startActivity(I);
-                            finish();
-                        }
-                    });
-                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
-                } else {
-                    AlertDialog.Builder builder =
-                            new AlertDialog.Builder(AddVaccineDropdown.this);
-                    if(ID == -1) {
-                        builder.setTitle(getString(R.string.addvaccinetitle));
-                        builder.setMessage(getString(R.string.addmessage));
-                    }
-                    else{
-                        builder.setTitle(getString(R.string.editvaccine));
-                        builder.setMessage(getString(R.string.editvaccinemessage));
-                    }
+                                                 if (selectedValue.equals("") || curDate.equals("")) {
+                                                     Toast.makeText(AddVaccineDropdown.this, "No vaccine is selected.", Toast.LENGTH_LONG).show();
 
-                    builder.setPositiveButton(getString(android.R.string.ok),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    DogVaccine vaccine = new DogVaccine();
-                                    vaccine.setName(selectedValue);
-                                    vaccine.setDate(curDate);
-                                    if(prevBundle.containsKey("internal_dog_id")){
-                                        vaccine.setDogID(getIntent().getExtras().getInt("internal_dog_id"));
-                                    }
-                                    if (ID == -1) {
-                                        mHelper.addVaccine(vaccine);
-                                    } else {
-                                        vaccine.setId(ID);
-                                        if(getIntent().getExtras().getInt("isAdding") == 1){
-                                            mHelper.updateVaccineWhileAddingDog(vaccine);
-                                        }
-                                        else {
-                                            mHelper.updateVaccine(vaccine);
-                                        }
-                                    }
-                                    Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
-                                    removeVaccineBundle();
-                                    I.putExtras(prevBundle);
-                                    startActivity(I);
-                                    finish();
-                                }
-                            });
-
-                    builder.setNegativeButton(getString(android.R.string.cancel),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
+                                                 } else {
 
 
-                    builder.show();
+                                                     DogVaccine vaccine = new DogVaccine();
+                                                     vaccine.setName(selectedValue);
+                                                     vaccine.setDate(curDate);
+                                                     if (prevBundle.containsKey("internal_dog_id")) {
+                                                         vaccine.setDogID(getIntent().getExtras().getInt("internal_dog_id"));
+                                                     }
+                                                     if (ID == -1) {
+                                                         mHelper.addVaccine(vaccine);
+                                                     } else {
+                                                         vaccine.setId(ID);
+                                                         if (getIntent().getExtras().getInt("isAdding") == 1) {
+                                                             mHelper.updateVaccineWhileAddingDog(vaccine);
+                                                         } else {
+                                                             mHelper.updateVaccine(vaccine);
+                                                         }
+                                                     }
+                                                     if(prevBundle.containsKey("fromstray")){
+                                                         Intent I = new Intent(AddVaccineDropdown.this, AddStray4.class);
+                                                         removeVaccineBundle();
+                                                         prevBundle.remove("fromstray");
+                                                         I.putExtras(prevBundle);
+                                                         startActivity(I);
+                                                         finish();
+                                                     }
+                                                     else{
+                                                         Intent I = new Intent(AddVaccineDropdown.this, AddDomestic4.class);
+                                                         removeVaccineBundle();
+                                                         I.putExtras(prevBundle);
+                                                         startActivity(I);
+                                                         finish();
+                                                     }
 
-                }
-            }
-        });
+                                                 }
+                                             }
+                                         });
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -171,7 +137,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
     }
 
     private void addVaccineDataToList() {
-        vaccineList.add(0,"Select a Vaccine");
+        vaccineList.add(0,"Select a vaccine");
         vaccineList.add(1,"Rabies");
         vaccineList.add(2,"DHPP");
         vaccineList.add(3,"Distemper");
@@ -189,7 +155,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onBackPressed();
         System.gc();
-        Intent I = new Intent(AddVaccineDropdown.this, Vaccine.class);
+        Intent I = new Intent(AddVaccineDropdown.this, AddDomestic4.class);
         removeVaccineBundle();
         I.putExtras(prevBundle);
         startActivity(I);

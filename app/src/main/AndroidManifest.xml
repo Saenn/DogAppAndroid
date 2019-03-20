@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="main.dogappandroid">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -19,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AddStray4"></activity>
         <activity android:name=".ForgotPassword" />
 
         <service
@@ -40,8 +40,9 @@
             android:label="@string/title_activity_navigation_bar"
             android:theme="@style/AppTheme.NoActionBar">
             <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
         <activity
@@ -49,10 +50,10 @@
             android:label="@string/app_name"
             android:launchMode="standard">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".RegisterActivity"
@@ -73,7 +74,7 @@
         <activity
             android:name=".AddDomestic3"
             android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".AddStray"
             android:launchMode="standard"
@@ -87,12 +88,13 @@
             android:launchMode="standard"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Vaccine"
+            android:name=".AddDomestic4"
             android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".EditDomestic"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".EditDomestic"
             android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddVaccineDropdown" />
         <activity android:name=".DogProfileActivity" />
         <activity android:name=".DogProfileActivity2" />

@@ -397,7 +397,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    //    Vaccine
+    //    AddDomestic4
     public List<DogVaccine> getRabiesVaccineList() {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
 

@@ -138,7 +138,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 holder.name.setText(dog.getName().toUpperCase());
             }
-            holder.age.setText("Age : " + info.getAge());
+            if(info.getAge() == 0){
+                if(info.getAgeRange().equals("1")){
+                    holder.age.setText("Age : " + "0-3");
+                }
+                else{
+                    holder.age.setText("Age : " + "Older than 3");
+                }
+            }
+            else{
+                holder.age.setText("Age : " + info.getAge());
+            }
             holder.color.setText("Color : " + dog.getColor());
             holder.gender.setText("Gender : " + dog.getGender());
             holder.breed.setText("Breed :" + dog.getBreed());

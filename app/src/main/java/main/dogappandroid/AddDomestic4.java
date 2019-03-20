@@ -26,7 +26,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vaccine extends AppCompatActivity {
+public class AddDomestic4 extends AppCompatActivity {
 
     private RecyclerView recyclerViewRabies, recyclerViewOthers;
     private RecyclerView.LayoutManager layoutManagerRabies, layoutManagerOther;
@@ -41,7 +41,7 @@ public class Vaccine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vaccine);
+        setContentView(R.layout.activity_add_domestic_4);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
 
@@ -94,9 +94,9 @@ public class Vaccine extends AppCompatActivity {
         mHelper = new DBHelper(this);
         rabiesVaccine = new ArrayList<DogVaccine>();
         othersVaccine = new ArrayList<DogVaccine>();
-        addButton = (Button) findViewById(R.id.vaccine_addbutton);
-        doneButton = (Button) findViewById(R.id.vaccine_doneButton);
-        bar = (ProgressBar) findViewById(R.id.vaccine_progressbar);
+        addButton = (Button) findViewById(R.id.adddomestic4_addbutton);
+        doneButton = (Button) findViewById(R.id.adddomestic4_doneButton);
+        bar = (ProgressBar) findViewById(R.id.adddomestic4_progressbar);
 
         rabiesVaccine = mHelper.getRabiesVaccineList();
         othersVaccine = mHelper.getOtherVaccineList();
@@ -105,7 +105,7 @@ public class Vaccine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bundle extras = getIntent().getExtras();
-                Intent intent = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                Intent intent = new Intent(AddDomestic4.this, AddVaccineDropdown.class);
                 intent.putExtras(extras);
                 startActivity(intent);
                 finish();
@@ -116,7 +116,7 @@ public class Vaccine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (Double.isNaN(latitude) || Double.isNaN(longitude)) {
-                    Toast.makeText(Vaccine.this, "Calibrating location ...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddDomestic4.this, "Calibrating location ...", Toast.LENGTH_LONG).show();
                 } else {
                     Bundle extras = getIntent().getExtras();
 //                    insert data into dog table -- prepare data
@@ -138,7 +138,7 @@ public class Vaccine extends AppCompatActivity {
 //                    insert data into dog table -- put data into table
                     int newDogID = (int) mHelper.addDog(dog);
                     if (newDogID == -1) {
-                        Toast.makeText(Vaccine.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddDomestic4.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
                     } else {
                         DogInformation dogInformation = new DogInformation();
                         dogInformation.setDogID(newDogID);
@@ -154,7 +154,7 @@ public class Vaccine extends AppCompatActivity {
                         dogInformation.setAgeRange(extras.getString("ageRange"));
                         int newDogInfo = (int) mHelper.addDogInformation(dogInformation);
                         if (newDogInfo == -1) {
-                            Toast.makeText(Vaccine.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddDomestic4.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
 //                                need to delete dog from internal db
                         }
                         for (DogVaccine v : rabiesVaccine) {
@@ -177,7 +177,7 @@ public class Vaccine extends AppCompatActivity {
                         addPicToSqlite(extras.getString("frontview"), 1, newDogID);
                         addPicToSqlite(extras.getString("sideview"), 2, newDogID);
                     }
-                    Intent intent = new Intent(Vaccine.this, HomeActivity.class);
+                    Intent intent = new Intent(AddDomestic4.this, HomeActivity.class);
                     startActivity(intent);
                     mHelper.deleteNull();
                     finish();
@@ -186,8 +186,8 @@ public class Vaccine extends AppCompatActivity {
         });
 
         // set recycle view //
-        recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
-        recyclerViewOthers = (RecyclerView) findViewById(R.id.vaccine_listview_other);
+        recyclerViewRabies = (RecyclerView) findViewById(R.id.adddomestic4_listview_rabies);
+        recyclerViewOthers = (RecyclerView) findViewById(R.id.adddomestic4_listview_other);
         layoutManagerRabies = new LinearLayoutManager(this);
         recyclerViewRabies.setLayoutManager(layoutManagerRabies);
         mAdapterRabies = new RecyclerViewAdapter(rabiesVaccine);
@@ -218,7 +218,7 @@ public class Vaccine extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            holder.vaccine.setText(v.getName());
+            holder.adddomestic4.setText(v.getName());
             holder.vaccinatedDate.setText(v.getDate());
 
             holder.setOnClickListener(new ClickListener() {
@@ -227,8 +227,8 @@ public class Vaccine extends AppCompatActivity {
                     if (isLongClick) {
                         //LongClick//
                         AlertDialog.Builder builder =
-                                new AlertDialog.Builder(Vaccine.this);
-                        builder.setMessage("Are you sure to delete this vaccine?");
+                                new AlertDialog.Builder(AddDomestic4.this);
+                        builder.setMessage("Are you sure to delete this adddomestic4?");
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
@@ -249,7 +249,7 @@ public class Vaccine extends AppCompatActivity {
 
                     } else {
                         //not LongClick
-                        Intent I = new Intent(Vaccine.this, AddVaccineDropdown.class);
+                        Intent I = new Intent(AddDomestic4.this, AddVaccineDropdown.class);
                         Bundle extras = getIntent().getExtras();
                         I.putExtras(extras);
                         I.putExtra("isAdding", 1);
@@ -274,14 +274,14 @@ public class Vaccine extends AppCompatActivity {
 
     protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
         // each data item is just a string in this case
-        TextView vaccine, vaccinatedDate;
+        TextView adddomestic4, vaccinatedDate;
         private ClickListener myListener;
 
         public ViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
-            vaccine = (TextView) v.findViewById(R.id.vaccine_name_label);
+            adddomestic4 = (TextView) v.findViewById(R.id.vaccine_name_label);
             vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_date);
         }
 
