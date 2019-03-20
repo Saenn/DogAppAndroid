@@ -90,6 +90,9 @@
             android:name=".Vaccine"
             android:launchMode="standard"
             android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".EditDomestic"
+            android:launchMode="standard"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".AddVaccineDropdown" />
         <activity android:name=".DogProfileActivity" />
         <activity android:name=".DogProfileActivity2" />

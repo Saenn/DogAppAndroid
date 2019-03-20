@@ -46,20 +46,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/profile_dog_information_label"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
+            <LinearLayout
+                android:id="@+id/profile_dog_information_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:background="@color/pink200"
-                android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/dog_information_label"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_dog_image" />
+                app:layout_constraintTop_toBottomOf="@+id/profile_dog_image">
+
+                <TextView
+                    android:id="@+id/profile_dog_information_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.8"
+                    android:background="@color/pink200"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/dog_information_label"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_dog_image" />
+
+
+                <ImageButton
+                    android:id="@+id/edit_dog_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit_black_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_dog_image"/>
+
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -68,7 +90,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_dog_information_label">
+                app:layout_constraintTop_toBottomOf="@+id/profile_dog_information_layout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -560,7 +582,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/profile_dog_status_section2"
+                android:id="@+id/profile_dog_vaccine_section"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="@color/pink200"
@@ -573,6 +595,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/dog_profile_vaccine_recycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_dog_vaccine_section" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

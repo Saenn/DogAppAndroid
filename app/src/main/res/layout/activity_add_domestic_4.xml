@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/pink50"
-    tools:context=".Vaccine">
+    tools:context=".AddDomestic4">
 
     <LinearLayout
         android:id="@+id/vaccine_linearcover"

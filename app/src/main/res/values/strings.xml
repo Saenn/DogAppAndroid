@@ -14,6 +14,9 @@
         completions."
     </string>
 
+    <!-- Strings related to editdog -->
+    <string name="header_edit_domestic">Edit Domestic Dog</string>
+
     <!-- Strings related to adddog -->
     <string name="editdogprofilebutton">Profile</string>
     <string name="editdogvaccinebutton">Edit Vaccine</string>
@@ -51,8 +54,8 @@
     <string name="other">Others</string>
     <string name="addvaccine">Add Vaccine</string>
     <string name="confirm">Confirm</string>
-    <string name="vaccine">Vaccine</string>
-    <string name="vaccine_date">Vaccinated Date</string>
+    <string name="vaccine">Vaccine :</string>
+    <string name="vaccine_date">Injected on :</string>
 
     <string name="dogfemale">Female</string>
     <string name="gender">Gender</string>
@@ -317,5 +320,6 @@
     <string name="profile_dog_missing_label">Missing :</string>
     <string name="profile_dog_sterilized_label">Sterilized :</string>
     <string name="profile_dog_submit_label">Updated :</string>
+    <string name="vaccine_item_icon_description">This is vaccine icon</string>
 
 </resources>
