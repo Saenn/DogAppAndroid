@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditVaccine extends AppCompatActivity {
@@ -37,11 +38,25 @@ public class EditVaccine extends AppCompatActivity {
         // set var //
         dbHelper = new DBHelper(this);
         queryFromDB();
+        if(rabiesVaccine != null || othersVaccine != null) {
+            for (DogVaccine dv : rabiesVaccine) {
+                Log.d("This is rabiesVaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
+            }
+            for (DogVaccine dv : othersVaccine) {
+                Log.d("This is otherVaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
+            }
+
+            bindRecyclerView();
+        }else{
+            rabiesVaccine = new ArrayList<DogVaccine>();
+            othersVaccine = new ArrayList<DogVaccine>();
+            rabiesVaccine = dbHelper.getRabiesVaccineList();
+            othersVaccine = dbHelper.getOtherVaccineList();
+            Log.d("no Vaccine Detected","no Vaccine Detected");
+            bindRecyclerView();
+        }
         addButton = (Button) findViewById(R.id.vaccine_addbutton);
         doneButton = (Button) findViewById(R.id.vaccine_doneButton);
-
-        rabiesVaccine = dbHelper.getRabiesVaccineList();
-        othersVaccine = dbHelper.getOtherVaccineList();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,14 +99,14 @@ public class EditVaccine extends AppCompatActivity {
         });
 
         // set recycle view //
-        recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
-        recyclerViewOthers = (RecyclerView) findViewById(R.id.vaccine_listview_other);
-        layoutManagerRabies = new LinearLayoutManager(this);
-        recyclerViewRabies.setLayoutManager(layoutManagerRabies);
+//        recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
+//        recyclerViewOthers = (RecyclerView) findViewById(R.id.vaccine_listview_other);
+//        layoutManagerRabies = new LinearLayoutManager(this);
+//        recyclerViewRabies.setLayoutManager(layoutManagerRabies);
 //        mAdapterRabies = new EditVaccine.RecyclerViewAdapter(rabiesVaccine);
 //        recyclerViewRabies.setAdapter(mAdapterRabies);
-        layoutManagerOther = new LinearLayoutManager(this);
-        recyclerViewOthers.setLayoutManager(layoutManagerOther);
+//        layoutManagerOther = new LinearLayoutManager(this);
+//        recyclerViewOthers.setLayoutManager(layoutManagerOther);
 //        mAdapterOther = new EditVaccine.RecyclerViewAdapter(othersVaccine);
 //        recyclerViewOthers.setAdapter(mAdapterOther);
     }
@@ -220,13 +235,23 @@ public class EditVaccine extends AppCompatActivity {
         if (extras.containsKey("internalDogID")) {
             rabiesVaccine = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
             othersVaccine = dbHelper.getOtherVaccineListById(extras.getInt("internalDogID"));
-            setAllFields();
         }
     }
 
-    private void setAllFields(){
+    private void bindRecyclerView(){
+        //set rebies recycler
+        recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
+        layoutManagerRabies = new LinearLayoutManager(EditVaccine.this);
+        recyclerViewRabies.setLayoutManager(layoutManagerRabies);
+        Log.d("before adapter1", rabiesVaccine.size() + "");
         mAdapterRabies = new RecyclerViewAdapter(rabiesVaccine);
         recyclerViewRabies.setAdapter(mAdapterRabies);
+
+        //set other recycler
+        recyclerViewOthers = (RecyclerView) findViewById(R.id.vaccine_listview_other);
+        layoutManagerOther = new LinearLayoutManager(EditVaccine.this);
+        recyclerViewOthers.setLayoutManager(layoutManagerOther);
+        Log.d("before adapter2", othersVaccine.size() + "");
         mAdapterOther = new RecyclerViewAdapter(othersVaccine);
         recyclerViewOthers.setAdapter(mAdapterOther);
 
