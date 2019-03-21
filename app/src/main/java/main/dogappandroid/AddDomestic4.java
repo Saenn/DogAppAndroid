@@ -41,7 +41,7 @@ public class AddDomestic4 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_domestic_4);
+        setContentView(R.layout.activity_add_domestic4);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
 

@@ -581,20 +581,40 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/profile_dog_vaccine_section"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
+            <LinearLayout
+                android:id="@+id/profile_dog_vaccine_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:background="@color/pink200"
-                android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/vaccine"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+                <TextView
+                    android:id="@+id/profile_dog_vaccine_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.8"
+                    android:background="@color/pink200"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/vaccine"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_dog_image" />
+
+
+                <ImageButton
+                    android:id="@+id/edit_vaccine_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit_black_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_dog_image"/>
+
+        </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/dog_profile_vaccine_recycler"
@@ -605,7 +625,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_dog_vaccine_section" />
+                app:layout_constraintTop_toBottomOf="@+id/profile_dog_vaccine_layout" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
