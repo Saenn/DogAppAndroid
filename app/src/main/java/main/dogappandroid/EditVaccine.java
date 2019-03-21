@@ -63,6 +63,7 @@ public class EditVaccine extends AppCompatActivity {
             public void onClick(View view) {
                 Bundle extras = getIntent().getExtras();
                 Intent intent = new Intent(EditVaccine.this, AddVaccineDropdown.class);
+                intent.putExtra("isEditVaccine",true);
                 intent.putExtras(extras);
                 startActivity(intent);
                 finish();
@@ -75,15 +76,15 @@ public class EditVaccine extends AppCompatActivity {
 
                 Bundle extras = getIntent().getExtras();
                 for (DogVaccine v : rabiesVaccine) {
-                    v.setDogID(extras.getInt("internalDogID"));
+                    v.setDogID(extras.getInt("internal_dog_id"));
                     dbHelper.updateVaccine(v);
                 }
                 for (DogVaccine v : othersVaccine) {
-                    v.setDogID(extras.getInt("internalDogID"));
+                    v.setDogID(extras.getInt("internal_dog_id"));
                     dbHelper.updateVaccine(v);
                 }
-                List<DogVaccine> dvr = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
-                List<DogVaccine> dvo = dbHelper.getOtherVaccineListById(extras.getInt("internalDogID"));
+                List<DogVaccine> dvr = dbHelper.getRabiesVaccineListById(extras.getInt("internal_dog_id"));
+                List<DogVaccine> dvo = dbHelper.getOtherVaccineListById(extras.getInt("internal_dog_id"));
                 for (DogVaccine v : dvr) {
                     Log.i("DogVaccineRabies", v.getId() + " " + v.getDate());
                 }
@@ -91,24 +92,13 @@ public class EditVaccine extends AppCompatActivity {
                     Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
                 }
 
-                Intent intent = new Intent(EditVaccine.this, DogProfileActivity2.class);
-                startActivity(intent);
-                dbHelper.deleteNull();
+                Intent DogProfile = new Intent(EditVaccine.this, DogProfileActivity2.class);
+                DogProfile.putExtra("internalDogID", extras.getInt("internal_dog_id"));
+                DogProfile.putExtras(extras);
+                startActivity(DogProfile);
                 finish();
             }
         });
-
-        // set recycle view //
-//        recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
-//        recyclerViewOthers = (RecyclerView) findViewById(R.id.vaccine_listview_other);
-//        layoutManagerRabies = new LinearLayoutManager(this);
-//        recyclerViewRabies.setLayoutManager(layoutManagerRabies);
-//        mAdapterRabies = new EditVaccine.RecyclerViewAdapter(rabiesVaccine);
-//        recyclerViewRabies.setAdapter(mAdapterRabies);
-//        layoutManagerOther = new LinearLayoutManager(this);
-//        recyclerViewOthers.setLayoutManager(layoutManagerOther);
-//        mAdapterOther = new EditVaccine.RecyclerViewAdapter(othersVaccine);
-//        recyclerViewOthers.setAdapter(mAdapterOther);
     }
 
     // Recycler class //
@@ -232,9 +222,9 @@ public class EditVaccine extends AppCompatActivity {
 
     private void queryFromDB() {
         Bundle extras = getIntent().getExtras();
-        if (extras.containsKey("internalDogID")) {
-            rabiesVaccine = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
-            othersVaccine = dbHelper.getOtherVaccineListById(extras.getInt("internalDogID"));
+        if (extras.containsKey("internal_dog_id")) {
+            rabiesVaccine = dbHelper.getRabiesVaccineListById(extras.getInt("internal_dog_id"));
+            othersVaccine = dbHelper.getOtherVaccineListById(extras.getInt("internal_dog_id"));
         }
     }
 
