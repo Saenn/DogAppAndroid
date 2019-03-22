@@ -20,7 +20,9 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
@@ -61,6 +63,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
+        navigationHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(HomeActivity.this, "Header here", Toast.LENGTH_LONG).show();
+            }
+        });
 
 //        handle button
         addDomesticBtn.setOnClickListener(new View.OnClickListener() {
@@ -138,15 +147,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 holder.name.setText(dog.getName().toUpperCase());
             }
-            if(info.getAge() == 0){
-                if(info.getAgeRange().equals("1")){
+            if (info.getAge() == 0) {
+                if (info.getAgeRange().equals("1")) {
                     holder.age.setText("Age : " + "0-3");
-                }
-                else{
+                } else {
                     holder.age.setText("Age : " + "Older than 3");
                 }
-            }
-            else{
+            } else {
                 holder.age.setText("Age : " + info.getAge());
             }
             holder.color.setText("Color : " + dog.getColor());

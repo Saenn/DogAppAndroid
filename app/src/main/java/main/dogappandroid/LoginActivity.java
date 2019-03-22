@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         if (mPreferences.getString("token", "") != "") {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
+            finish();
         }
 
         username = (EditText) findViewById(R.id.usernameLogin);
@@ -173,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             SharedPreferences.Editor editor = mPreferences.edit();
             String imagePath = saveToInternalStorage(bitmap);
-            Log.d("ImagePath", imagePath);
             editor.putString("profilePictureInternalPath", imagePath);
             editor.apply();
         }
