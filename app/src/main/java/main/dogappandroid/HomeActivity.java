@@ -67,7 +67,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this, "Header here", Toast.LENGTH_LONG).show();
+               Intent userProfile = new Intent(HomeActivity.this,UserProfile.class);
+               startActivity(userProfile);
             }
         });
 

@@ -23,13 +23,13 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/userProfilePictureCard"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="75dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userProfileHeader">
@@ -37,7 +37,7 @@
         <ImageView
             android:id="@+id/userProfilePicture"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/anonymous_user" />
     </android.support.v7.widget.CardView>
