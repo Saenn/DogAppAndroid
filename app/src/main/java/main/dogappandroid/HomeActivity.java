@@ -3,6 +3,8 @@ package main.dogappandroid;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,15 +36,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.LayoutManager layoutManager;
     private List<Dog> mDataset;
     private DBHelper mHelper;
-    private Button addDomesticBtn, addStrayBtn;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        addDomesticBtn = (Button) findViewById(R.id.adddomestic);
-        addStrayBtn = (Button) findViewById(R.id.addstray);
         mHelper = new DBHelper(this);
         mDataset = mHelper.getDog();
 
@@ -67,25 +67,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent userProfile = new Intent(HomeActivity.this,UserProfile.class);
-               startActivity(userProfile);
+                Intent userProfile = new Intent(HomeActivity.this, UserProfile.class);
+                startActivity(userProfile);
             }
         });
 
-//        handle button
-        addDomesticBtn.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
-                startActivity(addDomestic);
-            }
-        });
-
-        addStrayBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addStray = new Intent(HomeActivity.this, AddStray.class);
-                startActivity(addStray);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.add_domestic:
+                        Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
+                        startActivity(addDomestic);
+                        return true;
+                    case R.id.add_stray:
+                        Intent addStray = new Intent(HomeActivity.this, AddStray.class);
+                        startActivity(addStray);
+                        return true;
+                }
+                return false;
             }
         });
     }
