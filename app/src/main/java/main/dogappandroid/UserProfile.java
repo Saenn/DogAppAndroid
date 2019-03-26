@@ -5,9 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class UserProfile extends AppCompatActivity {
 
@@ -16,6 +19,7 @@ public class UserProfile extends AppCompatActivity {
 
     ImageView profileImage;
     TextView userID, fullname, address, subdistrict, district, province, phone, email, registered, latestUpdate, question, answer;
+    ImageButton editProfileBtn, editSecurityBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,7 @@ public class UserProfile extends AppCompatActivity {
         bindAndShowUserImage();
         bindAndShowInformation();
         bindAndShowSecurity();
+        bindButton();
     }
 
     private void bindAndShowUserImage() {
@@ -98,5 +103,22 @@ public class UserProfile extends AppCompatActivity {
         }
 
         answer.setText(mPreferences.getString("forgotAnswer", ""));
+    }
+
+    private void bindButton() {
+        editProfileBtn = (ImageButton) findViewById(R.id.profileEditInformationButton);
+        editSecurityBtn = (ImageButton) findViewById(R.id.profileEditSecurityButton);
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(UserProfile.this, "Hello there!!", Toast.LENGTH_LONG).show();
+            }
+        });
+        editSecurityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(UserProfile.this, "Hello there!!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
