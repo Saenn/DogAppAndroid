@@ -159,7 +159,6 @@ public class AddVaccineDropdown extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        // TODO Auto-generated method stub
         super.onBackPressed();
         System.gc();
         Intent I = new Intent(AddVaccineDropdown.this, AddDomestic4.class);

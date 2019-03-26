@@ -178,6 +178,7 @@ public class AddDomestic4 extends AppCompatActivity {
                         addPicToSqlite(extras.getString("sideview"), 2, newDogID);
                     }
                     Intent intent = new Intent(AddDomestic4.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     mHelper.deleteNull();
                     finish();
