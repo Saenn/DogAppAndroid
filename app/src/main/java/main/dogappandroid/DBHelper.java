@@ -291,7 +291,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Dog.DogEntry.PROVINCE, dog.getProvince());
         values.put(Dog.DogEntry.LATITUDE, dog.getLatitude());
         values.put(Dog.DogEntry.LONGITUDE, dog.getLongitude());
-        values.put(Dog.DogEntry.IS_SUBMIT, 0);
+        values.put(Dog.DogEntry.IS_SUBMIT, dog.getIsSubmit());
 
         int row = sqLiteDatabase.update(Dog.DogEntry.TABLE_NAME,
                 values,

@@ -2,6 +2,8 @@ package main.dogappandroid;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -26,10 +28,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
+import main.dogappandroid.Utilities.NetworkUtils;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
+    SharedPreferences mPreferences;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -42,6 +52,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         mHelper = new DBHelper(this);
         mDataset = mHelper.getDog();
@@ -101,7 +113,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSubmitData();
+        List<Dog> aDogList = mHelper.getDog();
+        for (Dog i : aDogList) {
+            Log.d("Dog " + i.getId(), i.getIsSubmit() + "");
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -251,5 +272,49 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         finish();
         overridePendingTransition(0, 0);
         startActivity(intent);
+    }
+
+    public void checkSubmitData() {
+        List<Dog> dogTmp = mHelper.getDog();
+        for (Dog dog : dogTmp) {
+            if (dog.getIsSubmit() == 0) {
+                new onSendDogData().execute(dog);
+            }
+        }
+    }
+
+    public class onSendDogData extends AsyncTask<Dog, Void, String> {
+
+        Dog dog;
+
+        @Override
+        protected String doInBackground(Dog... dogs) {
+            dog = dogs[0];
+            return NetworkUtils.addDog(dogs[0],
+                    Integer.parseInt(mPreferences.getString("userID", "")),
+                    mPreferences.getString("token", ""),
+                    mPreferences.getString("username", ""));
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                String status = jsonObject.getString("status");
+                String message = jsonObject.getString("message");
+                Log.d("Server", status);
+                Log.d("Server", message);
+                if (status.equals("Success")) {
+                    Log.i("System", "in if");
+                    dog.setIsSubmit(1);
+                    Log.i("Dog " + dog.getId(), dog.getIsSubmit() + "");
+                    mHelper.updateDog(dog);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
