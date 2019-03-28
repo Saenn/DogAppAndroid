@@ -16,8 +16,6 @@ import java.util.List;
 
 public final class Dog {
 
-    //    private String gender, color, sterilizedDate, breed, registerDate, name;
-//    private int id, dogID, sterilized, isSubmit;
     private int id, dogID, age, isSubmit;
     private String dogType, gender, color, name, breed, ageRange, address, subdistrict, district, province;
     private double latitude, longitude;

@@ -126,7 +126,11 @@ public class AddDomestic4 extends AppCompatActivity {
                     if (extras.getString("color") != "") dog.setColor(extras.getString("color"));
                     if (extras.getString("name") != "") dog.setName(extras.getString("name"));
                     if (extras.getString("breed") != "") dog.setBreed(extras.getString("breed"));
-                    if (extras.getInt("age", -1) != -1) dog.setAge(extras.getInt("age"));
+                    if (extras.getInt("age", -1) != -1) {
+                        dog.setAge(extras.getInt("age"));
+                    } else {
+                        dog.setAge(-1);
+                    }
                     dog.setAgeRange(extras.getString("ageRange"));
                     dog.setAddress(extras.getString("address"));
                     dog.setSubdistrict(extras.getString("subdistrict"));
