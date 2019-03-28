@@ -109,6 +109,13 @@ public class AddVaccineDropdown extends AppCompatActivity {
                                                          I.putExtras(prevBundle);
                                                          startActivity(I);
                                                          finish();
+                                                     }else if(prevBundle.containsKey("isEditVaccine")){
+                                                         Intent I = new Intent(AddVaccineDropdown.this, EditVaccine.class);
+                                                         removeVaccineBundle();
+                                                         prevBundle.remove("isEditVaccine");
+                                                         I.putExtras(prevBundle);
+                                                         startActivity(I);
+                                                         finish();
                                                      }
                                                      else{
                                                          Intent I = new Intent(AddVaccineDropdown.this, AddDomestic4.class);
@@ -152,7 +159,6 @@ public class AddVaccineDropdown extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        // TODO Auto-generated method stub
         super.onBackPressed();
         System.gc();
         Intent I = new Intent(AddVaccineDropdown.this, AddDomestic4.class);

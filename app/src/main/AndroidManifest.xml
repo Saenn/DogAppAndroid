@@ -18,8 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddStray4"></activity>
-        <activity android:name=".ForgotPassword" />
+        <activity android:name=".ReportProvince2"></activity>
+        <activity android:name=".ReportProvince" />
 
         <service
             android:name=".ServiceRunning"
@@ -35,25 +35,33 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".Report">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UserProfile"
+            android:label="My Profile"
+            android:launchMode="standard"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AddStray4" />
+        <activity android:name=".ForgotPassword" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_navigation_bar"
-            android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
             android:launchMode="standard">
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".RegisterActivity"
@@ -93,6 +101,10 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".EditDomestic"
+            android:launchMode="standard"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".EditVaccine"
             android:launchMode="standard"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddVaccineDropdown" />

@@ -57,7 +57,6 @@
     <string name="confirm">Confirm</string>
     <string name="vaccine">Vaccine :</string>
     <string name="vaccine_date">Injected on :</string>
-
     <string name="dogfemale">Female</string>
     <string name="gender">Gender</string>
     <string name="yes">Yes</string>
@@ -179,7 +178,6 @@
         <item>Phrae</item>
         <item>Mae Hong Son</item>
     </string-array>
-
     <string-array name="province_th">
         <item>กรุงเทพมหานคร</item>
         <item>กระบี่</item>
@@ -267,7 +265,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_navigation_bar">NavigationBar</string>
-
     <string-array name="securityQuestionArray">
         <item>What Is your favorite book?</item>
         <item>What is the name of the road you grew up on?</item>
@@ -280,7 +277,6 @@
         <item>What city were you born in?</item>
         <item>Where is your favorite place to vacation?</item>
     </string-array>
-
     <string name="secure_question">Security Question</string>
     <string name="secure_answer">Enter your answer</string>
     <string name="takePictureButton">TakePictureButton</string>

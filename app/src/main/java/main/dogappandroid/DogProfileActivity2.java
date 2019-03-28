@@ -26,7 +26,7 @@ public class DogProfileActivity2 extends AppCompatActivity {
     private TextView name, age, gender, color, breed, address, subdistrict, district, province,
             status, pregnant, children, death, missing, sterilized, updated;
     private LinearLayout pregnantLayout, childrenLayout, deathLayout, missingLayout, sterilizedLayout;
-    private ImageButton editProfileButton;
+    private ImageButton editProfileButton, editVaccinesButton;
     private RecyclerView vaccineRecycler;
     private RecyclerView.Adapter vaccineAdapter;
     private RecyclerView.LayoutManager vaccineLayoutManager;
@@ -57,7 +57,7 @@ public class DogProfileActivity2 extends AppCompatActivity {
     }
     private void bindImageButton(){
         editProfileButton = (ImageButton) findViewById(R.id.edit_dog_button);
-
+        editVaccinesButton = (ImageButton) findViewById(R.id.edit_vaccine_button);
     }
 
     private void bindImageView() {
@@ -180,6 +180,15 @@ public class DogProfileActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DogProfileActivity2.this, EditDomestic.class);
+                intent.putExtra("internal_dog_id", dog.getId());
+                startActivity(intent);
+                finish();
+            }
+        });
+        editVaccinesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DogProfileActivity2.this, EditVaccine.class);
                 intent.putExtra("internal_dog_id", dog.getId());
                 startActivity(intent);
                 finish();

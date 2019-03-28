@@ -17,9 +17,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:title="Home" />
+            android:background="@color/pink600"
+            android:theme="@style/AppTheme"
+            app:title="Home"
+            app:titleTextColor="@color/white" />
 
     </FrameLayout>
 

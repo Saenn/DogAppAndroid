@@ -41,7 +41,7 @@ public class AddDomestic4 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_domestic_4);
+        setContentView(R.layout.activity_add_domestic4);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
 
@@ -178,6 +178,7 @@ public class AddDomestic4 extends AppCompatActivity {
                         addPicToSqlite(extras.getString("sideview"), 2, newDogID);
                     }
                     Intent intent = new Intent(AddDomestic4.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     mHelper.deleteNull();
                     finish();
