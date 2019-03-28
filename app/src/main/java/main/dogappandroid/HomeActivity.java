@@ -127,7 +127,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (dog.getIsSubmit() == 0 && dog.getDogID() == -1) {
                     new addNewDog().execute(dog);
                 } else if (dog.getIsSubmit() == 0) {
-                    Log.i("UpdateDog : " + dog.getId(), "some update sent : " + dog.getIsSubmit());
                     new updateExistingDog().execute(dog);
                 }
             }
@@ -319,6 +318,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     dog.setIsSubmit(1);
                     dog.setDogID(rdsDogID);
                     mHelper.updateDog(dog);
+                    Log.i("AddDog", "AddDog Success : " + dog.getDogID());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -350,8 +350,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 JSONObject sqlResponse = new JSONObject(data);
                 if (status.equals("Success") && sqlResponse.getInt("affectedRows") == 1) {
                     dog.setIsSubmit(1);
-                    Log.i("Success", "done ////  " + dog.getId() + "   :   " + dog.getIsSubmit());
                     mHelper.updateDog(dog);
+                    Log.i("UpdateDog", "Update Success : " + dog.getDogID());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
