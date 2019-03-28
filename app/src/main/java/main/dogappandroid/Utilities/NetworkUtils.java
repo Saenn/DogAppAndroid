@@ -21,6 +21,7 @@ public class NetworkUtils {
     private static final String LOGIN_URL = "http://10.0.2.2:9000/login";
     private static final String FORGOT_URL = "http://10.0.2.2:9000/forgot";
     private static final String ADD_DOG_URL = "http://10.0.2.2:9000/dog/add";
+    private static final String UPDATE_DOG_URL = "http://10.0.2.2:9000/dog/update";
 
     public static String register(Map<String, String> queryParams) {
         String response = null;
@@ -232,4 +233,81 @@ public class NetworkUtils {
         return responseFromRequest;
     }
 
+    public static String updateDog(Dog dog, int ownerID, String token, String username) {
+        String urlParams = "username=" + username + "&";
+        urlParams += "dogType=" + dog.getDogType() + "&";
+        urlParams += "gender=" + dog.getGender() + "&";
+        urlParams += "ageRange=" + dog.getAgeRange() + "&";
+        urlParams += "address=" + dog.getAddress() + "&";
+        urlParams += "subdistrict=" + dog.getSubdistrict() + "&";
+        urlParams += "district=" + dog.getDistrict() + "&";
+        urlParams += "province=" + dog.getProvince() + "&";
+        urlParams += "latitude=" + dog.getLatitude() + "&";
+        urlParams += "longitude=" + dog.getLongitude() + "&";
+        urlParams += "dogID=" + dog.getDogID() + "&";
+        urlParams += "ownerID=" + ownerID;
+        if (dog.getColor() != "") urlParams += "&color=" + dog.getColor();
+        if (dog.getName() != "") urlParams += "&name=" + dog.getName();
+        if (dog.getBreed() != "") urlParams += "&breed=" + dog.getBreed();
+        if (dog.getAge() != -1) urlParams += "&age=" + dog.getAge();
+
+        byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+
+        HttpURLConnection httpConnection = null;
+        BufferedReader reader = null;
+        String responseFromRequest = null;
+
+        try {
+            URL requestURL = new URL(UPDATE_DOG_URL);
+            httpConnection = (HttpURLConnection) requestURL.openConnection();
+            httpConnection.setRequestMethod("POST");
+            httpConnection.setDoOutput(true);
+            httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            httpConnection.addRequestProperty("Authorization", token);
+            DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
+            wr.write(postData);
+
+            reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+            String line;
+            StringBuilder contentBuilder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line);
+                contentBuilder.append("\n");
+            }
+            if (contentBuilder.length() == 0) {
+                return "";
+            }
+            responseFromRequest = contentBuilder.toString();
+        } catch (IOException e) {
+            try {
+                reader = new BufferedReader(new InputStreamReader(
+                        httpConnection.getErrorStream()));
+                String line = null;
+                StringBuilder contentBuilder = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    contentBuilder.append(line);
+                    contentBuilder.append("\n");
+                }
+                reader.close();
+                if (contentBuilder.length() == 0) {
+                    return "";
+                }
+                responseFromRequest = contentBuilder.toString();
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        } finally {
+            if (httpConnection != null) {
+                httpConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return responseFromRequest;
+    }
 }

@@ -34,8 +34,10 @@ public class UserProfile extends AppCompatActivity {
 
     private void bindAndShowUserImage() {
         profileImage = (ImageView) findViewById(R.id.userProfilePicture);
-        Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePictureInternalPath", ""));
-        profileImage.setImageBitmap(userPicture);
+        if (mPreferences.getString("profilePictureInternalPath", "") != "") {
+            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePictureInternalPath", ""));
+            profileImage.setImageBitmap(userPicture);
+        }
     }
 
     private void bindAndShowInformation() {
