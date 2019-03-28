@@ -25,11 +25,12 @@ public final class Dog {
 
     public Dog(Bundle bundle) {
         dogType = bundle.getString("dogType");
+        dogID = bundle.getInt("dogID", -1);
         name = bundle.getString("name");
         gender = bundle.getString("gender");
         color = bundle.getString("color");
         breed = bundle.getString("breed");
-        if (bundle.getInt("age", -1) != -1) age = bundle.getInt("age");
+        age = bundle.getInt("age", -1);
         ageRange = bundle.getString("ageRange");
         address = bundle.getString("address");
         subdistrict = bundle.getString("subdistrict");
@@ -37,7 +38,7 @@ public final class Dog {
         province = bundle.getString("province");
         latitude = bundle.getDouble("latitude");
         longitude = bundle.getDouble("longitude");
-        isSubmit = 0;
+        isSubmit = bundle.getInt("isSubmit", -1);
     }
 
     public static class DogEntry implements BaseColumns {
@@ -81,8 +82,6 @@ public final class Dog {
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DogEntry.TABLE_NAME;
-
-    //    getter and setter
 
     public int getId() {
         return id;

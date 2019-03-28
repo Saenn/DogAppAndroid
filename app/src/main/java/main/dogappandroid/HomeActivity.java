@@ -116,10 +116,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        checkSubmitData();
-        List<Dog> aDogList = mHelper.getDog();
-        for (Dog i : aDogList) {
-            Log.d("Dog " + i.getId(), i.getIsSubmit() + "");
+        List<Dog> dogTmp = mHelper.getDog();
+        for (Dog dog : dogTmp) {
+            if (dog.getIsSubmit() == 0 && dog.getDogID() == -1) {
+                new addNewDog().execute(dog);
+            } else if (dog.getIsSubmit() == 0) {
+//                new updateExistingDog().execute(dog);
+            }
         }
     }
 
@@ -274,16 +277,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-    public void checkSubmitData() {
-        List<Dog> dogTmp = mHelper.getDog();
-        for (Dog dog : dogTmp) {
-            if (dog.getIsSubmit() == 0) {
-                new onSendDogData().execute(dog);
-            }
-        }
-    }
-
-    public class onSendDogData extends AsyncTask<Dog, Void, String> {
+    public class addNewDog extends AsyncTask<Dog, Void, String> {
 
         Dog dog;
 
@@ -302,13 +296,47 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 String status = jsonObject.getString("status");
-                String message = jsonObject.getString("message");
-                Log.d("Server", status);
-                Log.d("Server", message);
-                if (status.equals("Success")) {
-                    Log.i("System", "in if");
+                String data = jsonObject.getString("data");
+                JSONObject sqlResponse = new JSONObject(data);
+                int rdsDogID = sqlResponse.getInt("insertId");
+//                check if the data has already been in rds database
+                if (status.equals("Success") && sqlResponse.getInt("affectedRows") == 1) {
                     dog.setIsSubmit(1);
-                    Log.i("Dog " + dog.getId(), dog.getIsSubmit() + "");
+                    dog.setDogID(rdsDogID);
+                    mHelper.updateDog(dog);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public class updateExistingDog extends AsyncTask<Dog, Void, String> {
+
+        Dog dog;
+
+        @Override
+        protected String doInBackground(Dog... dogs) {
+            dog = dogs[0];
+            return NetworkUtils.addDog(dogs[0],
+                    Integer.parseInt(mPreferences.getString("userID", "")),
+                    mPreferences.getString("token", ""),
+                    mPreferences.getString("username", ""));
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                String status = jsonObject.getString("status");
+                String data = jsonObject.getString("data");
+                JSONObject sqlResponse = new JSONObject(data);
+                int rdsDogID = sqlResponse.getInt("insertId");
+                if (status.equals("Success")) {
+                    dog.setIsSubmit(0);
+                    dog.setDogID(rdsDogID);
                     mHelper.updateDog(dog);
                 }
             } catch (JSONException e) {

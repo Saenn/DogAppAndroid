@@ -122,6 +122,7 @@ public class AddDomestic4 extends AppCompatActivity {
 //                    insert data into dog table -- prepare data
                     Dog dog = new Dog();
                     dog.setDogType(extras.getString("dogType"));
+                    dog.setDogID(-1);
                     dog.setGender(extras.getString("gender"));
                     if (extras.getString("color") != "") dog.setColor(extras.getString("color"));
                     if (extras.getString("name") != "") dog.setName(extras.getString("name"));
