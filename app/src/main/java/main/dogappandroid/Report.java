@@ -1,19 +1,32 @@
 package main.dogappandroid;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 public class Report extends AppCompatActivity {
-    private Spinner province;
+
+    private Button provinceButton, regionButton, fullButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        province = (Spinner) findViewById(R.id.reportProvince);
-        ArrayAdapter<CharSequence> adapter =  ArrayAdapter.createFromResource(this,R.array.province_eng,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        province.setAdapter(adapter);
+
+        provinceButton = (Button) findViewById(R.id.report_province);
+        regionButton = (Button) findViewById(R.id.report_region);
+        fullButton = (Button) findViewById(R.id.report_full);
+
+        provinceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Report.this, ReportProvince.class);
+                startActivity(i);
+            }
+        });
     }
 }

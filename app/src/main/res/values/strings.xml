@@ -17,6 +17,12 @@
     <!-- Strings related to editdog -->
     <string name="header_edit_domestic">Edit Domestic Dog</string>
     <string name="header_stray">Add Stray Dog</string>
+    <string name="choose_report">Choose report type</string>
+    <string name="report_1">Province</string>
+    <string name="report_2">Region</string>
+    <string name="report_3">Full Report</string>
+    <string name="selectprovince">Choose Province</string>
+
 
     <!-- Strings related to adddog -->
     <string name="editdogprofilebutton">Profile</string>

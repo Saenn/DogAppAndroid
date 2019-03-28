@@ -7,43 +7,112 @@
     android:background="@color/pink50"
     tools:context=".Report">
 
-    <TextView
-        android:id="@+id/reportHeader"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:background="@color/pink600"
-        android:gravity="center"
-        android:text="Report"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/reportProvinceLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="Choose your preferred province?"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportHeader" />
+        <TextView
+            android:id="@+id/reportHeader"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@color/pink600"
+            android:gravity="center"
+            android:text="Report"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/reportProvince"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:dropDownWidth="wrap_content"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportProvinceLabel" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="54dp"
+        android:orientation="vertical"
+        android:weightSum="2"
+        app:layout_constraintTop_toBottomOf="@id/reportHeader"
+        tools:layout_editor_absoluteX="0dp">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.55"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/choose_report"
+            android:textColor="@color/pink500"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.425"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/report_province"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="80dp"
+                android:background="@drawable/report_type"
+                android:orientation="vertical"
+                android:text="@string/report_1"
+                android:textSize="30sp">
+
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.425"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/report_region"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="80dp"
+                android:background="@drawable/report_type_2"
+                android:orientation="vertical"
+                android:text="@string/report_2"
+                android:textSize="30sp">
+
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.425"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/report_full"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="80dp"
+                android:background="@drawable/report_type_3"
+                android:orientation="vertical"
+                android:text="@string/report_3"
+                android:textSize="30sp">
+
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.175"
+            android:orientation="horizontal" />
+
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
