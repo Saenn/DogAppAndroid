@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditDomestic extends AppCompatActivity {
-    private EditText dogname, dogage, dogbreed, dogcolor,dogaddress,dogsubdistrict;
+    private EditText dogname, dogage, dogbreed, dogcolor, dogaddress, dogsubdistrict, dogdistrict, dogprovince;
     private TextView ageView, genderView, nameView, colorage, colorgender;
     private RadioButton maleBtn, femaleBtn;
     private RadioGroup gender;
@@ -34,6 +34,8 @@ public class EditDomestic extends AppCompatActivity {
         dogcolor = (EditText) findViewById(R.id.colorDomestic);
         dogaddress = (EditText) findViewById(R.id.addressDomestic);
         dogsubdistrict = (EditText) findViewById(R.id.subdistrictDomestic);
+        dogdistrict = (EditText) findViewById(R.id.districtDomestic);
+        dogprovince = (EditText) findViewById(R.id.provinceDomestic);
         maleBtn = (RadioButton) findViewById(R.id.maleDomesticButton);
         femaleBtn = (RadioButton) findViewById(R.id.femaleDomesticButton);
         gender = (RadioGroup) findViewById(R.id.genderDomestic);
@@ -58,7 +60,7 @@ public class EditDomestic extends AppCompatActivity {
                     dog.setName(dogname.getText().toString());
                     if (maleBtn.isChecked()) {
                         dog.setGender("M");
-                    }else if (femaleBtn.isChecked()) {
+                    } else if (femaleBtn.isChecked()) {
                         dog.setGender("F");
                     }
                     if (Integer.parseInt(dogage.getText().toString()) <= 3) {
@@ -71,10 +73,15 @@ public class EditDomestic extends AppCompatActivity {
                     dog.setColor(dogcolor.getText().toString());
                     dog.setAddress(dogaddress.getText().toString());
                     dog.setSubdistrict(dogsubdistrict.getText().toString());
+                    dog.setDistrict(dogdistrict.getText().toString());
+                    dog.setProvince(dogprovince.getText().toString());
+                    dog.setIsSubmit(0);
                     dbHelper.updateDog(dog);
                     Intent DogProfile = new Intent(EditDomestic.this, DogProfileActivity2.class);
                     DogProfile.putExtra("internalDogID", dog.getId());
                     DogProfile.putExtras(extras);
+                    overridePendingTransition(0, 0);
+                    DogProfile.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(DogProfile);
                     finish();
                 }
@@ -82,7 +89,7 @@ public class EditDomestic extends AppCompatActivity {
         });
     }
 
-    private void getEditDogInfo(){
+    private void getEditDogInfo() {
         Bundle prevBundle = getIntent().getExtras();
         if (prevBundle != null && prevBundle.containsKey("internal_dog_id")) {
             dog = dbHelper.getDogById(prevBundle.getInt("internal_dog_id"));
@@ -91,14 +98,14 @@ public class EditDomestic extends AppCompatActivity {
         }
     }
 
-    private void setAllField(){
+    private void setAllField() {
 
         // need to set name and image //
         dogname.setText(dog.getName());
-        if(dog.getGender().equals("M")){
+        if (dog.getGender().equals("M")) {
             maleBtn.setChecked(true);
             femaleBtn.setChecked(false);
-        }else if(dog.getGender().equals("F")){
+        } else if (dog.getGender().equals("F")) {
             maleBtn.setChecked(false);
             femaleBtn.setChecked(true);
         }
@@ -106,6 +113,8 @@ public class EditDomestic extends AppCompatActivity {
         dogbreed.setText(dog.getBreed());
         dogaddress.setText(dog.getAddress());
         dogsubdistrict.setText(dog.getSubdistrict());
+        dogdistrict.setText(dog.getDistrict());
+        dogprovince.setText(dog.getProvince());
         dogage.setText(String.valueOf(dog.getAge()));
 
     }
