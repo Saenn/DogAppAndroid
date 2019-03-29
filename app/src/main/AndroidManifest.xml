@@ -104,7 +104,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddVaccineDropdown" />
         <activity android:name=".DogProfileActivity" />
-        <activity android:name=".DogProfileActivity2" />
     </application>
 
 </manifest>

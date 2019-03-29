@@ -25,17 +25,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
 
 import main.dogappandroid.Utilities.NetworkUtils;
 
@@ -221,7 +218,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         });
                         builder.show();
                     } else {
-                        Intent I = new Intent(HomeActivity.this, DogProfileActivity2.class);
+                        Intent I = new Intent(HomeActivity.this, DogProfileActivity.class);
                         I.putExtra("internalDogID", dog.getId());
                         startActivity(I);
                     }
