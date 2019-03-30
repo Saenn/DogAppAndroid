@@ -43,7 +43,7 @@ public class DogProfileActivity extends AppCompatActivity {
         bindLinearLayout();
         bindImageButton();
         queryFromDB();
-        setAllButton();
+//        setAllButton();
         if(vaccines != null) {
             for (DogVaccine dv : vaccines) {
                 Log.d("This is vaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
@@ -171,26 +171,26 @@ public class DogProfileActivity extends AppCompatActivity {
     }
 
 
-    private void setAllButton() {
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DogProfileActivity.this, EditDomestic.class);
-                intent.putExtra("internal_dog_id", dog.getId());
-                startActivity(intent);
-                finish();
-            }
-        });
-        editVaccinesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DogProfileActivity.this, EditVaccine.class);
-                intent.putExtra("internal_dog_id", dog.getId());
-                startActivity(intent);
-                finish();
-            }
-        });
-    }
+//    private void setAllButton() {
+//        editProfileButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(DogProfileActivity.this, EditDomestic.class);
+//                intent.putExtra("internal_dog_id", dog.getId());
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+//        editVaccinesButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(DogProfileActivity.this, EditVaccine.class);
+//                intent.putExtra("internal_dog_id", dog.getId());
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+//    }
 
     @Override
     public void onResume() {
