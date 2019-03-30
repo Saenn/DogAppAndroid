@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class DogProfileActivity extends AppCompatActivity {
     private TextView name, age, gender, color, breed, address, subdistrict, district, province,
             status, pregnant, children, death, missing, sterilized, updated;
     private LinearLayout pregnantLayout, childrenLayout, deathLayout, missingLayout, sterilizedLayout;
-    private ImageButton editProfileButton, editVaccinesButton;
+    private Button editButton, updateButton;
     private RecyclerView vaccineRecycler;
     private RecyclerView.Adapter vaccineAdapter;
     private RecyclerView.LayoutManager vaccineLayoutManager;
@@ -38,29 +39,42 @@ public class DogProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dog_profile);
         dbHelper = new DBHelper(this);
-        bindImageView();
-        bindTextView();
-        bindLinearLayout();
-        bindImageButton();
-        queryFromDB();
-//        setAllButton();
-        if(vaccines != null) {
-            for (DogVaccine dv : vaccines) {
-                Log.d("This is vaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
-            }
-            bindRecyclerView();
+        bindData();
+        showDogData();
+        if (vaccines != null) {
+            showVaccineList();
         }
-    }
-    private void bindImageButton(){
-        editProfileButton = (ImageButton) findViewById(R.id.edit_dog_button);
-        editVaccinesButton = (ImageButton) findViewById(R.id.edit_vaccine_button);
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("update", "click!! with " + dog.getDogType());
+                if (dog.getDogType().equals("1") || dog.getDogType().equals("2")) {
+                    Intent intent = new Intent(DogProfileActivity.this, UpdateDomestic.class);
+                    intent.putExtra("internalDogID", dog.getId());
+                    startActivity(intent);
+                } else if (dog.getDogType().equals("3")) {
+                    // TODO: Add Update Stray
+                }
+            }
+        });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dog.getDogType().equals("1") || dog.getDogType().equals("2")) {
+                    Intent intent = new Intent(DogProfileActivity.this, EditDomestic.class);
+                    intent.putExtra("internalDogID", dog.getId());
+                    startActivity(intent);
+                } else if (dog.getDogType().equals("3")) {
+                    // TODO: Add Edit Stray
+                }
+            }
+        });
     }
 
-    private void bindImageView() {
-        dogImage = (ImageView) findViewById(R.id.profile_dog_image);
-    }
-
-    private void bindTextView() {
+    private void bindData() {
+        dogImage = (ImageView) findViewById(R.id.dogProfilePicture);
         name = (TextView) findViewById(R.id.profile_dog_name);
         age = (TextView) findViewById(R.id.profile_dog_age);
         gender = (TextView) findViewById(R.id.profile_dog_gender);
@@ -77,28 +91,24 @@ public class DogProfileActivity extends AppCompatActivity {
         missing = (TextView) findViewById(R.id.profile_dog_missing);
         sterilized = (TextView) findViewById(R.id.profile_dog_sterilized);
         updated = (TextView) findViewById(R.id.profile_dog_submit);
-    }
-
-    private void bindLinearLayout() {
         pregnantLayout = (LinearLayout) findViewById(R.id.pregnantLayout);
         childrenLayout = (LinearLayout) findViewById(R.id.childLayout);
         deathLayout = (LinearLayout) findViewById(R.id.deathLayout);
         missingLayout = (LinearLayout) findViewById(R.id.missingLayout);
         sterilizedLayout = (LinearLayout) findViewById(R.id.sterilizedLayout);
+        vaccineRecycler = (RecyclerView) findViewById(R.id.dog_profile_vaccine_recycler);
+        editButton = (Button) findViewById(R.id.editDogButton);
+        updateButton = (Button) findViewById(R.id.updateDogButton);
     }
 
-    private void bindRecyclerView() {
-        vaccineRecycler = (RecyclerView) findViewById(R.id.dog_profile_vaccine_recycler);
-//        setup layout manager
+    private void showVaccineList() {
         vaccineLayoutManager = new LinearLayoutManager(DogProfileActivity.this);
         vaccineRecycler.setLayoutManager(vaccineLayoutManager);
-//        set adapter
-        Log.d("before adapter", vaccines.size() + "");
         vaccineAdapter = new RecyclerViewAdapter(vaccines);
         vaccineRecycler.setAdapter(vaccineAdapter);
     }
 
-    private void queryFromDB() {
+    private void showDogData() {
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey("internalDogID")) {
             dog = dbHelper.getDogById(extras.getInt("internalDogID"));
@@ -106,25 +116,21 @@ public class DogProfileActivity extends AppCompatActivity {
             dogInformation = dbHelper.getAllDogInformationByDogID(extras.getInt("internalDogID"));
             vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
             vaccines.addAll(dbHelper.getOtherVaccineListById(extras.getInt("internalDogID")));
-            Log.i("DogVaccineList", vaccines.size() + "");
-            setAllFields();
-        }
-    }
 
-    private void setAllFields() {
-        name.setText(dog.getName());
-        if (dog.getAgeRange().equals("1")) {
-            age.setText("Puppy (" + dog.getAge() + ")");
-        } else {
-            age.setText("Adult (" + dog.getAge() + ")");
+            name.setText(dog.getName());
+            if (dog.getAgeRange().equals("1")) {
+                age.setText("Puppy (" + dog.getAge() + ")");
+            } else {
+                age.setText("Adult (" + dog.getAge() + ")");
+            }
+            gender.setText(dog.getGender());
+            color.setText(dog.getColor());
+            breed.setText(dog.getBreed());
+            address.setText(dog.getAddress());
+            subdistrict.setText(dog.getSubdistrict());
+            district.setText(dog.getDistrict());
+            province.setText(dog.getProvince());
         }
-        gender.setText(dog.getGender());
-        color.setText(dog.getColor());
-        breed.setText(dog.getBreed());
-        address.setText(dog.getAddress());
-        subdistrict.setText(dog.getSubdistrict());
-        district.setText(dog.getDistrict());
-        province.setText(dog.getProvince());
     }
 
     protected class RecyclerViewAdapter extends RecyclerView.Adapter<DogProfileActivity.ViewHolder> {
@@ -170,35 +176,11 @@ public class DogProfileActivity extends AppCompatActivity {
 
     }
 
-
-//    private void setAllButton() {
-//        editProfileButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(DogProfileActivity.this, EditDomestic.class);
-//                intent.putExtra("internal_dog_id", dog.getId());
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-//        editVaccinesButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(DogProfileActivity.this, EditVaccine.class);
-//                intent.putExtra("internal_dog_id", dog.getId());
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-//    }
-
     @Override
     public void onResume() {
         super.onResume();
-        // put your code here...
-        queryFromDB();
+        showDogData();
     }
-
 
 
 }
