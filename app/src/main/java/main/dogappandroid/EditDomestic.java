@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -77,7 +76,7 @@ public class EditDomestic extends AppCompatActivity {
                     dog.setProvince(dogprovince.getText().toString());
                     dog.setIsSubmit(0);
                     dbHelper.updateDog(dog);
-                    Intent DogProfile = new Intent(EditDomestic.this, DogProfileActivity2.class);
+                    Intent DogProfile = new Intent(EditDomestic.this, DogProfileActivity.class);
                     DogProfile.putExtra("internalDogID", dog.getId());
                     DogProfile.putExtras(extras);
                     overridePendingTransition(0, 0);
@@ -91,9 +90,9 @@ public class EditDomestic extends AppCompatActivity {
 
     private void getEditDogInfo() {
         Bundle prevBundle = getIntent().getExtras();
-        if (prevBundle != null && prevBundle.containsKey("internal_dog_id")) {
-            dog = dbHelper.getDogById(prevBundle.getInt("internal_dog_id"));
-            info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internal_dog_id"));
+        if (prevBundle != null && prevBundle.containsKey("internalDogID")) {
+            dog = dbHelper.getDogById(prevBundle.getInt("internalDogID"));
+            info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internalDogID"));
             setAllField();
         }
     }

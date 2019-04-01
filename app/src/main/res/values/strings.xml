@@ -324,5 +324,17 @@
     <string name="profile_dog_sterilized_label">Sterilized :</string>
     <string name="profile_dog_submit_label">Updated :</string>
     <string name="vaccine_item_icon_description">This is vaccine icon</string>
-
+    <string name="update">Update</string>
+    <string-array name="dogStatusArray">
+        <item>Alive</item>
+        <item>Missing</item>
+        <item>Dead</item>
+    </string-array>
+    <string-array name="vaccineList_EN">
+        <item>Rabies</item>
+        <item>DHPP</item>
+        <item>Distemper</item>
+        <item>Measles</item>
+        <item>Parainfluenza</item>
+    </string-array>
 </resources>

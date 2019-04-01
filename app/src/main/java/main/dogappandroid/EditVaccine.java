@@ -92,7 +92,7 @@ public class EditVaccine extends AppCompatActivity {
                     Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
                 }
 
-                Intent DogProfile = new Intent(EditVaccine.this, DogProfileActivity2.class);
+                Intent DogProfile = new Intent(EditVaccine.this, DogProfileActivity.class);
                 DogProfile.putExtra("internalDogID", extras.getInt("internal_dog_id"));
                 DogProfile.putExtras(extras);
                 startActivity(DogProfile);

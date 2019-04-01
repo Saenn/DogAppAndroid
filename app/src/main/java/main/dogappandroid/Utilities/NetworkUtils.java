@@ -2,6 +2,7 @@ package main.dogappandroid.Utilities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -202,19 +203,23 @@ public class NetworkUtils {
             responseFromRequest = contentBuilder.toString();
         } catch (IOException e) {
             try {
-                reader = new BufferedReader(new InputStreamReader(
-                        httpConnection.getErrorStream()));
-                String line = null;
-                StringBuilder contentBuilder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    contentBuilder.append(line);
-                    contentBuilder.append("\n");
+                if (httpConnection.getErrorStream() != null) {
+                    reader = new BufferedReader(new InputStreamReader(
+                            httpConnection.getErrorStream()));
+                    String line = null;
+                    StringBuilder contentBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        contentBuilder.append(line);
+                        contentBuilder.append("\n");
+                    }
+                    reader.close();
+                    if (contentBuilder.length() == 0) {
+                        return "";
+                    }
+                    responseFromRequest = contentBuilder.toString();
+                } else {
+                    Log.d("Server Error", "Server doesn't response");
                 }
-                reader.close();
-                if (contentBuilder.length() == 0) {
-                    return "";
-                }
-                responseFromRequest = contentBuilder.toString();
             } catch (IOException e2) {
                 e2.printStackTrace();
             }

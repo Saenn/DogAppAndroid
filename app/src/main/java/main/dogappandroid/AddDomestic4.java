@@ -88,7 +88,11 @@ public class AddDomestic4 extends AppCompatActivity {
             alert.show();
         }
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        }catch (SecurityException e){
+            e.printStackTrace();
+        }
 
         // set var //
         mHelper = new DBHelper(this);

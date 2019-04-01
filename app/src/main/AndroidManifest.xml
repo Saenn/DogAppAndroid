@@ -19,9 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReportProvince2"></activity>
-        <activity android:name=".ReportProvince" />
-
         <service
             android:name=".ServiceRunning"
             android:stopWithTask="false" />
@@ -36,13 +33,20 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".Report">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name"
+            android:launchMode="standard">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".UpdateDomestic" />
+        <activity android:name=".ReportProvince2" />
+        <activity android:name=".ReportProvince" />
+        <activity android:name=".Report" />
         <activity
             android:name=".UserProfile"
             android:label="My Profile"
@@ -54,16 +58,6 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_navigation_bar"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/app_name"
-            android:launchMode="standard">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".RegisterActivity"
             android:launchMode="standard"
@@ -110,7 +104,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddVaccineDropdown" />
         <activity android:name=".DogProfileActivity" />
-        <activity android:name=".DogProfileActivity2" />
     </application>
 
 </manifest>
