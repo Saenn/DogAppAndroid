@@ -330,4 +330,11 @@
         <item>Missing</item>
         <item>Dead</item>
     </string-array>
+    <string-array name="vaccineList_EN">
+        <item>Rabies</item>
+        <item>DHPP</item>
+        <item>Distemper</item>
+        <item>Measles</item>
+        <item>Parainfluenza</item>
+    </string-array>
 </resources>

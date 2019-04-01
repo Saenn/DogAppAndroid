@@ -25,9 +25,9 @@ public class AddVaccineDropdown extends AppCompatActivity {
     private Spinner vaccineSpinner;
     private ArrayList<String> vaccineList = new ArrayList<String>();
     private Button confirmButton;
-    private String curDate,selectedValue;
+    private String curDate, selectedValue;
     private CalendarView calendarView;
-    public static final DecimalFormat mFormat= new DecimalFormat("00");
+    public static final DecimalFormat mFormat = new DecimalFormat("00");
     private DBHelper mHelper;
     private int ID = -1;
     private Bundle prevBundle;
@@ -59,10 +59,9 @@ public class AddVaccineDropdown extends AppCompatActivity {
         vaccineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
+                if (position == 0) {
                     selectedValue = "";
-                }
-                else{
+                } else {
                     Toast.makeText(AddVaccineDropdown.this,
                             "Select : " + vaccineList.get(position),
                             Toast.LENGTH_SHORT).show();
@@ -77,57 +76,53 @@ public class AddVaccineDropdown extends AppCompatActivity {
         });
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
 
-                                                 if (selectedValue.equals("") || curDate.equals("")) {
-                                                     Toast.makeText(AddVaccineDropdown.this, "No vaccine is selected.", Toast.LENGTH_LONG).show();
+                if (selectedValue.equals("") || curDate.equals("")) {
+                    Toast.makeText(AddVaccineDropdown.this, "No vaccine is selected.", Toast.LENGTH_LONG).show();
+                } else {
+                    DogVaccine vaccine = new DogVaccine();
+                    vaccine.setName(selectedValue);
+                    vaccine.setDate(curDate);
+                    if (prevBundle.containsKey("internal_dog_id")) {
+                        vaccine.setDogID(getIntent().getExtras().getInt("internal_dog_id"));
+                    }
+                    if (ID == -1) {
+                        mHelper.addVaccine(vaccine);
+                    } else {
+                        vaccine.setId(ID);
+                        if (getIntent().getExtras().getInt("isAdding") == 1) {
+                            mHelper.updateVaccineWhileAddingDog(vaccine);
+                        } else {
+                            mHelper.updateVaccine(vaccine);
+                        }
+                    }
+                    if (prevBundle.containsKey("fromstray")) {
+                        Intent I = new Intent(AddVaccineDropdown.this, AddStray4.class);
+                        removeVaccineBundle();
+                        prevBundle.remove("fromstray");
+                        I.putExtras(prevBundle);
+                        startActivity(I);
+                        finish();
+                    } else if (prevBundle.containsKey("isEditVaccine")) {
+                        Intent I = new Intent(AddVaccineDropdown.this, EditVaccine.class);
+                        removeVaccineBundle();
+                        prevBundle.remove("isEditVaccine");
+                        I.putExtras(prevBundle);
+                        startActivity(I);
+                        finish();
+                    } else {
+                        Intent I = new Intent(AddVaccineDropdown.this, AddDomestic4.class);
+                        removeVaccineBundle();
+                        I.putExtras(prevBundle);
+                        startActivity(I);
+                        finish();
+                    }
 
-                                                 } else {
-
-
-                                                     DogVaccine vaccine = new DogVaccine();
-                                                     vaccine.setName(selectedValue);
-                                                     vaccine.setDate(curDate);
-                                                     if (prevBundle.containsKey("internal_dog_id")) {
-                                                         vaccine.setDogID(getIntent().getExtras().getInt("internal_dog_id"));
-                                                     }
-                                                     if (ID == -1) {
-                                                         mHelper.addVaccine(vaccine);
-                                                     } else {
-                                                         vaccine.setId(ID);
-                                                         if (getIntent().getExtras().getInt("isAdding") == 1) {
-                                                             mHelper.updateVaccineWhileAddingDog(vaccine);
-                                                         } else {
-                                                             mHelper.updateVaccine(vaccine);
-                                                         }
-                                                     }
-                                                     if(prevBundle.containsKey("fromstray")){
-                                                         Intent I = new Intent(AddVaccineDropdown.this, AddStray4.class);
-                                                         removeVaccineBundle();
-                                                         prevBundle.remove("fromstray");
-                                                         I.putExtras(prevBundle);
-                                                         startActivity(I);
-                                                         finish();
-                                                     }else if(prevBundle.containsKey("isEditVaccine")){
-                                                         Intent I = new Intent(AddVaccineDropdown.this, EditVaccine.class);
-                                                         removeVaccineBundle();
-                                                         prevBundle.remove("isEditVaccine");
-                                                         I.putExtras(prevBundle);
-                                                         startActivity(I);
-                                                         finish();
-                                                     }
-                                                     else{
-                                                         Intent I = new Intent(AddVaccineDropdown.this, AddDomestic4.class);
-                                                         removeVaccineBundle();
-                                                         I.putExtras(prevBundle);
-                                                         startActivity(I);
-                                                         finish();
-                                                     }
-
-                                                 }
-                                             }
-                                         });
+                }
+            }
+        });
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -135,8 +130,8 @@ public class AddVaccineDropdown extends AppCompatActivity {
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
                 int d = dayOfMonth;
-                Log.i("SelectedDay :" , String.valueOf(d));
-                curDate = mFormat.format(Double.valueOf(d)) + '/' + mFormat.format(Double.valueOf(month+1)) + '/' + String.valueOf(year);
+                Log.i("SelectedDay :", String.valueOf(d));
+                curDate = mFormat.format(Double.valueOf(d)) + '/' + mFormat.format(Double.valueOf(month + 1)) + '/' + String.valueOf(year);
             }
         });
 
@@ -144,19 +139,20 @@ public class AddVaccineDropdown extends AppCompatActivity {
     }
 
     private void addVaccineDataToList() {
-        vaccineList.add(0,"Select a vaccine");
-        vaccineList.add(1,"Rabies");
-        vaccineList.add(2,"DHPP");
-        vaccineList.add(3,"Distemper");
-        vaccineList.add(4,"Measles");
-        vaccineList.add(5,"Parainfluenza");
+        vaccineList.add(0, "Select a vaccine");
+        vaccineList.add(1, "Rabies");
+        vaccineList.add(2, "DHPP");
+        vaccineList.add(3, "Distemper");
+        vaccineList.add(4, "Measles");
+        vaccineList.add(5, "Parainfluenza");
     }
 
-    public void removeVaccineBundle(){
+    public void removeVaccineBundle() {
         prevBundle.remove("vid");
         prevBundle.remove("vname");
         prevBundle.remove("vdate");
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -168,7 +164,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
         finish();
     }
 
-    protected void editVaccine(){
+    protected void editVaccine() {
 
         if (prevBundle.containsKey("vname")) {
 
@@ -181,31 +177,27 @@ public class AddVaccineDropdown extends AppCompatActivity {
             int year = Integer.parseInt(parts[2]);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month-1);
+            calendar.set(Calendar.MONTH, month - 1);
             calendar.set(Calendar.DAY_OF_MONTH, day);
 
             long milliTime = calendar.getTimeInMillis();
-            if(vname.equals("Rabies")){
+            if (vname.equals("Rabies")) {
                 vaccineSpinner.setSelection(1);
 
-            }
-            else if(vname.equals("DHPP")){
+            } else if (vname.equals("DHPP")) {
                 vaccineSpinner.setSelection(2);
 
-            }
-            else if(vname.equals("Distemper")){
+            } else if (vname.equals("Distemper")) {
                 vaccineSpinner.setSelection(3);
 
-            }
-            else if(vname.equals("Measles")){
+            } else if (vname.equals("Measles")) {
                 vaccineSpinner.setSelection(4);
 
-            }
-            else if(vname.equals("Parainfluenza")){
+            } else if (vname.equals("Parainfluenza")) {
                 vaccineSpinner.setSelection(5);
             }
 
-            calendarView.setDate(milliTime,true,true);
+            calendarView.setDate(milliTime, true, true);
         }
     }
 }

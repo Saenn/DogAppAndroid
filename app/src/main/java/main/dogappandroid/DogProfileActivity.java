@@ -21,7 +21,7 @@ public class DogProfileActivity extends AppCompatActivity {
 
     private ImageView dogImage;
     private TextView name, age, gender, color, breed, address, subdistrict, district, province,
-            status, pregnant, children, death, missing, sterilized, updated;
+            status, pregnant, children, death, missing, sterilized;
     private LinearLayout pregnantLayout, childrenLayout, deathLayout, missingLayout, sterilizedLayout;
     private Button editButton, updateButton;
     private RecyclerView vaccineRecycler;
@@ -40,6 +40,8 @@ public class DogProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dog_profile);
         dbHelper = new DBHelper(this);
         bindData();
+        retriveDogDataFromInternalDB();
+        showDogStatus();
         showDogData();
         if (vaccines != null) {
             showVaccineList();
@@ -90,7 +92,6 @@ public class DogProfileActivity extends AppCompatActivity {
         death = (TextView) findViewById(R.id.profile_dog_death);
         missing = (TextView) findViewById(R.id.profile_dog_missing);
         sterilized = (TextView) findViewById(R.id.profile_dog_sterilized);
-        updated = (TextView) findViewById(R.id.profile_dog_submit);
         pregnantLayout = (LinearLayout) findViewById(R.id.pregnantLayout);
         childrenLayout = (LinearLayout) findViewById(R.id.childLayout);
         deathLayout = (LinearLayout) findViewById(R.id.deathLayout);
@@ -101,6 +102,15 @@ public class DogProfileActivity extends AppCompatActivity {
         updateButton = (Button) findViewById(R.id.updateDogButton);
     }
 
+    private void retriveDogDataFromInternalDB() {
+        Bundle extras = getIntent().getExtras();
+        dog = dbHelper.getDogById(extras.getInt("internalDogID"));
+        dogImageData = dbHelper.getDogFrontImageById(extras.getInt("internalDogID"));
+        dogInformation = dbHelper.getAllDogInformationByDogID(extras.getInt("internalDogID"));
+        vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
+        vaccines.addAll(dbHelper.getOtherVaccineListById(extras.getInt("internalDogID")));
+    }
+
     private void showVaccineList() {
         vaccineLayoutManager = new LinearLayoutManager(DogProfileActivity.this);
         vaccineRecycler.setLayoutManager(vaccineLayoutManager);
@@ -109,27 +119,57 @@ public class DogProfileActivity extends AppCompatActivity {
     }
 
     private void showDogData() {
-        Bundle extras = getIntent().getExtras();
-        if (extras.containsKey("internalDogID")) {
-            dog = dbHelper.getDogById(extras.getInt("internalDogID"));
-            dogImageData = dbHelper.getDogFrontImageById(extras.getInt("internalDogID"));
-            dogInformation = dbHelper.getAllDogInformationByDogID(extras.getInt("internalDogID"));
-            vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
-            vaccines.addAll(dbHelper.getOtherVaccineListById(extras.getInt("internalDogID")));
+        name.setText(dog.getName());
+        if (dog.getAgeRange().equals("1")) {
+            age.setText("Puppy (" + dog.getAge() + ")");
+        } else {
+            age.setText("Adult (" + dog.getAge() + ")");
+        }
+        gender.setText(dog.getGender());
+        color.setText(dog.getColor());
+        breed.setText(dog.getBreed());
+        address.setText(dog.getAddress());
+        subdistrict.setText(dog.getSubdistrict());
+        district.setText(dog.getDistrict());
+        province.setText(dog.getProvince());
+    }
 
-            name.setText(dog.getName());
-            if (dog.getAgeRange().equals("1")) {
-                age.setText("Puppy (" + dog.getAge() + ")");
-            } else {
-                age.setText("Adult (" + dog.getAge() + ")");
+    private void showDogStatus() {
+        if (dogInformation.getDogStatus().equals("1")) {
+            status.setText("Alive");
+            deathLayout.setVisibility(View.GONE);
+            missingLayout.setVisibility(View.GONE);
+            if (dog.getGender().equals("M")) {
+                pregnantLayout.setVisibility(View.GONE);
+                childrenLayout.setVisibility(View.GONE);
+            } else if (dog.getGender().equals("F")) {
+                pregnantLayout.setVisibility(View.VISIBLE);
+                if (dogInformation.getPregnant() == 0) {
+                    pregnant.setText("Not pregnant");
+                } else if (dogInformation.getPregnant() == 1) {
+                    pregnant.setText("Pregnant");
+                    children.setText(String.valueOf(dogInformation.getChildNumber()));
+                }
             }
-            gender.setText(dog.getGender());
-            color.setText(dog.getColor());
-            breed.setText(dog.getBreed());
-            address.setText(dog.getAddress());
-            subdistrict.setText(dog.getSubdistrict());
-            district.setText(dog.getDistrict());
-            province.setText(dog.getProvince());
+            if(dogInformation.getSterilized() == 0){
+                sterilized.setText("Not yet");
+            }else{
+                sterilized.setText("on " + dogInformation.getSterilizedDate());
+            }
+        } else if (dogInformation.getDogStatus().equals("2")) {
+            status.setText("Missing");
+            deathLayout.setVisibility(View.GONE);
+            pregnantLayout.setVisibility(View.GONE);
+            childrenLayout.setVisibility(View.GONE);
+            sterilizedLayout.setVisibility(View.GONE);
+            missing.setText(dogInformation.getMissingDate());
+        } else if (dogInformation.getDogStatus().equals("3")) {
+            status.setText("Dead");
+            missingLayout.setVisibility(View.GONE);
+            pregnantLayout.setVisibility(View.GONE);
+            childrenLayout.setVisibility(View.GONE);
+            sterilizedLayout.setVisibility(View.GONE);
+            death.setText(dogInformation.getDeathRemark());
         }
     }
 
@@ -179,6 +219,7 @@ public class DogProfileActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        showDogStatus();
         showDogData();
     }
 
