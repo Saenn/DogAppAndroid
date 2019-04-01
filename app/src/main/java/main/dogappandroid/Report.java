@@ -28,5 +28,13 @@ public class Report extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        regionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Report.this, ReportRegion.class);
+                startActivity(i);
+            }
+        });
     }
 }
