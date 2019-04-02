@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:background="@color/pink400"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Report' ll be sent to an email"
+            android:layout_height="55dp" />
+
+        <EditText
+            android:id="@+id/report_csv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/emailHint"
+            android:inputType="textEmailAddress" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

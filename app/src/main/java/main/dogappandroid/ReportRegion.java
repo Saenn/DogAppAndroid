@@ -1,8 +1,11 @@
 package main.dogappandroid;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -11,20 +14,81 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import main.dogappandroid.Utilities.NetworkUtils;
+
 public class ReportRegion extends AppCompatActivity {
 
+    private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
+    SharedPreferences mPreferences;
     private BarChart chart, chart2;
     private List<BarEntry> barEntries, barEntries2, barEntries3, barEntries4, barEntries5, barEntries6, barTotal, barTotal2;
+    private int indoor_central, indoor_neast, indoor_north, indoor_south;
+    private int outdoor_central, outdoor_north, outdoor_neast, outdoor_south;
+    private int stray_central, stray_north, stray_neast, stray_south;
+    private int all_central, all_north, all_south, all_neast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_region);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        indoor_central=0; indoor_north=0; indoor_neast=0; indoor_south=0;
+        outdoor_central=0; outdoor_neast=0; outdoor_north=0; outdoor_south=0;
+        stray_central=0; stray_neast=0; stray_north=0; stray_south=0;
+        all_central =0; all_north=0; all_neast =0; all_south=0;
+        new ReportRegion.onReportRegion().execute("eiei");
+
         chart = (BarChart) findViewById(R.id.report_region_chart);
         chart2 = (BarChart) findViewById(R.id.report_region_chart2);
+
+    }
+
+    public class onReportRegion extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strs) {
+            return NetworkUtils.getReportRegion(strs[0],
+                    mPreferences.getString("token", ""),
+                    mPreferences.getString("username", ""));
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                Log.d("JSONOBJECT", jsonObject.toString());
+                indoor_central = jsonObject.getInt("indoor_central");
+                outdoor_central = jsonObject.getInt("outdoor_central");
+                stray_central = jsonObject.getInt("stray_central");
+                indoor_north = jsonObject.getInt("indoor_north");
+                outdoor_north = jsonObject.getInt("outdoor_north");
+                stray_north = jsonObject.getInt("stray_north");
+                indoor_south = jsonObject.getInt("indoor_south");
+                outdoor_south = jsonObject.getInt("outdoor_south");
+                stray_south = jsonObject.getInt("stray_south");
+                indoor_neast = jsonObject.getInt("indoor_neast");
+                outdoor_neast = jsonObject.getInt("outdoor_neast");
+                stray_neast = jsonObject.getInt("stray_neast");
+
+                all_central = jsonObject.getInt("all_central");
+                all_north = jsonObject.getInt("all_north");
+                all_south = jsonObject.getInt("all_south");
+                all_neast = jsonObject.getInt("all_neast");
+
+                getBarentriesData();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void getBarentriesData() {
 
         barEntries = new ArrayList<>();
         barEntries2 = new ArrayList<>();
@@ -35,7 +99,29 @@ public class ReportRegion extends AppCompatActivity {
         barTotal = new ArrayList<>();
         barTotal2 = new ArrayList<>();
 
-        getBarentriesData();
+        barEntries.add(new BarEntry(1, indoor_north));
+        barEntries.add(new BarEntry(2, indoor_neast));
+
+        barEntries2.add(new BarEntry(1, outdoor_north));
+        barEntries2.add(new BarEntry(2, outdoor_neast));
+
+        barEntries3.add(new BarEntry(1, stray_north));
+        barEntries3.add(new BarEntry(2, stray_neast));
+
+        barTotal.add(new BarEntry(1, all_north));
+        barTotal.add(new BarEntry(2, all_neast));
+
+        barEntries4.add(new BarEntry(1, indoor_central));
+        barEntries4.add(new BarEntry(2, indoor_south));
+
+        barEntries5.add(new BarEntry(1, outdoor_central));
+        barEntries5.add(new BarEntry(2,  outdoor_south));
+
+        barEntries6.add(new BarEntry(1, stray_central));
+        barEntries6.add(new BarEntry(2, stray_south));
+
+        barTotal2.add(new BarEntry(1, all_central));
+        barTotal2.add(new BarEntry(2, all_south));
 
         List<String> xValues = new ArrayList<String>();
         List<String> xValues2 = new ArrayList<String>();
@@ -120,31 +206,6 @@ public class ReportRegion extends AppCompatActivity {
         chart2.getXAxis().setAxisMaximum(0 + chart.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
         chart2.groupBars(0, groupSpace, barSpace);
         chart2.invalidate();
-    }
 
-    private void getBarentriesData() {
-        barEntries.add(new BarEntry(1, 4000f));
-        barEntries.add(new BarEntry(2, 9000f));
-
-        barEntries2.add(new BarEntry(1, 4000f));
-        barEntries2.add(new BarEntry(2, 5000f));
-
-        barEntries3.add(new BarEntry(1, 3000f));
-        barEntries3.add(new BarEntry(2, 1500f));
-
-        barTotal.add(new BarEntry(1, 11000f));
-        barTotal.add(new BarEntry(2, 15500f));
-
-        barEntries4.add(new BarEntry(1, 30000f));
-        barEntries4.add(new BarEntry(2, 15000f));
-
-        barEntries5.add(new BarEntry(1, 4000f));
-        barEntries5.add(new BarEntry(2, 11000f));
-
-        barEntries6.add(new BarEntry(1, 8700f));
-        barEntries6.add(new BarEntry(2, 9200f));
-
-        barTotal2.add(new BarEntry(1, 42700f));
-        barTotal2.add(new BarEntry(2, 35200f));
     }
 }

@@ -44,6 +44,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".UpdateDomestic" />
+        <activity android:name=".ReportRegion" />
         <activity android:name=".ReportProvince2" />
         <activity android:name=".ReportProvince" />
         <activity android:name=".Report" />
