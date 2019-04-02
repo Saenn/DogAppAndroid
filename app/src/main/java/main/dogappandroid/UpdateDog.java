@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +18,13 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateDomestic extends AppCompatActivity {
+public class UpdateDog extends AppCompatActivity {
 
     private Spinner dogStatus;
     private LinearLayout missingLayout, deathLayout, pregnantLayout, childrenLayout, sterilizedLayout, vaccineLayout, vaccineListLayout;
@@ -50,7 +45,7 @@ public class UpdateDomestic extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_domestic);
+        setContentView(R.layout.activity_update_dog);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
 
@@ -65,14 +60,14 @@ public class UpdateDomestic extends AppCompatActivity {
         addVaccineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateDomestic.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateDog.this);
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.custom_dialog_add_vaccine, null);
                 builder.setView(dialogView);
 
                 // Setup Vaccine Spinner
                 Spinner vaccineDropdown = dialogView.findViewById(R.id.vaccineDialogSpinner);
-                ArrayAdapter<CharSequence> vaccineDropDownAdapter = ArrayAdapter.createFromResource(UpdateDomestic.this,
+                ArrayAdapter<CharSequence> vaccineDropDownAdapter = ArrayAdapter.createFromResource(UpdateDog.this,
                         R.array.vaccineList_EN, android.R.layout.simple_spinner_item);
                 vaccineDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 vaccineDropdown.setAdapter(vaccineDropDownAdapter);
@@ -199,7 +194,7 @@ public class UpdateDomestic extends AppCompatActivity {
                     dbHelper.addDogInformation(dogInformationTmp);
                 }
                 dbHelper.deleteNull();
-                Intent intent = new Intent(UpdateDomestic.this, DogProfileActivity.class);
+                Intent intent = new Intent(UpdateDog.this, DogProfileActivity.class);
                 intent.putExtra("internalDogID", getIntent().getExtras().getInt("internalDogID"));
                 startActivity(intent);
                 finish();
@@ -313,9 +308,9 @@ public class UpdateDomestic extends AppCompatActivity {
     private void handleVaccineList() {
         vaccineList = dbHelper.getRabiesVaccineList();
         vaccineList.addAll(dbHelper.getOtherVaccineList());
-        vaccineLayoutManager = new LinearLayoutManager(UpdateDomestic.this);
+        vaccineLayoutManager = new LinearLayoutManager(UpdateDog.this);
         vaccineListRecycler.setLayoutManager(vaccineLayoutManager);
-        vaccineAdapter = new UpdateDomestic.RecyclerViewAdapter(vaccineList);
+        vaccineAdapter = new UpdateDog.RecyclerViewAdapter(vaccineList);
         vaccineListRecycler.setAdapter(vaccineAdapter);
     }
 
@@ -346,7 +341,7 @@ public class UpdateDomestic extends AppCompatActivity {
         dbHelper.deleteNull();
     }
 
-    protected class RecyclerViewAdapter extends RecyclerView.Adapter<UpdateDomestic.ViewHolder> {
+    protected class RecyclerViewAdapter extends RecyclerView.Adapter<UpdateDog.ViewHolder> {
 
         private List<DogVaccine> myDataset;
 
@@ -355,15 +350,15 @@ public class UpdateDomestic extends AppCompatActivity {
         }
 
         @Override
-        public UpdateDomestic.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public UpdateDog.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.vaccine_item, parent, false);
-            UpdateDomestic.ViewHolder vh = new UpdateDomestic.ViewHolder(v);
+            UpdateDog.ViewHolder vh = new UpdateDog.ViewHolder(v);
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(UpdateDomestic.ViewHolder holder, int position) {
+        public void onBindViewHolder(UpdateDog.ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
             holder.vaccine.setText(v.getName());
             holder.vaccinatedDate.setText(v.getDate());

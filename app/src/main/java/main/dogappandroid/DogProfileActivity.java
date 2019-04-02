@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,14 +49,9 @@ public class DogProfileActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("update", "click!! with " + dog.getDogType());
-                if (dog.getDogType().equals("1") || dog.getDogType().equals("2")) {
-                    Intent intent = new Intent(DogProfileActivity.this, UpdateDomestic.class);
-                    intent.putExtra("internalDogID", dog.getId());
-                    startActivity(intent);
-                } else if (dog.getDogType().equals("3")) {
-                    // TODO: Add Update Stray
-                }
+                Intent intent = new Intent(DogProfileActivity.this, UpdateDog.class);
+                intent.putExtra("internalDogID", dog.getId());
+                startActivity(intent);
             }
         });
 
@@ -151,9 +145,9 @@ public class DogProfileActivity extends AppCompatActivity {
                     children.setText(String.valueOf(dogInformation.getChildNumber()));
                 }
             }
-            if(dogInformation.getSterilized() == 0){
+            if (dogInformation.getSterilized() == 0) {
                 sterilized.setText("Not yet");
-            }else{
+            } else {
                 sterilized.setText("on " + dogInformation.getSterilizedDate());
             }
         } else if (dogInformation.getDogStatus().equals("2")) {

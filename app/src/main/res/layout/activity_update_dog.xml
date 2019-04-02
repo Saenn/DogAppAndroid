@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pink50"
-    tools:context=".UpdateDomestic">
+    tools:context=".UpdateDog">
 
     <TextView
         android:id="@+id/header"
@@ -13,7 +13,7 @@
         android:layout_height="54dp"
         android:background="@color/pink600"
         android:gravity="center"
-        android:text="Update Domestic Dog"
+        android:text="Update Dog"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
