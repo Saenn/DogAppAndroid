@@ -112,7 +112,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setId(cursor.getInt(0));
             tmp.setKeyImage(cursor.getBlob(1));
             tmp.setType(cursor.getInt(2));
-            tmp.setDog_internal_id(cursor.getInt(3));
+            tmp.setIsSubmit(cursor.getInt(3));
+            tmp.setDog_internal_id(cursor.getInt(4));
 
             dogImages.add(tmp);
             cursor.moveToNext();
@@ -138,7 +139,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setId(cursor.getInt(0));
             tmp.setKeyImage(cursor.getBlob(1));
             tmp.setType(cursor.getInt(2));
-            tmp.setDog_internal_id(cursor.getInt(3));
+            tmp.setIsSubmit(cursor.getInt(3));
+            tmp.setDog_internal_id(cursor.getInt(4));
 
             cursor.moveToNext();
         }
@@ -163,7 +165,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setId(cursor.getInt(0));
             tmp.setKeyImage(cursor.getBlob(1));
             tmp.setType(cursor.getInt(2));
-            tmp.setDog_internal_id(cursor.getInt(3));
+            tmp.setIsSubmit(cursor.getInt(3));
+            tmp.setDog_internal_id(cursor.getInt(4));
 
             cursor.moveToNext();
         }

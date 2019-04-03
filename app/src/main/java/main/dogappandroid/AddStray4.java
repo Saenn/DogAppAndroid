@@ -324,6 +324,7 @@ public class AddStray4 extends AppCompatActivity {
         byte[] image = mHelper.getBytes(src);
         DogImage dogImage = new DogImage();
         dogImage.setDog_internal_id(index);
+        dogImage.setIsSubmit(0);
 
         if (type == 1) {
             dogImage.setType(1);

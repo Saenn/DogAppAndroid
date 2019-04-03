@@ -5,9 +5,9 @@ import android.provider.BaseColumns;
 public class DogImage {
 
     private byte[] keyImage;
-    private int id,type,dog_internal_id;
+    private int id, type, dog_internal_id, isSubmit;
 
-    public DogImage(){
+    public DogImage() {
 
     }
 
@@ -17,7 +17,7 @@ public class DogImage {
         public static final String KEY_IMAGE = "image_data";
         public static final String TYPE = "type";
         public static final String DOG_INTERNAL_ID = "dog_internal_id";
-
+        public static final String IS_SUBMIT = "isSubmit";
     }
 
     public static final String SQL_CREATE_ENTRIES =
@@ -25,6 +25,7 @@ public class DogImage {
                     DogImageEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DogImageEntry.KEY_IMAGE + " BLOB," +
                     DogImageEntry.TYPE + " INTEGER," +
+                    DogImageEntry.IS_SUBMIT + " INTEGER," +
                     DogImageEntry.DOG_INTERNAL_ID + " INTEGER) ";
 
     public static final String SQL_DELETE_ENTRIES =
@@ -32,6 +33,15 @@ public class DogImage {
 
 
     // getter and setter //
+
+
+    public int getIsSubmit() {
+        return isSubmit;
+    }
+
+    public void setIsSubmit(int isSubmit) {
+        this.isSubmit = isSubmit;
+    }
 
     public byte[] getKeyImage() {
         return keyImage;
