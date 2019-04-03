@@ -13,10 +13,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import main.dogappandroid.Dog;
 import main.dogappandroid.DogInformation;
+import main.dogappandroid.DogVaccine;
 
 public class NetworkUtils {
     private static final String REGISTER_URL = "http://10.0.2.2:9000/register";
@@ -28,11 +31,90 @@ public class NetworkUtils {
     private static final String REPORT_REGION = "http://10.0.2.2:9000/reportregion";
     private static final String REPORT_CSV = "http://10.0.2.2:9000/reportcsv";
     private static final String ADD_DOG_INFORMATION_URL = "http://10.0.2.2:9000/dog/information/add";
+    private static final String ADD_DOG_VACCINE_URL = "http://10.0.2.2:9000/dog/vaccine/add";
 
-    public static String addDogInformation(DogInformation dogInformation, int rdsDogID, String token, String username, String ownerID) {
-        Log.i("Inner Dog Information", rdsDogID + "");
+    public static String addDogVaccine(DogVaccine dogVaccine, int rdsDogID, String token, String username) {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Log.i("DogVaccine", rdsDogID + "");
         String urlParams = "username=" + username + "&";
-        urlParams += "ownerID=" + ownerID + "&";
+        urlParams += "dogID=" + rdsDogID + "&";
+        urlParams += "vaccineName=" + dogVaccine.getName() + "&";
+        urlParams += "injectedDate=" + dogVaccine.getDate();
+//        try {
+//            urlParams += "injectedDate=" + sdf.parse(dogVaccine.getDate());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+
+        HttpURLConnection httpConnection = null;
+        BufferedReader reader = null;
+        String responseFromRequest = null;
+
+        try {
+            URL requestURL = new URL(ADD_DOG_VACCINE_URL);
+            httpConnection = (HttpURLConnection) requestURL.openConnection();
+
+            httpConnection.setRequestMethod("POST");
+            httpConnection.setDoOutput(true);
+            httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            httpConnection.addRequestProperty("Authorization", token);
+
+            DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
+            wr.write(postData);
+
+            reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+            String line;
+            StringBuilder contentBuilder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line);
+                contentBuilder.append("\n");
+            }
+            if (contentBuilder.length() == 0) {
+                return "";
+            }
+            responseFromRequest = contentBuilder.toString();
+        } catch (IOException e) {
+            try {
+                if (httpConnection.getErrorStream() != null) {
+                    reader = new BufferedReader(new InputStreamReader(
+                            httpConnection.getErrorStream()));
+                    String line = null;
+                    StringBuilder contentBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        contentBuilder.append(line);
+                        contentBuilder.append("\n");
+                    }
+                    reader.close();
+                    if (contentBuilder.length() == 0) {
+                        return "";
+                    }
+                    responseFromRequest = contentBuilder.toString();
+                } else {
+                    Log.d("Server Error", "Server doesn't response");
+                }
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        } finally {
+            if (httpConnection != null) {
+                httpConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return responseFromRequest;
+    }
+
+    public static String addDogInformation(DogInformation dogInformation, int rdsDogID, String token, String username) {
+        Log.i("Inner Dog Information", rdsDogID + "");
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String urlParams = "username=" + username + "&";
         urlParams += "dogID=" + rdsDogID + "&";
         urlParams += "dogStatus=" + dogInformation.getDogStatus() + "&";
         urlParams += "ageRange=" + dogInformation.getAgeRange() + "&";
@@ -43,10 +125,21 @@ public class NetworkUtils {
             urlParams += "childNumber=" + dogInformation.getChildNumber() + "&";
         if (!dogInformation.getMissingDate().equals(""))
             urlParams += "missingDate=" + dogInformation.getMissingDate() + "&";
+//            try {
+//                urlParams += "missingDate=" + sdf.parse(dogInformation.getMissingDate()) + "&";
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
         if (dogInformation.getSterilized() != -1)
             urlParams += "sterilized=" + dogInformation.getSterilized() + "&";
-        if (!dogInformation.getSterilizedDate().equals(""))
+        if (dogInformation.getSterilizedDate() != null && !dogInformation.getSterilizedDate().equals("")) {
             urlParams += "sterilizedDate=" + dogInformation.getSterilizedDate() + "&";
+//            try {
+//                urlParams += "sterilizedDate=" + sdf.parse(dogInformation.getSterilizedDate()) + "&";
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+        }
         byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
 
         HttpURLConnection httpConnection = null;

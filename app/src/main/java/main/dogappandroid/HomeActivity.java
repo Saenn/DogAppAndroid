@@ -144,7 +144,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             Log.i("DogInformation", "Submit new dog information");
                             new addNewDogInformation().execute(di);
                         } else {
-                            Log.i("DogInformation", "Already Submitted");
+                            Log.i("DogInformation", "Already Submitted this data");
+                        }
+                    }
+
+                    List<DogVaccine> dogVaccineList = mHelper.getRabiesVaccineListById(dog.getId());
+                    dogVaccineList.addAll(mHelper.getOtherVaccineListById(dog.getId()));
+                    for (DogVaccine dv : dogVaccineList) {
+                        if (dv.getIsSubmit() == 0) {
+                            Log.i("DogVaccine", "Submit new dog vaccine");
+                            new addNewVaccine().execute(dv);
+                        } else {
+                            Log.i("DogVaccine", "Already submitted this data");
                         }
                     }
                 }
@@ -201,7 +212,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 holder.name.setText(dog.getName().toUpperCase());
             }
-            if (info.getAge() == 0) {
+            if (info.getAge() == -1) {
                 if (info.getAgeRange().equals("1")) {
                     holder.age.setText("Age : " + "0-3");
                 } else {
@@ -415,8 +426,43 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return NetworkUtils.addDogInformation(dogInformation,
                     dog.getDogID(),
                     mPreferences.getString("token", ""),
-                    mPreferences.getString("username", ""),
-                    mPreferences.getString("userID", ""));
+                    mPreferences.getString("username", ""));
+        }
+    }
+
+    public class addNewVaccine extends AsyncTask<DogVaccine, Void, String> {
+        Dog dog;
+        DogVaccine dogVaccine;
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                if (s != null) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    String data = jsonObject.getString("data");
+                    JSONObject sqlResponse = new JSONObject(data);
+                    if (status.equals("Success") && sqlResponse.getInt("affectedRows") == 1) {
+                        dogVaccine.setIsSubmit(1);
+                        mHelper.updateVaccine(dogVaccine);
+                        Log.i("DogVaccine", "Add Dog Vaccine Success");
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(DogVaccine... dogVaccines) {
+            dogVaccine = dogVaccines[0];
+            Log.i("innerDogVaccine", "" + dogVaccine.getDogID());
+            dog = mHelper.getDogById(dogVaccine.getDogID());
+            return NetworkUtils.addDogVaccine(dogVaccine,
+                    dog.getDogID(),
+                    mPreferences.getString("token", ""),
+                    mPreferences.getString("username", ""));
         }
     }
 }

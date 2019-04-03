@@ -44,7 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // convert from bitmap to byte array
     // insert to db
-    public static byte[] getBytes(Bitmap bitmap) {
+    synchronized public static byte[] getBytes(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
         return stream.toByteArray();
@@ -52,11 +52,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // convert from byte array to bitmap
     // retrieve data
-    public static Bitmap getImage(byte[] image) {
+    synchronized public static Bitmap getImage(byte[] image) {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
-    public long addDogImage(DogImage dogImage) {
+    synchronized public long addDogImage(DogImage dogImage) {
 
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -75,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updateDogImage(DogImage dogImage, int type) {
+    synchronized public void updateDogImage(DogImage dogImage, int type) {
 
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -94,7 +94,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public List<DogImage> getDogImageById(int id) {
+    synchronized public List<DogImage> getDogImageById(int id) {
         List<DogImage> dogImages = new ArrayList<>();
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -122,7 +122,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return dogImages;
     }
 
-    public DogImage getDogFrontImageById(int id) {
+    synchronized public DogImage getDogFrontImageById(int id) {
         DogImage tmp = new DogImage();
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -147,7 +147,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return tmp;
     }
 
-    public DogImage getDogSizeImageById(int id) {
+    synchronized public DogImage getDogSizeImageById(int id) {
         DogImage tmp = new DogImage();
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -173,7 +173,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //    Dog
-    public long addDog(Dog dog) {
+    synchronized public long addDog(Dog dog) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Dog.DogEntry.DOG_ID, dog.getDogID());
@@ -198,7 +198,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return index;
     }
 
-    public Dog getDogById(int id) {
+    synchronized public Dog getDogById(int id) {
         Dog tmp = new Dog();
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -233,7 +233,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return tmp;
     }
 
-    public List<Dog> getDog() {
+    synchronized public List<Dog> getDog() {
 
         List<Dog> dogs = new ArrayList<Dog>();
 
@@ -271,7 +271,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return dogs;
     }
 
-    public void updateDog(Dog dog) {
+    synchronized public void updateDog(Dog dog) {
 
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -301,7 +301,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteDog(String id) {
+    synchronized public void deleteDog(String id) {
 
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(Dog.DogEntry.TABLE_NAME, Dog.DogEntry.ID + " = " + id, null);
@@ -309,7 +309,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //    Dog Information
-    public long addDogInformation(DogInformation dogInformation) {
+    synchronized public long addDogInformation(DogInformation dogInformation) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DogInformation.DogInformationEntry.INTERNAL_DOG_ID, dogInformation.getDogID());
@@ -328,7 +328,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return index;
     }
 
-    public DogInformation getLastestDogInformationByDogID(int dogID) {
+    synchronized public DogInformation getLastestDogInformationByDogID(int dogID) {
         DogInformation dogInformation = new DogInformation();
         sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.query
@@ -366,7 +366,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return dogInformation;
     }
 
-    public List<DogInformation> getAllDogInformationByDogID(int dogID) {
+    synchronized public List<DogInformation> getAllDogInformationByDogID(int dogID) {
         List<DogInformation> output = new ArrayList<>();
         sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.query
@@ -403,7 +403,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return output;
     }
 
-    public void updateDogInfo(DogInformation dogInformation) {
+    synchronized public void updateDogInfo(DogInformation dogInformation) {
 
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -428,14 +428,14 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteDogInfo(String id) {
+    synchronized public void deleteDogInfo(String id) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(DogInformation.DogInformationEntry.TABLE_NAME, DogInformation.DogInformationEntry.ID + " = " + id, null);
         sqLiteDatabase.close();
     }
 
     //    AddDomestic4
-    public List<DogVaccine> getRabiesVaccineList() {
+    synchronized public List<DogVaccine> getRabiesVaccineList() {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
 
         sqLiteDatabase = this.getWritableDatabase();
@@ -464,7 +464,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return vaccines;
     }
 
-    public List<DogVaccine> getOtherVaccineList() {
+    synchronized public List<DogVaccine> getOtherVaccineList() {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
 
         sqLiteDatabase = this.getWritableDatabase();
@@ -493,7 +493,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return vaccines;
     }
 
-    public List<DogVaccine> getRabiesVaccineListById(int dogID) {
+    synchronized public List<DogVaccine> getRabiesVaccineListById(int dogID) {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
         sqLiteDatabase = this.getWritableDatabase();
         String[] whereArgs = new String[]{"Rabies", String.valueOf(dogID)};
@@ -522,7 +522,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return vaccines;
     }
 
-    public List<DogVaccine> getOtherVaccineListById(int id) {
+    synchronized public List<DogVaccine> getOtherVaccineListById(int id) {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
 
         sqLiteDatabase = this.getWritableDatabase();
@@ -552,7 +552,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return vaccines;
     }
 
-    public List<DogVaccine> getTwoLatestVaccines(int dogID) {
+    synchronized public List<DogVaccine> getTwoLatestVaccines(int dogID) {
         List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
         sqLiteDatabase = this.getWritableDatabase();
         int i = 0;
@@ -583,7 +583,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addVaccine(DogVaccine vaccine) {
+    synchronized public void addVaccine(DogVaccine vaccine) {
 
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -599,7 +599,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void updateVaccine(DogVaccine vaccine) {
+    synchronized public void updateVaccine(DogVaccine vaccine) {
 
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -608,6 +608,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
         values.put(DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID, vaccine.getDogID());
+        values.put(DogVaccine.DogVaccineEntry.IS_SUBMIT, vaccine.getIsSubmit());
 
         int row = sqLiteDatabase.update(DogVaccine.DogVaccineEntry.TABLE_NAME,
                 values,
@@ -617,7 +618,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void updateVaccineWhileAddingDog(DogVaccine vaccine) {
+    synchronized public void updateVaccineWhileAddingDog(DogVaccine vaccine) {
 
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -634,13 +635,13 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteVaccine(String id) {
+    synchronized public void deleteVaccine(String id) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(DogVaccine.DogVaccineEntry.TABLE_NAME, DogVaccine.DogVaccineEntry.ID + " = " + id, null);
         sqLiteDatabase.close();
     }
 
-    public void deleteNull() {
+    synchronized public void deleteNull() {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(DogVaccine.DogVaccineEntry.TABLE_NAME, DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID + " is null ", null);
         sqLiteDatabase.close();
