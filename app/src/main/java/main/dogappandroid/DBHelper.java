@@ -366,6 +366,43 @@ public class DBHelper extends SQLiteOpenHelper {
         return dogInformation;
     }
 
+    public List<DogInformation> getAllDogInformationByDogID(int dogID) {
+        List<DogInformation> output = new ArrayList<>();
+        sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.query
+                (DogInformation.DogInformationEntry.TABLE_NAME,
+                        null,
+                        DogInformation.DogInformationEntry.INTERNAL_DOG_ID + " = " + dogID,
+                        null,
+                        null,
+                        null,
+                        null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+            DogInformation dogInformation = new DogInformation();
+            dogInformation.setId(cursor.getInt(0));
+            dogInformation.setDogID(cursor.getInt(1));
+            dogInformation.setDogStatus(cursor.getString(2));
+            dogInformation.setPregnant(cursor.getInt(3));
+            dogInformation.setChildNumber(cursor.getInt(4));
+            dogInformation.setDeathRemark(cursor.getString(5));
+            dogInformation.setMissingDate(cursor.getString(6));
+            dogInformation.setSterilized(cursor.getInt(7));
+            dogInformation.setSterilizedDate(cursor.getString(8));
+            dogInformation.setAge(cursor.getInt(9));
+            dogInformation.setAgeRange(cursor.getString(10));
+            dogInformation.setIsSubmit(cursor.getInt(11));
+            output.add(dogInformation);
+            cursor.moveToNext();
+        }
+        sqLiteDatabase.close();
+        return output;
+    }
+
     public void updateDogInfo(DogInformation dogInformation) {
 
         sqLiteDatabase = this.getWritableDatabase();

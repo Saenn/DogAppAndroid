@@ -32,6 +32,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import main.dogappandroid.Utilities.NetworkUtils;
@@ -114,7 +115,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void logout(){
+    public void logout() {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.clear();
         editor.commit();
@@ -135,6 +136,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     new addNewDog().execute(dog);
                 } else if (dog.getIsSubmit() == 0) {
                     new updateExistingDog().execute(dog);
+                }
+                List<DogInformation> dogInformations = mHelper.getAllDogInformationByDogID(dog.getId());
+                for (DogInformation di : dogInformations) {
+                    if (di.getIsSubmit() == 0) {
+                        Log.i("DogInformation", "Submit new dog information");
+                        new addNewDogInformation().execute(di);
+                    } else {
+                        Log.i("DogInformation", "Already Submitted");
+                    }
                 }
             }
         }
@@ -285,7 +295,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     public void reload() {
         Intent intent = getIntent();
         overridePendingTransition(0, 0);
@@ -370,6 +379,42 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    public class addNewDogInformation extends AsyncTask<DogInformation, Void, String> {
+        Dog dog;
+        DogInformation dogInformation;
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                if (s != null) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    String data = jsonObject.getString("data");
+                    JSONObject sqlResponse = new JSONObject(data);
+                    if (status.equals("Success") && sqlResponse.getInt("affectedRows") == 1) {
+                        dogInformation.setIsSubmit(1);
+                        mHelper.updateDogInfo(dogInformation);
+                        Log.i("DogInformation", "Add Dog Information Success");
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(DogInformation... dogInformations) {
+            dogInformation = dogInformations[0];
+            dog = mHelper.getDogById(dogInformation.getDogID());
+            return NetworkUtils.addDogInformation(dogInformation,
+                    dog.getDogID(),
+                    mPreferences.getString("token", ""),
+                    mPreferences.getString("username", ""),
+                    mPreferences.getString("userID", ""));
         }
     }
 }

@@ -10,6 +10,17 @@ public class DogInformation {
 //    note, dogID is id from internal db
 
     public DogInformation() {
+        dogStatus = "";
+        deathRemark = "";
+        missingDate = "";
+        sterilizedDate = "";
+        ageRange = "";
+        pregnant = -1;
+        childNumber = -1;
+        sterilized = -1;
+        age = -1;
+        dogID = -1;
+        isSubmit = 0;
     }
 
     public DogInformation(Bundle dogInformation) {
