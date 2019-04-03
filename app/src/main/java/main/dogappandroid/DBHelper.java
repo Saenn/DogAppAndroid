@@ -328,7 +328,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return index;
     }
 
-    public DogInformation getAllDogInformationByDogID(int dogID) {
+    public DogInformation getLastestDogInformationByDogID(int dogID) {
         DogInformation dogInformation = new DogInformation();
         sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.query

@@ -248,7 +248,7 @@ public class UpdateDog extends AppCompatActivity {
 
     private void bindData() {
         dog = dbHelper.getDogById(getIntent().getExtras().getInt("internalDogID"));
-        dogInformation = dbHelper.getAllDogInformationByDogID(getIntent().getExtras().getInt("internalDogID"));
+        dogInformation = dbHelper.getLastestDogInformationByDogID(getIntent().getExtras().getInt("internalDogID"));
         dogStatus = findViewById(R.id.dogStatus);
         missingLayout = findViewById(R.id.missingLayout);
         deathLayout = findViewById(R.id.deathLayout);

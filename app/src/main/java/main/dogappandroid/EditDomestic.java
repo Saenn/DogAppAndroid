@@ -92,7 +92,7 @@ public class EditDomestic extends AppCompatActivity {
         Bundle prevBundle = getIntent().getExtras();
         if (prevBundle != null && prevBundle.containsKey("internalDogID")) {
             dog = dbHelper.getDogById(prevBundle.getInt("internalDogID"));
-            info = dbHelper.getAllDogInformationByDogID(prevBundle.getInt("internalDogID"));
+            info = dbHelper.getLastestDogInformationByDogID(prevBundle.getInt("internalDogID"));
             setAllField();
         }
     }

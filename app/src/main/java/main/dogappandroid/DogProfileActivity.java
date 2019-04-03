@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.LayoutInflater;
@@ -100,7 +99,7 @@ public class DogProfileActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         dog = dbHelper.getDogById(extras.getInt("internalDogID"));
         dogImageData = dbHelper.getDogFrontImageById(extras.getInt("internalDogID"));
-        dogInformation = dbHelper.getAllDogInformationByDogID(extras.getInt("internalDogID"));
+        dogInformation = dbHelper.getLastestDogInformationByDogID(extras.getInt("internalDogID"));
         vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
         vaccines.addAll(dbHelper.getOtherVaccineListById(extras.getInt("internalDogID")));
     }

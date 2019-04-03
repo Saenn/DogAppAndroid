@@ -180,7 +180,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onBindViewHolder(DogListViewHolder holder, int position) {
             final Dog dog = mDataset.get(position);
-            final DogInformation info = mHelper.getAllDogInformationByDogID(dog.getId());
+            final DogInformation info = mHelper.getLastestDogInformationByDogID(dog.getId());
             final DogImage image = mHelper.getDogFrontImageById(dog.getId());
 
             // need to set image //
