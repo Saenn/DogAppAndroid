@@ -137,13 +137,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 } else if (dog.getIsSubmit() == 0) {
                     new updateExistingDog().execute(dog);
                 }
-                List<DogInformation> dogInformations = mHelper.getAllDogInformationByDogID(dog.getId());
-                for (DogInformation di : dogInformations) {
-                    if (di.getIsSubmit() == 0) {
-                        Log.i("DogInformation", "Submit new dog information");
-                        new addNewDogInformation().execute(di);
-                    } else {
-                        Log.i("DogInformation", "Already Submitted");
+                if (dog.getDogID() != -1) {
+                    List<DogInformation> dogInformations = mHelper.getAllDogInformationByDogID(dog.getId());
+                    for (DogInformation di : dogInformations) {
+                        if (di.getIsSubmit() == 0) {
+                            Log.i("DogInformation", "Submit new dog information");
+                            new addNewDogInformation().execute(di);
+                        } else {
+                            Log.i("DogInformation", "Already Submitted");
+                        }
                     }
                 }
             }
