@@ -16,7 +16,7 @@ public class EditDomestic extends AppCompatActivity {
     private TextView ageView, genderView, nameView, colorage, colorgender;
     private RadioButton maleBtn, femaleBtn;
     private RadioGroup gender;
-    private Button doneBtn;
+    private Button nextBtn;
     private DBHelper dbHelper;
     private Dog dog;
     private DogInformation info;
@@ -38,7 +38,7 @@ public class EditDomestic extends AppCompatActivity {
         maleBtn = (RadioButton) findViewById(R.id.maleDomesticButton);
         femaleBtn = (RadioButton) findViewById(R.id.femaleDomesticButton);
         gender = (RadioGroup) findViewById(R.id.genderDomestic);
-        doneBtn = (Button) findViewById(R.id.doneDomesticButton);
+        nextBtn = (Button) findViewById(R.id.nextDomesticButton);
         genderView = (TextView) findViewById(R.id.genderDomesticLabel);
         ageView = (TextView) findViewById(R.id.ageDomesticLabel);
         nameView = (TextView) findViewById(R.id.nameDomesticLabel);
@@ -47,7 +47,7 @@ public class EditDomestic extends AppCompatActivity {
 
         getEditDogInfo();
 
-        doneBtn.setOnClickListener(new View.OnClickListener() {
+        nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (dogage.getText().toString().equals("")) {
@@ -76,12 +76,12 @@ public class EditDomestic extends AppCompatActivity {
                     dog.setProvince(dogprovince.getText().toString());
                     dog.setIsSubmit(0);
                     dbHelper.updateDog(dog);
-                    Intent DogProfile = new Intent(EditDomestic.this, DogProfileActivity.class);
-                    DogProfile.putExtra("internalDogID", dog.getId());
-                    DogProfile.putExtras(extras);
+                    Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
+                    editVaccine.putExtra("internalDogID", dog.getId());
+                    editVaccine.putExtras(extras);
                     overridePendingTransition(0, 0);
-                    DogProfile.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(DogProfile);
+                    editVaccine.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(editVaccine);
                     finish();
                 }
             }

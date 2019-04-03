@@ -118,17 +118,6 @@
             android:id="@+id/vaccine_last" >
 
             <Button
-                android:id="@+id/vaccine_addbutton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/roundbutton"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="Add"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
                 android:id="@+id/vaccine_doneButton"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"

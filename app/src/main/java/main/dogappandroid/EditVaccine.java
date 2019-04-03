@@ -24,7 +24,7 @@ public class EditVaccine extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManagerRabies, layoutManagerOther;
     private RecyclerView.Adapter mAdapterRabies, mAdapterOther;
     private List<DogVaccine> rabiesVaccine, othersVaccine;
-    private Button addButton, doneButton;
+    private Button doneButton;
     private DBHelper dbHelper;
     private ClickListener rabiesListener, othersListener;
 
@@ -55,20 +55,7 @@ public class EditVaccine extends AppCompatActivity {
             Log.d("no Vaccine Detected","no Vaccine Detected");
             bindRecyclerView();
         }
-        addButton = (Button) findViewById(R.id.vaccine_addbutton);
         doneButton = (Button) findViewById(R.id.vaccine_doneButton);
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle extras = getIntent().getExtras();
-                Intent intent = new Intent(EditVaccine.this, AddVaccineDropdown.class);
-                intent.putExtra("isEditVaccine",true);
-                intent.putExtras(extras);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
