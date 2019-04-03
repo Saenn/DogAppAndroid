@@ -79,9 +79,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent userProfile = new Intent(HomeActivity.this, ForgotPassword.class);
-//                startActivity(userProfile);
-                logout();
+                Intent userProfile = new Intent(HomeActivity.this, ForgotPassword.class);
+                startActivity(userProfile);
             }
         });
 
