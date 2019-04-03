@@ -34,17 +34,10 @@ public class NetworkUtils {
     private static final String ADD_DOG_VACCINE_URL = "http://10.0.2.2:9000/dog/vaccine/add";
 
     public static String addDogVaccine(DogVaccine dogVaccine, int rdsDogID, String token, String username) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Log.i("DogVaccine", rdsDogID + "");
         String urlParams = "username=" + username + "&";
         urlParams += "dogID=" + rdsDogID + "&";
         urlParams += "vaccineName=" + dogVaccine.getName() + "&";
         urlParams += "injectedDate=" + dogVaccine.getDate();
-//        try {
-//            urlParams += "injectedDate=" + sdf.parse(dogVaccine.getDate());
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
         byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
 
         HttpURLConnection httpConnection = null;
@@ -54,7 +47,6 @@ public class NetworkUtils {
         try {
             URL requestURL = new URL(ADD_DOG_VACCINE_URL);
             httpConnection = (HttpURLConnection) requestURL.openConnection();
-
             httpConnection.setRequestMethod("POST");
             httpConnection.setDoOutput(true);
             httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -112,8 +104,6 @@ public class NetworkUtils {
     }
 
     public static String addDogInformation(DogInformation dogInformation, int rdsDogID, String token, String username) {
-        Log.i("Inner Dog Information", rdsDogID + "");
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String urlParams = "username=" + username + "&";
         urlParams += "dogID=" + rdsDogID + "&";
         urlParams += "dogStatus=" + dogInformation.getDogStatus() + "&";
@@ -125,20 +115,10 @@ public class NetworkUtils {
             urlParams += "childNumber=" + dogInformation.getChildNumber() + "&";
         if (!dogInformation.getMissingDate().equals(""))
             urlParams += "missingDate=" + dogInformation.getMissingDate() + "&";
-//            try {
-//                urlParams += "missingDate=" + sdf.parse(dogInformation.getMissingDate()) + "&";
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
         if (dogInformation.getSterilized() != -1)
             urlParams += "sterilized=" + dogInformation.getSterilized() + "&";
         if (dogInformation.getSterilizedDate() != null && !dogInformation.getSterilizedDate().equals("")) {
             urlParams += "sterilizedDate=" + dogInformation.getSterilizedDate() + "&";
-//            try {
-//                urlParams += "sterilizedDate=" + sdf.parse(dogInformation.getSterilizedDate()) + "&";
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
         }
         byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
 
