@@ -109,9 +109,11 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 jsonObject = new JSONObject(s);
                 saveDataFromsServerToLocal(jsonObject);
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                if(jsonObject.has("token")){
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

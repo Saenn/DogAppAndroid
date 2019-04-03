@@ -79,10 +79,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent userProfile = new Intent(HomeActivity.this, UserProfile.class);
-                startActivity(userProfile);
+//                Intent userProfile = new Intent(HomeActivity.this, ForgotPassword.class);
+//                startActivity(userProfile);
+                logout();
             }
         });
+
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -111,6 +113,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void logout(){
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.clear();
+        editor.commit();
+        Intent login = new Intent(HomeActivity.this, LoginActivity.class);
+        finish();
+        startActivity(login);
     }
 
     @Override
@@ -273,6 +284,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
     }
+
+
 
     public void reload() {
         Intent intent = getIntent();

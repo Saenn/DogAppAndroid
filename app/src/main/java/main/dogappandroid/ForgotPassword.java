@@ -24,6 +24,8 @@ import main.dogappandroid.Utilities.NetworkUtils;
 
 public class ForgotPassword extends AppCompatActivity {
 
+    private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
+    SharedPreferences mPreferences;
     private EditText username, securityAnswer, password, repassword;
     private Spinner securityQuestion;
     private Button nextBtn;
@@ -34,6 +36,8 @@ public class ForgotPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+
         username = (EditText) findViewById(R.id.usernameForgotPassword);
         password = (EditText) findViewById(R.id.passwordForgot);
         repassword = (EditText) findViewById(R.id.repasswordForgot);
@@ -91,6 +95,15 @@ public class ForgotPassword extends AppCompatActivity {
         });
     }
 
+
+    public void logout(){
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.clear();
+        editor.commit();
+        Intent login = new Intent(ForgotPassword.this, HomeActivity.class);
+        startActivity(login);
+    }
+
     private boolean validateInputs() {
         String usernameRegex = "[a-zA-Z0-9.]+";
         if (username.getText().toString().matches(usernameRegex)
@@ -115,7 +128,9 @@ public class ForgotPassword extends AppCompatActivity {
                 try {
                     String message = jsonObject.getString("message");
                     Toast.makeText(ForgotPassword.this, message, Toast.LENGTH_LONG).show();
+                    logout();
                     Intent loginIntent = new Intent(ForgotPassword.this, LoginActivity.class);
+                    finish();
                     startActivity(loginIntent);
                 } catch (JSONException e2) {
                     String error = jsonObject.getString("error");
