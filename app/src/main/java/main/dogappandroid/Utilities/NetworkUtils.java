@@ -28,17 +28,17 @@ import main.dogappandroid.DogInformation;
 import main.dogappandroid.DogVaccine;
 
 public class NetworkUtils {
-    private static final String REGISTER_URL = "http://10.0.2.2:9000/register";
-    private static final String LOGIN_URL = "http://10.0.2.2:9000/login";
-    private static final String FORGOT_URL = "http://10.0.2.2:9000/forgot";
-    private static final String ADD_DOG_URL = "http://10.0.2.2:9000/dog/add";
-    private static final String UPDATE_DOG_URL = "http://10.0.2.2:9000/dog/update";
-    private static final String REPORT_PROVINCE = "http://10.0.2.2:9000/report/";
-    private static final String REPORT_REGION = "http://10.0.2.2:9000/reportregion";
-    private static final String REPORT_CSV = "http://10.0.2.2:9000/reportcsv";
-    private static final String ADD_DOG_INFORMATION_URL = "http://10.0.2.2:9000/dog/information/add";
-    private static final String ADD_DOG_VACCINE_URL = "http://10.0.2.2:9000/dog/vaccine/add";
-    private static final String ADD_DOG_IMAGE_URL = "http://10.0.2.2:9000/dog/image/add";
+    private static final String REGISTER_URL = "http://3.1.206.5:9000/register";
+    private static final String LOGIN_URL = "http://3.1.206.5:9000/login";
+    private static final String FORGOT_URL = "http://3.1.206.5:9000/forgot";
+    private static final String ADD_DOG_URL = "http://3.1.206.5:9000/dog/add";
+    private static final String UPDATE_DOG_URL = "http://3.1.206.5:9000/dog/update";
+    private static final String REPORT_PROVINCE = "http://3.1.206.5:9000/report/";
+    private static final String REPORT_REGION = "http://3.1.206.5:9000/reportregion";
+    private static final String REPORT_CSV = "http://3.1.206.5:9000/reportcsv";
+    private static final String ADD_DOG_INFORMATION_URL = "http://3.1.206.5:9000/dog/information/add";
+    private static final String ADD_DOG_VACCINE_URL = "http://3.1.206.5:9000/dog/vaccine/add";
+    private static final String ADD_DOG_IMAGE_URL = "http://3.1.206.5:9000/dog/image/add";
 
     public static String addDogImage(Context context, DogImage dogImage, int rdsDogID, String username, String token) {
         String response = null;
