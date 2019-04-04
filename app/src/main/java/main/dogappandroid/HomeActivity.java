@@ -451,12 +451,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (s != null) {
                     JSONObject jsonObject = new JSONObject(s);
                     String status = jsonObject.getString("status");
-                    String data = jsonObject.getString("data");
-                    JSONObject sqlResponse = new JSONObject(data);
-                    if (status.equals("Success") && sqlResponse.getInt("affectedRows") == 1) {
-                        dogVaccine.setIsSubmit(1);
-                        mHelper.updateVaccine(dogVaccine);
-                        Log.i("DogVaccine", "Add Dog Vaccine Success");
+                    if(status.equals("Success")){
+                        String data = jsonObject.getString("data");
+                        JSONObject sqlResponse = new JSONObject(data);
+                        if (sqlResponse.getInt("affectedRows") == 1) {
+                            dogVaccine.setIsSubmit(1);
+                            mHelper.updateVaccine(dogVaccine);
+                            Log.i("DogVaccine", "Add Dog Vaccine Success");
+                        }
+                    }else{
+                        Log.i("DogVaccine", "Add Dog Vaccine Fail");
                     }
                 }
             } catch (JSONException e) {
