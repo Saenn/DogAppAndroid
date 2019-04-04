@@ -84,7 +84,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogImage.DogImageEntry.KEY_IMAGE, dogImage.getKeyImage());
         values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDog_internal_id());
         values.put(DogImage.DogImageEntry.TYPE, dogImage.getType());
-
+        values.put(DogImage.DogImageEntry.IS_SUBMIT, dogImage.getIsSubmit());
 
         int row = sqLiteDatabase.update(DogImage.DogImageEntry.TABLE_NAME,
                 values,

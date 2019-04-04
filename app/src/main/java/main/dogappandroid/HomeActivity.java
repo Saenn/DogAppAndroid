@@ -158,6 +158,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             Log.i("DogVaccine", "Already submitted this data");
                         }
                     }
+
+                    List<DogImage> dogImageList = mHelper.getDogImageById(dog.getId());
+                    for (DogImage di : dogImageList) {
+                        if (di.getIsSubmit() == 0) {
+                            Log.i("DogImage", "Submit new dog image");
+                            new addNewDogImage().execute(di);
+                        } else {
+                            Log.i("DogImage", "Already submitted this image");
+                        }
+                    }
                 }
             }
         }
@@ -463,6 +473,45 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     dog.getDogID(),
                     mPreferences.getString("token", ""),
                     mPreferences.getString("username", ""));
+        }
+    }
+
+    public class addNewDogImage extends AsyncTask<DogImage, Void, String> {
+        DogImage dogImage;
+        Dog dog;
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                if (s != null) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    String data = jsonObject.getString("data");
+                    if(data != null){
+                        JSONObject sqlResponse = new JSONObject(data);
+                        if (status.equals("Success") && sqlResponse.getInt("affectedRows") == 1) {
+                            dogImage.setIsSubmit(1);
+                            mHelper.updateDogImage(dogImage, dogImage.getType());
+                            Log.i("DogVaccine", "Add Dog Image Success");
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(DogImage... dogImages) {
+            dogImage = dogImages[0];
+            dog = mHelper.getDogById(dogImage.getDog_internal_id());
+            return NetworkUtils.addDogImage(HomeActivity.this,
+                    dogImage,
+                    dog.getDogID(),
+                    mPreferences.getString("username", ""),
+                    mPreferences.getString("token", "")
+            );
         }
     }
 }

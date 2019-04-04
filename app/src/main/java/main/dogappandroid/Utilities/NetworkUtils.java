@@ -1,23 +1,29 @@
 package main.dogappandroid.Utilities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import main.dogappandroid.Dog;
+import main.dogappandroid.DogImage;
 import main.dogappandroid.DogInformation;
 import main.dogappandroid.DogVaccine;
 
@@ -32,6 +38,27 @@ public class NetworkUtils {
     private static final String REPORT_CSV = "http://10.0.2.2:9000/reportcsv";
     private static final String ADD_DOG_INFORMATION_URL = "http://10.0.2.2:9000/dog/information/add";
     private static final String ADD_DOG_VACCINE_URL = "http://10.0.2.2:9000/dog/vaccine/add";
+    private static final String ADD_DOG_IMAGE_URL = "http://10.0.2.2:9000/dog/image/add";
+
+    public static String addDogImage(Context context, DogImage dogImage, int rdsDogID, String username, String token) {
+        String response = null;
+        try {
+            MultipartUtility multipart = new MultipartUtility(ADD_DOG_IMAGE_URL, "UTF-8", token);
+            multipart.addFormField("username", username);
+            multipart.addFormField("dogID", String.valueOf(rdsDogID));
+            multipart.addFormField("side", String.valueOf(dogImage.getType()));
+            File image = new File(context.getCacheDir(), "dog_image_" + dogImage.getType());
+            OutputStream os = new FileOutputStream(image);
+            os.write(dogImage.getKeyImage());
+            os.close();
+            multipart.addFilePart("dogImage", image);
+            response = multipart.finish();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 
     public static String addDogVaccine(DogVaccine dogVaccine, int rdsDogID, String token, String username) {
         String urlParams = "username=" + username + "&";

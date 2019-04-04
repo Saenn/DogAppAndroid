@@ -46,6 +46,25 @@ public class MultipartUtility {
                 true);
     }
 
+    public MultipartUtility(String requestURL, String charset, String token)
+            throws IOException {
+        this.charset = charset;
+
+        // creates a unique boundary based on time stamp
+        boundary = "===" + System.currentTimeMillis() + "===";
+        URL url = new URL(requestURL);
+        httpConn = (HttpURLConnection) url.openConnection();
+        httpConn.setUseCaches(false);
+        httpConn.setDoOutput(true);    // indicates POST method
+        httpConn.setDoInput(true);
+        httpConn.setRequestProperty("Content-Type",
+                "multipart/form-data; boundary=" + boundary);
+        httpConn.setRequestProperty("Authorization", token);
+        outputStream = httpConn.getOutputStream();
+        writer = new PrintWriter(new OutputStreamWriter(outputStream, charset),
+                true);
+    }
+
     /**
      * Adds a form field to the request
      *
