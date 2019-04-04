@@ -142,6 +142,7 @@ public class EditVaccine extends AppCompatActivity {
                         Intent I = new Intent(EditVaccine.this, AddVaccineDropdown.class);
                         Bundle extras = getIntent().getExtras();
                         I.putExtras(extras);
+                        I.putExtra("isEditVaccine",1);
                         I.putExtra("isAdding", 1);
                         I.putExtra("vid", v.getId());
                         I.putExtra("vname", v.getName());

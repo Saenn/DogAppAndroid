@@ -175,10 +175,15 @@ public class EditDomestic extends AppCompatActivity {
                     dog.setIsSubmit(0);
                     dbHelper.updateDog(dog);
                     //add Picture to Sqlite
-                    addPicToSqlite(frontImagePath, 1, dog.getDogID());
-                    addPicToSqlite(sideImagePath, 2, dog.getDogID());
+                    Bundle prevBundle = getIntent().getExtras();
+                    if(!frontImagePath.equals("")){
+                        addPicToSqlite(frontImagePath, 1, prevBundle.getInt("internalDogID"));
+                    }
+                    if(!sideImagePath.equals("")) {
+                        addPicToSqlite(sideImagePath, 2, prevBundle.getInt("internalDogID"));
+                    }
                     Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
-                    editVaccine.putExtra("internalDogID", dog.getId());
+                    editVaccine.putExtra("internal_dog_id", dog.getId());
                     editVaccine.putExtras(extras);
                     overridePendingTransition(0, 0);
                     editVaccine.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -204,8 +209,7 @@ public class EditDomestic extends AppCompatActivity {
             dogImage.setType(2);
         }
         dogImage.setKeyImage(image);
-        dbHelper.addDogImage(dogImage);
-
+        dbHelper.updateDogImage(dogImage,type);
     }
 
     private void getEditDogInfo() {

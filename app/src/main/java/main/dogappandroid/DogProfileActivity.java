@@ -63,7 +63,9 @@ public class DogProfileActivity extends AppCompatActivity {
                     intent.putExtra("internalDogID", dog.getId());
                     startActivity(intent);
                 } else if (dog.getDogType().equals("3")) {
-                    // TODO: Add Edit Stray
+                    Intent intent = new Intent(DogProfileActivity.this, EditStray.class);
+                    intent.putExtra("internalDogID", dog.getId());
+                    startActivity(intent);
                 }
             }
         });
