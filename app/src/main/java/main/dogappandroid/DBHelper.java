@@ -149,7 +149,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return tmp;
     }
 
-    synchronized public DogImage getDogSizeImageById(int id) {
+    synchronized public DogImage getDogSideImageById(int id) {
         DogImage tmp = new DogImage();
         sqLiteDatabase = this.getWritableDatabase();
 

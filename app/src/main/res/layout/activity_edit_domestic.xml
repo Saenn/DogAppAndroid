@@ -75,7 +75,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subdistrictDomestic" />
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/dogPicDomestic"
                 android:layout_width="0dp"
                 android:layout_height="250dp"
@@ -84,7 +84,99 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/pug" />
+                app:srcCompat="@drawable/pug" />-->
+
+            <TextView
+                android:id="@+id/frontStrayLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/dogFront_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/dogFaceStray"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frontStrayLabel"
+                app:srcCompat="@drawable/dog_face_silhouette" />
+
+            <ImageButton
+                android:id="@+id/takePhotoStrayFace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dogFaceStray"
+                app:layout_constraintTop_toTopOf="@+id/dogFaceStray"
+                app:srcCompat="@drawable/ic_menu_camera" />
+
+            <ImageButton
+                android:id="@+id/takePhotoStraySide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dogSideStray"
+                app:layout_constraintTop_toTopOf="@+id/dogSideStray"
+                app:srcCompat="@drawable/ic_menu_camera" />
+
+            <ImageButton
+                android:id="@+id/loadPhotoStrayFace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dogFaceStray"
+                app:layout_constraintTop_toBottomOf="@+id/takePhotoStrayFace"
+                app:srcCompat="@drawable/ic_menu_gallery" />
+
+            <ImageButton
+                android:id="@+id/loadPhotoStraySide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dogSideStray"
+                app:layout_constraintTop_toBottomOf="@+id/takePhotoStraySide"
+                app:srcCompat="@drawable/ic_menu_gallery" />
+
+            <TextView
+                android:id="@+id/sideStrayLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/dogSide_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dogFaceStray" />
+
+            <ImageView
+                android:id="@+id/dogSideStray"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sideStrayLabel"
+                app:srcCompat="@drawable/dog_side_silhouette" />
 
             <TextView
                 android:id="@+id/nameDomesticLabel"
@@ -95,7 +187,7 @@
                 android:fontFamily="@font/open_sans"
                 android:text="@string/dogname"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dogPicDomestic" />
+                app:layout_constraintTop_toBottomOf="@+id/dogSideStray" />
 
             <EditText
                 android:id="@+id/nameDomestic"
