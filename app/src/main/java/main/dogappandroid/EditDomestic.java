@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -199,15 +200,16 @@ public class EditDomestic extends AppCompatActivity {
     private void addPicToSqlite(String imagePath, int type, int index) {
         Bitmap src = BitmapFactory.decodeFile(imagePath);
         byte[] image = dbHelper.getBytes(src);
-        DogImage dogImage = new DogImage();
-        dogImage.setDog_internal_id(index);
-        dogImage.setIsSubmit(0);
+        DogImage dogImage;
 
         if (type == 1) {
+            dogImage = dbHelper.getDogFrontImageById(index);
             dogImage.setType(1);
         } else {
+            dogImage = dbHelper.getDogSideImageById(index);
             dogImage.setType(2);
         }
+        dog.setIsSubmit(0);
         dogImage.setKeyImage(image);
         dbHelper.updateDogImage(dogImage,type);
     }
@@ -242,6 +244,7 @@ public class EditDomestic extends AppCompatActivity {
 
         final DogImage imageFront = dbHelper.getDogFrontImageById(dog.getId());
         final DogImage imageSide = dbHelper.getDogSideImageById(dog.getId());
+
 
         frontview.setImageBitmap(dbHelper.getImage(imageFront.getKeyImage()));
         sideview.setImageBitmap(dbHelper.getImage(imageSide.getKeyImage()));

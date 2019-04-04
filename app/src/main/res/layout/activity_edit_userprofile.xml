@@ -310,7 +310,7 @@
             app:layout_constraintTop_toBottomOf="@+id/provinceLabel" />
 
         <Button
-            android:id="@+id/nextButtonRegister2"
+            android:id="@+id/doneButton"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

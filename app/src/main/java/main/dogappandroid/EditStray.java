@@ -227,15 +227,16 @@ public class EditStray extends AppCompatActivity {
     private void addPicToSqlite(String imagePath, int type, int index) {
         Bitmap src = BitmapFactory.decodeFile(imagePath);
         byte[] image = dbHelper.getBytes(src);
-        DogImage dogImage = new DogImage();
-        dogImage.setDog_internal_id(index);
-        dogImage.setIsSubmit(0);
+        DogImage dogImage;
 
         if (type == 1) {
+            dogImage = dbHelper.getDogFrontImageById(index);
             dogImage.setType(1);
         } else {
+            dogImage = dbHelper.getDogSideImageById(index);
             dogImage.setType(2);
         }
+        dog.setIsSubmit(0);
         dogImage.setKeyImage(image);
         dbHelper.updateDogImage(dogImage,type);
 
