@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -113,7 +114,8 @@ public class UserProfile extends AppCompatActivity {
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(UserProfile.this, "Hello there!!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(UserProfile.this, EditUserProfile.class);
+                startActivity(intent);
             }
         });
         editSecurityBtn.setOnClickListener(new View.OnClickListener() {

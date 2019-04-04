@@ -107,6 +107,10 @@
             android:name=".EditStray"
             android:launchMode="standard"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".EditUserProfile"
+            android:launchMode="standard"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddVaccineDropdown" />
         <activity android:name=".DogProfileActivity" />
     </application>
