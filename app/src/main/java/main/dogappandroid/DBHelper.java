@@ -457,6 +457,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setId(cursor.getInt(0));
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
+            tmp.setDogID(cursor.getInt(3));
+            tmp.setIsSubmit(cursor.getInt(4));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -486,6 +488,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setId(cursor.getInt(0));
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
+            tmp.setDogID(cursor.getInt(3));
+            tmp.setIsSubmit(cursor.getInt(4));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -515,6 +519,7 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             tmp.setDogID(cursor.getInt(3));
+            tmp.setIsSubmit(cursor.getInt(4));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -545,6 +550,7 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             tmp.setDogID(cursor.getInt(3));
+            tmp.setIsSubmit(cursor.getInt(4));
             vaccines.add(tmp);
 
             cursor.moveToNext();
