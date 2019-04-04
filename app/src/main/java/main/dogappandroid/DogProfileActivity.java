@@ -1,6 +1,7 @@
 package main.dogappandroid;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -112,6 +113,7 @@ public class DogProfileActivity extends AppCompatActivity {
     }
 
     private void showDogData() {
+        dogImage.setImageBitmap(BitmapFactory.decodeByteArray(dogImageData.getKeyImage(), 0, dogImageData.getKeyImage().length));
         name.setText(dog.getName());
         if (dog.getAgeRange().equals("1")) {
             age.setText("Puppy (" + dog.getAge() + ")");
