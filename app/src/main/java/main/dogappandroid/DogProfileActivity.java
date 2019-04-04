@@ -71,6 +71,13 @@ public class DogProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent home = new Intent(DogProfileActivity.this, HomeActivity.class);
+        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(home);
+    }
+
     private void bindData() {
         dogImage = (ImageView) findViewById(R.id.dogProfilePicture);
         name = (TextView) findViewById(R.id.profile_dog_name);
