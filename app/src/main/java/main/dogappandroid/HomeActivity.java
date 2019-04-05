@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -119,9 +120,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.clear();
         editor.commit();
+        this.deleteDatabase(mHelper.getDatabaseName());
         Intent login = new Intent(HomeActivity.this, LoginActivity.class);
-        finish();
+        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(login);
+        finish();
     }
 
     @Override
@@ -185,14 +188,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_news) {
-
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://www.dld.go.th/th/index.html"));
+            startActivity(intent);
         } else if (id == R.id.nav_report) {
             Intent intent = new Intent(HomeActivity.this, Report.class);
             startActivity(intent);
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_sign_out) {
-
+            logout();
         }
 
         drawer.closeDrawer(GravityCompat.START);

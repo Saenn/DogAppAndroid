@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <service
             android:name=".ServiceRunning"
             android:stopWithTask="false" />
@@ -43,6 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ConsentForm" />
         <activity android:name=".UpdateDog" />
         <activity android:name=".ReportRegion" />
         <activity android:name=".ReportProvince2" />
