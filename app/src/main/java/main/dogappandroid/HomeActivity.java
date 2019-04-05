@@ -170,6 +170,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
             }
+            if(mPreferences.getBoolean("isSubmit",false)){
+                
+                mPreferences.edit().putBoolean("isSubmit",true);
+            }
         }
     }
 

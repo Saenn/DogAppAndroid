@@ -35,8 +35,8 @@ public class UserProfile extends AppCompatActivity {
 
     private void bindAndShowUserImage() {
         profileImage = (ImageView) findViewById(R.id.userProfilePicture);
-        if (mPreferences.getString("profilePictureInternalPath", "") != "") {
-            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePictureInternalPath", ""));
+        if (mPreferences.getString("pictureProfilePath", "") != "") {
+            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", ""));
             profileImage.setImageBitmap(userPicture);
         }
     }
@@ -110,18 +110,11 @@ public class UserProfile extends AppCompatActivity {
 
     private void bindButton() {
         editProfileBtn = (ImageButton) findViewById(R.id.profileEditInformationButton);
-        editSecurityBtn = (ImageButton) findViewById(R.id.profileEditSecurityButton);
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfile.this, EditUserProfile.class);
                 startActivity(intent);
-            }
-        });
-        editSecurityBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(UserProfile.this, "Hello there!!", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -459,18 +459,7 @@
                 app:layout_constraintTop_toTopOf="@+id/userProfileInformationHeader"
                 app:srcCompat="@drawable/ic_edit_round" />
 
-            <ImageButton
-                android:id="@+id/profileEditSecurityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="8dp"
-                android:background="@android:color/transparent"
-                app:layout_constraintBottom_toBottomOf="@+id/userProfileInformationHeader2"
-                app:layout_constraintEnd_toEndOf="@+id/userProfileInformationHeader2"
-                app:layout_constraintTop_toTopOf="@+id/userProfileInformationHeader2"
-                app:srcCompat="@drawable/ic_edit_round" />
+
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

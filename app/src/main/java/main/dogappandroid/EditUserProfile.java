@@ -12,10 +12,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +40,12 @@ public class EditUserProfile extends AppCompatActivity {
     private Drawable originalStyle;
 
     private ImageView profileImage;
-    private TextView firstname, lastname, address, subdistrict, district, province, phone, email, question, answer;
+    private TextView firstname, lastname, address, subdistrict, district, province, phone, email, answer;
     private Button doneBtn;
     private ImageButton takePhotoButton, loadPhotoButton;
     private String userImagePath;
-
+    private Spinner question;
+    private int securityQuestionSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +54,14 @@ public class EditUserProfile extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         bindAndShowUserImage();
         bindAndShowInformation();
-//        bindAndShowSecurity();
+        bindAndShowSecurity();
         bindButton();
     }
 
     private void bindAndShowUserImage(){
-        profileImage = (ImageView) findViewById(R.id.userProfilePicture);
-        if (mPreferences.getString("profilePictureInternalPath", "") != "") {
-            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePictureInternalPath", ""));
+        profileImage = (ImageView) findViewById(R.id.userImage);
+        if (mPreferences.getString("pictureProfilePath", "") != "") {
+            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", ""));
             profileImage.setImageBitmap(userPicture);
         }
     }
@@ -82,59 +87,24 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     private void bindAndShowSecurity(){
-        question = (TextView) findViewById(R.id.userProfile_forgotQuestion);
+        question = (Spinner) findViewById(R.id.securityQuestion);
+        ArrayAdapter<String> securityQuestionSet = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.securityQuestionArray));
         answer = (TextView) findViewById(R.id.securityAnswer);
-
-        switch (mPreferences.getString("forgotQuestion", "")) {
-            case "1":
-                question.setText("What is the name of the road you grew up on?");
-                break;
-            case "2":
-                question.setText("What is your mother’s maiden name?");
-                break;
-            case "3":
-                question.setText("What was the name of your first/current/favorite pet?");
-                break;
-            case "4":
-                question.setText("What was the first company that you worked for?");
-                break;
-            case "5":
-                question.setText("Where did you meet your spouse?");
-                break;
-            case "6":
-                question.setText("Where did you go to high school/college?");
-                break;
-            case "7":
-                question.setText("What is your favorite food?");
-                break;
-            case "8":
-                question.setText("What city were you born in?");
-                break;
-            case "9":
-                question.setText("Where is your favorite place to vacation?");
-                break;
-            case "0":
-                question.setText("What Is your favorite book?");
-                break;
-            default:
-                question.setText("");
+        Log.d("No. of Question : ", securityQuestionSet.getCount() + "");
+        for(int i = 0 ; i < securityQuestionSet.getCount() ; i++){
+            Log.d("secureQuestion is : ", securityQuestionSet.getItem(i));
         }
+        question.setAdapter(securityQuestionSet);
+        String questionNumber = mPreferences.getString("forgotQuestion", "");
+        question.setSelection(Integer.parseInt(questionNumber));
 
         answer.setText(mPreferences.getString("forgotAnswer", ""));
     }
 
     private void bindButton(){
         originalStyle = address.getBackground();
-
-
-        doneBtn = (Button) findViewById(R.id.doneButton);
-        doneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EditUserProfile.this, UserProfile.class);
-                startActivity(intent);
-            }
-        });
 
         takePhotoButton = (ImageButton) findViewById(R.id.takePhotoButton);
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +201,7 @@ public class EditUserProfile extends AppCompatActivity {
             }
         });
 
+        doneBtn = (Button) findViewById(R.id.doneButton);
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,6 +216,9 @@ public class EditUserProfile extends AppCompatActivity {
                     editor.putString("email",email.getText().toString());
                     editor.putString("firstName",firstname.getText().toString());
                     editor.putString("lastName",lastname.getText().toString());
+                    editor.putString("forgotQuestion", securityQuestionSelect + "");
+                    editor.putString("forgotAnswer", answer.getText().toString());
+                    editor.putBoolean("isSubmit",true);
                     editor.apply();
 
                     Map<String, String> params = new HashMap<>();
@@ -265,6 +239,18 @@ public class EditUserProfile extends AppCompatActivity {
                     Toast toast = Toast.makeText(EditUserProfile.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
                     toast.show();
                 }
+            }
+        });
+
+        question.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                securityQuestionSelect = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                securityQuestionSelect = 400;
             }
         });
     }
