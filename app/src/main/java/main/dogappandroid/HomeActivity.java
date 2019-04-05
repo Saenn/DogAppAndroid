@@ -120,6 +120,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.clear();
         editor.commit();
+        this.deleteDatabase(mHelper.getDatabaseName());
         Intent login = new Intent(HomeActivity.this, LoginActivity.class);
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(login);
