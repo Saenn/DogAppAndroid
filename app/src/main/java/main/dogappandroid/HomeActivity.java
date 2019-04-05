@@ -120,8 +120,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         editor.clear();
         editor.commit();
         Intent login = new Intent(HomeActivity.this, LoginActivity.class);
-        finish();
+        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(login);
+        finish();
     }
 
     @Override
@@ -188,7 +189,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_sign_out) {
-
+            logout();
         }
 
         drawer.closeDrawer(GravityCompat.START);
