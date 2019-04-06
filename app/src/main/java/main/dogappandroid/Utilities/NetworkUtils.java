@@ -39,6 +39,75 @@ public class NetworkUtils {
     private static final String ADD_DOG_INFORMATION_URL = "http://3.1.206.5:9000/dog/information/add";
     private static final String ADD_DOG_VACCINE_URL = "http://3.1.206.5:9000/dog/vaccine/add";
     private static final String ADD_DOG_IMAGE_URL = "http://3.1.206.5:9000/dog/image/add";
+    private static final String RETRIEVE_DOG_DATA_URL = "http://3.1.206.5:9000/dog/retrieve";
+
+    public static String retrieveDogData(String ownerID, String username, String token) {
+        String urlParams = "username=" + username + "&";
+        urlParams += "ownerID=" + ownerID + "&";
+        byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+
+        HttpURLConnection httpConnection = null;
+        BufferedReader reader = null;
+        String responseFromRequest = null;
+
+        try {
+            URL requestURL = new URL(RETRIEVE_DOG_DATA_URL);
+            httpConnection = (HttpURLConnection) requestURL.openConnection();
+            httpConnection.setRequestMethod("POST");
+            httpConnection.setDoOutput(true);
+            httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            httpConnection.addRequestProperty("Authorization", token);
+
+            DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
+            wr.write(postData);
+
+            reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+            String line;
+            StringBuilder contentBuilder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line);
+                contentBuilder.append("\n");
+            }
+            if (contentBuilder.length() == 0) {
+                return "";
+            }
+            responseFromRequest = contentBuilder.toString();
+        } catch (IOException e) {
+            try {
+                if (httpConnection.getErrorStream() != null) {
+                    reader = new BufferedReader(new InputStreamReader(
+                            httpConnection.getErrorStream()));
+                    String line = null;
+                    StringBuilder contentBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        contentBuilder.append(line);
+                        contentBuilder.append("\n");
+                    }
+                    reader.close();
+                    if (contentBuilder.length() == 0) {
+                        return "";
+                    }
+                    responseFromRequest = contentBuilder.toString();
+                } else {
+                    Log.d("Server Error", "Server doesn't response");
+                }
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        } finally {
+            if (httpConnection != null) {
+                httpConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return responseFromRequest;
+    }
 
     public static String addDogImage(Context context, DogImage dogImage, int rdsDogID, String username, String token) {
         String response = null;

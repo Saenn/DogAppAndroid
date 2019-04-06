@@ -64,6 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogImage.DogImageEntry.KEY_IMAGE, dogImage.getKeyImage());
         values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDog_internal_id());
         values.put(DogImage.DogImageEntry.TYPE, dogImage.getType());
+        values.put(DogImage.DogImageEntry.IS_SUBMIT, dogImage.getIsSubmit());
 
         long index = sqLiteDatabase.insert(DogImage.DogImageEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
@@ -193,12 +194,30 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Dog.DogEntry.PROVINCE, dog.getProvince());
         values.put(Dog.DogEntry.LATITUDE, dog.getLatitude());
         values.put(Dog.DogEntry.LONGITUDE, dog.getLongitude());
-        values.put(Dog.DogEntry.IS_SUBMIT, 0);
+        values.put(Dog.DogEntry.IS_SUBMIT, dog.getIsSubmit());
 
         long index = sqLiteDatabase.insert(Dog.DogEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
 
         return index;
+    }
+
+    synchronized public int getInternalDogIDbyExternalID(int rdsDogID) {
+        sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.query(
+                Dog.DogEntry.TABLE_NAME,
+                null,
+                Dog.DogEntry.DOG_ID + " = " + rdsDogID,
+                null,
+                null,
+                null,
+                null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        int internalDogID = cursor.getInt(0);
+        sqLiteDatabase.close();
+        return internalDogID;
     }
 
     synchronized public Dog getDogById(int id) {
@@ -603,6 +622,8 @@ public class DBHelper extends SQLiteOpenHelper {
         if (vaccine.getDogID() != 0) {
             values.put(DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID, vaccine.getDogID());
         }
+
+        values.put(DogVaccine.DogVaccineEntry.IS_SUBMIT, vaccine.getIsSubmit());
 
         sqLiteDatabase.insert(DogVaccine.DogVaccineEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
