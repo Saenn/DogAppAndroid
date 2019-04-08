@@ -1,11 +1,17 @@
 package main.dogappandroid;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +35,8 @@ public class AddStray3 extends AppCompatActivity {
     public static final int RESULT_LOAD_IMAGE_SIDE = 2;
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT = 1000;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE = 1100;
     private String frontImagePath = "", sideImagePath = "";
 
     @Override
@@ -119,22 +127,60 @@ public class AddStray3 extends AppCompatActivity {
         loadFrontPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                if (ContextCompat.checkSelfPermission(AddStray3.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(AddStray3.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                }
             }
         });
 
         loadSidePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                if (ContextCompat.checkSelfPermission(AddStray3.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(AddStray3.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                }
             }
         });
+    }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                } else {
+                    Snackbar.make(findViewById(R.id.addStray3), R.string.requestPermissionDeny_EN, Snackbar.LENGTH_LONG).show();
+                }
+            }
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                } else {
+                    Snackbar.make(findViewById(R.id.addStray3), R.string.requestPermissionDeny_EN, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

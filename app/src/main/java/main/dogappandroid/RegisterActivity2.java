@@ -223,7 +223,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                     photoPickerIntent.setType("image/jpg");
                     startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
                 } else {
-                    Snackbar.make(findViewById(R.id.registerActivity2), "You need to grant storage permission", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.registerActivity2), R.string.requestPermissionDeny_EN, Snackbar.LENGTH_LONG).show();
                 }
             }
         }
