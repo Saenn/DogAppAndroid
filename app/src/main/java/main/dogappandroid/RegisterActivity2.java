@@ -1,7 +1,9 @@
 package main.dogappandroid;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -10,8 +12,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +42,9 @@ import main.dogappandroid.Utilities.NetworkUtils;
 
 public class RegisterActivity2 extends AppCompatActivity {
 
-    static final int REQUEST_TAKE_PHOTO = 1;
-    static final int RESULT_LOAD_IMAGE = 2;
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int RESULT_LOAD_IMAGE = 2;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 1000;
 
     private EditText addressEditText, subdistrictEditText, districtEditText, provinceEditText, phoneEditText;
     private Button nextButton;
@@ -91,9 +100,17 @@ public class RegisterActivity2 extends AppCompatActivity {
         loadPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                if (ContextCompat.checkSelfPermission(RegisterActivity2.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(RegisterActivity2.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                }
             }
         });
 
@@ -172,7 +189,7 @@ public class RegisterActivity2 extends AppCompatActivity {
 
                     Map<String, String> params = new HashMap<>();
                     Intent intent = getIntent();
-                    params.put("username",intent.getStringExtra("username"));
+                    params.put("username", intent.getStringExtra("username"));
                     params.put("email", intent.getStringExtra("email"));
                     params.put("password", intent.getStringExtra("password"));
                     params.put("firstName", intent.getStringExtra("firstname"));
@@ -195,6 +212,21 @@ public class RegisterActivity2 extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                } else {
+                    Snackbar.make(findViewById(R.id.registerActivity2), "You need to grant storage permission", Snackbar.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     @Override

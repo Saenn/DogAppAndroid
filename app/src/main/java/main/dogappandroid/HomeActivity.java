@@ -44,8 +44,6 @@ import main.dogappandroid.Utilities.NetworkUtils;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 1000;
-    private static final int REQUEST_LOCATION_PERMISSION = 2000;
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
 
@@ -64,7 +62,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         mHelper = new DBHelper(this);
         mDataset = mHelper.getDog();
-        checkAppPermission();
 
 //        handle recycler view
         recyclerView = (RecyclerView) findViewById(R.id.dogListView);
@@ -342,44 +339,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         finish();
         overridePendingTransition(0, 0);
         startActivity(intent);
-    }
-
-    private void checkAppPermission() {
-        if (ContextCompat.checkSelfPermission(HomeActivity.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(HomeActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_EXTERNAL_STORAGE_PERMISSION);
-        }
-        if (ContextCompat.checkSelfPermission(HomeActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(HomeActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISSION);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_EXTERNAL_STORAGE_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i("Permission", "READ_EXTERNAL_STORAGE has been granted");
-                } else {
-                    Log.i("Permission", "READ_EXTERNAL_STORAGE has not been granted");
-                }
-            }
-            case REQUEST_LOCATION_PERMISSION:{
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i("Permission", "READ_EXTERNAL_STORAGE has been granted");
-                } else {
-                    Log.i("Permission", "READ_EXTERNAL_STORAGE has not been granted");
-                }
-            }
-        }
     }
 
     private boolean isNetworkAvailable() {

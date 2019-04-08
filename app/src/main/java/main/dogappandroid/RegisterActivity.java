@@ -1,10 +1,16 @@
 package main.dogappandroid;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +23,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText username, firstname, lastname, email, password, repassword, securityAnswer;
     private Button nextButton;
-    private Spinner securityQuestionSpinner;
     private Drawable originalStyle;
     private int securityQuestionSelect;
 
@@ -28,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         firstname = (EditText) findViewById(R.id.firstNameEditText);
@@ -171,7 +177,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    protected boolean validateAllInput() {
+    private boolean validateAllInput() {
         String usenameRegex = "[a-zA-Z0-9.]+";
         String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
         String emailRegex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
@@ -185,5 +191,4 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         return false;
     }
-
 }
