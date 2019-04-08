@@ -48,9 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView forgotPassword;
     private Button loginButton;
     private Button registerButton;
-    private View loginLayout;
 
-    private static final int MY_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 1000;
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
     DBHelper dbHelper;
@@ -65,12 +63,10 @@ public class LoginActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         dbHelper = new DBHelper(this);
 
-        checkAppPermission();
-
         if (mPreferences.getString("token", "") != "") {
-//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//            startActivity(intent);
-//            finish();
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         username = findViewById(R.id.usernameLogin);
@@ -78,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword = findViewById(R.id.forgotPassword);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
-        loginLayout = findViewById(R.id.loginActivity);
 
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,45 +106,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void checkAppPermission() {
-        if (ContextCompat.checkSelfPermission(LoginActivity.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setMessage(R.string.requestReadExternalStoragePermission_EN);
-                builder.setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ActivityCompat.requestPermissions(LoginActivity.this,
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                MY_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
-                    }
-                });
-                builder.show();
-            } else {
-                ActivityCompat.requestPermissions(LoginActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i("Permission", "READ_EXTERNAL_STORAGE has been granted");
-                } else {
-                    Log.i("Permission", "READ_EXTERNAL_STORAGE has not been granted");
-                }
-            }
-        }
     }
 
     public class onLogin extends AsyncTask<Map<String, String>, Void, String> {
@@ -288,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 SimpleDateFormat fromRDS = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                                 Date rdsDate = fromRDS.parse(tmp.optString("missingDate"));
-                                SimpleDateFormat toLocalDB = new SimpleDateFormat("dd/MM/YYYY");
+                                SimpleDateFormat toLocalDB = new SimpleDateFormat("dd/MM/yyyy");
                                 dogInformation.setMissingDate(toLocalDB.format(rdsDate));
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -298,7 +254,7 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 SimpleDateFormat fromRDS = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                                 Date rdsDate = fromRDS.parse(tmp.optString("sterilizedDate"));
-                                SimpleDateFormat toLocalDB = new SimpleDateFormat("dd/MM/YYYY");
+                                SimpleDateFormat toLocalDB = new SimpleDateFormat("dd/MM/yyyy");
                                 dogInformation.setSterilizedDate(toLocalDB.format(rdsDate));
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -315,7 +271,7 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 SimpleDateFormat fromRDS = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                                 Date rdsDate = fromRDS.parse(tmp.getString("injectedDate"));
-                                SimpleDateFormat toLocalDB = new SimpleDateFormat("dd/MM/YYYY");
+                                SimpleDateFormat toLocalDB = new SimpleDateFormat("dd/MM/yyyy");
                                 dogVaccine.setDate(toLocalDB.format(rdsDate));
                             } catch (ParseException e) {
                                 e.printStackTrace();
