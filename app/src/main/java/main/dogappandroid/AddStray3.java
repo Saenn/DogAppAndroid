@@ -168,7 +168,7 @@ public class AddStray3 extends AppCompatActivity {
                     photoPickerIntent.setType("image/jpg");
                     startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
                 } else {
-                    Snackbar.make(findViewById(R.id.addStray3), R.string.requestPermissionDeny_EN, Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(AddStray3.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
                 }
             }
             case REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE: {
@@ -177,7 +177,7 @@ public class AddStray3 extends AppCompatActivity {
                     photoPickerIntent.setType("image/jpg");
                     startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
                 } else {
-                    Snackbar.make(findViewById(R.id.addStray3), R.string.requestPermissionDeny_EN, Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(AddStray3.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
                 }
             }
         }

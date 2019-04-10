@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -33,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
+
+    private static final int REQUEST_LOCATION_PERMISSION_DOMESTIC = 1500;
+    private static final int REQUEST_LOCATION_PERMISSION_STRAY = 2000;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -95,18 +100,59 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.add_domestic:
-                        Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
-                        startActivity(addDomestic);
+                    case R.id.add_domestic: {
+                        if (ContextCompat.checkSelfPermission(HomeActivity.this,
+                                Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(HomeActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    REQUEST_LOCATION_PERMISSION_DOMESTIC);
+                        } else {
+                            Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
+                            startActivity(addDomestic);
+                        }
+                        Log.i("Test", "Hello, Domestic");
                         return true;
-                    case R.id.add_stray:
-                        Intent addStray = new Intent(HomeActivity.this, AddStray.class);
-                        startActivity(addStray);
+                    }
+                    case R.id.add_stray: {
+                        if (ContextCompat.checkSelfPermission(HomeActivity.this,
+                                Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(HomeActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    REQUEST_LOCATION_PERMISSION_STRAY);
+                        } else {
+                            Intent addStray = new Intent(HomeActivity.this, AddStray.class);
+                            startActivity(addStray);
+                        }
+                        Log.i("Test", "Hello, Stray");
                         return true;
+                    }
                 }
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION_PERMISSION_DOMESTIC) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.i("Test", "Hello, Domestic 2");
+                Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
+                startActivity(addDomestic);
+            } else {
+                Toast.makeText(HomeActivity.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == REQUEST_LOCATION_PERMISSION_STRAY) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.i("Test", "Hello, Stray 2");
+                Intent addStray = new Intent(HomeActivity.this, AddStray.class);
+                startActivity(addStray);
+            } else {
+                Toast.makeText(HomeActivity.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -176,9 +222,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
             }
-            if(mPreferences.getBoolean("isSubmit",false)){
-                
-                mPreferences.edit().putBoolean("isSubmit",true);
+            if (mPreferences.getBoolean("isSubmit", false)) {
+                mPreferences.edit().putBoolean("isSubmit", true);
             }
         }
     }
@@ -246,7 +291,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             holder.color.setText("Color : " + dog.getColor());
             holder.gender.setText("Gender : " + dog.getGender());
             holder.breed.setText("Breed :" + dog.getBreed());
-            if(image.getKeyImage() != null){
+            if (image.getKeyImage() != null) {
                 holder.pic.setImageBitmap(mHelper.getImage(image.getKeyImage()));
             }
 
@@ -465,7 +510,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (s != null) {
                     JSONObject jsonObject = new JSONObject(s);
                     String status = jsonObject.getString("status");
-                    if(status.equals("Success")){
+                    if (status.equals("Success")) {
                         String data = jsonObject.getString("data");
                         JSONObject sqlResponse = new JSONObject(data);
                         if (sqlResponse.getInt("affectedRows") == 1) {
@@ -473,7 +518,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             mHelper.updateVaccine(dogVaccine);
                             Log.i("DogVaccine", "Add Dog Vaccine Success");
                         }
-                    }else{
+                    } else {
                         Log.i("DogVaccine", "Add Dog Vaccine Fail");
                     }
                 }
@@ -506,7 +551,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     JSONObject jsonObject = new JSONObject(s);
                     String status = jsonObject.getString("status");
                     String data = jsonObject.getString("data");
-                    if(data != null){
+                    if (data != null) {
                         JSONObject sqlResponse = new JSONObject(data);
                         if (status.equals("Success") && sqlResponse.getInt("affectedRows") == 1) {
                             dogImage.setIsSubmit(1);
