@@ -106,7 +106,7 @@ public class AddStray4 extends AppCompatActivity {
             public void onClick(View view) {
                 Bundle extras = getIntent().getExtras();
                 Intent intent = new Intent(AddStray4.this, AddVaccineDropdown.class);
-                intent.putExtra("fromstray","1");
+                intent.putExtra("fromstray", "1");
                 intent.putExtras(extras);
                 startActivity(intent);
                 finish();
@@ -144,11 +144,13 @@ public class AddStray4 extends AppCompatActivity {
                         DogInformation dogInformation = new DogInformation();
                         dogInformation.setDogID(newDogID);
                         dogInformation.setDogStatus("1"); // 1 = stay with owner, 2 = missing, 3 = dead
-                        if (extras.getBoolean("sterilized")) {
+                        if (extras.getString("sterilized").equals("0")) {
+                            dogInformation.setSterilized(0);
+                        } else if (extras.getString("sterilized").equals("1")) {
                             dogInformation.setSterilized(1);
                             dogInformation.setSterilizedDate(extras.getString("sterilizedDate"));
-                        } else {
-                            dogInformation.setSterilized(0);
+                        } else if (extras.getString("sterilized").equals("2")) {
+                            dogInformation.setSterilized(2);
                         }
                         if (extras.getInt("age", -1) != -1)
                             dogInformation.setAge(extras.getInt("age"));

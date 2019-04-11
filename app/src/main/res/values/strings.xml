@@ -343,4 +343,6 @@
     <string name="requestPermissionDeny_EN">Cannot use this function because permission denied</string>
     <string name="agree">agree</string>
     <string name="knownSterilizedDate">Check if you know exactly when did your dog be sterilized</string>
+    <string name="unknown">Unknown</string>
+    <string name="sterilizedDateLabel">When did your dog be sterilized?</string>
 </resources>

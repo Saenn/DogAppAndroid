@@ -22,13 +22,11 @@ public class AddStray2 extends AppCompatActivity {
     private EditText address, subdistrict, district, province;
     private RadioGroup sameAddress;
     private Button nextBtn;
-    private DBHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stray2);
-        mHelper = new DBHelper(this);
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         requiredAddress = (TextView) findViewById(R.id.requiredAddressStray);
@@ -60,7 +58,6 @@ public class AddStray2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Bundle extras = getIntent().getExtras();
-
                 if (sameAddress.getCheckedRadioButtonId() == R.id.yesSameAddressStray) {
                     if (mPreferences.getString("address", "").equals("")
                             || mPreferences.getString("subdistrict", "").equals("")
@@ -90,14 +87,6 @@ public class AddStray2 extends AppCompatActivity {
                         extras.putString("district", district.getText().toString());
                         extras.putString("province", province.getText().toString());
                         extras.putString("dogType", "3");
-                        Intent prevAdd = getIntent();
-                        extras.putString("name", prevAdd.getStringExtra("name"));
-                        extras.putString("ageRange", prevAdd.getStringExtra("ageRange"));
-                        extras.putString("gender", prevAdd.getStringExtra("gender"));
-                        extras.putString("breed", prevAdd.getStringExtra("breed"));
-                        extras.putString("color", prevAdd.getStringExtra("color"));
-                        extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
-                        extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
                         Intent addStray3 = new Intent(AddStray2.this, AddStray3.class);
                         addStray3.putExtras(extras);
                         startActivity(addStray3);
