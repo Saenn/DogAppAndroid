@@ -7,28 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 
 public class AddDomestic extends AppCompatActivity {
 
     private EditText name, age, breed, color;
-    private TextView ageView, genderView, sterizlizedView, colorage, colorgender, sterilizegender;
+    private TextView requiredSterilizedDateLabel, sterilizedDateLabel;
     private CalendarView sterilizedDate;
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
     private Button nextBtn;
-    private DBHelper dbHelper;
-    private Dog dog;
-    private DogInformation info;
-
+    private CheckBox knownSterilizedDate;
 
     private String sterilizedDateSelected;
 
@@ -36,35 +31,51 @@ public class AddDomestic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_domestic);
-        dbHelper = new DBHelper(this);
 
-        name = (EditText) findViewById(R.id.nameDomestic);
-        age = (EditText) findViewById(R.id.ageDomestic);
-        breed = (EditText) findViewById(R.id.breedDomestic);
-        color = (EditText) findViewById(R.id.colorDomestic);
-        sterilizedDate = (CalendarView) findViewById(R.id.sterilizedDateDomestic);
-        maleBtn = (RadioButton) findViewById(R.id.maleDomesticButton);
-        femaleBtn = (RadioButton) findViewById(R.id.femaleDomesticButton);
-        yesBtn = (RadioButton) findViewById(R.id.yesSterilizedButton);
-        noBtn = (RadioButton) findViewById(R.id.noSterilizedButton);
-        gender = (RadioGroup) findViewById(R.id.genderDomestic);
-        sterilized = (RadioGroup) findViewById(R.id.sterilizedDomestic);
-        nextBtn = (Button) findViewById(R.id.nextDomesticButton);
-        genderView = (TextView) findViewById(R.id.genderDomesticLabel);
-        ageView = (TextView) findViewById(R.id.ageDomesticLabel);
-        sterizlizedView = (TextView) findViewById(R.id.sterilizedDomesticLabel);
-        colorage = (TextView) findViewById(R.id.addDogRequired);
-        colorgender = (TextView) findViewById(R.id.addDogRequired2);
-        sterilizegender = (TextView) findViewById(R.id.addDogRequired3);
+        name = findViewById(R.id.nameDomestic);
+        age = findViewById(R.id.ageDomestic);
+        breed = findViewById(R.id.breedDomestic);
+        color = findViewById(R.id.colorDomestic);
+        sterilizedDate = findViewById(R.id.sterilizedDateDomestic);
+        maleBtn = findViewById(R.id.maleDomesticButton);
+        femaleBtn = findViewById(R.id.femaleDomesticButton);
+        yesBtn = findViewById(R.id.yesSterilizedButton);
+        noBtn = findViewById(R.id.noSterilizedButton);
+        gender = findViewById(R.id.genderDomestic);
+        sterilized = findViewById(R.id.sterilizedDomestic);
+        nextBtn = findViewById(R.id.nextDomesticButton);
+        requiredSterilizedDateLabel = findViewById(R.id.addDogRequired3);
+        sterilizedDateLabel = findViewById(R.id.sterilizedDateLabel);
+        knownSterilizedDate = findViewById(R.id.knownSterilizedDate);
 
+        requiredSterilizedDateLabel.setVisibility(View.GONE);
+        sterilizedDateLabel.setVisibility(View.GONE);
+        knownSterilizedDate.setVisibility(View.GONE);
         sterilizedDate.setVisibility(View.GONE);
 
         sterilized.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (yesBtn.isChecked()) {
-                    sterilizedDate.setVisibility(View.VISIBLE);
+                    requiredSterilizedDateLabel.setVisibility(View.VISIBLE);
+                    sterilizedDateLabel.setVisibility(View.VISIBLE);
+                    knownSterilizedDate.setVisibility(View.VISIBLE);
+                    sterilizedDate.setVisibility(View.GONE);
                 } else if (noBtn.isChecked()) {
+                    requiredSterilizedDateLabel.setVisibility(View.GONE);
+                    sterilizedDateLabel.setVisibility(View.GONE);
+                    knownSterilizedDate.setVisibility(View.GONE);
+                    sterilizedDate.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        knownSterilizedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (knownSterilizedDate.isChecked()) {
+                    sterilizedDate.setVisibility(View.VISIBLE);
+                } else {
                     sterilizedDate.setVisibility(View.GONE);
                 }
             }
@@ -105,7 +116,11 @@ public class AddDomestic extends AppCompatActivity {
                     extras.putString("color", color.getText().toString());
                     if (yesBtn.isChecked()) {
                         extras.putBoolean("sterilized", true);
-                        extras.putString("sterilizedDate", sterilizedDateSelected);
+                        if (knownSterilizedDate.isChecked()) {
+                            extras.putString("sterilizedDate", sterilizedDateSelected);
+                        } else {
+                            extras.putString("sterilizedDate", "");
+                        }
                     } else if (noBtn.isChecked()) {
                         extras.putBoolean("sterilized", false);
                         extras.putString("sterilizedDate", "");

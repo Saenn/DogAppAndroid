@@ -342,4 +342,5 @@
         \n\t\t\tการให้ข้อมูลของท่านผ่านทางโทรศัพท์มือถือเป็นเสมือนการยินยอมเข้าร่วมโครงการวิจัย ทางทีมวิจัยขอขอบพระคุณผู้ร่วมวิจัยทุกท่านเป็นอย่างยิ่ง</string>
     <string name="requestPermissionDeny_EN">Cannot use this function because permission denied</string>
     <string name="agree">agree</string>
+    <string name="knownSterilizedDate">Check if you know exactly when did your dog be sterilized</string>
 </resources>
