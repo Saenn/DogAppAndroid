@@ -125,9 +125,17 @@ public class DogProfileActivity extends AppCompatActivity {
         dogImage.setImageBitmap(BitmapFactory.decodeByteArray(dogImageData.getKeyImage(), 0, dogImageData.getKeyImage().length));
         name.setText(dog.getName());
         if (dog.getAgeRange().equals("1")) {
-            age.setText("Puppy (" + dog.getAge() + ")");
+            if (dog.getAge() != -1) {
+                age.setText("Puppy (" + dog.getAge() + ")");
+            } else {
+                age.setText("Puppy");
+            }
         } else {
-            age.setText("Adult (" + dog.getAge() + ")");
+            if (dog.getAge() != -1) {
+                age.setText("Adult (" + dog.getAge() + ")");
+            } else {
+                age.setText("Adult");
+            }
         }
         gender.setText(dog.getGender());
         color.setText(dog.getColor());
@@ -158,7 +166,11 @@ public class DogProfileActivity extends AppCompatActivity {
             if (dogInformation.getSterilized() == 0) {
                 sterilized.setText("Not yet");
             } else {
-                sterilized.setText("on " + dogInformation.getSterilizedDate());
+                if(dogInformation.getSterilizedDate().equals("")){
+                    sterilized.setText("Sterilized");
+                } else{
+                    sterilized.setText("Sterilized on " + dogInformation.getSterilizedDate());
+                }
             }
         } else if (dogInformation.getDogStatus().equals("2")) {
             status.setText("Missing");
