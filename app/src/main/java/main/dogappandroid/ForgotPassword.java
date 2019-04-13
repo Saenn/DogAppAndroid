@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -31,6 +32,11 @@ public class ForgotPassword extends AppCompatActivity {
     private Button nextBtn;
     private Drawable originalStyle;
     private int securityQuestionSelect;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

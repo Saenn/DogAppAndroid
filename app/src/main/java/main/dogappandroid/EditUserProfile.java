@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -46,6 +47,11 @@ public class EditUserProfile extends AppCompatActivity {
     private String userImagePath;
     private Spinner question;
     private int securityQuestionSelect;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

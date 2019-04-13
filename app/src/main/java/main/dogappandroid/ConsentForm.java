@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,11 @@ public class ConsentForm extends AppCompatActivity {
 
     private CheckBox agreeCheckBox;
     private Button nextButton;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

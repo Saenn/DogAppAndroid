@@ -3,6 +3,7 @@ package main.dogappandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -174,8 +175,15 @@ public class AddStray extends AppCompatActivity {
     }
 
     private void addAgeDataToList() {
-        ageList.add(0, "Select an age");
-        ageList.add(1, "Not exceed 3 years");
-        ageList.add(2, "More than 3 years");
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        if(preferences.getString("lang","th") == "en") {
+            ageList.add(0, "Select an age");
+            ageList.add(1, "Not exceed 3 years");
+            ageList.add(2, "More than 3 years");
+        }else{
+            ageList.add(0, "เลือกอายุของสุนัข");
+            ageList.add(1, "ไม่เกิน 3 ปี");
+            ageList.add(2, "มากกว่า 3 ปี");
+        }
     }
 }

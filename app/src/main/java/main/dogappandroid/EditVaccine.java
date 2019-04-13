@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,12 @@ public class EditVaccine extends AppCompatActivity {
     private Button doneButton;
     private DBHelper dbHelper;
     private ClickListener rabiesListener, othersListener;
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

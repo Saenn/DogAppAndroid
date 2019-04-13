@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -31,6 +32,12 @@ public class AddVaccineDropdown extends AppCompatActivity {
     private DBHelper mHelper;
     private int ID = -1;
     private Bundle prevBundle;
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

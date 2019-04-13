@@ -244,7 +244,7 @@
     <string name="profile_dog_status_header">สถานะ</string>
     <string name="dog_profile_status_label">สถานะ :</string>
     <string name="profile_dog_pregnant_label">ท้อง :</string>
-    <string name="profile_dog_child_label">Children :</string>
+    <string name="profile_dog_child_label">ลูก :</string>
     <string name="profile_dog_death_label">ตาย :</string>
     <string name="profile_dog_missing_label">หาย :</string>
     <string name="profile_dog_sterilized_label">ทำหมัน :</string>
@@ -267,11 +267,30 @@
         \n\t\t\tความร่วมมือของท่านในการให้ข้อมูลสุนัขจะเป็นประโยชน์อย่างยิ่งในการทำงานของทีมวิจัยและหวังเป็นอย่างยิ่งว่าจะได้รับความร่วมมือจากท่านตลอดการทำงานในโครงการนี้ หากท่านมีคำถามหรือข้อสงสัยเกี่ยวกับโครงการท่านสามารถติดต่อทีมวิจัยได้ทุกเมื่อตามที่อยู่ที่ทีมวิจัยให้ไว้กับท่าน
         \n\t\t\tการให้ข้อมูลของท่านผ่านทางโทรศัพท์มือถือเป็นเสมือนการยินยอมเข้าร่วมโครงการวิจัย ทางทีมวิจัยขอขอบพระคุณผู้ร่วมวิจัยทุกท่านเป็นอย่างยิ่ง</string>
     <string name="requestPermissionDeny_EN">ไม่สามารถใช้ฟังก์ชันนี้ได้เนื่องจากไม่ได้เปิดการอนุญาติให้เข้าถึง</string>
-    <string name="agree">เห็นด้วย</string>
+    <string name="agree">ฉันยอมรับ</string>
     <string name="header_setting">การตั้งค่า</string>
     <string name="primary_language">ภาษา</string>
     <string name="th">ไทย</string>
     <string name="en">อังกฤษ</string>
+    <string name="knownSterilizedDate">เลือกเมื่อคุณทราบวันที่ทำหมันของสุนัข</string>
+    <string name="unknown">ไม่ทราบ</string>
+    <string name="sterilizedDateLabel">สุนัขของคุณทำหมันเมื่อไหร่?</string>
+
+    <string name="userprofileHeader">โปรไฟล์ของฉัน</string>
+    <string name="userInformation">ข้อมูล</string>
+    <string name="userID">ชื่อผู้ใช้งาน :</string>
+    <string name="userFullname">ชื่อเต็ม :</string>
+    <string name="userAddress">ที่อยู่ :</string>
+    <string name="userSubdistrict">ตำบล/แขวง :</string>
+    <string name="userDistrict">เขต/อำเถอ :</string>
+    <string name="userProvince">จังหวัด :</string>
+    <string name="userPhone">เบอร์โทรศัพท์ :</string>
+    <string name="userEmail">อีเมล :</string>
+    <string name="userRegistered">วันที่ลงทะเบียน :</string>
+    <string name="userUpdated">วันที่อัพเดทล่าสุด :</string>
+    <string name="userSecurity">ความปลอดภัย</string>
+    <string name="userQuestion">คำถาม :</string>
+    <string name="userAnswer">คำตอบ :"</string>
 
 
 

@@ -83,7 +83,7 @@ public class AddDomestic2 extends AppCompatActivity {
 
         //Set Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        updateView(preferences.getString("lang","en"));
+        getListInfo(preferences.getString("lang","en"));
 
         // Setup Spinner //
         selectedValue = "";
@@ -222,7 +222,7 @@ public class AddDomestic2 extends AppCompatActivity {
 
     }
 
-    private void updateView(String lang) {
+    private void getListInfo(String lang) {
         Context context = LocalHelper.setLocale(this,lang);
         Resources resources = context.getResources();
         provinceList = resources.getStringArray(R.array.provinceList);

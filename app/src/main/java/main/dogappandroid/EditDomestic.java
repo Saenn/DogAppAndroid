@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -41,6 +42,12 @@ public class EditDomestic extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
     private String frontImagePath = "", sideImagePath = "";
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

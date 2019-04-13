@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import main.dogappandroid.Utilities.NetworkUtils;
@@ -43,6 +47,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
     DBHelper dbHelper;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +106,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //set App Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        setAppLocale(preferences.getString("lang","th"));
+
+    }
+
+    private void setAppLocale(String appLocale) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(appLocale.toLowerCase()));
+        res.updateConfiguration(conf,dm);
     }
 
     public class onLogin extends AsyncTask<Map<String, String>, Void, String> {

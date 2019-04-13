@@ -270,8 +270,24 @@
         \n\t\t\tความร่วมมือของท่านในการให้ข้อมูลสุนัขจะเป็นประโยชน์อย่างยิ่งในการทำงานของทีมวิจัยและหวังเป็นอย่างยิ่งว่าจะได้รับความร่วมมือจากท่านตลอดการทำงานในโครงการนี้ หากท่านมีคำถามหรือข้อสงสัยเกี่ยวกับโครงการท่านสามารถติดต่อทีมวิจัยได้ทุกเมื่อตามที่อยู่ที่ทีมวิจัยให้ไว้กับท่าน
         \n\t\t\tการให้ข้อมูลของท่านผ่านทางโทรศัพท์มือถือเป็นเสมือนการยินยอมเข้าร่วมโครงการวิจัย ทางทีมวิจัยขอขอบพระคุณผู้ร่วมวิจัยทุกท่านเป็นอย่างยิ่ง</string>
     <string name="requestPermissionDeny_EN">Cannot use this function because permission denied</string>
-    <string name="agree">agree</string>
+    <string name="agree">I Agree</string>
     <string name="knownSterilizedDate">Check if you know exactly when did your dog be sterilized</string>
     <string name="unknown">Unknown</string>
     <string name="sterilizedDateLabel">When did your dog be sterilized?</string>
+
+    <string name="userprofileHeader">My Profile</string>
+    <string name="userInformation">Information</string>
+    <string name="userID">UserID :</string>
+    <string name="userFullname">Fullname :</string>
+    <string name="userAddress">Address :</string>
+    <string name="userSubdistrict">Subdistrict :</string>
+    <string name="userDistrict">District :</string>
+    <string name="userProvince">Province :</string>
+    <string name="userPhone">Phone :</string>
+    <string name="userEmail">Email :</string>
+    <string name="userRegistered">Registered :</string>
+    <string name="userUpdated">Updated :</string>
+    <string name="userSecurity">Security</string>
+    <string name="userQuestion">Question :</string>
+    <string name="userAnswer">Answer :"</string>
 </resources>

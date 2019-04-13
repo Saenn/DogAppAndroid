@@ -29,7 +29,7 @@ import java.util.Locale;
 public class AddDomestic extends AppCompatActivity {
 
     private EditText name, age, breed, color;
-    private TextView requiredSterilizedDateLabel, sterilizedDateLabel ,sterilizedDateView;
+    private TextView requiredSterilizedDateLabel, sterilizedDateLabel;
     private CalendarView sterilizedDate;
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
@@ -63,13 +63,11 @@ public class AddDomestic extends AppCompatActivity {
         requiredSterilizedDateLabel = findViewById(R.id.addDogRequired3);
         sterilizedDateLabel = findViewById(R.id.sterilizedDateLabel);
         knownSterilizedDate = findViewById(R.id.knownSterilizedDate);
-        sterilizedDateView = findViewById(R.id.sterilizedDomesticDateLabel);
 
         requiredSterilizedDateLabel.setVisibility(View.GONE);
         sterilizedDateLabel.setVisibility(View.GONE);
         knownSterilizedDate.setVisibility(View.GONE);
         sterilizedDate.setVisibility(View.GONE);
-        sterilizedDateView.setVisibility(View.GONE);
 
         sterilized.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -84,8 +82,6 @@ public class AddDomestic extends AppCompatActivity {
                     sterilizedDateLabel.setVisibility(View.GONE);
                     knownSterilizedDate.setVisibility(View.GONE);
                     sterilizedDate.setVisibility(View.GONE);
-                    sterilizedDateView.setVisibility(View.GONE);
-
                 }
             }
         });

@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -21,6 +22,11 @@ public class UserProfile extends AppCompatActivity {
     ImageView profileImage;
     TextView userID, fullname, address, subdistrict, district, province, phone, email, registered, latestUpdate, question, answer;
     ImageButton editProfileBtn, editSecurityBtn;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,8 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,6 +52,12 @@ public class EditStray extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
     private String frontImagePath = "", sideImagePath = "";
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -339,12 +347,25 @@ public class EditStray extends AppCompatActivity {
     }
 
     private void addAgeDataToList() {
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+
         if (dog.getAgeRange().equals("1")) {
-            ageList.add(0, "Not exceed 3 years");
-            ageList.add(1, "More than 3 years");
+            if(preferences.getString("lang","th") == "en") {
+                ageList.add(0, "Not exceed 3 years");
+                ageList.add(1, "More than 3 years");
+            }else{
+                ageList.add(0, "ไม่เกิน 3 ปี");
+                ageList.add(1, "มากกว่า 3 ปี");
+            }
         } else {
-            ageList.add(0, "More than 3 years");
-            ageList.add(1, "Not exceed 3 years");
+            if(preferences.getString("lang","th") == "en") {
+                ageList.add(0, "More than 3 years");
+                ageList.add(1, "Not exceed 3 years");
+
+            }else{
+                ageList.add(0, "มากกว่า 3 ปี");
+                ageList.add(1, "ไม่เกิน 3 ปี");
+            }
         }
 
     }

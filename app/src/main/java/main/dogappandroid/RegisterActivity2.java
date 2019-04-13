@@ -1,6 +1,7 @@
 package main.dogappandroid;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -55,6 +56,11 @@ public class RegisterActivity2 extends AppCompatActivity {
 
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

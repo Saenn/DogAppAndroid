@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/pink400"
         android:gravity="center"
-        android:text="My Profile"
+        android:text="@string/userprofileHeader"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -70,7 +70,7 @@
                 android:background="@drawable/bg_round_border_pink"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="Information"
+                android:text="@string/userInformation"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
                         android:id="@+id/userProfile_userIDLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="UserID :"
+                        android:text="@string/userID"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -127,7 +127,7 @@
                         android:id="@+id/userProfile_fullNameLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Fullname :"
+                        android:text="@string/userFullname"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -154,7 +154,7 @@
                         android:id="@+id/userProfile_addressLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Address :"
+                        android:text="@string/userAddress"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -181,7 +181,7 @@
                         android:id="@+id/userProfile_subdistrictLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Subdistrict :"
+                        android:text="@string/userSubdistrict"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -208,7 +208,7 @@
                         android:id="@+id/userProfile_districtLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="District :"
+                        android:text="@string/userDistrict"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -235,7 +235,7 @@
                         android:id="@+id/userProfile_provinceLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Province :"
+                        android:text="@string/userProvince"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -262,7 +262,7 @@
                         android:id="@+id/userProfile_phoneLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Phone :"
+                        android:text="@string/userPhone"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -289,7 +289,7 @@
                         android:id="@+id/userProfile_emailLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Email :"
+                        android:text="@string/userEmail"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -316,7 +316,7 @@
                         android:id="@+id/userProfile_registerDateLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Registered :"
+                        android:text="@string/userRegistered"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -343,7 +343,7 @@
                         android:id="@+id/userProfile_latestUpdateLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Updated :"
+                        android:text="@string/userUpdated"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -371,7 +371,7 @@
                 android:background="@drawable/bg_round_border_pink"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="Security"
+                android:text="@string/userSecurity"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -402,7 +402,7 @@
                         android:id="@+id/userProfile_forgotQuestionLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Question :"
+                        android:text="@string/userQuestion"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 
@@ -429,7 +429,7 @@
                         android:id="@+id/userProfile_forgotAnswerLabel"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="Anwer :"
+                        android:text="@string/userAnswer"
                         android:textColor="@color/pink400"
                         android:textSize="14sp" />
 

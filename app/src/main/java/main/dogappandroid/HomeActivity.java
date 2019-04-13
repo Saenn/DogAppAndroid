@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"en"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
     }
 
     @Override
@@ -145,7 +145,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //set App Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        setAppLocale(preferences.getString("lang","en"));
+        setAppLocale(preferences.getString("lang","th"));
 
     }
 
