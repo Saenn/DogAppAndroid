@@ -45,7 +45,7 @@
     <string name="header_mandatory">Add Domestic Dog</string>
     <string name="header_optional">Dog Info (optional)</string>
     <string name="age_label">Age</string>
-    <string name="age_hint">Enter your puppy\'s age</string>
+    <string name="age_hint">Enter your puppy\'s age (years)</string>
     <string name="color_label">Color</string>
     <string name="color_hint">Enter your puppy\'s color</string>
     <string name="breed_label">Breed</string>
@@ -60,6 +60,7 @@
     <string name="rabies_vaccine">Rabies Vaccine</string>
     <string name="other">Others</string>
     <string name="addvaccine">Add Vaccine</string>
+    <string name="add">Add</string>
     <string name="confirm">Confirm</string>
     <string name="vaccine">Vaccine :</string>
     <string name="vaccine_date">Injected on :</string>
@@ -104,7 +105,7 @@
     <string name="provinceLabel">Province</string>
     <string name="provinceHint">Bangkok</string>
     <string name="registrationHeader2">Registration (Optional)</string>
-    <string-array name="province_eng">
+    <string-array name="provinceList">
         <item>Bangkok</item>
         <item>Pattaya</item>
         <item>Krabi</item>
@@ -184,85 +185,6 @@
         <item>Phrae</item>
         <item>Mae Hong Son</item>
     </string-array>
-    <string-array name="province_th">
-        <item>กรุงเทพมหานคร</item>
-        <item>กระบี่</item>
-        <item>กาญจนบุรี</item>
-        <item>กาฬสินธุ์</item>
-        <item>กำแพงเพชร</item>
-        <item>ขอนแก่น</item>
-        <item>จันทบุรี</item>
-        <item>ฉะเชิงเทรา</item>
-        <item>ชัยนาท</item>
-        <item>ชัยภูมิ</item>
-        <item>ชุมพร</item>
-        <item>ชลบุรี</item>
-        <item>เชียงใหม่</item>
-        <item>เชียงราย</item>
-        <item>ตรัง</item>
-        <item>ตราด</item>
-        <item>ตาก</item>
-        <item>นครนายก</item>
-        <item>นครปฐม</item>
-        <item>นครพนม</item>
-        <item>นครราชสีมา</item>
-        <item>นครศรีธรรมราช</item>
-        <item>นครสวรรค์</item>
-        <item>นราธิวาส</item>
-        <item>น่าน</item>
-        <item>นนทบุรี</item>
-        <item>บึงกาฬ</item>
-        <item>บุรีรัมย์</item>
-        <item>ประจวบคีรีขันธ์</item>
-        <item>ปทุมธานี</item>
-        <item>ปราจีนบุรี</item>
-        <item>ปัตตานี</item>
-        <item>พะเยา</item>
-        <item>พระนครศรีอยุธยา</item>
-        <item>พังงา</item>
-        <item>พิจิตร</item>
-        <item>พิษณุโลก</item>
-        <item>เพชรบุรี</item>
-        <item>เพชรบูรณ์</item>
-        <item>แพร่</item>
-        <item>พัทลุง</item>
-        <item>ภูเก็ต</item>
-        <item>มหาสารคาม</item>
-        <item>มุกดาหาร</item>
-        <item>แม่ฮ่องสอน</item>
-        <item>ยโสธร</item>
-        <item>ยะลา</item>
-        <item>ร้อยเอ็ด</item>
-        <item>ระนอง</item>
-        <item>ระยอง</item>
-        <item>ราชบุรี</item>
-        <item>ลพบุรี</item>
-        <item>ลำปาง</item>
-        <item>ลำพูน</item>
-        <item>เลย</item>
-        <item>ศรีสะเกษ</item>
-        <item>สกลนคร</item>
-        <item>สงขลา</item>
-        <item>สมุทรสาคร</item>
-        <item>สมุทรปราการ</item>
-        <item>สมุทรสงคราม</item>
-        <item>สระแก้ว</item>
-        <item>สระบุรี</item>
-        <item>สิงห์บุรี</item>
-        <item>สุโขทัย</item>
-        <item>สุพรรณบุรี</item>
-        <item>สุราษฎร์ธานี</item>
-        <item>สุรินทร์</item>
-        <item>สตูล</item>
-        <item>หนองคาย</item>
-        <item>หนองบัวลำภู</item>
-        <item>อำนาจเจริญ</item>
-        <item>อุดรธานี</item>
-        <item>อุตรดิตถ์</item>
-        <item>อุทัยธานี</item>
-        <item>อุบลราชธานี</item>
-        <item>อ่างทอง</item>
-    </string-array>
     <string name="title_activity_home">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -325,6 +247,13 @@
     <string name="profile_dog_submit_label">Updated :</string>
     <string name="vaccine_item_icon_description">This is vaccine icon</string>
     <string name="update">Update</string>
+    <string name="header_setting">Setting</string>
+    <string name="primary_language">App primary language</string>
+    <string name="th">Thai</string>
+    <string name="en">English</string>
+
+
+
     <string-array name="dogStatusArray">
         <item>Alive</item>
         <item>Missing</item>

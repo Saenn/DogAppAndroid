@@ -264,6 +264,18 @@
                     android:text="@string/no" />
             </RadioGroup>
 
+            <TextView
+                android:id="@+id/sterilizedDomesticDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/sterilized_date_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sterilizedDomestic" />
+
+
             <CalendarView
                 android:id="@+id/sterilizedDateDomestic"
                 android:layout_width="wrap_content"
@@ -276,7 +288,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sterilizedDomestic" />
+                app:layout_constraintTop_toBottomOf="@+id/sterilizedDomesticDateLabel" />
 
             <Button
                 android:id="@+id/nextDomesticButton"

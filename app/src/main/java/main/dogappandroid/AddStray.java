@@ -1,6 +1,7 @@
 
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,10 @@ public class AddStray extends AppCompatActivity {
     private DogInformation info;
     private String sterilizedDateSelected;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

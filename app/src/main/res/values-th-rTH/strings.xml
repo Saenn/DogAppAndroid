@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- addDomestic1 -->
+    <string name="dogname">ชื่อ</string>
+    <string name="dogname_hint">ใส่ชื่อของสุนัข</string>
+    <string name="gender">เพศ</string>
+    <string name="age_label">อายุ</string>
+    <string name="age_hint">ใส่อายุของสุนัข (ปี)</string>
+    <string name="dogmale">ตัวผู้</string>
+    <string name="dogfemale">ตัวเมีย</string>
+    <string name="color_label">สี</string>
+    <string name="color_hint">ใส่สีของสุนัข</string>
+    <string name="breed_label">พันธุ์</string>
+    <string name="breed_hint">ใส่พันธุ์ของสุนัข</string>
+    <string name="sterilization_label">สุนัขถูกทำหมันมาแล้วหรือยัง</string>
+    <string name="sterilized_date_label">วันที่ทำหมัน</string>
+    <string name="header_mandatory">เพิ่มสุนัขบ้าน</string>
+    <string name="yes">ใช่</string>
+    <string name="no">ไม่ใช่</string>
+    <string name="nextButton">ต่อไป</string>
+
+    <!-- addDomestic2,3 -->
+    <string name="addressLabel">ที่อยู่</string>
+    <string name="addressHint">254 ถนนพญาไท</string>
+    <string name="subdistrictLabel">ตำบล/แขวง</string>
+    <string name="subdistrictHint">วังใหม่</string>
+    <string name="districtHint">ปทุมวัน</string>
+    <string name="districtLabel">เขต</string>
+    <string name="provinceLabel">จังหวัด</string>
+    <string name="provinceHint">กรุงเทพ</string>
+    <string name="lifestyle_question_1">บ้านคุณมีรั้วล้อมรอบหรือไม่</string>
+    <string name="lifestyle_question_2">ตอนกลางวันคุณเลี้ยงสุนัขที่ไหน</string>
+    <string name="lifestyle_question_3">ตอนกลางคืนคุณเลี้ยงสุนัขที่ไหน</string>
+    <string name="dogaddress">ต้องการใช้ที่อยู่เดียวกับคุณหรือไม่?</string>
+    <string name="outdoor">นอกบ้าน</string>
+    <string name="indoor">ในบ้าน</string>
+    <string name="dogFront_label">รูปด้านหน้า</string>
+    <string name="dogSide_label">รูปด้านข้าง</string>
+
+    <!-- addDomestic4 -->
+    <string name="addvaccine">เพิ่มวัคซีน</string>
+    <string name="rabies_vaccine">วัคซีนพิสษุนัขบ้า</string>
+    <string name="other">วัคซีนอื่นๆ</string>
+    <string name="add">เพิ่ม</string>
+    <string name="done">เสร็จสิ้น</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">อีเมล</string>
+    <string name="prompt_password">พาสเวิร์ด (optional)</string>
+    <string name="action_sign_in">เข้าสู่ระบบหรือลงทะเบียน</string>
+    <string name="action_sign_in_short">เข้าสู่ระบบ</string>
+    <string name="error_invalid_email">อีเมลไม่ถูกต้อง</string>
+    <string name="error_invalid_password">รหัสผ่านไม่ถูกต้อง</string>
+    <string name="error_incorrect_password">รหัสผ่านไม่ตรงกัน</string>
+    <string name="error_field_required">จำเป็นต้องกรอก</string>
+    <string name="permission_rationale">"จำเป็นต้องได้รับการอนุญาติเข้าถึงข้อมูล"
+    </string>
+
+    <!-- Strings related to editdog -->
+    <string name="header_edit_domestic">แก้ไขสุนัข</string>
+    <string name="header_stray">เพิ่มสุนัขจรจัด</string>
+    <string name="choose_report">Choose report type</string>
+    <string name="report_1">Province</string>
+    <string name="report_2">Region</string>
+    <string name="report_3">Full Report</string>
+    <string name="selectprovince">Choose Province</string>
+
+
+    <!-- Strings related to adddog -->
+    <string name="editdogprofilebutton">โปรไฟล์</string>
+    <string name="editdogvaccinebutton">แก้ไขวัคซีน</string>
+    <string name="addvaccinetitle" tools:ignore="ExtraTranslation">เพิ่มวัคซีน</string>
+    <string name="addmessage">คุณแน่ใจที่ต้องการจะเพิ่มวัคซีนนี้หรือไม่?</string>
+    <string name="edit">แก้ไข</string>
+    <string name="editdog">แก้ไขข้อมูลสุนัข</string>
+    <string name="latestvaccine">วัคซีนล่าสุดที่ถูกเพิ่มเข้ามา</string>
+    <string name="type">ประเภท</string>
+    <string name="submitdate">วันที่เพิ่มสุนัข</string>
+    <string name="sterilizedlabel">ทำหมัน</string>
+    <string name="dogprofilename">ชืื่อหมาของคุณ</string>
+    <string name="profile">โปรไฟล์</string>
+    <string name="picmissing">ไม่มีรูป!</string>
+    <string name="picmissingmessage" tools:ignore="ExtraTranslation">จำเป็นต้องอัพโหลดรูปก่อน</string>
+    <string name="editvaccine">แก้ไขวัคซีน</string>
+    <string name="editvaccinemessage">คุณแน่ใจที่ต้องการแก้ไขข้อมูลนี้หรือไม่?</string>
+    <string name="delete">Del</string>
+    <string name="sterilized">Already</string>
+    <string name="not_sterilized">Not yet</string>
+    <string name="sterilized_hint">16-02-2018</string>
+    <string name="header_vaccine">วัคซีน</string>
+    <string name="confirm">ยืนยัน</string>
+    <string name="vaccine">วัคซีน :</string>
+    <string name="vaccine_date">ฉีดวัคซีนเมื่อ :</string>
+    <string name="nextandaccept">ตกลง</string>
+    <string name="declineandnext">ปฏิเสธ</string>
+    <string name="chooseprovince">เลือกจังหวัด</string>
+    <string name="radio_user">ผู้ใช้งาน</string>
+    <string name="radio_admin">แอดมิน</string>
+    <string name="usernameLogin">ชื่อผู้ใช้งาน</string>
+    <string name="passwordLogin">รหัสผ่าน</string>
+    <string name="loginButton">เข้าสู่ระบบ</string>
+    <string name="registerButton">ลงทะเบียน</string>
+    <string name="application_logo_description">เป็นรูปโลโก้ของแอพ</string>
+    <string name="firstNameLabel">ชื่อ</string>
+    <string name="firstNameHint">ใส่ชื่อของคุณ</string>
+    <string name="lastNameHint">ใส่นามสกุลของคุณ</string>
+    <string name="lastNameLabel">นามสกุล</string>
+    <string name="emailLabel">อีเมล</string>
+    <string name="emailHint">ใส่อีเมลของคุณ</string>
+    <string name="passwordLabel">รหัสผ่าน</string>
+    <string name="passwordHint">ใส่รหัสผ่านของคุณ</string>
+    <string name="repasswordLabel">ยืนยันรหัสผ่าน</string>
+    <string name="repasswordHint">ใส่รหัสผ่านของคุณอีกครั้ง</string>
+    <string name="registrationHeader">ลงทะเบียน</string>
+    <string name="phoneLabel">หมายเลขโทรศัพท์</string>
+    <string name="phoneHint">022153555</string>
+    <string name="registrationHeader2">ลงทะเบียน (ไม่จำเป็นต้องกรอก)</string>
+    <string-array name="provinceList">
+        <item>กรุงเทพมหานคร</item>
+        <item>กระบี่</item>
+        <item>กาญจนบุรี</item>
+        <item>กาฬสินธุ์</item>
+        <item>กำแพงเพชร</item>
+        <item>ขอนแก่น</item>
+        <item>จันทบุรี</item>
+        <item>ฉะเชิงเทรา</item>
+        <item>ชัยนาท</item>
+        <item>ชัยภูมิ</item>
+        <item>ชุมพร</item>
+        <item>ชลบุรี</item>
+        <item>เชียงใหม่</item>
+        <item>เชียงราย</item>
+        <item>ตรัง</item>
+        <item>ตราด</item>
+        <item>ตาก</item>
+        <item>นครนายก</item>
+        <item>นครปฐม</item>
+        <item>นครพนม</item>
+        <item>นครราชสีมา</item>
+        <item>นครศรีธรรมราช</item>
+        <item>นครสวรรค์</item>
+        <item>นราธิวาส</item>
+        <item>น่าน</item>
+        <item>นนทบุรี</item>
+        <item>บึงกาฬ</item>
+        <item>บุรีรัมย์</item>
+        <item>ประจวบคีรีขันธ์</item>
+        <item>ปทุมธานี</item>
+        <item>ปราจีนบุรี</item>
+        <item>ปัตตานี</item>
+        <item>พะเยา</item>
+        <item>พระนครศรีอยุธยา</item>
+        <item>พังงา</item>
+        <item>พิจิตร</item>
+        <item>พิษณุโลก</item>
+        <item>เพชรบุรี</item>
+        <item>เพชรบูรณ์</item>
+        <item>แพร่</item>
+        <item>พัทลุง</item>
+        <item>ภูเก็ต</item>
+        <item>มหาสารคาม</item>
+        <item>มุกดาหาร</item>
+        <item>แม่ฮ่องสอน</item>
+        <item>ยโสธร</item>
+        <item>ยะลา</item>
+        <item>ร้อยเอ็ด</item>
+        <item>ระนอง</item>
+        <item>ระยอง</item>
+        <item>ราชบุรี</item>
+        <item>ลพบุรี</item>
+        <item>ลำปาง</item>
+        <item>ลำพูน</item>
+        <item>เลย</item>
+        <item>ศรีสะเกษ</item>
+        <item>สกลนคร</item>
+        <item>สงขลา</item>
+        <item>สมุทรสาคร</item>
+        <item>สมุทรปราการ</item>
+        <item>สมุทรสงคราม</item>
+        <item>สระแก้ว</item>
+        <item>สระบุรี</item>
+        <item>สิงห์บุรี</item>
+        <item>สุโขทัย</item>
+        <item>สุพรรณบุรี</item>
+        <item>สุราษฎร์ธานี</item>
+        <item>สุรินทร์</item>
+        <item>สตูล</item>
+        <item>หนองคาย</item>
+        <item>หนองบัวลำภู</item>
+        <item>อำนาจเจริญ</item>
+        <item>อุดรธานี</item>
+        <item>อุตรดิตถ์</item>
+        <item>อุทัยธานี</item>
+        <item>อุบลราชธานี</item>
+        <item>อ่างทอง</item>
+    </string-array>
+    <string name="title_activity_home">หน้าแรก</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_navigation_bar">NavigationBar</string>
+    <string-array name="securityQuestionArray">
+        <item>หนังสือที่คุณชอบที่สุด?</item>
+        <item>ชื่อถนนที่คุณเติบโตมา?</item>
+        <item>ชื่อแม่ของคุณในขณะที่ยังไม่แต่งงาน</item>
+        <item>ชื่อสัตว์เลี้ยงตัวแรก/ปัจจุบัน/ตัวโปรดของคุณ?</item>
+        <item>ชื่อบริษัทแรกที่คุณทำงาน?</item>
+        <item>สถานที่ที่คุณเจอคู่สมรสครั้งแรก?</item>
+        <item>โรงเรียน/มหาวิทยาลัยที่คุณเคยเรียน?</item>
+        <item>อาหารจานโปรดของคุณ?</item>
+        <item>จังหวัดที่คุณเกิด?</item>
+        <item>สถานที่ที่คุณชอบจะไปเที่ยวมากที่สุด?</item>
+    </string-array>
+    <string name="secure_question">คำถามความปลอดภัย</string>
+    <string name="secure_answer">ใส่คำตอบของคุณ</string>
+    <string name="takePictureButton">TakePictureButton</string>
+    <string name="loadPictureButton">Load Picture Button</string>
+    <string name="anonymousPicture">ยังไม่มีรูปภาพ</string>
+    <string name="usernameLabel">ชื่อผู้ใช้งาน</string>
+    <string name="usernameHint">ใส่ชื่อผู้ใช้งาน</string>
+    <string name="mandatorySign">*</string>
+    <string name="forgotPassword">ลืมรหัสผ่าน ?</string>
+    <string name="forgotPasswordHeader">ลืมรหัสผ่าน</string>
+    <string name="newPasswordHint">ใส่รหัสผ่าน</string>
+    <string name="re_newPasswordHint">ใส่รหัสผ่านอีกครั้ง</string>
+    <string name="dog_profile_content_description">รูปภาพของสุนัข</string>
+    <string name="dog_profile_header">โปรไฟล์ของสุนัข</string>
+    <string name="dog_information_label">ข้อมูล</string>
+    <string name="profile_dog_label">ชื่อ :</string>
+    <string name="profile_age">อายุ :</string>
+    <string name="profile_not_record">ยังไม่ได้บันทึก</string>
+    <string name="profile_dog_gender_label">เพศ :</string>
+    <string name="profile_dog_color_label">สี :</string>
+    <string name="profile_dog_breed_label">พันธุ์ :</string>
+    <string name="profile_dog_address_label">ที่อยู่ :</string>
+    <string name="profile_dog_subdistrict_label">ตำบล/แขวง :</string>
+    <string name="profile_dog_district_label">อำเภอ/เขต :</string>
+    <string name="profile_dog_province_label">จังหวัด :</string>
+    <string name="profile_dog_status_header">สถานะ</string>
+    <string name="dog_profile_status_label">สถานะ :</string>
+    <string name="profile_dog_pregnant_label">ท้อง :</string>
+    <string name="profile_dog_child_label">Children :</string>
+    <string name="profile_dog_death_label">ตาย :</string>
+    <string name="profile_dog_missing_label">หาย :</string>
+    <string name="profile_dog_sterilized_label">ทำหมัน :</string>
+    <string name="profile_dog_submit_label">อัพเดทล่าสุด :</string>
+    <string name="vaccine_item_icon_description">สิ่งนี้คือรูปไอคอนของวัคซีน</string>
+    <string name="update">อัพเดท</string>
+    <string-array name="dogStatusArray">
+        <item>มีชีวิตอยู่</item>
+        <item>หาย</item>
+        <item>เสียชีวิต</item>
+    </string-array>
+    <string-array name="vaccineList_EN">
+        <item>Rabies</item>
+        <item>DHPP</item>
+        <item>Distemper</item>
+        <item>Measles</item>
+        <item>Parainfluenza</item>
+    </string-array>
+    <string name="consentText">\t\t\tจากข้อมูลการรายงานโรคจะเห็นได้ว่าการระบาดของโรคพิษสุนัขบ้าในปัจจุบันมีจำนวนเพิ่มมากขึ้นจากหลายๆปีก่อน หลายหน่วยงานให้ความสำคัญกับการควบคุมการระบาดของโรคให้ลดลงหรือหมดไป ทีมวิจัยมหาวิทยาลัยมหิดล จุฬาลงกรณ์มหาวิทยาลัยและ กรมปศุสัตว์ได้มีความสนใจที่จะศึกษาเชิงระบาดวิทยา โดยมุ่งเน้นไปที่การเก็บข้อมูลประชากรสุนัขพื้นฐานเพื่อให้เข้าใจการเปลี่ยนแปลงประชากรสุนัขและรูปแบบการเคลื่อนที่ของสุนัขในพื้นที่ก่อนนำไปพิจารณาเรื่องการระบาดของโรคพิษสุนัขบ้าต่อไป
+        \n\t\t\tความร่วมมือของท่านในการให้ข้อมูลสุนัขจะเป็นประโยชน์อย่างยิ่งในการทำงานของทีมวิจัยและหวังเป็นอย่างยิ่งว่าจะได้รับความร่วมมือจากท่านตลอดการทำงานในโครงการนี้ หากท่านมีคำถามหรือข้อสงสัยเกี่ยวกับโครงการท่านสามารถติดต่อทีมวิจัยได้ทุกเมื่อตามที่อยู่ที่ทีมวิจัยให้ไว้กับท่าน
+        \n\t\t\tการให้ข้อมูลของท่านผ่านทางโทรศัพท์มือถือเป็นเสมือนการยินยอมเข้าร่วมโครงการวิจัย ทางทีมวิจัยขอขอบพระคุณผู้ร่วมวิจัยทุกท่านเป็นอย่างยิ่ง</string>
+    <string name="requestPermissionDeny_EN">ไม่สามารถใช้ฟังก์ชันนี้ได้เนื่องจากไม่ได้เปิดการอนุญาติให้เข้าถึง</string>
+    <string name="agree">เห็นด้วย</string>
+    <string name="header_setting">การตั้งค่า</string>
+    <string name="primary_language">ภาษา</string>
+    <string name="th">ไทย</string>
+    <string name="en">อังกฤษ</string>
+
+
+
+</resources>

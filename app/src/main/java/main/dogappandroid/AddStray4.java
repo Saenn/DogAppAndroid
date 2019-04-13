@@ -39,6 +39,11 @@ public class AddStray4 extends AppCompatActivity {
     private double latitude, longitude;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stray4);

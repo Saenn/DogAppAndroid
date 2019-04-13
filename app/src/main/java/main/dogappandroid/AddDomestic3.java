@@ -1,8 +1,11 @@
 package main.dogappandroid;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -19,7 +22,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +44,12 @@ public class AddDomestic3 extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT = 1000;
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE = 1100;
     private String frontImagePath = "", sideImagePath = "";
+    private TextView frontLabel, sideLabel;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +63,14 @@ public class AddDomestic3 extends AppCompatActivity {
         takeSidePhoto = (ImageButton) findViewById(R.id.takePhotoDomesticSide);
         loadFrontPhoto = (ImageButton) findViewById(R.id.loadPhotoDomesticFace);
         loadSidePhoto = (ImageButton) findViewById(R.id.loadPhotoDomesticSide);
+        frontLabel = (TextView) findViewById(R.id.frontDomesticLabel);
+        sideLabel = (TextView) findViewById(R.id.sideDomesticLabel);
 
         setAllButtonOnClick();
         setNextButton();
+
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        updateView(preferences.getString("lang","en"));
     }
 
     private void setNextButton() {
@@ -239,6 +256,16 @@ public class AddDomestic3 extends AppCompatActivity {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
+    }
+
+    private void updateView(String lang) {
+        Context context = LocalHelper.setLocale(this,lang);
+        Resources resources = context.getResources();
+        nextButton.setText(resources.getString(R.string.nextButton));
+        frontLabel.setText(resources.getString(R.string.dogFront_label));
+        sideLabel.setText(resources.getString(R.string.dogSide_label));
+
+
     }
 
 }

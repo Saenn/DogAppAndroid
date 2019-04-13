@@ -1,6 +1,7 @@
 package main.dogappandroid;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -38,6 +39,11 @@ public class AddStray3 extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT = 1000;
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE = 1100;
     private String frontImagePath = "", sideImagePath = "";
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

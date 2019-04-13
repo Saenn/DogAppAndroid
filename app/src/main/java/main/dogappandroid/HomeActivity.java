@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -19,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -41,6 +44,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import main.dogappandroid.Utilities.NetworkUtils;
 
@@ -60,6 +64,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private BottomNavigationView bottomNavigationView;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"en"));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -75,6 +84,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new DogListAdapter(mDataset);
         recyclerView.setAdapter(mAdapter);
+
 
 //        handle navigation bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,6 +103,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(userProfile);
             }
         });
+
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -132,6 +143,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
+
+        //set App Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        setAppLocale(preferences.getString("lang","en"));
+
+    }
+
+    private void setAppLocale(String appLocale) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(appLocale.toLowerCase()));
+        res.updateConfiguration(conf,dm);
     }
 
     @Override
@@ -243,7 +267,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(HomeActivity.this, Report.class);
             startActivity(intent);
         } else if (id == R.id.nav_setting) {
-
+            Intent intent = new Intent(HomeActivity.this, Setting.class);
+            startActivity(intent);
         } else if (id == R.id.nav_sign_out) {
             logout();
         }
@@ -576,5 +601,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     mPreferences.getString("token", "")
             );
         }
+
+
     }
 }

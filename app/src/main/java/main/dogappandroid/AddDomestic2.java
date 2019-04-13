@@ -1,19 +1,26 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddDomestic2 extends AppCompatActivity {
@@ -21,12 +28,21 @@ public class AddDomestic2 extends AppCompatActivity {
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
 
-    private TextView addressLabel, subdistrictLabel, districtLabel, provinceLabel;
+    private TextView addressLabel, subdistrictLabel, districtLabel, provinceLabel , homeConditionLabel, dayLifestyleLabel, nightLifestyleLabel, sameAddressLabel, headerLabel;
     private TextView requiredAddress, requiredSubdistrict, requiredDistrict, requiredProvince;
-    private EditText address, subdistrict, district, province;
+    private EditText address, subdistrict, district;
     private RadioGroup homeCondition, dayLifestyle, nightLifestyle, sameAddress;
     private Button nextBtn;
     private DBHelper mHelper;
+    private RadioButton indoorDayBtn, outdoorDayBtn, indoorNightBtn, outdoorNightBtn, yesHomeBtn, noHomeBtn, yesSameBtn, noSameBtn;
+    private Spinner provinceSpinner;
+    private String[] provinceList = new String[77];
+    private String selectedValue;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +51,11 @@ public class AddDomestic2 extends AppCompatActivity {
         mHelper = new DBHelper(this);
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
+        headerLabel = (TextView) findViewById(R.id.addDomesticHeader2);
+        homeConditionLabel = (TextView) findViewById(R.id.homeConditionLabel);
+        dayLifestyleLabel = (TextView) findViewById(R.id.dayLifestyleLabel);
+        nightLifestyleLabel = (TextView) findViewById(R.id.nightLifestyleLabel);
+        sameAddressLabel = (TextView) findViewById(R.id.sameAddressDomesticLabel);
         requiredAddress = (TextView) findViewById(R.id.requiredAddressDomestic);
         requiredSubdistrict = (TextView) findViewById(R.id.requiredSubdistrictDomestic);
         requiredDistrict = (TextView) findViewById(R.id.requiredDistrictDomestic);
@@ -46,12 +67,48 @@ public class AddDomestic2 extends AppCompatActivity {
         address = (EditText) findViewById(R.id.addressDomestic);
         subdistrict = (EditText) findViewById(R.id.subdistrictDomestic);
         district = (EditText) findViewById(R.id.districtDomestic);
-        province = (EditText) findViewById(R.id.provinceDomestic);
         homeCondition = (RadioGroup) findViewById(R.id.homeCondition);
         dayLifestyle = (RadioGroup) findViewById(R.id.dayLifestyle);
         nightLifestyle = (RadioGroup) findViewById(R.id.nightLifestyle);
         sameAddress = (RadioGroup) findViewById(R.id.sameAddressDomestic);
         nextBtn = (Button) findViewById(R.id.nextDomestic2);
+        indoorDayBtn = (RadioButton) findViewById(R.id.indoorDayLifestyle);
+        outdoorDayBtn = (RadioButton) findViewById(R.id.outdoorDayLifestyle);
+        indoorNightBtn = (RadioButton) findViewById(R.id.indoorNightLifestyle);
+        outdoorNightBtn = (RadioButton) findViewById(R.id.outdoorNightLifestyle);
+        yesHomeBtn = (RadioButton) findViewById(R.id.yesHomeCondition);
+        noHomeBtn = (RadioButton) findViewById(R.id.noHomeCondition);
+        yesSameBtn = (RadioButton) findViewById(R.id.yesSameAddressDomestic);
+        noSameBtn = (RadioButton) findViewById(R.id.noSameAddressDomestic);
+
+        //Set Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        updateView(preferences.getString("lang","en"));
+
+        // Setup Spinner //
+        selectedValue = "";
+        provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
+        ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                provinceList);
+        provinceSpinner.setAdapter(adapterProvince);
+
+
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(AddDomestic2.this,
+                        "Select : " + provinceList[position],
+                        Toast.LENGTH_SHORT).show();
+                selectedValue = provinceList[position];
+                Log.i("selectedvale : " , selectedValue);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         handleAddressField(View.GONE);
 
@@ -93,13 +150,13 @@ public class AddDomestic2 extends AppCompatActivity {
                     if (address.getText().toString().equals("")
                             || subdistrict.getText().toString().equals("")
                             || district.getText().toString().equals("")
-                            || province.getText().toString().equals(""))
+                            || selectedValue.equals(""))
                         Toast.makeText(AddDomestic2.this, "Please fill up all the required fields", Toast.LENGTH_LONG).show();
                     else {
                         extras.putString("address", address.getText().toString());
                         extras.putString("subdistrict", subdistrict.getText().toString());
                         extras.putString("district", district.getText().toString());
-                        extras.putString("province", province.getText().toString());
+                        extras.putString("province", selectedValue);
                         extras.putString("dogType", calculateDomesticType() + "");
                         Intent prevAdd = getIntent();
                         extras.putString("name", prevAdd.getStringExtra("name"));
@@ -117,6 +174,7 @@ public class AddDomestic2 extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void handleAddressField(int visibility) {
@@ -131,7 +189,7 @@ public class AddDomestic2 extends AppCompatActivity {
         address.setVisibility(visibility);
         subdistrict.setVisibility(visibility);
         district.setVisibility(visibility);
-        province.setVisibility(visibility);
+        provinceSpinner.setVisibility(visibility);
     }
 
     private int calculateDomesticType() {
@@ -162,6 +220,33 @@ public class AddDomestic2 extends AppCompatActivity {
                 && nightLifestyle.getCheckedRadioButtonId() == R.id.outdoorNightLifestyle) return 2;
         else return 0;
 
+    }
+
+    private void updateView(String lang) {
+        Context context = LocalHelper.setLocale(this,lang);
+        Resources resources = context.getResources();
+        headerLabel.setText(resources.getString(R.string.header_mandatory));
+        homeConditionLabel.setText(resources.getString(R.string.lifestyle_question_1));
+        dayLifestyleLabel.setText(resources.getString(R.string.lifestyle_question_2));
+        nightLifestyleLabel.setText(resources.getString(R.string.lifestyle_question_3));
+        sameAddressLabel.setText(resources.getString(R.string.dogaddress));
+        indoorDayBtn.setText(resources.getString(R.string.indoor));
+        outdoorDayBtn.setText(resources.getString(R.string.outdoor));
+        indoorNightBtn.setText(resources.getString(R.string.indoor));
+        outdoorNightBtn.setText(resources.getString(R.string.outdoor));
+        addressLabel.setText(resources.getString(R.string.addressLabel));
+        addressLabel.setHint(resources.getString(R.string.addressHint));
+        subdistrictLabel.setText(resources.getString(R.string.subdistrictLabel));
+        subdistrictLabel.setHint(resources.getString(R.string.subdistrictHint));
+        districtLabel.setText(resources.getString(R.string.districtLabel));
+        districtLabel.setHint(resources.getString(R.string.districtHint));
+        provinceLabel.setText(resources.getString(R.string.provinceLabel));
+        yesHomeBtn.setText(resources.getString(R.string.yes));
+        noHomeBtn.setText(resources.getString(R.string.no));
+        yesSameBtn.setText(resources.getString(R.string.yes));
+        noSameBtn.setText(resources.getString(R.string.no));
+        nextBtn.setText(resources.getString(R.string.nextButton));
+        provinceList = resources.getStringArray(R.array.provinceList);
     }
     
 }
