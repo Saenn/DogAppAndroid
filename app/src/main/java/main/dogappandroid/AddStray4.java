@@ -93,7 +93,11 @@ public class AddStray4 extends AppCompatActivity {
             alert.show();
         }
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
 
         // set var //
         mHelper = new DBHelper(this);
@@ -111,7 +115,7 @@ public class AddStray4 extends AppCompatActivity {
             public void onClick(View view) {
                 Bundle extras = getIntent().getExtras();
                 Intent intent = new Intent(AddStray4.this, AddVaccineDropdown.class);
-                intent.putExtra("fromstray","1");
+                intent.putExtra("fromstray", "1");
                 intent.putExtras(extras);
                 startActivity(intent);
                 finish();
@@ -132,7 +136,7 @@ public class AddStray4 extends AppCompatActivity {
                     if (extras.getString("color") != "") dog.setColor(extras.getString("color"));
                     if (extras.getString("name") != "") dog.setName(extras.getString("name"));
                     if (extras.getString("breed") != "") dog.setBreed(extras.getString("breed"));
-                    if (extras.getInt("age", -1) != -1) dog.setAge(extras.getInt("age"));
+                    dog.setAge(-1);
                     dog.setAgeRange(extras.getString("ageRange"));
                     dog.setAddress(extras.getString("address"));
                     dog.setSubdistrict(extras.getString("subdistrict"));
@@ -140,8 +144,9 @@ public class AddStray4 extends AppCompatActivity {
                     dog.setProvince(extras.getString("province"));
                     dog.setLatitude(latitude);
                     dog.setLongitude(longitude);
+                    dog.setDogID(-1);
                     dog.setIsSubmit(0);
-//                    insert data into dog table -- put data into table
+
                     int newDogID = (int) mHelper.addDog(dog);
                     if (newDogID == -1) {
                         Toast.makeText(AddStray4.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
@@ -149,11 +154,13 @@ public class AddStray4 extends AppCompatActivity {
                         DogInformation dogInformation = new DogInformation();
                         dogInformation.setDogID(newDogID);
                         dogInformation.setDogStatus("1"); // 1 = stay with owner, 2 = missing, 3 = dead
-                        if (extras.getBoolean("sterilized")) {
+                        if (extras.getString("sterilized").equals("0")) {
+                            dogInformation.setSterilized(0);
+                        } else if (extras.getString("sterilized").equals("1")) {
                             dogInformation.setSterilized(1);
                             dogInformation.setSterilizedDate(extras.getString("sterilizedDate"));
-                        } else {
-                            dogInformation.setSterilized(0);
+                        } else if (extras.getString("sterilized").equals("2")) {
+                            dogInformation.setSterilized(2);
                         }
                         if (extras.getInt("age", -1) != -1)
                             dogInformation.setAge(extras.getInt("age"));
@@ -161,7 +168,7 @@ public class AddStray4 extends AppCompatActivity {
                         int newDogInfo = (int) mHelper.addDogInformation(dogInformation);
                         if (newDogInfo == -1) {
                             Toast.makeText(AddStray4.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
-//                                need to delete dog from internal db
+                            // TODO: 13-Apr-19 delete dog from internal db
                         }
                         for (DogVaccine v : rabiesVaccine) {
                             v.setDogID(newDogID);
@@ -179,7 +186,6 @@ public class AddStray4 extends AppCompatActivity {
                         for (DogVaccine v : dvo) {
                             Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
                         }
-                        // add picture to sqlite //
                         addPicToSqlite(extras.getString("frontview"), 1, newDogID);
                         addPicToSqlite(extras.getString("sideview"), 2, newDogID);
                     }
@@ -324,19 +330,16 @@ public class AddStray4 extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void addPicToSqlite(String imagePath, int type, int index) {
-        Bitmap src = BitmapFactory.decodeFile(imagePath);
-        byte[] image = mHelper.getBytes(src);
+    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
         DogImage dogImage = new DogImage();
-        dogImage.setDog_internal_id(index);
-        dogImage.setIsSubmit(0);
-
+        dogImage.setDogInternalId(dogInternalID);
         if (type == 1) {
             dogImage.setType(1);
         } else {
             dogImage.setType(2);
         }
-        dogImage.setKeyImage(image);
+        dogImage.setImagePath(imagePath);
+        dogImage.setIsSubmit(0);
         mHelper.addDogImage(dogImage);
 
     }

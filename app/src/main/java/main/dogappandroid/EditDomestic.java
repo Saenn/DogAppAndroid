@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,8 +34,8 @@ public class EditDomestic extends AppCompatActivity {
     private DBHelper dbHelper;
     private Dog dog;
     private DogInformation info;
-    private ImageView frontview,sideview;
-    private ImageButton takeFrontPhoto,loadFrontPhoto,takeSidePhoto,loadSidePhoto;
+    private ImageView frontview, sideview;
+    private ImageButton takeFrontPhoto, loadFrontPhoto, takeSidePhoto, loadSidePhoto;
     public static final int RESULT_LOAD_IMAGE_FRONT = 1;
     public static final int RESULT_LOAD_IMAGE_SIDE = 2;
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
@@ -177,10 +176,10 @@ public class EditDomestic extends AppCompatActivity {
                     dbHelper.updateDog(dog);
                     //add Picture to Sqlite
                     Bundle prevBundle = getIntent().getExtras();
-                    if(!frontImagePath.equals("")){
+                    if (!frontImagePath.equals("")) {
                         addPicToSqlite(frontImagePath, 1, prevBundle.getInt("internalDogID"));
                     }
-                    if(!sideImagePath.equals("")) {
+                    if (!sideImagePath.equals("")) {
                         addPicToSqlite(sideImagePath, 2, prevBundle.getInt("internalDogID"));
                     }
                     Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
@@ -197,21 +196,17 @@ public class EditDomestic extends AppCompatActivity {
 
     }
 
-    private void addPicToSqlite(String imagePath, int type, int index) {
-        Bitmap src = BitmapFactory.decodeFile(imagePath);
-        byte[] image = dbHelper.getBytes(src);
-        DogImage dogImage;
-
+    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
+        DogImage dogImage = new DogImage();
+        dogImage.setDogInternalId(dogInternalID);
         if (type == 1) {
-            dogImage = dbHelper.getDogFrontImageById(index);
             dogImage.setType(1);
         } else {
-            dogImage = dbHelper.getDogSideImageById(index);
             dogImage.setType(2);
         }
-        dog.setIsSubmit(0);
-        dogImage.setKeyImage(image);
-        dbHelper.updateDogImage(dogImage,type);
+        dogImage.setImagePath(imagePath);
+        dogImage.setIsSubmit(0);
+        dbHelper.addDogImage(dogImage);
     }
 
     private void getEditDogInfo() {
@@ -246,8 +241,12 @@ public class EditDomestic extends AppCompatActivity {
         final DogImage imageSide = dbHelper.getDogSideImageById(dog.getId());
 
 
-        frontview.setImageBitmap(dbHelper.getImage(imageFront.getKeyImage()));
-        sideview.setImageBitmap(dbHelper.getImage(imageSide.getKeyImage()));
+        if (!imageFront.getImagePath().equals("")) {
+            frontview.setImageBitmap(BitmapFactory.decodeFile(imageFront.getImagePath()));
+        }
+        if (!imageSide.getImagePath().equals("")) {
+            sideview.setImageBitmap(BitmapFactory.decodeFile(imageSide.getImagePath()));
+        }
 
     }
 

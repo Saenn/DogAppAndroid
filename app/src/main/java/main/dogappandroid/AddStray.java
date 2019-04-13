@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,12 +29,11 @@ public class AddStray extends AppCompatActivity {
     private String selectedValue;
     private EditText name, breed, color;
     private CalendarView sterilizedDate;
-    private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
+    private RadioButton maleBtn, femaleBtn, yesBtn, noBtn, unknownButton;
     private RadioGroup gender, sterilized;
     private Button nextBtn;
-    private DBHelper dbHelper;
-    private Dog dog;
-    private DogInformation info;
+    private TextView requiredSterilizedDateLabel, sterilizedDateLabel;
+    private CheckBox knownSterilizedDate;
     private String sterilizedDateSelected;
 
     @Override
@@ -45,12 +45,11 @@ public class AddStray extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stray);
-        dbHelper = new DBHelper(this);
 
         // Setup Spinner //
         addAgeDataToList();
         selectedValue = "";
-        ageSpinner = (Spinner) findViewById(R.id.ageStray);
+        ageSpinner = findViewById(R.id.ageStray);
         ArrayAdapter<String> adapterAge = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, ageList);
         adapterAge.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -59,15 +58,10 @@ public class AddStray extends AppCompatActivity {
         ageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
+                if (position == 0) {
                     selectedValue = "";
-                }
-                else{
-                    Toast.makeText(AddStray.this,
-                            "Select : " + ageList.get(position),
-                            Toast.LENGTH_SHORT).show();
+                } else {
                     selectedValue = ageList.get(position);
-                    Log.i("selectedvale : " , selectedValue);
                 }
 
             }
@@ -77,27 +71,40 @@ public class AddStray extends AppCompatActivity {
             }
         });
 
-        name = (EditText) findViewById(R.id.nameStray);
-        breed = (EditText) findViewById(R.id.breedStray);
-        color = (EditText) findViewById(R.id.colorStray);
-        sterilizedDate = (CalendarView) findViewById(R.id.sterilizedDateStray);
-        maleBtn = (RadioButton) findViewById(R.id.maleStrayButton);
-        femaleBtn = (RadioButton) findViewById(R.id.femaleStrayButton);
-        yesBtn = (RadioButton) findViewById(R.id.yesSterilizedButton);
-        noBtn = (RadioButton) findViewById(R.id.noSterilizedButton);
-        gender = (RadioGroup) findViewById(R.id.genderStray);
-        sterilized = (RadioGroup) findViewById(R.id.sterilizedStray);
-        nextBtn = (Button) findViewById(R.id.nextStrayButton);
+        name = findViewById(R.id.nameStray);
+        breed = findViewById(R.id.breedStray);
+        color = findViewById(R.id.colorStray);
+        sterilizedDate = findViewById(R.id.sterilizedDateStray);
+        maleBtn = findViewById(R.id.maleStrayButton);
+        femaleBtn = findViewById(R.id.femaleStrayButton);
+        yesBtn = findViewById(R.id.yesSterilizedButton);
+        noBtn = findViewById(R.id.noSterilizedButton);
+        unknownButton = findViewById(R.id.unknownSterilizedButton);
+        gender = findViewById(R.id.genderStray);
+        sterilized = findViewById(R.id.sterilizedStray);
+        nextBtn = findViewById(R.id.nextStrayButton);
+        requiredSterilizedDateLabel = findViewById(R.id.addDogRequired9);
+        sterilizedDateLabel = findViewById(R.id.sterilizedStrayDateLabel);
+        knownSterilizedDate = findViewById(R.id.knownSterilizedDate);
 
+        requiredSterilizedDateLabel.setVisibility(View.GONE);
+        sterilizedDateLabel.setVisibility(View.GONE);
+        knownSterilizedDate.setVisibility(View.GONE);
         sterilizedDate.setVisibility(View.GONE);
 
         sterilized.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (yesBtn.isChecked()) {
-                    sterilizedDate.setVisibility(View.VISIBLE);
-                } else if (noBtn.isChecked()) {
+                    requiredSterilizedDateLabel.setVisibility(View.VISIBLE);
+                    sterilizedDateLabel.setVisibility(View.VISIBLE);
+                    knownSterilizedDate.setVisibility(View.VISIBLE);
+                } else {
+                    requiredSterilizedDateLabel.setVisibility(View.GONE);
+                    sterilizedDateLabel.setVisibility(View.GONE);
+                    knownSterilizedDate.setVisibility(View.GONE);
                     sterilizedDate.setVisibility(View.GONE);
+                    knownSterilizedDate.setChecked(false);
                 }
             }
         });
@@ -109,6 +116,17 @@ public class AddStray extends AppCompatActivity {
                 else sterilizedDateSelected = dayOfMonth + "/";
                 if (month < 9) sterilizedDateSelected += "0" + (month + 1) + "/" + year;
                 else sterilizedDateSelected += (month + 1) + "/" + year;
+            }
+        });
+
+        knownSterilizedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (knownSterilizedDate.isChecked()) {
+                    sterilizedDate.setVisibility(View.VISIBLE);
+                } else {
+                    sterilizedDate.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -127,19 +145,24 @@ public class AddStray extends AppCompatActivity {
                     if (maleBtn.isChecked()) extras.putString("gender", "M");
                     else if (femaleBtn.isChecked()) extras.putString("gender", "F");
                     if (selectedValue.equals("Not exceed 3 years")) {
-//                        extras.putInt("age", Integer.parseInt(age.getText().toString()));
                         extras.putString("ageRange", "1"); // 1 represent less than or equal to 3
                     } else {
-//                        extras.putInt("age", Integer.parseInt(age.getText().toString()));
                         extras.putString("ageRange", "2"); // 2 represent more than 3
                     }
                     extras.putString("breed", breed.getText().toString());
                     extras.putString("color", color.getText().toString());
                     if (yesBtn.isChecked()) {
-                        extras.putBoolean("sterilized", true);
-                        extras.putString("sterilizedDate", sterilizedDateSelected);
+                        extras.putString("sterilized", "1");
+                        if (knownSterilizedDate.isChecked()) {
+                            extras.putString("sterilizedDate", sterilizedDateSelected);
+                        } else {
+                            extras.putString("sterilizedDate", "");
+                        }
                     } else if (noBtn.isChecked()) {
-                        extras.putBoolean("sterilized", false);
+                        extras.putString("sterilized", "0");
+                        extras.putString("sterilizedDate", "");
+                    } else if (unknownButton.isChecked()) {
+                        extras.putString("sterilized", "2");
                         extras.putString("sterilizedDate", "");
                     }
                     Intent addStray2 = new Intent(AddStray.this, AddStray2.class);
@@ -151,8 +174,8 @@ public class AddStray extends AppCompatActivity {
     }
 
     private void addAgeDataToList() {
-        ageList.add(0,"Select an age");
-        ageList.add(1,"Not exceed 3 years");
-        ageList.add(2,"More than 3 years");
+        ageList.add(0, "Select an age");
+        ageList.add(1, "Not exceed 3 years");
+        ageList.add(2, "More than 3 years");
     }
 }

@@ -116,10 +116,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/mandatorySign"
                 android:textColor="@color/red"
-                app:layout_constraintBaseline_toBaselineOf="@+id/sterilizedStrayLabel"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/colorStray" />
+
+            <TextView
+                android:id="@+id/addDogRequired9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/mandatorySign"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sterilizedStray" />
 
             <RadioGroup
                 android:id="@+id/genderStray"
@@ -236,6 +248,17 @@
                 app:layout_constraintStart_toEndOf="@+id/addDogRequired3"
                 app:layout_constraintTop_toBottomOf="@+id/colorStray" />
 
+            <TextView
+                android:id="@+id/sterilizedStrayDateLabel"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/sterilizedDateLabel"
+                app:layout_constraintStart_toEndOf="@+id/addDogRequired9"
+                app:layout_constraintTop_toBottomOf="@+id/sterilizedStray" />
+
             <RadioGroup
                 android:id="@+id/sterilizedStray"
                 android:layout_width="0dp"
@@ -263,21 +286,40 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/open_sans"
                     android:text="@string/no" />
+
+                <RadioButton
+                    android:id="@+id/unknownSterilizedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/unknown" />
             </RadioGroup>
+
+            <CheckBox
+                android:id="@+id/knownSterilizedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/knownSterilizedDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sterilizedStrayDateLabel" />
 
             <CalendarView
                 android:id="@+id/sterilizedDateStray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
 
+                android:layout_marginEnd="8dp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.488"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sterilizedStray" />
+                app:layout_constraintTop_toBottomOf="@+id/knownSterilizedDate" />
 
             <Button
                 android:id="@+id/nextStrayButton"

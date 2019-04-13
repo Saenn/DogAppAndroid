@@ -95,7 +95,7 @@ public class AddDomestic4 extends AppCompatActivity {
 
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
-        }catch (SecurityException e){
+        } catch (SecurityException e) {
             e.printStackTrace();
         }
 
@@ -332,19 +332,16 @@ public class AddDomestic4 extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void addPicToSqlite(String imagePath, int type, int index) {
-        Bitmap src = BitmapFactory.decodeFile(imagePath);
-        byte[] image = mHelper.getBytes(src);
+    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
         DogImage dogImage = new DogImage();
-        dogImage.setDog_internal_id(index);
-        dogImage.setIsSubmit(0);
-
+        dogImage.setDogInternalId(dogInternalID);
         if (type == 1) {
             dogImage.setType(1);
         } else {
             dogImage.setType(2);
         }
-        dogImage.setKeyImage(image);
+        dogImage.setImagePath(imagePath);
+        dogImage.setIsSubmit(0);
         mHelper.addDogImage(dogImage);
 
     }

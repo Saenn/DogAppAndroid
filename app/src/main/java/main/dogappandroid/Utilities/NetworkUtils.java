@@ -3,10 +3,10 @@ package main.dogappandroid.Utilities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,9 +17,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 import main.dogappandroid.Dog;
@@ -116,9 +113,14 @@ public class NetworkUtils {
             multipart.addFormField("username", username);
             multipart.addFormField("dogID", String.valueOf(rdsDogID));
             multipart.addFormField("side", String.valueOf(dogImage.getType()));
+
+            Bitmap imageBitmap = BitmapFactory.decodeFile(dogImage.getImagePath());
+            ByteArrayOutputStream imageByteArrayData = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, imageByteArrayData);
+            byte[] imageData = imageByteArrayData.toByteArray();
             File image = new File(context.getCacheDir(), "dog_image_" + dogImage.getType());
             OutputStream os = new FileOutputStream(image);
-            os.write(dogImage.getKeyImage());
+            os.write(imageData);
             os.close();
             multipart.addFilePart("dogImage", image);
             response = multipart.finish();

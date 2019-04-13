@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -29,13 +30,16 @@ public class UpdateDog extends AppCompatActivity {
     private Spinner dogStatus;
     private LinearLayout missingLayout, deathLayout, pregnantLayout, childrenLayout, sterilizedLayout, vaccineLayout, vaccineListLayout;
     private CalendarView sterilizedCalendar, missingCalendar;
-    private RadioButton yesSterilized, noSterilized, yesPregnant, noPregnant, yesVaccine, noVaccine;
+    private RadioButton yesSterilized, noSterilized, unknownSterilized, yesPregnant, noPregnant, yesVaccine, noVaccine;
+    private CheckBox knownSterilizedDate;
     private RecyclerView vaccineListRecycler;
     private RecyclerView.LayoutManager vaccineLayoutManager;
     private RecyclerView.Adapter vaccineAdapter;
     private List<DogVaccine> vaccineList;
     private Button addVaccineButton, doneButton;
     private EditText children, deadDescription;
+    private TextView sterilizedDateLabel;
+
 
     private DBHelper dbHelper;
     private Dog dog;
@@ -159,9 +163,13 @@ public class UpdateDog extends AppCompatActivity {
                     }
                     if (yesSterilized.isChecked()) {
                         dogInformationTmp.setSterilized(1);
-                        dogInformationTmp.setSterilizedDate(sterilizedDateSelected);
+                        if (knownSterilizedDate.isChecked()) {
+                            dogInformationTmp.setSterilizedDate(sterilizedDateSelected);
+                        }
                     } else if (noSterilized.isChecked()) {
                         dogInformationTmp.setSterilized(0);
+                    } else if (unknownSterilized.isChecked()) {
+                        dogInformationTmp.setSterilized(2);
                     } else {
                         if (dogInformation.getSterilized() == 1) {
                             dogInformationTmp.setSterilized(1);
@@ -207,7 +215,8 @@ public class UpdateDog extends AppCompatActivity {
         yesSterilized.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sterilizedCalendar.setVisibility(View.VISIBLE);
+                sterilizedDateLabel.setVisibility(View.VISIBLE);
+                knownSterilizedDate.setVisibility(View.VISIBLE);
             }
         });
 
@@ -215,6 +224,32 @@ public class UpdateDog extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sterilizedCalendar.setVisibility(View.GONE);
+                sterilizedDateLabel.setVisibility(View.GONE);
+                knownSterilizedDate.setVisibility(View.GONE);
+                knownSterilizedDate.setChecked(false);
+                sterilizedCalendar.setVisibility(View.GONE);
+            }
+        });
+
+        unknownSterilized.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sterilizedCalendar.setVisibility(View.GONE);
+                sterilizedDateLabel.setVisibility(View.GONE);
+                knownSterilizedDate.setVisibility(View.GONE);
+                knownSterilizedDate.setChecked(false);
+                sterilizedCalendar.setVisibility(View.GONE);
+            }
+        });
+
+        knownSterilizedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (knownSterilizedDate.isChecked()) {
+                    sterilizedCalendar.setVisibility(View.VISIBLE);
+                } else {
+                    sterilizedCalendar.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -270,6 +305,9 @@ public class UpdateDog extends AppCompatActivity {
         vaccineListRecycler = findViewById(R.id.updateDogVaccineList);
         children = findViewById(R.id.children);
         deadDescription = findViewById(R.id.deathRemark);
+        unknownSterilized = findViewById(R.id.unknownSterilized);
+        knownSterilizedDate = findViewById(R.id.knownSterilized);
+        sterilizedDateLabel = findViewById(R.id.sterilizedDateLabel);
     }
 
     private void handleCalendarEvent() {
@@ -300,9 +338,14 @@ public class UpdateDog extends AppCompatActivity {
         pregnantLayout.setVisibility(View.GONE);
         childrenLayout.setVisibility(View.GONE);
         sterilizedLayout.setVisibility(View.GONE);
+        sterilizedDateLabel.setVisibility(View.GONE);
+        knownSterilizedDate.setVisibility(View.GONE);
         sterilizedCalendar.setVisibility(View.GONE);
         vaccineLayout.setVisibility(View.GONE);
         vaccineListLayout.setVisibility(View.GONE);
+        if (dog.getDogType().equals("1")) {
+            unknownSterilized.setVisibility(View.GONE);
+        }
     }
 
     private void handleVaccineList() {
@@ -319,7 +362,7 @@ public class UpdateDog extends AppCompatActivity {
         if (dog.getGender().equals("F")) {
             pregnantLayout.setVisibility(View.VISIBLE);
         }
-        if (dogInformation.getSterilized() == 0) {
+        if (dogInformation.getSterilized() != 1) { // dog has never been sterilized before
             sterilizedLayout.setVisibility(View.VISIBLE);
         }
         vaccineLayout.setVisibility(View.VISIBLE);
