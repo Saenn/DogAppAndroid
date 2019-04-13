@@ -170,6 +170,7 @@ public class AddStray3 extends AppCompatActivity {
                 } else {
                     Toast.makeText(AddStray3.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
                 }
+                break;
             }
             case REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -179,6 +180,7 @@ public class AddStray3 extends AppCompatActivity {
                 } else {
                     Toast.makeText(AddStray3.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
                 }
+                break;
             }
         }
     }
