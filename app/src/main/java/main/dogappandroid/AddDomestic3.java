@@ -69,8 +69,6 @@ public class AddDomestic3 extends AppCompatActivity {
         setAllButtonOnClick();
         setNextButton();
 
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
-        updateView(preferences.getString("lang","en"));
     }
 
     private void setNextButton() {
@@ -260,14 +258,6 @@ public class AddDomestic3 extends AppCompatActivity {
         this.sendBroadcast(mediaScanIntent);
     }
 
-    private void updateView(String lang) {
-        Context context = LocalHelper.setLocale(this,lang);
-        Resources resources = context.getResources();
-        nextButton.setText(resources.getString(R.string.nextButton));
-        frontLabel.setText(resources.getString(R.string.dogFront_label));
-        sideLabel.setText(resources.getString(R.string.dogSide_label));
 
-
-    }
 
 }

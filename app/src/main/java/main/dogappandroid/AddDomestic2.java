@@ -225,27 +225,6 @@ public class AddDomestic2 extends AppCompatActivity {
     private void updateView(String lang) {
         Context context = LocalHelper.setLocale(this,lang);
         Resources resources = context.getResources();
-        headerLabel.setText(resources.getString(R.string.header_mandatory));
-        homeConditionLabel.setText(resources.getString(R.string.lifestyle_question_1));
-        dayLifestyleLabel.setText(resources.getString(R.string.lifestyle_question_2));
-        nightLifestyleLabel.setText(resources.getString(R.string.lifestyle_question_3));
-        sameAddressLabel.setText(resources.getString(R.string.dogaddress));
-        indoorDayBtn.setText(resources.getString(R.string.indoor));
-        outdoorDayBtn.setText(resources.getString(R.string.outdoor));
-        indoorNightBtn.setText(resources.getString(R.string.indoor));
-        outdoorNightBtn.setText(resources.getString(R.string.outdoor));
-        addressLabel.setText(resources.getString(R.string.addressLabel));
-        addressLabel.setHint(resources.getString(R.string.addressHint));
-        subdistrictLabel.setText(resources.getString(R.string.subdistrictLabel));
-        subdistrictLabel.setHint(resources.getString(R.string.subdistrictHint));
-        districtLabel.setText(resources.getString(R.string.districtLabel));
-        districtLabel.setHint(resources.getString(R.string.districtHint));
-        provinceLabel.setText(resources.getString(R.string.provinceLabel));
-        yesHomeBtn.setText(resources.getString(R.string.yes));
-        noHomeBtn.setText(resources.getString(R.string.no));
-        yesSameBtn.setText(resources.getString(R.string.yes));
-        noSameBtn.setText(resources.getString(R.string.no));
-        nextBtn.setText(resources.getString(R.string.nextButton));
         provinceList = resources.getStringArray(R.array.provinceList);
     }
     

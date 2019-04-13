@@ -29,7 +29,7 @@ import java.util.Locale;
 public class AddDomestic extends AppCompatActivity {
 
     private EditText name, age, breed, color;
-    private TextView requiredSterilizedDateLabel, sterilizedDateLabel;
+    private TextView requiredSterilizedDateLabel, sterilizedDateLabel ,sterilizedDateView;
     private CalendarView sterilizedDate;
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
@@ -63,6 +63,7 @@ public class AddDomestic extends AppCompatActivity {
         requiredSterilizedDateLabel = findViewById(R.id.addDogRequired3);
         sterilizedDateLabel = findViewById(R.id.sterilizedDateLabel);
         knownSterilizedDate = findViewById(R.id.knownSterilizedDate);
+        sterilizedDateView = findViewById(R.id.sterilizedDomesticDateLabel);
 
         requiredSterilizedDateLabel.setVisibility(View.GONE);
         sterilizedDateLabel.setVisibility(View.GONE);
@@ -151,34 +152,7 @@ public class AddDomestic extends AppCompatActivity {
             }
         });
 
-
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        updateView(preferences.getString("lang","en"));
-
-
-
     }
 
-    private void updateView(String lang) {
-        Context context = LocalHelper.setLocale(this,lang);
-        Resources resources = context.getResources();
-        nameView.setText(resources.getString(R.string.dogname));
-        nameView.setHint(resources.getString(R.string.dogname_hint));
-
-        genderView.setText(resources.getString(R.string.gender));
-        maleBtn.setText(resources.getString(R.string.dogmale));
-        femaleBtn.setText(resources.getString(R.string.dogfemale));
-        ageView.setText(resources.getString(R.string.age_label));
-        ageView.setHint(resources.getString(R.string.age_hint));
-        breedView.setText(resources.getString(R.string.breed_label));
-        breedView.setHint(resources.getString(R.string.breed_hint));
-        colorView.setText(resources.getString(R.string.color_label));
-        colorView.setHint(resources.getString(R.string.color_hint));
-        yesBtn.setText(resources.getString(R.string.yes));
-        noBtn.setText(resources.getString(R.string.no));
-        headerView.setText(resources.getString(R.string.header_mandatory));
-        nextBtn.setText(resources.getString(R.string.nextButton));
-
-    }
 
 }
