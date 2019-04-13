@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -13,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -39,7 +39,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import main.dogappandroid.Utilities.NetworkUtils;
@@ -274,7 +273,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             final DogImage image = mHelper.getDogFrontImageById(dog.getId());
 
             // need to set image //
-            if (dog.getName().equals("")) {
+            if (dog.getName() == null || dog.getName().equals("")) {
                 holder.name.setVisibility(View.GONE);
             } else {
                 holder.name.setText(dog.getName().toUpperCase());
@@ -291,8 +290,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             holder.color.setText("Color : " + dog.getColor());
             holder.gender.setText("Gender : " + dog.getGender());
             holder.breed.setText("Breed :" + dog.getBreed());
-            if (image.getKeyImage() != null) {
-                holder.pic.setImageBitmap(mHelper.getImage(image.getKeyImage()));
+            if (image.getImagePath() != null) {
+                holder.pic.setImageBitmap(BitmapFactory.decodeFile(image.getImagePath()));
             }
 
 
@@ -568,7 +567,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected String doInBackground(DogImage... dogImages) {
             dogImage = dogImages[0];
-            dog = mHelper.getDogById(dogImage.getDog_internal_id());
+            dog = mHelper.getDogById(dogImage.getDogInternalId());
             return NetworkUtils.addDogImage(HomeActivity.this,
                     dogImage,
                     dog.getDogID(),

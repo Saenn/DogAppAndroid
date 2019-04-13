@@ -122,7 +122,9 @@ public class DogProfileActivity extends AppCompatActivity {
     }
 
     private void showDogData() {
-        dogImage.setImageBitmap(BitmapFactory.decodeByteArray(dogImageData.getKeyImage(), 0, dogImageData.getKeyImage().length));
+        if (!dogImageData.getImagePath().equals("")) {
+            dogImage.setImageBitmap(BitmapFactory.decodeFile(dogImageData.getImagePath()));
+        }
         name.setText(dog.getName());
         if (dog.getAgeRange().equals("1")) {
             if (dog.getAge() != -1) {
@@ -166,9 +168,9 @@ public class DogProfileActivity extends AppCompatActivity {
             if (dogInformation.getSterilized() == 0) {
                 sterilized.setText("Not yet");
             } else {
-                if(dogInformation.getSterilizedDate().equals("")){
+                if (dogInformation.getSterilizedDate().equals("")) {
                     sterilized.setText("Sterilized");
-                } else{
+                } else {
                     sterilized.setText("Sterilized on " + dogInformation.getSterilizedDate());
                 }
             }

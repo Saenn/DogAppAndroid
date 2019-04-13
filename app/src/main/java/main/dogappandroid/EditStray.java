@@ -43,8 +43,8 @@ public class EditStray extends AppCompatActivity {
     private DBHelper dbHelper;
     private Dog dog;
     private DogInformation info;
-    private ImageView frontview,sideview;
-    private ImageButton takeFrontPhoto,loadFrontPhoto,takeSidePhoto,loadSidePhoto;
+    private ImageView frontview, sideview;
+    private ImageButton takeFrontPhoto, loadFrontPhoto, takeSidePhoto, loadSidePhoto;
     public static final int RESULT_LOAD_IMAGE_FRONT = 1;
     public static final int RESULT_LOAD_IMAGE_SIDE = 2;
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
@@ -94,15 +94,14 @@ public class EditStray extends AppCompatActivity {
         ageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
+                if (position == 0) {
                     selectedValue = "";
-                }
-                else{
+                } else {
                     Toast.makeText(EditStray.this,
                             "Select : " + ageList.get(position),
                             Toast.LENGTH_SHORT).show();
                     selectedValue = ageList.get(position);
-                    Log.i("selectedvale : " , selectedValue);
+                    Log.i("selectedvale : ", selectedValue);
                 }
 
             }
@@ -208,8 +207,12 @@ public class EditStray extends AppCompatActivity {
                     dog.setIsSubmit(0);
                     dbHelper.updateDog(dog);
                     //add Picture to Sqlite
-                    if(!frontImagePath.equals("")) addPicToSqlite(frontImagePath, 1, dog.getDogID());
-                    if(!sideImagePath.equals("")) addPicToSqlite(sideImagePath, 2, dog.getDogID());
+                    if (!frontImagePath.equals("")) {
+                        addPicToSqlite(frontImagePath, 1, dog.getDogID());
+                    }
+                    if (!sideImagePath.equals("")) {
+                        addPicToSqlite(sideImagePath, 2, dog.getDogID());
+                    }
                     Intent editVaccine = new Intent(EditStray.this, EditVaccine.class);
                     editVaccine.putExtra("internal_dog_id", dog.getId());
                     editVaccine.putExtras(extras);
@@ -224,22 +227,17 @@ public class EditStray extends AppCompatActivity {
 
     }
 
-    private void addPicToSqlite(String imagePath, int type, int index) {
-        Bitmap src = BitmapFactory.decodeFile(imagePath);
-        byte[] image = dbHelper.getBytes(src);
-        DogImage dogImage;
-
+    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
+        DogImage dogImage = new DogImage();
+        dogImage.setDogInternalId(dogInternalID);
         if (type == 1) {
-            dogImage = dbHelper.getDogFrontImageById(index);
             dogImage.setType(1);
         } else {
-            dogImage = dbHelper.getDogSideImageById(index);
             dogImage.setType(2);
         }
-        dog.setIsSubmit(0);
-        dogImage.setKeyImage(image);
-        dbHelper.updateDogImage(dogImage,type);
-
+        dogImage.setImagePath(imagePath);
+        dogImage.setIsSubmit(0);
+        dbHelper.addDogImage(dogImage);
     }
 
     private void getEditDogInfo() {
@@ -273,8 +271,12 @@ public class EditStray extends AppCompatActivity {
         final DogImage imageFront = dbHelper.getDogFrontImageById(dog.getId());
         final DogImage imageSide = dbHelper.getDogSideImageById(dog.getId());
 
-        frontview.setImageBitmap(dbHelper.getImage(imageFront.getKeyImage()));
-        sideview.setImageBitmap(dbHelper.getImage(imageSide.getKeyImage()));
+        if (!imageFront.getImagePath().equals("")) {
+            frontview.setImageBitmap(BitmapFactory.decodeFile(imageFront.getImagePath()));
+        }
+        if (!imageSide.getImagePath().equals("")) {
+            sideview.setImageBitmap(BitmapFactory.decodeFile(imageSide.getImagePath()));
+        }
 
     }
 
@@ -338,11 +340,11 @@ public class EditStray extends AppCompatActivity {
 
     private void addAgeDataToList() {
         if (dog.getAgeRange().equals("1")) {
-            ageList.add(0,"Not exceed 3 years");
-            ageList.add(1,"More than 3 years");
+            ageList.add(0, "Not exceed 3 years");
+            ageList.add(1, "More than 3 years");
         } else {
-            ageList.add(0,"More than 3 years");
-            ageList.add(1,"Not exceed 3 years");
+            ageList.add(0, "More than 3 years");
+            ageList.add(1, "Not exceed 3 years");
         }
 
     }

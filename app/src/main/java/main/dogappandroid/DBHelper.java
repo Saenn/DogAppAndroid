@@ -40,59 +40,41 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Dog Image
-
-    // convert from bitmap to byte array
-    // insert to db
-    synchronized public static byte[] getBytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        return stream.toByteArray();
-    }
-
-    // convert from byte array to bitmap
-    // retrieve data
-    synchronized public static Bitmap getImage(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
-    }
-
     synchronized public long addDogImage(DogImage dogImage) {
 
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DogImage.DogImageEntry.KEY_IMAGE, dogImage.getKeyImage());
-        values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDog_internal_id());
+        values.put(DogImage.DogImageEntry.IMAGE_PATH, dogImage.getImagePath());
+        values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDogInternalId());
         values.put(DogImage.DogImageEntry.TYPE, dogImage.getType());
         values.put(DogImage.DogImageEntry.IS_SUBMIT, dogImage.getIsSubmit());
 
         long index = sqLiteDatabase.insert(DogImage.DogImageEntry.TABLE_NAME, null, values);
         sqLiteDatabase.close();
 
-        Log.i("add picture ได้แล้วเด้อ", " xD");
         return index;
-
-        // getImage byte[] image = cursor.getBlob(1);
 
     }
 
-    synchronized public void updateDogImage(DogImage dogImage, int type) {
+    synchronized public long updateDogImage(DogImage dogImage, int type) {
 
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(DogImage.DogImageEntry.ID, dogImage.getId());
-        values.put(DogImage.DogImageEntry.KEY_IMAGE, dogImage.getKeyImage());
-        values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDog_internal_id());
+        values.put(DogImage.DogImageEntry.IMAGE_PATH, dogImage.getImagePath());
+        values.put(DogImage.DogImageEntry.DOG_INTERNAL_ID, dogImage.getDogInternalId());
         values.put(DogImage.DogImageEntry.TYPE, dogImage.getType());
         values.put(DogImage.DogImageEntry.IS_SUBMIT, dogImage.getIsSubmit());
 
-        int row = sqLiteDatabase.update(DogImage.DogImageEntry.TABLE_NAME,
+        long row = sqLiteDatabase.update(DogImage.DogImageEntry.TABLE_NAME,
                 values,
                 DogImage.DogImageEntry.ID + " = ? and " + DogImage.DogImageEntry.TYPE + " = " + type,
                 new String[]{String.valueOf(dogImage.getId())});
-
         sqLiteDatabase.close();
+
+        return row;
     }
 
     synchronized public List<DogImage> getDogImageById(int id) {
@@ -111,10 +93,10 @@ public class DBHelper extends SQLiteOpenHelper {
             DogImage tmp = new DogImage();
 
             tmp.setId(cursor.getInt(0));
-            tmp.setKeyImage(cursor.getBlob(1));
+            tmp.setImagePath(cursor.getString(1));
             tmp.setType(cursor.getInt(2));
             tmp.setIsSubmit(cursor.getInt(3));
-            tmp.setDog_internal_id(cursor.getInt(4));
+            tmp.setDogInternalId(cursor.getInt(4));
 
             dogImages.add(tmp);
             cursor.moveToNext();
@@ -138,10 +120,10 @@ public class DBHelper extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
 
             tmp.setId(cursor.getInt(0));
-            tmp.setKeyImage(cursor.getBlob(1));
+            tmp.setImagePath(cursor.getString(1));
             tmp.setType(cursor.getInt(2));
             tmp.setIsSubmit(cursor.getInt(3));
-            tmp.setDog_internal_id(cursor.getInt(4));
+            tmp.setDogInternalId(cursor.getInt(4));
 
             cursor.moveToNext();
         }
@@ -164,10 +146,10 @@ public class DBHelper extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
 
             tmp.setId(cursor.getInt(0));
-            tmp.setKeyImage(cursor.getBlob(1));
+            tmp.setImagePath(cursor.getString(1));
             tmp.setType(cursor.getInt(2));
             tmp.setIsSubmit(cursor.getInt(3));
-            tmp.setDog_internal_id(cursor.getInt(4));
+            tmp.setDogInternalId(cursor.getInt(4));
 
             cursor.moveToNext();
         }

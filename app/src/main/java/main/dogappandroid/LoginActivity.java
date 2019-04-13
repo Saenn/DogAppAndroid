@@ -1,22 +1,13 @@
 package main.dogappandroid;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -340,9 +331,11 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject dogImageData = pictureArray.getJSONObject(i);
                     DogImage dogImage = new DogImage();
                     dogImage.setIsSubmit(1);
-                    dogImage.setDog_internal_id(dbHelper.getInternalDogIDbyExternalID(dogImageData.getInt("dogID")));
+                    dogImage.setDogInternalId(dbHelper.getInternalDogIDbyExternalID(dogImageData.getInt("dogID")));
                     dogImage.setType(Integer.parseInt(dogImageData.getString("side")));
-                    dogImage.setKeyImage(dbHelper.getBytes(NetworkUtils.getBitmapFromUrl(dogImageData.getString("picture"))));
+                    Bitmap imageBitmap = NetworkUtils.getBitmapFromUrl(dogImageData.getString("picture"));
+                    String pathToImage = saveToInternalStorage(imageBitmap);
+                    dogImage.setImagePath(pathToImage);
                     dogImageList.add(dogImage);
                 } catch (JSONException e) {
                     e.printStackTrace();

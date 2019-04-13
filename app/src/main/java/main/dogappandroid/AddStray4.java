@@ -88,7 +88,11 @@ public class AddStray4 extends AppCompatActivity {
             alert.show();
         }
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
 
         // set var //
         mHelper = new DBHelper(this);
@@ -137,7 +141,7 @@ public class AddStray4 extends AppCompatActivity {
                     dog.setLongitude(longitude);
                     dog.setDogID(-1);
                     dog.setIsSubmit(0);
-//                    insert data into dog table -- put data into table
+
                     int newDogID = (int) mHelper.addDog(dog);
                     if (newDogID == -1) {
                         Toast.makeText(AddStray4.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
@@ -159,7 +163,7 @@ public class AddStray4 extends AppCompatActivity {
                         int newDogInfo = (int) mHelper.addDogInformation(dogInformation);
                         if (newDogInfo == -1) {
                             Toast.makeText(AddStray4.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
-//                                need to delete dog from internal db
+                            // TODO: 13-Apr-19 delete dog from internal db
                         }
                         for (DogVaccine v : rabiesVaccine) {
                             v.setDogID(newDogID);
@@ -177,7 +181,6 @@ public class AddStray4 extends AppCompatActivity {
                         for (DogVaccine v : dvo) {
                             Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
                         }
-                        // add picture to sqlite //
                         addPicToSqlite(extras.getString("frontview"), 1, newDogID);
                         addPicToSqlite(extras.getString("sideview"), 2, newDogID);
                     }
@@ -322,19 +325,16 @@ public class AddStray4 extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void addPicToSqlite(String imagePath, int type, int index) {
-        Bitmap src = BitmapFactory.decodeFile(imagePath);
-        byte[] image = mHelper.getBytes(src);
+    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
         DogImage dogImage = new DogImage();
-        dogImage.setDog_internal_id(index);
-        dogImage.setIsSubmit(0);
-
+        dogImage.setDogInternalId(dogInternalID);
         if (type == 1) {
             dogImage.setType(1);
         } else {
             dogImage.setType(2);
         }
-        dogImage.setKeyImage(image);
+        dogImage.setImagePath(imagePath);
+        dogImage.setIsSubmit(0);
         mHelper.addDogImage(dogImage);
 
     }
