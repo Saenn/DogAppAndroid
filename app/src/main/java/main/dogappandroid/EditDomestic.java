@@ -2,6 +2,8 @@ package main.dogappandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,13 +13,17 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +49,10 @@ public class EditDomestic extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
     private String frontImagePath = "", sideImagePath = "";
 
+    private Spinner provinceSpinner;
+    private String[] provinceList;
+    private String selectedValue ="";
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -62,7 +72,6 @@ public class EditDomestic extends AppCompatActivity {
         dogaddress = (EditText) findViewById(R.id.addressDomestic);
         dogsubdistrict = (EditText) findViewById(R.id.subdistrictDomestic);
         dogdistrict = (EditText) findViewById(R.id.districtDomestic);
-        dogprovince = (EditText) findViewById(R.id.provinceDomestic);
         maleBtn = (RadioButton) findViewById(R.id.maleDomesticButton);
         femaleBtn = (RadioButton) findViewById(R.id.femaleDomesticButton);
         gender = (RadioGroup) findViewById(R.id.genderDomestic);
@@ -82,6 +91,34 @@ public class EditDomestic extends AppCompatActivity {
         getEditDogInfo();
         setAllButtonOnClick();
 
+        //Set Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang","th"));
+
+        // Setup Spinner //
+        selectedValue = "";
+        provinceSpinner = (Spinner) findViewById(R.id.provinceEditSpinner);
+        ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                provinceList);
+        provinceSpinner.setAdapter(adapterProvince);
+
+
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditDomestic.this,
+                        "Select : " + provinceList[position],
+                        Toast.LENGTH_SHORT).show();
+                selectedValue = provinceList[position];
+                Log.i("selectedvale : " , selectedValue);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
     }
 
@@ -178,7 +215,7 @@ public class EditDomestic extends AppCompatActivity {
                     dog.setAddress(dogaddress.getText().toString());
                     dog.setSubdistrict(dogsubdistrict.getText().toString());
                     dog.setDistrict(dogdistrict.getText().toString());
-                    dog.setProvince(dogprovince.getText().toString());
+                    dog.setProvince(selectedValue);
                     dog.setIsSubmit(0);
                     dbHelper.updateDog(dog);
                     //add Picture to Sqlite
@@ -241,7 +278,6 @@ public class EditDomestic extends AppCompatActivity {
         dogaddress.setText(dog.getAddress());
         dogsubdistrict.setText(dog.getSubdistrict());
         dogdistrict.setText(dog.getDistrict());
-        dogprovince.setText(dog.getProvince());
         dogage.setText(String.valueOf(dog.getAge()));
 
         final DogImage imageFront = dbHelper.getDogFrontImageById(dog.getId());
@@ -314,5 +350,12 @@ public class EditDomestic extends AppCompatActivity {
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
     }
+
+    private void getListInfo(String lang) {
+        Context context = LocalHelper.setLocale(this,lang);
+        Resources resources = context.getResources();
+        provinceList = resources.getStringArray(R.array.provinceList);
+    }
+
 }
 

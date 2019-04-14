@@ -3,6 +3,7 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,9 +35,9 @@ import java.util.Date;
 
 public class EditStray extends AppCompatActivity {
 
-    private Spinner ageSpinner;
+    private Spinner ageSpinner, provinceSpinner;
     private ArrayList<String> ageList = new ArrayList<String>();
-    private String selectedValue;
+    private String selectedValue, selectedValue2;
     private EditText dogname, dogage, dogbreed, dogcolor, dogaddress, dogsubdistrict, dogdistrict, dogprovince;
     private TextView ageView, genderView, nameView, colorage, colorgender;
     private RadioButton maleBtn, femaleBtn;
@@ -52,6 +53,7 @@ public class EditStray extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
     private String frontImagePath = "", sideImagePath = "";
+    private String[] provinceList;
 
 
     @Override
@@ -71,7 +73,6 @@ public class EditStray extends AppCompatActivity {
         dogaddress = (EditText) findViewById(R.id.addressStray);
         dogsubdistrict = (EditText) findViewById(R.id.subdistrictStray);
         dogdistrict = (EditText) findViewById(R.id.districtStray);
-        dogprovince = (EditText) findViewById(R.id.provinceStray);
         maleBtn = (RadioButton) findViewById(R.id.maleStrayButton);
         femaleBtn = (RadioButton) findViewById(R.id.femaleStrayButton);
         gender = (RadioGroup) findViewById(R.id.genderStray);
@@ -111,6 +112,36 @@ public class EditStray extends AppCompatActivity {
                     selectedValue = ageList.get(position);
                     Log.i("selectedvale : ", selectedValue);
                 }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+        //Set Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang","th"));
+
+        // Setup Spinner //
+        selectedValue = "";
+        provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
+        ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                provinceList);
+        provinceSpinner.setAdapter(adapterProvince);
+
+
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditStray.this,
+                        "Select : " + provinceList[position],
+                        Toast.LENGTH_SHORT).show();
+                selectedValue2 = provinceList[position];
+                Log.i("selectedvale : " , selectedValue2);
 
             }
 
@@ -211,7 +242,7 @@ public class EditStray extends AppCompatActivity {
                     dog.setAddress(dogaddress.getText().toString());
                     dog.setSubdistrict(dogsubdistrict.getText().toString());
                     dog.setDistrict(dogdistrict.getText().toString());
-                    dog.setProvince(dogprovince.getText().toString());
+                    dog.setProvince(selectedValue2);
                     dog.setIsSubmit(0);
                     dbHelper.updateDog(dog);
                     //add Picture to Sqlite
@@ -274,7 +305,6 @@ public class EditStray extends AppCompatActivity {
         dogaddress.setText(dog.getAddress());
         dogsubdistrict.setText(dog.getSubdistrict());
         dogdistrict.setText(dog.getDistrict());
-        dogprovince.setText(dog.getProvince());
 
         final DogImage imageFront = dbHelper.getDogFrontImageById(dog.getId());
         final DogImage imageSide = dbHelper.getDogSideImageById(dog.getId());
@@ -368,5 +398,11 @@ public class EditStray extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void getListInfo(String lang) {
+        Context context = LocalHelper.setLocale(this,lang);
+        Resources resources = context.getResources();
+        provinceList = resources.getStringArray(R.array.provinceList);
     }
 }

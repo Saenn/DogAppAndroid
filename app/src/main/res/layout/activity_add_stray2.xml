@@ -225,17 +225,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/districtStrayLabel" />
 
-            <EditText
-                android:id="@+id/provinceStray"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <Spinner
+                android:id="@+id/provinceSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
                 android:ems="10"
-                android:hint="@string/provinceHint"
-                android:inputType="text"
+                android:textSize="16sp"
+                android:fontFamily="@font/open_sans"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/provinceStrayLabel" />
 

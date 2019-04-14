@@ -3,6 +3,7 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,6 +49,10 @@ public class EditUserProfile extends AppCompatActivity {
     private Spinner question;
     private int securityQuestionSelect;
 
+    private Spinner provinceSpinner;
+    private String[] provinceList;
+    private String selectedValue ="";
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
@@ -62,6 +67,7 @@ public class EditUserProfile extends AppCompatActivity {
         bindAndShowInformation();
         bindAndShowSecurity();
         bindButton();
+        bindAndSetSpinner();
     }
 
     private void bindAndShowUserImage(){
@@ -78,7 +84,6 @@ public class EditUserProfile extends AppCompatActivity {
         address = (TextView) findViewById(R.id.addressEditText);
         subdistrict = (TextView) findViewById(R.id.subdistrictEditText);
         district = (TextView) findViewById(R.id.districtEditText);
-        province = (TextView) findViewById(R.id.provinceEditText);
         phone = (TextView) findViewById(R.id.phoneEditText);
         email = (TextView) findViewById(R.id.emailRegister);
 
@@ -87,7 +92,6 @@ public class EditUserProfile extends AppCompatActivity {
         address.setText(mPreferences.getString("address", ""));
         subdistrict.setText(mPreferences.getString("subdistrict", ""));
         district.setText(mPreferences.getString("district", ""));
-        province.setText(mPreferences.getString("province", ""));
         phone.setText(mPreferences.getString("phone", ""));
         email.setText(mPreferences.getString("email", ""));
     }
@@ -195,18 +199,6 @@ public class EditUserProfile extends AppCompatActivity {
             }
         });
 
-        province.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-                    if (!province.getText().toString().matches(regex))
-                        province.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else province.setBackground(originalStyle);
-                }
-            }
-        });
-
         doneBtn = (Button) findViewById(R.id.doneButton);
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +208,7 @@ public class EditUserProfile extends AppCompatActivity {
                     editor.putString("address", address.getText().toString());
                     editor.putString("subdistrict", subdistrict.getText().toString());
                     editor.putString("district", district.getText().toString());
-                    editor.putString("province", province.getText().toString());
+                    editor.putString("province", selectedValue);
                     editor.putString("phone", phone.getText().toString());
                     editor.putString("pictureProfilePath", userImagePath);
                     editor.putString("email",email.getText().toString());
@@ -235,12 +227,13 @@ public class EditUserProfile extends AppCompatActivity {
                     params.put("address", address.getText().toString());
                     params.put("subdistrict", subdistrict.getText().toString());
                     params.put("district", district.getText().toString());
-                    params.put("province", province.getText().toString());
+                    params.put("province", selectedValue);
                     params.put("phone", phone.getText().toString());
                     params.put("profilePicturePath", userImagePath);
 
                     Intent loginActivity = new Intent(EditUserProfile.this, UserProfile.class);
                     startActivity(loginActivity);
+                    finish();
                 } else {
                     Toast toast = Toast.makeText(EditUserProfile.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
                     toast.show();
@@ -307,9 +300,47 @@ public class EditUserProfile extends AppCompatActivity {
         String addressRegex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
         if (phone.getText().toString().matches(phoneRegex) && address.getText().toString().matches(addressRegex) &&
-                subdistrict.getText().toString().matches(regex) && district.getText().toString().matches(regex) &&
-                province.getText().toString().matches(regex))
+                subdistrict.getText().toString().matches(regex) && district.getText().toString().matches(regex))
             return true;
         return false;
     }
+
+    private void bindAndSetSpinner(){
+        //Set Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang","th"));
+
+
+        // Setup Spinner //
+        selectedValue = "";
+        provinceSpinner = (Spinner) findViewById(R.id.provinceEditUserSpinner);
+        ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                provinceList);
+        provinceSpinner.setAdapter(adapterProvince);
+
+
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditUserProfile.this,
+                        "Select : " + provinceList[position],
+                        Toast.LENGTH_SHORT).show();
+                selectedValue = provinceList[position];
+                Log.i("selectedvale : " , selectedValue);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void getListInfo(String lang) {
+        Context context = LocalHelper.setLocale(this,lang);
+        Resources resources = context.getResources();
+        provinceList = resources.getStringArray(R.array.provinceList);
+    }
+
 }

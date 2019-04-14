@@ -36,7 +36,7 @@ public class AddDomestic2 extends AppCompatActivity {
     private DBHelper mHelper;
     private RadioButton indoorDayBtn, outdoorDayBtn, indoorNightBtn, outdoorNightBtn, yesHomeBtn, noHomeBtn, yesSameBtn, noSameBtn;
     private Spinner provinceSpinner;
-    private String[] provinceList = new String[77];
+    private String[] provinceList;
     private String selectedValue;
 
     @Override
@@ -83,7 +83,7 @@ public class AddDomestic2 extends AppCompatActivity {
 
         //Set Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        getListInfo(preferences.getString("lang","en"));
+        getListInfo(preferences.getString("lang","th"));
 
         // Setup Spinner //
         selectedValue = "";

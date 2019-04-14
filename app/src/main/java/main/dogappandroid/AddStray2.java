@@ -3,13 +3,18 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +28,9 @@ public class AddStray2 extends AppCompatActivity {
     private EditText address, subdistrict, district, province;
     private RadioGroup sameAddress;
     private Button nextBtn;
+    private Spinner provinceSpinner;
+    private String[] provinceList;
+    private String selectedValue ="";
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -46,9 +54,37 @@ public class AddStray2 extends AppCompatActivity {
         address = (EditText) findViewById(R.id.addressStray);
         subdistrict = (EditText) findViewById(R.id.subdistrictStray);
         district = (EditText) findViewById(R.id.districtStray);
-        province = (EditText) findViewById(R.id.provinceStray);
         sameAddress = (RadioGroup) findViewById(R.id.sameAddressStray);
         nextBtn = (Button) findViewById(R.id.nextStray2);
+
+        //Set Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang","th"));
+
+        // Setup Spinner //
+        selectedValue = "";
+        provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
+        ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                provinceList);
+        provinceSpinner.setAdapter(adapterProvince);
+
+
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(AddStray2.this,
+                        "Select : " + provinceList[position],
+                        Toast.LENGTH_SHORT).show();
+                selectedValue = provinceList[position];
+                Log.i("selectedvale : " , selectedValue);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         handleAddressField(View.GONE);
 
@@ -73,7 +109,6 @@ public class AddStray2 extends AppCompatActivity {
                     else {
                         extras.putString("address", mPreferences.getString("address", null));
                         extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
-                        extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
                         extras.putString("district", mPreferences.getString("district", null));
                         extras.putString("province", mPreferences.getString("province", null));
                         extras.putString("dogType", "3");
@@ -91,7 +126,7 @@ public class AddStray2 extends AppCompatActivity {
                         extras.putString("address", address.getText().toString());
                         extras.putString("subdistrict", subdistrict.getText().toString());
                         extras.putString("district", district.getText().toString());
-                        extras.putString("province", province.getText().toString());
+                        extras.putString("province", selectedValue);
                         extras.putString("dogType", "3");
                         Intent addStray3 = new Intent(AddStray2.this, AddStray3.class);
                         addStray3.putExtras(extras);
@@ -100,6 +135,12 @@ public class AddStray2 extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void getListInfo(String lang) {
+        Context context = LocalHelper.setLocale(this,lang);
+        Resources resources = context.getResources();
+        provinceList = resources.getStringArray(R.array.provinceList);
     }
 
     private void handleAddressField(int visibility) {
@@ -114,6 +155,6 @@ public class AddStray2 extends AppCompatActivity {
         address.setVisibility(visibility);
         subdistrict.setVisibility(visibility);
         district.setVisibility(visibility);
-        province.setVisibility(visibility);
+        provinceSpinner.setVisibility(visibility);
     }
 }
