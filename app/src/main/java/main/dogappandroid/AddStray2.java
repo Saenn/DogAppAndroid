@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,16 +24,16 @@ public class AddStray2 extends AppCompatActivity {
 
     private TextView addressLabel, subdistrictLabel, districtLabel, provinceLabel;
     private TextView requiredAddress, requiredSubdistrict, requiredDistrict, requiredProvince;
-    private EditText address, subdistrict, district, province;
+    private EditText address, subdistrict, district;
     private RadioGroup sameAddress;
     private Button nextBtn;
     private Spinner provinceSpinner;
     private String[] provinceList;
-    private String selectedValue ="";
+    private String provinceValue;
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -58,11 +57,11 @@ public class AddStray2 extends AppCompatActivity {
         nextBtn = (Button) findViewById(R.id.nextStray2);
 
         //Set Language
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        getListInfo(preferences.getString("lang","th"));
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
-        selectedValue = "";
+        provinceValue = "";
         provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
@@ -73,11 +72,8 @@ public class AddStray2 extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AddStray2.this,
-                        "Select : " + provinceList[position],
-                        Toast.LENGTH_SHORT).show();
-                selectedValue = provinceList[position];
-                Log.i("selectedvale : " , selectedValue);
+                provinceValue = provinceList[position];
+                Log.i("selectedvale : ", provinceValue);
 
             }
 
@@ -120,13 +116,13 @@ public class AddStray2 extends AppCompatActivity {
                     if (address.getText().toString().equals("")
                             || subdistrict.getText().toString().equals("")
                             || district.getText().toString().equals("")
-                            || province.getText().toString().equals(""))
+                            || provinceValue.equals(""))
                         Toast.makeText(AddStray2.this, "Please fill up all the required fields", Toast.LENGTH_LONG).show();
                     else {
                         extras.putString("address", address.getText().toString());
                         extras.putString("subdistrict", subdistrict.getText().toString());
                         extras.putString("district", district.getText().toString());
-                        extras.putString("province", selectedValue);
+                        extras.putString("province", provinceValue);
                         extras.putString("dogType", "3");
                         Intent addStray3 = new Intent(AddStray2.this, AddStray3.class);
                         addStray3.putExtras(extras);
@@ -138,7 +134,7 @@ public class AddStray2 extends AppCompatActivity {
     }
 
     private void getListInfo(String lang) {
-        Context context = LocalHelper.setLocale(this,lang);
+        Context context = LocalHelper.setLocale(this, lang);
         Resources resources = context.getResources();
         provinceList = resources.getStringArray(R.array.provinceList);
     }

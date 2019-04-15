@@ -13,15 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 
 public class AddDomestic2 extends AppCompatActivity {
 
@@ -37,7 +33,7 @@ public class AddDomestic2 extends AppCompatActivity {
     private RadioButton indoorDayBtn, outdoorDayBtn, indoorNightBtn, outdoorNightBtn, yesHomeBtn, noHomeBtn, yesSameBtn, noSameBtn;
     private Spinner provinceSpinner;
     private String[] provinceList;
-    private String selectedValue;
+    private String provinceValue;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -86,7 +82,7 @@ public class AddDomestic2 extends AppCompatActivity {
         getListInfo(preferences.getString("lang","th"));
 
         // Setup Spinner //
-        selectedValue = "";
+        provinceValue = "";
         provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
@@ -97,11 +93,8 @@ public class AddDomestic2 extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AddDomestic2.this,
-                        "Select : " + provinceList[position],
-                        Toast.LENGTH_SHORT).show();
-                selectedValue = provinceList[position];
-                Log.i("selectedvale : " , selectedValue);
+                provinceValue = provinceList[position];
+                Log.i("selectedvale : " , provinceValue);
 
             }
 
@@ -150,13 +143,13 @@ public class AddDomestic2 extends AppCompatActivity {
                     if (address.getText().toString().equals("")
                             || subdistrict.getText().toString().equals("")
                             || district.getText().toString().equals("")
-                            || selectedValue.equals(""))
+                            || provinceValue.equals(""))
                         Toast.makeText(AddDomestic2.this, "Please fill up all the required fields", Toast.LENGTH_LONG).show();
                     else {
                         extras.putString("address", address.getText().toString());
                         extras.putString("subdistrict", subdistrict.getText().toString());
                         extras.putString("district", district.getText().toString());
-                        extras.putString("province", selectedValue);
+                        extras.putString("province", provinceValue);
                         extras.putString("dogType", calculateDomesticType() + "");
                         Intent prevAdd = getIntent();
                         extras.putString("name", prevAdd.getStringExtra("name"));
