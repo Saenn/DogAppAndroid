@@ -51,11 +51,11 @@ public class EditUserProfile extends AppCompatActivity {
 
     private Spinner provinceSpinner;
     private String[] provinceList;
-    private String selectedValue ="";
+    private String provinceValue;
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class EditUserProfile extends AppCompatActivity {
         bindAndSetSpinner();
     }
 
-    private void bindAndShowUserImage(){
+    private void bindAndShowUserImage() {
         profileImage = (ImageView) findViewById(R.id.userImage);
         if (mPreferences.getString("pictureProfilePath", "") != "") {
             Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", ""));
@@ -78,7 +78,7 @@ public class EditUserProfile extends AppCompatActivity {
         }
     }
 
-    private void bindAndShowInformation(){
+    private void bindAndShowInformation() {
         firstname = (TextView) findViewById(R.id.firstNameEditText);
         lastname = (TextView) findViewById(R.id.lastNameEditText);
         address = (TextView) findViewById(R.id.addressEditText);
@@ -96,14 +96,14 @@ public class EditUserProfile extends AppCompatActivity {
         email.setText(mPreferences.getString("email", ""));
     }
 
-    private void bindAndShowSecurity(){
+    private void bindAndShowSecurity() {
         question = (Spinner) findViewById(R.id.securityQuestion);
         ArrayAdapter<String> securityQuestionSet = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.securityQuestionArray));
         answer = (TextView) findViewById(R.id.securityAnswer);
         Log.d("No. of Question : ", securityQuestionSet.getCount() + "");
-        for(int i = 0 ; i < securityQuestionSet.getCount() ; i++){
+        for (int i = 0; i < securityQuestionSet.getCount(); i++) {
             Log.d("secureQuestion is : ", securityQuestionSet.getItem(i));
         }
         question.setAdapter(securityQuestionSet);
@@ -113,7 +113,7 @@ public class EditUserProfile extends AppCompatActivity {
         answer.setText(mPreferences.getString("forgotAnswer", ""));
     }
 
-    private void bindButton(){
+    private void bindButton() {
         originalStyle = address.getBackground();
 
         takePhotoButton = (ImageButton) findViewById(R.id.takePhotoButton);
@@ -208,31 +208,16 @@ public class EditUserProfile extends AppCompatActivity {
                     editor.putString("address", address.getText().toString());
                     editor.putString("subdistrict", subdistrict.getText().toString());
                     editor.putString("district", district.getText().toString());
-                    editor.putString("province", selectedValue);
+                    editor.putString("province", provinceValue);
                     editor.putString("phone", phone.getText().toString());
                     editor.putString("pictureProfilePath", userImagePath);
-                    editor.putString("email",email.getText().toString());
-                    editor.putString("firstName",firstname.getText().toString());
-                    editor.putString("lastName",lastname.getText().toString());
+                    editor.putString("email", email.getText().toString());
+                    editor.putString("firstName", firstname.getText().toString());
+                    editor.putString("lastName", lastname.getText().toString());
                     editor.putString("forgotQuestion", securityQuestionSelect + "");
                     editor.putString("forgotAnswer", answer.getText().toString());
-                    editor.putBoolean("isSubmit",true);
+                    editor.putBoolean("isSubmit", false);
                     editor.apply();
-
-                    Map<String, String> params = new HashMap<>();
-                    Intent intent = getIntent();
-                    params.put("email", intent.getStringExtra("email"));
-                    params.put("firstName", intent.getStringExtra("firstname"));
-                    params.put("lastName", intent.getStringExtra("lastname"));
-                    params.put("address", address.getText().toString());
-                    params.put("subdistrict", subdistrict.getText().toString());
-                    params.put("district", district.getText().toString());
-                    params.put("province", selectedValue);
-                    params.put("phone", phone.getText().toString());
-                    params.put("profilePicturePath", userImagePath);
-
-                    Intent loginActivity = new Intent(EditUserProfile.this, UserProfile.class);
-                    startActivity(loginActivity);
                     finish();
                 } else {
                     Toast toast = Toast.makeText(EditUserProfile.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
@@ -305,14 +290,14 @@ public class EditUserProfile extends AppCompatActivity {
         return false;
     }
 
-    private void bindAndSetSpinner(){
+    private void bindAndSetSpinner() {
         //Set Language
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        getListInfo(preferences.getString("lang","th"));
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang", "th"));
 
 
         // Setup Spinner //
-        selectedValue = "";
+        provinceValue = "";
         provinceSpinner = (Spinner) findViewById(R.id.provinceEditUserSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
@@ -326,8 +311,8 @@ public class EditUserProfile extends AppCompatActivity {
                 Toast.makeText(EditUserProfile.this,
                         "Select : " + provinceList[position],
                         Toast.LENGTH_SHORT).show();
-                selectedValue = provinceList[position];
-                Log.i("selectedvale : " , selectedValue);
+                provinceValue = provinceList[position];
+                Log.i("selectedvale : ", provinceValue);
 
             }
 
@@ -338,7 +323,7 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     private void getListInfo(String lang) {
-        Context context = LocalHelper.setLocale(this,lang);
+        Context context = LocalHelper.setLocale(this, lang);
         Resources resources = context.getResources();
         provinceList = resources.getStringArray(R.array.provinceList);
     }

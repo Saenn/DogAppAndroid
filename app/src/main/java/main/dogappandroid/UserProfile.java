@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class UserProfile extends AppCompatActivity {
 
@@ -25,7 +23,7 @@ public class UserProfile extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -33,32 +31,47 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        bindAndShowUserImage();
-        bindAndShowInformation();
-        bindAndShowSecurity();
-        bindButton();
+        bindAllData();
+        showUserImage();
+        showInformation();
+        showSecurity();
+        setButtonEvent();
     }
 
-    private void bindAndShowUserImage() {
-        profileImage = (ImageView) findViewById(R.id.userProfilePicture);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showUserImage();
+        showInformation();
+        showSecurity();
+    }
+
+    private void bindAllData() {
+        profileImage = findViewById(R.id.userProfilePicture);
+        userID = findViewById(R.id.userProfile_userID);
+        fullname = findViewById(R.id.userProfile_fullName);
+        address = findViewById(R.id.userProfile_address);
+        subdistrict = findViewById(R.id.userProfile_subdistrict);
+        district = findViewById(R.id.userProfile_district);
+        province = findViewById(R.id.userProfile_province);
+        phone = findViewById(R.id.userProfile_phone);
+        email = findViewById(R.id.userProfile_email);
+        registered = findViewById(R.id.userProfile_register);
+        latestUpdate = findViewById(R.id.userProfile_latestUpdate);
+        question = findViewById(R.id.userProfile_forgotQuestion);
+        answer = findViewById(R.id.userProfile_forgotAnswer);
+        editProfileBtn = findViewById(R.id.profileEditInformationButton);
+    }
+
+    private void showUserImage() {
+
         if (mPreferences.getString("pictureProfilePath", "") != "") {
             Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", ""));
             profileImage.setImageBitmap(userPicture);
         }
     }
 
-    private void bindAndShowInformation() {
-        userID = (TextView) findViewById(R.id.userProfile_userID);
-        fullname = (TextView) findViewById(R.id.userProfile_fullName);
-        address = (TextView) findViewById(R.id.userProfile_address);
-        subdistrict = (TextView) findViewById(R.id.userProfile_subdistrict);
-        district = (TextView) findViewById(R.id.userProfile_district);
-        province = (TextView) findViewById(R.id.userProfile_province);
-        phone = (TextView) findViewById(R.id.userProfile_phone);
-        email = (TextView) findViewById(R.id.userProfile_email);
-        registered = (TextView) findViewById(R.id.userProfile_register);
-        latestUpdate = (TextView) findViewById(R.id.userProfile_latestUpdate);
-
+    private void showInformation() {
         userID.setText(mPreferences.getString("userID", ""));
         fullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
         address.setText(mPreferences.getString("address", ""));
@@ -69,13 +82,9 @@ public class UserProfile extends AppCompatActivity {
         email.setText(mPreferences.getString("email", ""));
         registered.setText(mPreferences.getString("registerDate", ""));
         latestUpdate.setText(mPreferences.getString("latestUpdate", ""));
-
     }
 
-    private void bindAndShowSecurity() {
-        question = (TextView) findViewById(R.id.userProfile_forgotQuestion);
-        answer = (TextView) findViewById(R.id.userProfile_forgotAnswer);
-
+    private void showSecurity() {
         switch (mPreferences.getString("forgotQuestion", "")) {
             case "1":
                 question.setText("What is the name of the road you grew up on?");
@@ -114,8 +123,7 @@ public class UserProfile extends AppCompatActivity {
         answer.setText(mPreferences.getString("forgotAnswer", ""));
     }
 
-    private void bindButton() {
-        editProfileBtn = (ImageButton) findViewById(R.id.profileEditInformationButton);
+    private void setButtonEvent() {
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
