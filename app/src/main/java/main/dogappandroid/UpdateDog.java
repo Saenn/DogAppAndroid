@@ -139,10 +139,19 @@ public class UpdateDog extends AppCompatActivity {
                     case "Alive":
                         handleAliveOption();
                         break;
+                    case "มีชีวิตอยู่":
+                        handleAliveOption();
+                        break;
                     case "Missing":
                         handleMissingOption();
                         break;
+                    case "หาย":
+                        handleMissingOption();
+                        break;
                     case "Dead":
+                        handleDeadOption();
+                        break;
+                    case "เสียชีวิต":
                         handleDeadOption();
                         break;
                 }
@@ -157,7 +166,8 @@ public class UpdateDog extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dogStatus.getSelectedItem().toString().equals("Alive")) {
+                if (dogStatus.getSelectedItem().toString().equals("Alive") ||
+                        dogStatus.getSelectedItem().toString().equals("มีชีวิตอยู่")) {
                     DogInformation dogInformationTmp = new DogInformation();
                     dogInformationTmp.setDogStatus("1");
                     dogInformationTmp.setAgeRange(dog.getAgeRange());
@@ -195,13 +205,15 @@ public class UpdateDog extends AppCompatActivity {
                             dbHelper.addVaccine(dv);
                         }
                     }
-                } else if (dogStatus.getSelectedItem().toString().equals("Missing")) {
+                } else if (dogStatus.getSelectedItem().toString().equals("Missing") ||
+                        dogStatus.getSelectedItem().toString().equals("หาย")) {
                     DogInformation dogInformationTmp = new DogInformation();
                     dogInformationTmp.setDogStatus("2");
                     dogInformationTmp.setMissingDate(latestSeenDateSelected);
                     dogInformationTmp.setDogID(getIntent().getExtras().getInt("internalDogID"));
                     dbHelper.addDogInformation(dogInformationTmp);
-                } else if (dogStatus.getSelectedItem().toString().equals("Dead")) {
+                } else if (dogStatus.getSelectedItem().toString().equals("Dead") ||
+                        dogStatus.getSelectedItem().toString().equals("เสียชีวิต")) {
                     DogInformation dogInformationTmp = new DogInformation();
                     dogInformationTmp.setDogStatus("3");
                     dogInformationTmp.setDeathRemark(deadDescription.getText().toString());
@@ -402,7 +414,7 @@ public class UpdateDog extends AppCompatActivity {
         @Override
         public UpdateDog.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.vaccine_item, parent, false);
+                    .inflate(R.layout.vaccine_list_item, parent, false);
             UpdateDog.ViewHolder vh = new UpdateDog.ViewHolder(v);
             return vh;
         }
@@ -427,8 +439,8 @@ public class UpdateDog extends AppCompatActivity {
 
         public ViewHolder(View v) {
             super(v);
-            vaccine = v.findViewById(R.id.vaccine_item_name);
-            vaccinatedDate = v.findViewById(R.id.vaccine_item_date);
+            vaccine = v.findViewById(R.id.vaccine_name_label);
+            vaccinatedDate = v.findViewById(R.id.vaccine_date);
         }
 
     }

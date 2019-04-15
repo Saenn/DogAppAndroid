@@ -235,8 +235,8 @@ public class DogProfileActivity extends AppCompatActivity {
 
         public ViewHolder(View v) {
             super(v);
-            vaccine = (TextView) v.findViewById(R.id.vaccine_item_name);
-            vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_item_date);
+            vaccine = (TextView) v.findViewById(R.id.vaccine_name_label);
+            vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_date);
         }
 
     }
