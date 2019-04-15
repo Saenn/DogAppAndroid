@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -92,9 +92,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
+        if (mPreferences.getString("pictureProfilePath", "") != "") {
+            ImageView navProfilePicture = navigationHeader.findViewById(R.id.navProfilePicture);
+            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", "")));
+        }
+        TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
+        navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
+
         navigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +109,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(userProfile);
             }
         });
-
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -144,8 +150,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //set App Language
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        setAppLocale(preferences.getString("lang","th"));
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        setAppLocale(preferences.getString("lang", "th"));
 
     }
 
@@ -154,7 +160,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.setLocale(new Locale(appLocale.toLowerCase()));
-        res.updateConfiguration(conf,dm);
+        res.updateConfiguration(conf, dm);
     }
 
     @Override
@@ -205,6 +211,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mDataset = mHelper.getDog();
         mAdapter = new DogListAdapter(mDataset);
         recyclerView.setAdapter(mAdapter);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
+        if (mPreferences.getString("pictureProfilePath", "") != "") {
+            ImageView navProfilePicture = navigationHeader.findViewById(R.id.navProfilePicture);
+            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", "")));
+        }
+        TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
+        navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
         if (isNetworkAvailable()) {
             for (Dog dog : mDataset) {
                 if (dog.getIsSubmit() == 0 && dog.getDogID() == -1) {

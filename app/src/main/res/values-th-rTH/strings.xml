@@ -291,7 +291,8 @@
     <string name="userSecurity">ความปลอดภัย</string>
     <string name="userQuestion">คำถาม :</string>
     <string name="userAnswer">คำตอบ :"</string>
-
-
+    <string name="app_name">Pupify</string>
+    <string name="header_optional">ข้อมูลสุนัข (ไม่จำเป็น)</string>
+    <string name="navInfo">(กดเพื่อดูรายละเอียดเพิ่มเติม)</string>
 
 </resources>

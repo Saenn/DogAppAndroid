@@ -290,4 +290,5 @@
     <string name="userSecurity">Security</string>
     <string name="userQuestion">Question :</string>
     <string name="userAnswer">Answer :"</string>
+    <string name="navInfo">(Click to view more information)</string>
 </resources>
