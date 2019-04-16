@@ -26,7 +26,7 @@ import main.dogappandroid.DogVaccine;
 
 public class NetworkUtils {
     private static final String REGISTER_URL = "http://3.1.206.5:9000/register";
-    private static final String UPDATE_USER_URL = "http://10.0.2.2:9000/user/update";
+    private static final String UPDATE_USER_URL = "http://3.1.206.5:9000/user/update";
     private static final String LOGIN_URL = "http://3.1.206.5:9000/login";
     private static final String FORGOT_URL = "http://3.1.206.5:9000/forgot";
     private static final String ADD_DOG_URL = "http://3.1.206.5:9000/dog/add";
