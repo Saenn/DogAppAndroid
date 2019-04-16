@@ -65,8 +65,8 @@ public class UserProfile extends AppCompatActivity {
 
     private void showUserImage() {
 
-        if (mPreferences.getString("pictureProfilePath", "") != "") {
-            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", ""));
+        if (mPreferences.getString("profilePicturePath", "") != "") {
+            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", ""));
             profileImage.setImageBitmap(userPicture);
         }
     }

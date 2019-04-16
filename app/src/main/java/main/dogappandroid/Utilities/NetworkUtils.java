@@ -26,6 +26,7 @@ import main.dogappandroid.DogVaccine;
 
 public class NetworkUtils {
     private static final String REGISTER_URL = "http://3.1.206.5:9000/register";
+    private static final String UPDATE_USER_URL = "http://10.0.2.2:9000/user/update";
     private static final String LOGIN_URL = "http://3.1.206.5:9000/login";
     private static final String FORGOT_URL = "http://3.1.206.5:9000/forgot";
     private static final String ADD_DOG_URL = "http://3.1.206.5:9000/dog/add";
@@ -512,6 +513,41 @@ public class NetworkUtils {
             if ((queryParams.get("profilePicturePath") != null))
                 multipart.addFilePart("profilePicture", new File(queryParams.get("profilePicturePath")));
 
+            response = multipart.finish();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public static String updateUser(Map<String, String> queryParams) {
+        String response = null;
+        try {
+            MultipartUtility multipart = new MultipartUtility(UPDATE_USER_URL, "UTF-8", queryParams.get("token"));
+
+            multipart.addFormField("username", queryParams.get("username"));
+            multipart.addFormField("password", queryParams.get("password"));
+            multipart.addFormField("firstName", queryParams.get("firstName"));
+            multipart.addFormField("lastName", queryParams.get("lastName"));
+
+            if (!(queryParams.get("email") == ""))
+                multipart.addFormField("email", queryParams.get("email"));
+            if (!(queryParams.get("address") == ""))
+                multipart.addFormField("address", queryParams.get("address"));
+            if (!(queryParams.get("subdistrict") == ""))
+                multipart.addFormField("subdistrict", queryParams.get("subdistrict"));
+            if (!(queryParams.get("district") == ""))
+                multipart.addFormField("district", queryParams.get("district"));
+            if (!(queryParams.get("province") == ""))
+                multipart.addFormField("province", queryParams.get("province"));
+            if (!(queryParams.get("phone") == ""))
+                multipart.addFormField("phone", queryParams.get("phone"));
+            if (!(queryParams.get("forgotQuestion") == ""))
+                multipart.addFormField("forgotQuestion", queryParams.get("forgotQuestion"));
+            if (!(queryParams.get("forgotAnswer") == ""))
+                multipart.addFormField("forgotAnswer", queryParams.get("forgotAnswer"));
+            if ((queryParams.get("profilePicturePath") != null))
+                multipart.addFilePart("profilePicture", new File(queryParams.get("profilePicturePath")));
             response = multipart.finish();
         } catch (IOException e) {
             e.printStackTrace();

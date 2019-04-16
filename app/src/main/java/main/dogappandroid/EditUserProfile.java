@@ -72,8 +72,8 @@ public class EditUserProfile extends AppCompatActivity {
 
     private void bindAndShowUserImage() {
         profileImage = (ImageView) findViewById(R.id.userImage);
-        if (mPreferences.getString("pictureProfilePath", "") != "") {
-            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", ""));
+        if (mPreferences.getString("profilePicturePath", "") != "") {
+            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", ""));
             profileImage.setImageBitmap(userPicture);
         }
     }
@@ -210,7 +210,7 @@ public class EditUserProfile extends AppCompatActivity {
                     editor.putString("district", district.getText().toString());
                     editor.putString("province", provinceValue);
                     editor.putString("phone", phone.getText().toString());
-                    editor.putString("pictureProfilePath", userImagePath);
+                    editor.putString("profilePicturePath", userImagePath);
                     editor.putString("email", email.getText().toString());
                     editor.putString("firstName", firstname.getText().toString());
                     editor.putString("lastName", lastname.getText().toString());

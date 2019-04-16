@@ -198,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             SharedPreferences.Editor editor = mPreferences.edit();
             String imagePath = saveToInternalStorage(bitmap);
-            editor.putString("pictureProfilePath", imagePath);
+            editor.putString("profilePicturePath", imagePath);
             editor.apply();
         }
     }

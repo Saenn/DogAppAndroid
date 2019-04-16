@@ -42,8 +42,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import main.dogappandroid.Utilities.NetworkUtils;
 
@@ -95,9 +97,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
-        if (mPreferences.getString("pictureProfilePath", "") != "") {
+        if (mPreferences.getString("profilePicturePath", "") != "") {
             ImageView navProfilePicture = navigationHeader.findViewById(R.id.navProfilePicture);
-            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", "")));
+            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", "")));
         }
         TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
         navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
@@ -213,9 +215,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setAdapter(mAdapter);
         NavigationView navigationView = findViewById(R.id.nav_view);
         LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
-        if (mPreferences.getString("pictureProfilePath", "") != "") {
+        if (mPreferences.getString("profilePicturePath", "") != "") {
             ImageView navProfilePicture = navigationHeader.findViewById(R.id.navProfilePicture);
-            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("pictureProfilePath", "")));
+            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", "")));
         }
         TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
         navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
@@ -259,8 +261,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
             }
-            if (mPreferences.getBoolean("isSubmit", false)) {
-                mPreferences.edit().putBoolean("isSubmit", true);
+            if (mPreferences.getBoolean("isSubmit", true) == false) {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", mPreferences.getString("username", ""));
+                params.put("firstName", mPreferences.getString("firstName", ""));
+                params.put("lastName", mPreferences.getString("lastName", ""));
+                params.put("address", mPreferences.getString("address", ""));
+                params.put("subdistrict", mPreferences.getString("subdistrict", ""));
+                params.put("district", mPreferences.getString("district", ""));
+                params.put("province", mPreferences.getString("province", ""));
+                params.put("forgotQuestion", mPreferences.getString("forgotQuestion", ""));
+                params.put("forgotAnswer", mPreferences.getString("forgotAnswer", ""));
+                params.put("profilePicturePath", mPreferences.getString("profilePicturePath", ""));
+                params.put("token", mPreferences.getString("token", ""));
+                new onUpdateUserData().execute(params);
+                Log.i("UserInfo", "submit new info");
+            } else {
+                Log.i("UserInfo", "already submit this info");
             }
         }
     }
@@ -429,6 +446,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public class onUpdateUserData extends AsyncTask<Map<String, String>, Void, String> {
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                if (s != null) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("Success")) {
+                        String data = jsonObject.getString("data");
+                        JSONObject sqlResponse = new JSONObject(data);
+                        if (sqlResponse.getInt("affectedRows") == 1) {
+                            SharedPreferences.Editor editor = mPreferences.edit();
+                            editor.putBoolean("isSubmit", true);
+                            editor.apply();
+                            Log.i("UserInfo", "Success");
+                        }
+                    } else {
+                        Log.i("UserInfo", "Fail");
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Map<String, String>... maps) {
+            return NetworkUtils.updateUser(maps[0]);
+        }
     }
 
     public class addNewDog extends AsyncTask<Dog, Void, String> {

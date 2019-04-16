@@ -225,7 +225,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                     editor.putString("district", districtEditText.getText().toString());
                     editor.putString("province", provinceEditText.getText().toString());
                     editor.putString("phone", phoneEditText.getText().toString());
-                    editor.putString("pictureProfilePath", userImagePath);
+                    editor.putString("profilePicturePath", userImagePath);
                     editor.apply();
 
                     Map<String, String> params = new HashMap<>();
