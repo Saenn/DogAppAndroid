@@ -86,7 +86,6 @@
     <string name="editvaccine">แก้ไขวัคซีน</string>
     <string name="editvaccinemessage">คุณแน่ใจที่ต้องการแก้ไขข้อมูลนี้หรือไม่?</string>
     <string name="delete">Del</string>
-    <string name="sterilized">Already</string>
     <string name="not_sterilized">Not yet</string>
     <string name="sterilized_hint">16-02-2018</string>
     <string name="header_vaccine">วัคซีน</string>
@@ -253,7 +252,7 @@
     <string name="update">อัพเดท</string>
     <string-array name="dogStatusArray">
         <item>มีชีวิตอยู่</item>
-        <item>หายออกจากบ้าน</item>
+        <item>หาย</item>
         <item>เสียชีวิต</item>
     </string-array>
     <string-array name="vaccineList_EN">
@@ -318,6 +317,16 @@
     <string name="report">รายงานข้อมูล</string>
     <string name="setting">ตั้งค่า</string>
     <string name="logout">ออกจากระบบ</string>
+
+    <!-- Dog Profile-->
+    <string name="alive">มีชีวิตอยู่</string>
+    <string name="missing">หาย</string>
+    <string name="dead">เสียชีวิต</string>
+    <string name="notpregnant">ไม่เคยตั้งท้อง</string>
+    <string name="pregnant">เคยตั้งท้องแล้ว</string>
+    <string name="not_yet">ยังไม่ได้ทำ</string>
+    <string name="sterilized">ทำแล้ว</string>
+    <string name="sterilized_on">ทำแล้วเมื่อวันที่</string>
 
 
 

@@ -51,7 +51,6 @@
     <string name="breed_label">Breed</string>
     <string name="breed_hint">Enter your puppy\'s breed</string>
     <string name="sterilization_label">Have your puppy been sterilized?</string>
-    <string name="sterilized">Already</string>
     <string name="not_sterilized">Not yet</string>
     <string name="sterilized_date_label">Sterilized Date</string>
     <string name="sterilized_hint">16-02-2018</string>
@@ -315,4 +314,7 @@
     <string name="report">Information Report</string>
     <string name="setting">Setting</string>
     <string name="logout">Sign out</string>
+    <string name="not_yet">Not yet</string>
+    <string name="sterilized">Already</string>
+    <string name="sterilized_on">Sterilized on</string>
 </resources>

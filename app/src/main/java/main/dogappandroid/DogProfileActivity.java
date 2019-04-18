@@ -2,6 +2,7 @@ package main.dogappandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,9 @@ public class DogProfileActivity extends AppCompatActivity {
     private DogInformation dogInformation;
     private List<DogVaccine> vaccines;
 
+    private SharedPreferences preferences;
+    private String language;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -45,6 +49,8 @@ public class DogProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dog_profile);
         dbHelper = new DBHelper(this);
+        preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        language = preferences.getString("lang","th");
         bindData();
         retriveDogDataFromInternalDB();
         showDogStatus();
@@ -135,18 +141,30 @@ public class DogProfileActivity extends AppCompatActivity {
         name.setText(dog.getName());
         if (dog.getAgeRange().equals("1")) {
             if (dog.getAge() != -1) {
-                age.setText("Puppy (" + dog.getAge() + ")");
+                if(language.equals("en")) {
+                    age.setText("Puppy (" + dog.getAge() + " years)");
+                }else{
+                    age.setText("ลูกสุนัข (" + dog.getAge() + " ปี)");
+                }
             } else {
                 age.setText("Puppy");
             }
         } else {
             if (dog.getAge() != -1) {
-                age.setText("Adult (" + dog.getAge() + ")");
+                if(language.equals("en")) {
+                    age.setText("Adult (" + dog.getAge() + " years)");
+                }else{
+                    age.setText("สุนัข (" + dog.getAge() + " ปี)");
+                }
             } else {
                 age.setText("Adult");
             }
         }
-        gender.setText(dog.getGender());
+        if(dog.getGender().equals("M")) {
+            gender.setText(getResources().getString(R.string.dogmale));
+        }else{
+            gender.setText(getResources().getString(R.string.dogfemale));
+        }
         color.setText(dog.getColor());
         breed.setText(dog.getBreed());
         address.setText(dog.getAddress());
@@ -157,7 +175,7 @@ public class DogProfileActivity extends AppCompatActivity {
 
     private void showDogStatus() {
         if (dogInformation.getDogStatus().equals("1")) {
-            status.setText("Alive");
+            status.setText(getResources().getString(R.string.alive));
             deathLayout.setVisibility(View.GONE);
             missingLayout.setVisibility(View.GONE);
             if (dog.getGender().equals("M")) {
@@ -166,9 +184,9 @@ public class DogProfileActivity extends AppCompatActivity {
             } else if (dog.getGender().equals("F")) {
                 pregnantLayout.setVisibility(View.VISIBLE);
                 if (dogInformation.getPregnant() == 0) {
-                    pregnant.setText("Not pregnant");
+                    pregnant.setText(getResources().getString(R.string.notpregnant));
                 } else if (dogInformation.getPregnant() == 1) {
-                    pregnant.setText("Pregnant");
+                    pregnant.setText(getResources().getString(R.string.pregnant));
                     children.setText(String.valueOf(dogInformation.getChildNumber()));
                 }
             }
@@ -176,20 +194,20 @@ public class DogProfileActivity extends AppCompatActivity {
                 sterilized.setText("Not yet");
             } else {
                 if (dogInformation.getSterilizedDate().equals("")) {
-                    sterilized.setText("Sterilized");
+                    sterilized.setText(getResources().getString(R.string.sterilized));
                 } else {
-                    sterilized.setText("Sterilized on " + dogInformation.getSterilizedDate());
+                    sterilized.setText(getResources().getString(R.string.sterilized_on)+" " + dogInformation.getSterilizedDate());
                 }
             }
         } else if (dogInformation.getDogStatus().equals("2")) {
-            status.setText("Missing");
+            status.setText(getResources().getString(R.string.missing));
             deathLayout.setVisibility(View.GONE);
             pregnantLayout.setVisibility(View.GONE);
             childrenLayout.setVisibility(View.GONE);
             sterilizedLayout.setVisibility(View.GONE);
             missing.setText(dogInformation.getMissingDate());
         } else if (dogInformation.getDogStatus().equals("3")) {
-            status.setText("Dead");
+            status.setText(getResources().getString(R.string.dead));
             missingLayout.setVisibility(View.GONE);
             pregnantLayout.setVisibility(View.GONE);
             childrenLayout.setVisibility(View.GONE);
