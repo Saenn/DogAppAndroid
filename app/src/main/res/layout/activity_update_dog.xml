@@ -13,7 +13,7 @@
         android:layout_height="54dp"
         android:background="@color/pink600"
         android:gravity="center"
-        android:text="Update Dog"
+        android:text="@string/update_header"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:text="Dog Status"
+                        android:text="@string/dogstatus"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:labelFor="@+id/children"
-                        android:text="Description"
+                        android:text="@string/description"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:fontFamily="sans-serif"
-                        android:text="Is your dog pregnant in the past month?"
+                        android:text="@string/alive_q1"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -144,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Yes" />
+                        android:text="@string/yes" />
 
                     <RadioButton
                         android:id="@+id/noPregnant"
@@ -174,7 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:labelFor="@+id/children"
-                        android:text="How many puppies did your dog give birth to?"
+                        android:text="@string/alive_q1_2"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -207,7 +207,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:text="Has your dog been sterilized in the past month?"
+                        android:text="@string/alive_q2"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -223,7 +223,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Yes" />
+                        android:text="@string/yes" />
 
                     <RadioButton
                         android:id="@+id/noSterilized"
@@ -284,7 +284,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:labelFor="@+id/children"
-                        android:text="What the latest date did you see your dog?"
+                        android:text="@string/missing_q"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -317,7 +317,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:fontFamily="sans-serif"
-                        android:text="Has your dog been injected with any vaccine in the past month?"
+                        android:text="@string/alive_q3"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -332,7 +332,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Yes" />
+                        android:text="@string/yes" />
 
                     <RadioButton
                         android:id="@+id/noVaccine"

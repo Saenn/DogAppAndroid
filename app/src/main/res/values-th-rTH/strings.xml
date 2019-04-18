@@ -295,4 +295,17 @@
     <string name="header_optional">ข้อมูลสุนัข (ไม่จำเป็น)</string>
     <string name="navInfo">(กดเพื่อดูรายละเอียดเพิ่มเติม)</string>
 
+    <string name="update_header">อัพเดทข้อมูลสุนัข</string>
+    <string name="dogstatus">สถานะของสุนัข</string>
+    <string name="description">รายละเอียดเพิ่มเติม</string>
+    <string name="alive_q1">สุนัขของคุณกำลังตั้งท้องในเดือนที่ผ่านมาหรือไม่?</string>
+    <string name="alive_q1_2">สุนัขของคุณให้กำเนิดลูกกี่ตัวในเดือนที่ผ่านมา?</string>
+    <string name="alive_q2">สุนัขของคุณถูกทำหมันในเดือนที่ผ่านมาหรือไม่?</string>
+    <string name="missing_q">วันสุดท้ายที่คุณเห็นสุนัขของคุณ?</string>
+    <string name="alive_q3">สุนัขของคุณได้รับการฉีดวัคซีนในเดือนที่ผ่านมาบ้างหรือไม่?</string>
+    <string name="vaccine_q">เลือกวัคซีนที่ฉีดในสุนัขของคุณ?</string>
+    <string name="vaccine_inject_q">วันที่สุนัขของคุณได้รับการฉีดวัคซีน?</string>
+    <string name="header_addvaccine">เพิ่มวัคซีน</string>
+
+
 </resources>

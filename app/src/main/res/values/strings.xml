@@ -291,4 +291,16 @@
     <string name="userQuestion">Question :</string>
     <string name="userAnswer">Answer :"</string>
     <string name="navInfo">(Click to view more information)</string>
+
+    <string name="update_header">Update Dog</string>
+    <string name="dogstatus">Dog Status</string>
+    <string name="description">Description</string>
+    <string name="alive_q1">Is your dog pregnant in the past month?</string>
+    <string name="alive_q1_2">How many puppies did your dog give birth to?</string>
+    <string name="alive_q2">Has your dog been sterilized in the past month?</string>
+    <string name="missing_q">What the latest date did you see your dog?</string>
+    <string name="alive_q3">Has your dog been injected with any vaccine in the past month?</string>
+    <string name="vaccine_q">Which vaccine has your dog been injected?</string>
+    <string name="vaccine_inject_q">What date has your dog been injected by the vaccine?</string>
+    <string name="header_addvaccine">Add Vaccine</string>
 </resources>
