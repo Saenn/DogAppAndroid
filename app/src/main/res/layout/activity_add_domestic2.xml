@@ -92,7 +92,7 @@
             <TextView
                 android:id="@+id/dayLifestyleLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/lifestyle_question_2"
@@ -128,7 +128,7 @@
             <TextView
                 android:id="@+id/nightLifestyleLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/lifestyle_question_3"

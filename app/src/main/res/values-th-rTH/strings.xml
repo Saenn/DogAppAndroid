@@ -10,11 +10,11 @@
     <string name="age_hint">ใส่อายุของสุนัข (ปี)</string>
     <string name="dogmale">ตัวผู้</string>
     <string name="dogfemale">ตัวเมีย</string>
-    <string name="color_label">สี</string>
-    <string name="color_hint">ใส่สีของสุนัข</string>
+    <string name="color_label">สีและตำหนิของสุนัข</string>
+    <string name="color_hint">ใส่สีหรือตำหนิของสุนัข</string>
     <string name="breed_label">พันธุ์</string>
     <string name="breed_hint">ใส่พันธุ์ของสุนัข</string>
-    <string name="sterilization_label">สุนัขถูกทำหมันมาแล้วหรือยัง</string>
+    <string name="sterilization_label">สุนัขของคุณมีประวัติการทำหมันหรือไม่?</string>
     <string name="sterilized_date_label">วันที่ทำหมัน</string>
     <string name="header_mandatory">เพิ่มสุนัขบ้าน</string>
     <string name="yes">ใช่</string>
@@ -30,13 +30,13 @@
     <string name="districtLabel">เขต</string>
     <string name="provinceLabel">จังหวัด</string>
     <string name="provinceHint">กรุงเทพ</string>
-    <string name="lifestyle_question_1">บ้านคุณมีรั้วล้อมรอบหรือไม่</string>
-    <string name="lifestyle_question_2">ตอนกลางวันคุณเลี้ยงสุนัขที่ไหน</string>
-    <string name="lifestyle_question_3">ตอนกลางคืนคุณเลี้ยงสุนัขที่ไหน</string>
-    <string name="dogaddress">ต้องการใช้ที่อยู่เดียวกับคุณหรือไม่?</string>
-    <string name="outdoor">นอกบ้าน</string>
-    <string name="indoor">ในบ้าน</string>
-    <string name="dogFront_label">รูปด้านหน้า</string>
+    <string name="lifestyle_question_1">บ้านคุณมีรั้วล้อมรอบบ้านหรือไม่</string>
+    <string name="lifestyle_question_2">สุนัขของคุณอยู่ภายในบ้านหรือนอกบ้านเป็นส่วนใหญ่ในตอนกลางวัน</string>
+    <string name="lifestyle_question_3">สุนัขของคุณอยู่ภายในบ้านหรือนอกบ้านเป็นส่วนใหญ่ในตอนกลางคืน</string>
+    <string name="dogaddress">ที่อยู่ของสุนัขใช้ที่อยู่เดียวกับของคุณหรือไม่?</string>
+    <string name="outdoor">นอกบริเวณบ้าน</string>
+    <string name="indoor">ในบริเวณบ้าน</string>
+    <string name="dogFront_label">รูปหน้าตรง</string>
     <string name="dogSide_label">รูปด้านข้าง</string>
 
     <!-- addDomestic4 -->
@@ -55,7 +55,7 @@
     <string name="error_invalid_password">รหัสผ่านไม่ถูกต้อง</string>
     <string name="error_incorrect_password">รหัสผ่านไม่ตรงกัน</string>
     <string name="error_field_required">จำเป็นต้องกรอก</string>
-    <string name="permission_rationale">"จำเป็นต้องได้รับการอนุญาติเข้าถึงข้อมูล"
+    <string name="permission_rationale">จำเป็นต้องได้รับการอนุญาติเข้าถึงข้อมูล
     </string>
 
     <!-- Strings related to editdog -->
@@ -253,15 +253,18 @@
     <string name="update">อัพเดท</string>
     <string-array name="dogStatusArray">
         <item>มีชีวิตอยู่</item>
-        <item>หาย</item>
+        <item>หายออกจากบ้าน</item>
         <item>เสียชีวิต</item>
     </string-array>
     <string-array name="vaccineList_EN">
-        <item>Rabies</item>
-        <item>DHPP</item>
-        <item>Distemper</item>
-        <item>Measles</item>
-        <item>Parainfluenza</item>
+        <item>พิษสุนัขบ้า(Rabies)</item>
+        <item>ไว้รัสไข้หัด(Canine Distemper Virus: CDV)</item>
+        <item>ตับอักเสบ(Canine Hepatitis Adenovirus type 2)</item>
+        <item>ลำไส้อักเสบ(Parvovirus/Coronavirus)</item>
+        <item>ไข้หวัด(Parainfluenza)</item>
+        <item>ไข้ฉี่หนู(Leptospirosis)</item>
+        <item>วัคซีนรวม 5 โรค</item>
+        <item>อื่นๆ (Others)</item>
     </string-array>
     <string name="consentText">\t\t\tจากข้อมูลการรายงานโรคจะเห็นได้ว่าการระบาดของโรคพิษสุนัขบ้าในปัจจุบันมีจำนวนเพิ่มมากขึ้นจากหลายๆปีก่อน หลายหน่วยงานให้ความสำคัญกับการควบคุมการระบาดของโรคให้ลดลงหรือหมดไป ทีมวิจัยมหาวิทยาลัยมหิดล จุฬาลงกรณ์มหาวิทยาลัยและ กรมปศุสัตว์ได้มีความสนใจที่จะศึกษาเชิงระบาดวิทยา โดยมุ่งเน้นไปที่การเก็บข้อมูลประชากรสุนัขพื้นฐานเพื่อให้เข้าใจการเปลี่ยนแปลงประชากรสุนัขและรูปแบบการเคลื่อนที่ของสุนัขในพื้นที่ก่อนนำไปพิจารณาเรื่องการระบาดของโรคพิษสุนัขบ้าต่อไป
         \n\t\t\tความร่วมมือของท่านในการให้ข้อมูลสุนัขจะเป็นประโยชน์อย่างยิ่งในการทำงานของทีมวิจัยและหวังเป็นอย่างยิ่งว่าจะได้รับความร่วมมือจากท่านตลอดการทำงานในโครงการนี้ หากท่านมีคำถามหรือข้อสงสัยเกี่ยวกับโครงการท่านสามารถติดต่อทีมวิจัยได้ทุกเมื่อตามที่อยู่ที่ทีมวิจัยให้ไว้กับท่าน
