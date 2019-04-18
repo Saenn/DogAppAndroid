@@ -63,6 +63,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private List<Dog> mDataset;
     private DBHelper mHelper;
     private BottomNavigationView bottomNavigationView;
+    private SharedPreferences preferences;
+    private String language;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -152,8 +154,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //set App Language
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
-        setAppLocale(preferences.getString("lang", "th"));
+        preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        language = preferences.getString("lang","th");
+        setAppLocale(language);
 
     }
 
@@ -336,16 +339,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             if (info.getAge() == -1) {
                 if (info.getAgeRange().equals("1")) {
-                    holder.age.setText("Age : " + "0-3");
+                    if(language.equals("en")) {
+                        holder.age.setText("Age : " + "0-3 years");
+                    }else{
+                        holder.age.setText("อายุ : " + "0-3 ปี");
+                    }
                 } else {
-                    holder.age.setText("Age : " + "Older than 3");
+                    if(language.equals("en")){
+                        holder.age.setText("Age : " + "Older than 3");
+                    }else{
+                        holder.age.setText("อายุ : " + "มากกว่า 3 ปี");
+                    }
                 }
             } else {
-                holder.age.setText("Age : " + info.getAge());
+                if(language.equals("en")) {
+                    holder.age.setText("Age : " + info.getAge() + " years");
+                }else{
+                    holder.age.setText("อายุ : " + info.getAge() + " ปี");
+                }
             }
-            holder.color.setText("Color : " + dog.getColor());
-            holder.gender.setText("Gender : " + dog.getGender());
-            holder.breed.setText("Breed :" + dog.getBreed());
+            if(language.equals("en")) {
+                holder.color.setText("Color : " + dog.getColor());
+                holder.gender.setText("Gender : " + dog.getGender());
+                holder.breed.setText("Breed :" + dog.getBreed());
+            }else{
+                holder.color.setText("สี : " + dog.getColor());
+                if(dog.getGender().equals("F")) {
+                    holder.gender.setText("เพศ : ตัวเมีย");
+                }else{
+                    holder.gender.setText("เพศ : ตัวผู้");
+                }
+                holder.breed.setText("พันธุ์ :" + dog.getBreed());
+            }
+
             if (image.getImagePath() != null) {
                 holder.pic.setImageBitmap(BitmapFactory.decodeFile(image.getImagePath()));
             }

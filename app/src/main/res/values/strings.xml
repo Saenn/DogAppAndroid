@@ -306,4 +306,13 @@
     <string name="vaccine_q">Which vaccine has your dog been injected?</string>
     <string name="vaccine_inject_q">What date has your dog been injected by the vaccine?</string>
     <string name="header_addvaccine">Add Vaccine</string>
+
+    <!-- Home-->
+    <string name="domestic">Domestic</string>
+    <string name="stray">Stray</string>
+    <string name="home">Home</string>
+    <string name="news">News</string>
+    <string name="report">Information Report</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Sign out</string>
 </resources>

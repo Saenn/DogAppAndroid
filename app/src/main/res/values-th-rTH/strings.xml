@@ -310,5 +310,15 @@
     <string name="vaccine_inject_q">วันที่สุนัขของคุณได้รับการฉีดวัคซีน?</string>
     <string name="header_addvaccine">เพิ่มวัคซีน</string>
 
+    <!-- Home-->
+    <string name="domestic">สุนัขบ้าน</string>
+    <string name="stray">สุนัขจรจัด</string>
+    <string name="home">หน้าแรก</string>
+    <string name="news">ข่าวสาร</string>
+    <string name="report">รายงานข้อมูล</string>
+    <string name="setting">ตั้งค่า</string>
+    <string name="logout">ออกจากระบบ</string>
+
+
 
 </resources>
