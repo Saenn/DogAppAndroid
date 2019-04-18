@@ -191,7 +191,7 @@ public class DogProfileActivity extends AppCompatActivity {
                 }
             }
             if (dogInformation.getSterilized() == 0) {
-                sterilized.setText("Not yet");
+                sterilized.setText(getResources().getString(R.string.not_yet));
             } else {
                 if (dogInformation.getSterilizedDate().equals("")) {
                     sterilized.setText(getResources().getString(R.string.sterilized));
