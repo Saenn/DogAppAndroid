@@ -143,25 +143,41 @@ public class DogProfileActivity extends AppCompatActivity {
             dogImage.setImageBitmap(BitmapFactory.decodeFile(dogImageData.getImagePath()));
         }
         name.setText(dog.getName());
-        if (dog.getAgeRange().equals("1")) {
-            if (dog.getAge() != -1) {
-                if (language.equals("en")) {
-                    age.setText("Puppy (" + dog.getAge() + " years)");
-                } else {
-                    age.setText("ลูกสุนัข (" + dog.getAge() + " ปี)");
+        if (dog.getDogType().equals("3")) {
+            if (dog.getAgeRange().equals("1")) {
+                if(language.equals("en")){
+                    age.setText("Puppy");
+                }else{
+                    age.setText("ลูกสุนัข");
                 }
             } else {
-                age.setText("Puppy");
+                if(language.equals("en")){
+                    age.setText("Adult");
+                }else {
+                    age.setText("โตเต็มวัย");
+                }
             }
-        } else {
-            if (dog.getAge() != -1) {
-                if (language.equals("en")) {
-                    age.setText("Adult (" + dog.getAge() + " years)");
+        }else{
+            if (dog.getAgeRange().equals("1")) {
+                if (dog.getAge() != -1) {
+                    if (language.equals("en")) {
+                        age.setText("Puppy (" + dog.getAge() + " years)");
+                    } else {
+                        age.setText("ลูกสุนัข (" + dog.getAge() + " ปี)");
+                    }
                 } else {
-                    age.setText("สุนัข (" + dog.getAge() + " ปี)");
+                    age.setText("Puppy");
                 }
             } else {
-                age.setText("Adult");
+                if (dog.getAge() != -1) {
+                    if (language.equals("en")) {
+                        age.setText("Adult (" + dog.getAge() + " years)");
+                    } else {
+                        age.setText("โตเต็มวัย (" + dog.getAge() + " ปี)");
+                    }
+                } else {
+                    age.setText("Adult");
+                }
             }
         }
         if (dog.getGender().equals("M")) {

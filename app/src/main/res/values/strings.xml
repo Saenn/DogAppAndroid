@@ -313,4 +313,9 @@
     <string name="not_yet">Not yet</string>
     <string name="sterilized">Already</string>
     <string name="sterilized_on">Sterilized on</string>
+    <string name="alive">Alive</string>
+    <string name="missing">Missing</string>
+    <string name="dead">Dead</string>
+    <string name="notpregnant">Not yet</string>
+    <string name="pregnant">Yes</string>
 </resources>
