@@ -51,7 +51,6 @@
     <string name="breed_label">Breed</string>
     <string name="breed_hint">Enter your puppy\'s breed</string>
     <string name="sterilization_label">Have your puppy been sterilized?</string>
-    <string name="sterilized">Already</string>
     <string name="not_sterilized">Not yet</string>
     <string name="sterilized_date_label">Sterilized Date</string>
     <string name="sterilized_hint">16-02-2018</string>
@@ -274,7 +273,6 @@
     <string name="knownSterilizedDate">Check if you know exactly when did your dog be sterilized</string>
     <string name="unknown">Unknown</string>
     <string name="sterilizedDateLabel">When did your dog be sterilized?</string>
-
     <string name="userprofileHeader">My Profile</string>
     <string name="userInformation">Information</string>
     <string name="userID">UserID :</string>
@@ -291,4 +289,28 @@
     <string name="userQuestion">Question :</string>
     <string name="userAnswer">Answer :"</string>
     <string name="navInfo">(Click to view more information)</string>
+
+    <string name="update_header">Update Dog</string>
+    <string name="dogstatus">Dog Status</string>
+    <string name="description">Description</string>
+    <string name="alive_q1">Is your dog pregnant in the past month?</string>
+    <string name="alive_q1_2">How many puppies did your dog give birth to?</string>
+    <string name="alive_q2">Has your dog been sterilized in the past month?</string>
+    <string name="missing_q">What the latest date did you see your dog?</string>
+    <string name="alive_q3">Has your dog been injected with any vaccine in the past month?</string>
+    <string name="vaccine_q">Which vaccine has your dog been injected?</string>
+    <string name="vaccine_inject_q">What date has your dog been injected by the vaccine?</string>
+    <string name="header_addvaccine">Add Vaccine</string>
+
+    <!-- Home-->
+    <string name="domestic">Domestic</string>
+    <string name="stray">Stray</string>
+    <string name="home">Home</string>
+    <string name="news">News</string>
+    <string name="report">Information Report</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Sign out</string>
+    <string name="not_yet">Not yet</string>
+    <string name="sterilized">Already</string>
+    <string name="sterilized_on">Sterilized on</string>
 </resources>

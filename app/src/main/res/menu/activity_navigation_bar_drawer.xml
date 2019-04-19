@@ -7,23 +7,23 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/baseline_home_black_24dp"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_news"
             android:icon="@drawable/baseline_chrome_reader_mode_black_24dp"
-            android:title="News" />
+            android:title="@string/news" />
         <item
             android:id="@+id/nav_report"
             android:icon="@drawable/baseline_assignment_black_24dp"
-            android:title="Report" />
+            android:title="@string/report" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Setting" />
+            android:title="@string/setting" />
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/baseline_power_settings_new_black_24dp"
-            android:title="Sign out" />
+            android:title="@string/logout" />
     </group>
 
     <!--<item android:title="Communicate">-->

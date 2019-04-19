@@ -4,11 +4,11 @@
     <item
         android:id="@+id/add_domestic"
         android:icon="@drawable/baseline_add_24"
-        android:title="Domestic" />
+        android:title="@string/domestic" />
 
     <item
         android:id="@+id/add_stray"
         android:icon="@drawable/baseline_add_24"
-        android:title="Stray" />
+        android:title="@string/stray" />
 
 </menu>

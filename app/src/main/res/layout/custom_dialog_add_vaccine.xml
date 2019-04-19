@@ -11,7 +11,7 @@
         android:layout_height="54dp"
         android:background="@color/pink300"
         android:gravity="center"
-        android:text="Add Vaccine"
+        android:text="@string/header_addvaccine"
         android:textColor="@color/white"
         android:textSize="24sp" />
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Which vaccine has your dog been injected?"
+        android:text="@string/vaccine_q"
         android:textSize="14sp" />
 
     <Spinner
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="What date has your dog been injected by the vaccine?" />
+        android:text="@string/vaccine_inject_q" />
 
     <CalendarView
         android:id="@+id/vaccineDialogCalendar"
