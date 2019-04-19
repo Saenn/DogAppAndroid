@@ -1,15 +1,11 @@
 package main.dogappandroid;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import main.dogappandroid.Utilities.NetworkUtils;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -32,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -62,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+                    String regex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
                     if (!firstname.getText().toString().matches(regex))
                         firstname.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else firstname.setBackground(originalStyle);
@@ -75,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+                    String regex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
                     if (!lastname.getText().toString().matches(regex))
                         lastname.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else lastname.setBackground(originalStyle);
@@ -87,12 +88,12 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z0-9.]+";
+                    String regex = "[a-zA-Z0-9._-]+";
                     if (!username.getText().toString().matches(regex))
                         username.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else {
                         username.setBackground(originalStyle);
-                        username.setHint("should only be 0-9 A-Z a-z .");
+                        username.setHint("should only be 0-9 A-Z a-z . _");
                     }
                 }
             }
@@ -103,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (email.getText().toString().length() != 0) {
-                        String regex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
+                        String regex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
                         if (!email.getText().toString().matches(regex))
                             email.setBackgroundColor(getResources().getColor(R.color.pink100));
                         else email.setBackground(originalStyle);
@@ -144,24 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateAllInput()) {
-                    SharedPreferences.Editor editor = mPreferences.edit();
-                    editor.putString("firstName", firstname.getText().toString());
-                    editor.putString("lastName", lastname.getText().toString());
-                    editor.putString("email", email.getText().toString());
-                    editor.putString("username", username.getText().toString());
-                    editor.putString("forgotQuestion", securityQuestionSelect + "");
-                    editor.putString("forgotAnswer", securityAnswer.getText().toString());
-                    editor.apply();
-
-                    Intent intent = new Intent(RegisterActivity.this, RegisterActivity2.class);
-                    intent.putExtra("firstname", firstname.getText().toString());
-                    intent.putExtra("lastname", lastname.getText().toString());
-                    intent.putExtra("email", email.getText().toString());
-                    intent.putExtra("username", username.getText().toString());
-                    intent.putExtra("password", password.getText().toString());
-                    intent.putExtra("forgotQuestion", securityQuestionSelect + "");
-                    intent.putExtra("forgotAnswer", securityAnswer.getText().toString());
-                    startActivity(intent);
+                    new onCheckUsername().execute(username.getText().toString());
                 } else {
                     Toast toast = Toast.makeText(RegisterActivity.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
                     toast.show();
@@ -184,9 +168,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean validateAllInput() {
-        String usenameRegex = "[a-zA-Z0-9.]+";
-        String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
-        String emailRegex = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+";
+        String usenameRegex = "[a-zA-Z0-9._-]+";
+        String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
+        String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
         if (username.getText().toString().matches(usenameRegex)
                 && firstname.getText().toString().matches(fullnameRegex)
                 && lastname.getText().toString().matches(fullnameRegex)
@@ -196,5 +180,45 @@ public class RegisterActivity extends AppCompatActivity {
                 && !securityAnswer.getText().toString().equals(""))
             return true;
         return false;
+    }
+
+    class onCheckUsername extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                Log.i("Register",s);
+                JSONObject jsonObject = new JSONObject(s);
+                String status = jsonObject.getString("status");
+                if (status.equals("Success")) {
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    editor.putString("firstName", firstname.getText().toString());
+                    editor.putString("lastName", lastname.getText().toString());
+                    editor.putString("email", email.getText().toString());
+                    editor.putString("username", username.getText().toString());
+                    editor.putString("forgotQuestion", securityQuestionSelect + "");
+                    editor.putString("forgotAnswer", securityAnswer.getText().toString());
+                    editor.apply();
+
+                    Intent intent = new Intent(RegisterActivity.this, RegisterActivity2.class);
+                    intent.putExtra("firstname", firstname.getText().toString());
+                    intent.putExtra("lastname", lastname.getText().toString());
+                    intent.putExtra("email", email.getText().toString());
+                    intent.putExtra("username", username.getText().toString());
+                    intent.putExtra("password", password.getText().toString());
+                    intent.putExtra("forgotQuestion", securityQuestionSelect + "");
+                    intent.putExtra("forgotAnswer", securityAnswer.getText().toString());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(RegisterActivity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return NetworkUtils.checkUsername(strings[0]);
+        }
     }
 }

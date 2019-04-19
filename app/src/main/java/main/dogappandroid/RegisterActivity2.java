@@ -101,12 +101,8 @@ public class RegisterActivity2 extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(RegisterActivity2.this,
-                        "Select : " + provinceList[position],
-                        Toast.LENGTH_SHORT).show();
                 selectedValue = provinceList[position];
                 Log.i("selectedvale : " , selectedValue);
-
             }
 
             @Override
@@ -171,7 +167,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
+                    String regex = "[0-9a-zA-Z\\u0E00-\\u0E7F/., ]*";
                     if (!addressEditText.getText().toString().matches(regex))
                         addressEditText.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else addressEditText.setBackground(originalStyle);
@@ -301,7 +297,7 @@ public class RegisterActivity2 extends AppCompatActivity {
 
     protected boolean validateAllInput() {
         String phoneRegex = "[0-9]*";
-        String addressRegex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
         if (phoneEditText.getText().toString().matches(phoneRegex) && addressEditText.getText().toString().matches(addressRegex) &&
                 subdistrictEditText.getText().toString().matches(regex) && districtEditText.getText().toString().matches(regex))

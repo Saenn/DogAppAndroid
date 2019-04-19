@@ -26,6 +26,7 @@ import main.dogappandroid.DogVaccine;
 
 public class NetworkUtils {
     private static final String REGISTER_URL = "http://3.1.206.5:9000/register";
+    private static final String CHECK_USERNAME = "http://3.1.206.5:9000/checkUsername";
     private static final String UPDATE_USER_URL = "http://3.1.206.5:9000/user/update";
     private static final String LOGIN_URL = "http://3.1.206.5:9000/login";
     private static final String FORGOT_URL = "http://3.1.206.5:9000/forgot";
@@ -38,6 +39,8 @@ public class NetworkUtils {
     private static final String ADD_DOG_VACCINE_URL = "http://3.1.206.5:9000/dog/vaccine/add";
     private static final String ADD_DOG_IMAGE_URL = "http://3.1.206.5:9000/dog/image/add";
     private static final String RETRIEVE_DOG_DATA_URL = "http://3.1.206.5:9000/dog/retrieve";
+
+
 
     public static String retrieveDogData(String ownerID, String username, String token) {
         String urlParams = "username=" + username + "&";
@@ -555,6 +558,70 @@ public class NetworkUtils {
         return response;
     }
 
+    public static String checkUsername(String username) {
+        String urlParams = "username=" + username;
+        byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+
+        HttpURLConnection httpConnection = null;
+        BufferedReader reader = null;
+        String responseFromRequest = null;
+
+        try {
+            URL requestURL = new URL(CHECK_USERNAME);
+            httpConnection = (HttpURLConnection) requestURL.openConnection();
+
+            httpConnection.setRequestMethod("POST");
+            httpConnection.setDoOutput(true);
+            httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+
+            DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
+            wr.write(postData);
+
+            reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+            String line;
+            StringBuilder contentBuilder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line);
+                contentBuilder.append("\n");
+            }
+            if (contentBuilder.length() == 0) {
+                return "";
+            }
+            responseFromRequest = contentBuilder.toString();
+        } catch (IOException e) {
+            try {
+                reader = new BufferedReader(new InputStreamReader(
+                        httpConnection.getErrorStream()));
+                String line;
+                StringBuilder contentBuilder = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    contentBuilder.append(line);
+                    contentBuilder.append("\n");
+                }
+                reader.close();
+                if (contentBuilder.length() == 0) {
+                    return "";
+                }
+                responseFromRequest = contentBuilder.toString();
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        } finally {
+            if (httpConnection != null) {
+                httpConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return responseFromRequest;
+    }
+
     public static String login(Map<String, String> queryParams) {
         String urlParams = "username=" + queryParams.get("username") + "&";
         urlParams += "password=" + queryParams.get("password");
@@ -591,10 +658,9 @@ public class NetworkUtils {
             try {
                 reader = new BufferedReader(new InputStreamReader(
                         httpConnection.getErrorStream()));
-                String line = null;
+                String line;
                 StringBuilder contentBuilder = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
-//                response.add(line);
                     contentBuilder.append(line);
                     contentBuilder.append("\n");
                 }
