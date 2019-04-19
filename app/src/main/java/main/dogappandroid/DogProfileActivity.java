@@ -3,6 +3,7 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,11 +38,11 @@ public class DogProfileActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
     private String language;
-
+    private String[] vaccineListFromResource;
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -50,7 +51,10 @@ public class DogProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dog_profile);
         dbHelper = new DBHelper(this);
         preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
-        language = preferences.getString("lang","th");
+        language = preferences.getString("lang", "th");
+        Context context = LocalHelper.setLocale(this, preferences.getString("lang", "th"));
+        Resources resources = context.getResources();
+        vaccineListFromResource = resources.getStringArray(R.array.vaccineList);
         bindData();
         retriveDogDataFromInternalDB();
         showDogStatus();
@@ -141,9 +145,9 @@ public class DogProfileActivity extends AppCompatActivity {
         name.setText(dog.getName());
         if (dog.getAgeRange().equals("1")) {
             if (dog.getAge() != -1) {
-                if(language.equals("en")) {
+                if (language.equals("en")) {
                     age.setText("Puppy (" + dog.getAge() + " years)");
-                }else{
+                } else {
                     age.setText("ลูกสุนัข (" + dog.getAge() + " ปี)");
                 }
             } else {
@@ -151,18 +155,18 @@ public class DogProfileActivity extends AppCompatActivity {
             }
         } else {
             if (dog.getAge() != -1) {
-                if(language.equals("en")) {
+                if (language.equals("en")) {
                     age.setText("Adult (" + dog.getAge() + " years)");
-                }else{
+                } else {
                     age.setText("สุนัข (" + dog.getAge() + " ปี)");
                 }
             } else {
                 age.setText("Adult");
             }
         }
-        if(dog.getGender().equals("M")) {
+        if (dog.getGender().equals("M")) {
             gender.setText(getResources().getString(R.string.dogmale));
-        }else{
+        } else {
             gender.setText(getResources().getString(R.string.dogfemale));
         }
         color.setText(dog.getColor());
@@ -196,7 +200,7 @@ public class DogProfileActivity extends AppCompatActivity {
                 if (dogInformation.getSterilizedDate().equals("")) {
                     sterilized.setText(getResources().getString(R.string.sterilized));
                 } else {
-                    sterilized.setText(getResources().getString(R.string.sterilized_on)+" " + dogInformation.getSterilizedDate());
+                    sterilized.setText(getResources().getString(R.string.sterilized_on) + " " + dogInformation.getSterilizedDate());
                 }
             }
         } else if (dogInformation.getDogStatus().equals("2")) {
@@ -235,7 +239,7 @@ public class DogProfileActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(DogProfileActivity.ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            holder.vaccine.setText(v.getName());
+            holder.vaccine.setText(vaccineListFromResource[v.getPosition()]);
             holder.vaccinatedDate.setText(v.getDate());
         }
 

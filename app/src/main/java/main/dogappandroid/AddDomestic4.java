@@ -3,6 +3,8 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -36,11 +38,13 @@ public class AddDomestic4 extends AppCompatActivity {
     private DBHelper mHelper;
     private ClickListener rabiesListener, othersListener;
     private ProgressBar bar;
+    private SharedPreferences preferences;
+    private String[] vaccineList;
     private double latitude, longitude;
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -49,6 +53,11 @@ public class AddDomestic4 extends AppCompatActivity {
         setContentView(R.layout.activity_add_domestic4);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
+
+        preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        Context context = LocalHelper.setLocale(this, preferences.getString("lang", "th"));
+        Resources resources = context.getResources();
+        vaccineList = resources.getStringArray(R.array.vaccineList);
 
         LocationListener locationListener = new LocationListener() {
             @Override
@@ -233,7 +242,7 @@ public class AddDomestic4 extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            holder.adddomestic4.setText(v.getName());
+            holder.adddomestic4.setText(vaccineList[v.getPosition()]);
             holder.vaccinatedDate.setText(v.getDate());
 
             holder.setOnClickListener(new ClickListener() {

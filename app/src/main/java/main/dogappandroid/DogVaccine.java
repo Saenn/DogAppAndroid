@@ -5,15 +5,9 @@ import android.provider.BaseColumns;
 public class DogVaccine {
 
     private String name, date;
-    private int id, dogID, isSubmit;
+    private int id, dogID, isSubmit, position;
 
     public DogVaccine() {
-    }
-
-    public DogVaccine(String name, String date) {
-        this.name = name;
-        this.date = date;
-        this.isSubmit = 0;
     }
 
     public class DogVaccineEntry {
@@ -22,6 +16,7 @@ public class DogVaccine {
         public static final String VACCINE_NAME = "vaccineName";
         public static final String VACCINE_DATE = "vaccineDate";
         public static final String DOG_INTERNAL_ID = "dogInternalID";
+        public static final String VACCINE_POSITION = "position";
         public static final String IS_SUBMIT = "isSubmit";
     }
 
@@ -31,6 +26,7 @@ public class DogVaccine {
                     DogVaccineEntry.VACCINE_NAME + " TEXT," +
                     DogVaccineEntry.VACCINE_DATE + " TEXT," +
                     DogVaccineEntry.DOG_INTERNAL_ID + " INTEGER," +
+                    DogVaccineEntry.VACCINE_POSITION + " INTEGER," +
                     DogVaccineEntry.IS_SUBMIT + " INTEGER)";
 
     public static final String SQL_DELETE_ENTRIES =
@@ -66,6 +62,14 @@ public class DogVaccine {
 
     public void setDogID(int dogID) {
         this.dogID = dogID;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public int getIsSubmit() {

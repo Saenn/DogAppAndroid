@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -38,15 +41,17 @@ public class UpdateDog extends AppCompatActivity {
     private RecyclerView.LayoutManager vaccineLayoutManager;
     private RecyclerView.Adapter vaccineAdapter;
     private List<DogVaccine> vaccineList;
+    private String[] vaccineListFromResource;
     private Button addVaccineButton, doneButton;
     private EditText children, deadDescription;
     private TextView sterilizedDateLabel;
 
-
     private DBHelper dbHelper;
     private Dog dog;
     private DogInformation dogInformation;
-    private String sterilizedDateSelected, latestSeenDateSelected, selectedVaccine, injectionDate;
+    private SharedPreferences languagePreferences;
+    private String sterilizedDateSelected, latestSeenDateSelected, injectionDate;
+    private int selectedVaccinePosition;
 
 
     @Override
@@ -60,6 +65,12 @@ public class UpdateDog extends AppCompatActivity {
         setContentView(R.layout.activity_update_dog);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
+
+        languagePreferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        Context context = LocalHelper.setLocale(this, languagePreferences.getString("lang", "th"));
+        Resources resources = context.getResources();
+        vaccineListFromResource = resources.getStringArray(R.array.vaccineList);
+        selectedVaccinePosition = -1;
 
         dbHelper = new DBHelper(this);
 
@@ -86,7 +97,9 @@ public class UpdateDog extends AppCompatActivity {
                 vaccineDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        selectedVaccine = adapterView.getItemAtPosition(i).toString();
+                        Toast.makeText(UpdateDog.this, i + "", Toast.LENGTH_LONG).show();
+                        selectedVaccinePosition = i;
+                        Log.i("SelectedPosition", selectedVaccinePosition + "");
                     }
 
                     @Override
@@ -115,10 +128,10 @@ public class UpdateDog extends AppCompatActivity {
                 String cancelText;
 
                 // Setup actions
-                if(preferences.getString("lang","th").equals("th")){
+                if (preferences.getString("lang", "th").equals("th")) {
                     addText = "เพิ่ม";
                     cancelText = "ยกเลิก";
-                }else{
+                } else {
                     addText = "Add";
                     cancelText = "Cancel";
                 }
@@ -126,9 +139,11 @@ public class UpdateDog extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DogVaccine dogVaccine = new DogVaccine();
-                        dogVaccine.setName(selectedVaccine);
+                        dogVaccine.setName(getNameFromPosition(selectedVaccinePosition));
+                        dogVaccine.setPosition(selectedVaccinePosition);
                         dogVaccine.setDate(injectionDate);
                         dbHelper.addVaccine(dogVaccine);
+                        Log.i("UpdateDog-Dog", dogVaccine.getPosition() + "");
                         handleVaccineList();
                     }
                 });
@@ -242,6 +257,45 @@ public class UpdateDog extends AppCompatActivity {
             }
         });
 
+    }
+
+    private String getNameFromPosition(int position) {
+        String output = "";
+        switch (position) {
+            case 0: {
+                output = "Rabies";
+                break;
+            }
+            case 1: {
+                output = "Canine Distemper Virus";
+                break;
+            }
+            case 2: {
+                output = "Canine hepatitis Adenovirus type 2";
+                break;
+            }
+            case 3: {
+                output = "Parvovirus/Coronavirus";
+                break;
+            }
+            case 4: {
+                output = "Parainfluenza";
+                break;
+            }
+            case 5: {
+                output = "Leptospirosis";
+                break;
+            }
+            case 6: {
+                output = "Canine 5-way";
+                break;
+            }
+            case 7: {
+                output = "Others";
+                break;
+            }
+        }
+        return output;
     }
 
     private void handleLayoutButton() {
@@ -436,7 +490,8 @@ public class UpdateDog extends AppCompatActivity {
         @Override
         public void onBindViewHolder(UpdateDog.ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            holder.vaccine.setText(v.getName());
+            Log.i("UpdateDog", v.getPosition() + "");
+            holder.vaccine.setText(vaccineListFromResource[v.getPosition()]);
             holder.vaccinatedDate.setText(v.getDate());
         }
 

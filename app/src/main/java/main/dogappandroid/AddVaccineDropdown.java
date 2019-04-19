@@ -1,11 +1,10 @@
 package main.dogappandroid;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,12 +27,14 @@ public class AddVaccineDropdown extends AppCompatActivity {
     private Spinner vaccineSpinner;
     private String[] vaccineList;
     private Button confirmButton;
-    private String curDate, selectedValue;
+    private String curDate;
+    private int selectedValue;
     private CalendarView calendarView;
     public static final DecimalFormat mFormat = new DecimalFormat("00");
     private DBHelper mHelper;
     private int ID = -1;
     private Bundle prevBundle;
+    private SharedPreferences preferences;
 
 
     @Override
@@ -48,12 +49,12 @@ public class AddVaccineDropdown extends AppCompatActivity {
         prevBundle = getIntent().getExtras();
 
         // Setup var //
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         getVaccineList(preferences.getString("lang", "th"));
         confirmButton = findViewById(R.id.vaccine_dropdown_confirmbutton);
         calendarView = findViewById(R.id.addvaccine_dropdown_calendar);
         mHelper = new DBHelper(this);
-        selectedValue = "";
+        selectedValue = -1;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         curDate = sdf.format(new Date(calendarView.getDate()));
 
@@ -68,15 +69,8 @@ public class AddVaccineDropdown extends AppCompatActivity {
         vaccineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    selectedValue = "";
-                } else {
-                    Toast.makeText(AddVaccineDropdown.this,
-                            "Select : " + vaccineList[position],
-                            Toast.LENGTH_SHORT).show();
-                    selectedValue = vaccineList[position];
-                }
-
+                Toast.makeText(AddVaccineDropdown.this, position + "", Toast.LENGTH_LONG).show();
+                selectedValue = position;
             }
 
             @Override
@@ -88,11 +82,12 @@ public class AddVaccineDropdown extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (selectedValue.equals("") || curDate.equals("")) {
+                if (selectedValue == -1 || curDate.equals("")) {
                     Toast.makeText(AddVaccineDropdown.this, "No vaccine is selected.", Toast.LENGTH_LONG).show();
                 } else {
                     DogVaccine vaccine = new DogVaccine();
-                    vaccine.setName(selectedValue);
+                    vaccine.setName(getNameFromPosition(selectedValue));
+                    vaccine.setPosition(selectedValue);
                     vaccine.setDate(curDate);
                     if (prevBundle.containsKey("internal_dog_id")) {
                         vaccine.setDogID(getIntent().getExtras().getInt("internal_dog_id"));
@@ -170,8 +165,47 @@ public class AddVaccineDropdown extends AppCompatActivity {
         finish();
     }
 
-    protected void editVaccine() {
+    private String getNameFromPosition(int position) {
+        String output = "";
+        switch (position) {
+            case 0: {
+                output = "Rabies";
+                break;
+            }
+            case 1: {
+                output = "Canine Distemper Virus";
+                break;
+            }
+            case 2: {
+                output = "Canine hepatitis Adenovirus type 2";
+                break;
+            }
+            case 3: {
+                output = "Parvovirus/Coronavirus";
+                break;
+            }
+            case 4: {
+                output = "Parainfluenza";
+                break;
+            }
+            case 5: {
+                output = "Leptospirosis";
+                break;
+            }
+            case 6: {
+                output = "Canine 5-way";
+                break;
+            }
+            case 7: {
+                output = "Others";
+                break;
+            }
+        }
+        return output;
+    }
 
+    protected void editVaccine() {
+        // TODO: 19-Apr-19 edit vaccine doesn't support new vaccine list
         if (prevBundle.containsKey("vname")) {
 
             ID = prevBundle.getInt("vid");

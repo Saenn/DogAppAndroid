@@ -459,7 +459,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             tmp.setDogID(cursor.getInt(3));
-            tmp.setIsSubmit(cursor.getInt(4));
+            tmp.setPosition(cursor.getInt(4));
+            tmp.setIsSubmit(cursor.getInt(5));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -490,7 +491,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             tmp.setDogID(cursor.getInt(3));
-            tmp.setIsSubmit(cursor.getInt(4));
+            tmp.setPosition(cursor.getInt(4));
+            tmp.setIsSubmit(cursor.getInt(5));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -520,7 +522,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             tmp.setDogID(cursor.getInt(3));
-            tmp.setIsSubmit(cursor.getInt(4));
+            tmp.setPosition(cursor.getInt(4));
+            tmp.setIsSubmit(cursor.getInt(5));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -551,7 +554,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setName(cursor.getString(1));
             tmp.setDate(cursor.getString(2));
             tmp.setDogID(cursor.getInt(3));
-            tmp.setIsSubmit(cursor.getInt(4));
+            tmp.setPosition(cursor.getInt(4));
+            tmp.setIsSubmit(cursor.getInt(5));
             vaccines.add(tmp);
 
             cursor.moveToNext();
@@ -561,37 +565,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return vaccines;
     }
-
-    synchronized public List<DogVaccine> getTwoLatestVaccines(int dogID) {
-        List<DogVaccine> vaccines = new ArrayList<DogVaccine>();
-        sqLiteDatabase = this.getWritableDatabase();
-        int i = 0;
-        String[] whereArgs = new String[]{String.valueOf(dogID)};
-
-        Cursor cursor = sqLiteDatabase.query
-                (DogVaccine.DogVaccineEntry.TABLE_NAME, null, "dogInternalID = ?", whereArgs, null, null, DogVaccine.DogVaccineEntry.ID + " DESC");
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
-        while (!cursor.isAfterLast() && i < 2) {
-
-            DogVaccine tmp = new DogVaccine();
-            tmp.setId(cursor.getInt(0));
-            tmp.setName(cursor.getString(1));
-            tmp.setDate(cursor.getString(2));
-            tmp.setDogID(cursor.getInt(3));
-            vaccines.add(tmp);
-            i++;
-            cursor.moveToNext();
-        }
-
-        sqLiteDatabase.close();
-
-        return vaccines;
-    }
-
 
     synchronized public void addVaccine(DogVaccine vaccine) {
 
@@ -604,7 +577,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (vaccine.getDogID() != 0) {
             values.put(DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID, vaccine.getDogID());
         }
-
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_POSITION, vaccine.getPosition());
         values.put(DogVaccine.DogVaccineEntry.IS_SUBMIT, vaccine.getIsSubmit());
 
         sqLiteDatabase.insert(DogVaccine.DogVaccineEntry.TABLE_NAME, null, values);
@@ -620,9 +593,10 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
         values.put(DogVaccine.DogVaccineEntry.DOG_INTERNAL_ID, vaccine.getDogID());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_POSITION, vaccine.getPosition());
         values.put(DogVaccine.DogVaccineEntry.IS_SUBMIT, vaccine.getIsSubmit());
 
-        int row = sqLiteDatabase.update(DogVaccine.DogVaccineEntry.TABLE_NAME,
+        sqLiteDatabase.update(DogVaccine.DogVaccineEntry.TABLE_NAME,
                 values,
                 DogVaccine.DogVaccineEntry.ID + " = ? ",
                 new String[]{String.valueOf(vaccine.getId())});
@@ -638,6 +612,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DogVaccine.DogVaccineEntry.ID, vaccine.getId());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_NAME, vaccine.getName());
         values.put(DogVaccine.DogVaccineEntry.VACCINE_DATE, vaccine.getDate());
+        values.put(DogVaccine.DogVaccineEntry.VACCINE_POSITION, vaccine.getPosition());
 
         int row = sqLiteDatabase.update(DogVaccine.DogVaccineEntry.TABLE_NAME,
                 values,
