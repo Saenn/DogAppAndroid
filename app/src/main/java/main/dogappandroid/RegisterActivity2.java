@@ -203,18 +203,6 @@ public class RegisterActivity2 extends AppCompatActivity {
             }
         });
 
-        provinceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-                    if (!provinceEditText.getText().toString().matches(regex))
-                        provinceEditText.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else provinceEditText.setBackground(originalStyle);
-                }
-            }
-        });
-
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,7 +211,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                     editor.putString("address", addressEditText.getText().toString());
                     editor.putString("subdistrict", subdistrictEditText.getText().toString());
                     editor.putString("district", districtEditText.getText().toString());
-                    editor.putString("province", provinceEditText.getText().toString());
+                    editor.putString("province", selectedValue);
                     editor.putString("phone", phoneEditText.getText().toString());
                     editor.putString("profilePicturePath", userImagePath);
                     editor.apply();
@@ -238,7 +226,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                     params.put("address", addressEditText.getText().toString());
                     params.put("subdistrict", subdistrictEditText.getText().toString());
                     params.put("district", districtEditText.getText().toString());
-                    params.put("province", provinceEditText.getText().toString());
+                    params.put("province", selectedValue);
                     params.put("phone", phoneEditText.getText().toString());
                     params.put("forgotQuestion", intent.getStringExtra("forgotQuestion"));
                     params.put("forgotAnswer", intent.getStringExtra("forgotAnswer"));
@@ -316,8 +304,7 @@ public class RegisterActivity2 extends AppCompatActivity {
         String addressRegex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
         if (phoneEditText.getText().toString().matches(phoneRegex) && addressEditText.getText().toString().matches(addressRegex) &&
-                subdistrictEditText.getText().toString().matches(regex) && districtEditText.getText().toString().matches(regex) &&
-                provinceEditText.getText().toString().matches(regex))
+                subdistrictEditText.getText().toString().matches(regex) && districtEditText.getText().toString().matches(regex))
             return true;
         return false;
     }

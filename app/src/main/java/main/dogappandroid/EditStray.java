@@ -58,7 +58,7 @@ public class EditStray extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -120,10 +120,9 @@ public class EditStray extends AppCompatActivity {
             }
         });
 
-
         //Set Language
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        getListInfo(preferences.getString("lang","th"));
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
         selectedValue = "";
@@ -141,7 +140,7 @@ public class EditStray extends AppCompatActivity {
                         "Select : " + provinceList[position],
                         Toast.LENGTH_SHORT).show();
                 selectedValue2 = provinceList[position];
-                Log.i("selectedvale : " , selectedValue2);
+                Log.i("selectedvale : ", selectedValue2);
 
             }
 
@@ -310,12 +309,39 @@ public class EditStray extends AppCompatActivity {
         final DogImage imageSide = dbHelper.getDogSideImageById(dog.getId());
 
         if (!imageFront.getImagePath().equals("")) {
-            frontview.setImageBitmap(BitmapFactory.decodeFile(imageFront.getImagePath()));
+            frontview.setImageBitmap(decodeSampledBitmapFromImagePath(imageFront.getImagePath(), 200, 200));
         }
         if (!imageSide.getImagePath().equals("")) {
-            sideview.setImageBitmap(BitmapFactory.decodeFile(imageSide.getImagePath()));
+            sideview.setImageBitmap(decodeSampledBitmapFromImagePath(imageSide.getImagePath(), 200, 200));
         }
 
+    }
+
+    public static Bitmap decodeSampledBitmapFromImagePath(String path, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(path, options);
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -377,22 +403,22 @@ public class EditStray extends AppCompatActivity {
     }
 
     private void addAgeDataToList() {
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
 
         if (dog.getAgeRange().equals("1")) {
-            if(preferences.getString("lang","th") == "en") {
+            if (preferences.getString("lang", "th") == "en") {
                 ageList.add(0, "Not exceed 3 years");
                 ageList.add(1, "More than 3 years");
-            }else{
+            } else {
                 ageList.add(0, "ไม่เกิน 3 ปี");
                 ageList.add(1, "มากกว่า 3 ปี");
             }
         } else {
-            if(preferences.getString("lang","th") == "en") {
+            if (preferences.getString("lang", "th") == "en") {
                 ageList.add(0, "More than 3 years");
                 ageList.add(1, "Not exceed 3 years");
 
-            }else{
+            } else {
                 ageList.add(0, "มากกว่า 3 ปี");
                 ageList.add(1, "ไม่เกิน 3 ปี");
             }
@@ -401,7 +427,7 @@ public class EditStray extends AppCompatActivity {
     }
 
     private void getListInfo(String lang) {
-        Context context = LocalHelper.setLocale(this,lang);
+        Context context = LocalHelper.setLocale(this, lang);
         Resources resources = context.getResources();
         provinceList = resources.getStringArray(R.array.provinceList);
     }

@@ -203,7 +203,11 @@ public class UpdateDog extends AppCompatActivity {
                     dogInformationTmp.setAge(dog.getAge());
                     if (yesPregnant.isChecked()) {
                         dogInformationTmp.setPregnant(1);
-                        dogInformationTmp.setChildNumber(Integer.parseInt(children.getText().toString()));
+                        try{
+                            dogInformationTmp.setChildNumber(Integer.parseInt(children.getText().toString()));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     } else if (noPregnant.isChecked()) {
                         dogInformationTmp.setPregnant(0);
                     }
