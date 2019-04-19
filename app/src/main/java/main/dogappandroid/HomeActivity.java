@@ -155,7 +155,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //set App Language
         preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
-        language = preferences.getString("lang","th");
+        language = preferences.getString("lang", "th");
         setAppLocale(language);
 
     }
@@ -339,37 +339,41 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             if (info.getAge() == -1) {
                 if (info.getAgeRange().equals("1")) {
-                    if(language.equals("en")) {
+                    if (language.equals("en")) {
                         holder.age.setText("Age : " + "0-3 years");
-                    }else{
+                    } else {
                         holder.age.setText("อายุ : " + "0-3 ปี");
                     }
                 } else {
-                    if(language.equals("en")){
+                    if (language.equals("en")) {
                         holder.age.setText("Age : " + "Older than 3");
-                    }else{
+                    } else {
                         holder.age.setText("อายุ : " + "มากกว่า 3 ปี");
                     }
                 }
             } else {
-                if(language.equals("en")) {
+                if (language.equals("en")) {
                     holder.age.setText("Age : " + info.getAge() + " years");
-                }else{
+                } else {
                     holder.age.setText("อายุ : " + info.getAge() + " ปี");
                 }
             }
-            if(language.equals("en")) {
-                holder.color.setText("Color : " + dog.getColor());
+            if (language.equals("en")) {
                 holder.gender.setText("Gender : " + dog.getGender());
-                holder.breed.setText("Breed :" + dog.getBreed());
-            }else{
-                holder.color.setText("สี : " + dog.getColor());
-                if(dog.getGender().equals("F")) {
+                if (dog.getColor() == null) holder.color.setText("Color : ");
+                else holder.color.setText("Color : " + dog.getColor());
+                if (dog.getBreed() == null) holder.breed.setText("Breed :");
+                else holder.breed.setText("Breed :" + dog.getBreed());
+            } else {
+                if (dog.getGender().equals("F")) {
                     holder.gender.setText("เพศ : ตัวเมีย");
-                }else{
+                } else {
                     holder.gender.setText("เพศ : ตัวผู้");
                 }
-                holder.breed.setText("พันธุ์ :" + dog.getBreed());
+                if (dog.getColor() == null) holder.color.setText("สี : ");
+                else holder.color.setText("Color : " + dog.getColor());
+                if (dog.getBreed() == null) holder.breed.setText("พันธุ์ :");
+                else holder.breed.setText("Breed :" + dog.getBreed());
             }
 
             if (image.getImagePath() != null) {
