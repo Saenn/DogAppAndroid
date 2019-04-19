@@ -50,7 +50,7 @@ public class UpdateDog extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class UpdateDog extends AppCompatActivity {
                 // Setup Vaccine Spinner
                 Spinner vaccineDropdown = dialogView.findViewById(R.id.vaccineDialogSpinner);
                 ArrayAdapter<CharSequence> vaccineDropDownAdapter = ArrayAdapter.createFromResource(UpdateDog.this,
-                        R.array.vaccineList_EN, android.R.layout.simple_spinner_item);
+                        R.array.vaccineList, android.R.layout.simple_spinner_item);
                 vaccineDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 vaccineDropdown.setAdapter(vaccineDropDownAdapter);
                 vaccineDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -251,20 +251,20 @@
     <string name="primary_language">App primary language</string>
     <string name="th">Thai</string>
     <string name="en">English</string>
-
-
-
     <string-array name="dogStatusArray">
         <item>Alive</item>
         <item>Missing</item>
         <item>Dead</item>
     </string-array>
-    <string-array name="vaccineList_EN">
+    <string-array name="vaccineList">
         <item>Rabies</item>
-        <item>DHPP</item>
-        <item>Distemper</item>
-        <item>Measles</item>
+        <item>Canine Distemper Virus</item>
+        <item>Canine hepatitis Adenovirus type 2</item>
+        <item>Parvovirus/Coronavirus</item>
         <item>Parainfluenza</item>
+        <item>Leptospirosis</item>
+        <item>Canine 5-way</item>
+        <item>Others</item>
     </string-array>
     <string name="consentText">\t\t\tจากข้อมูลการรายงานโรคจะเห็นได้ว่าการระบาดของโรคพิษสุนัขบ้าในปัจจุบันมีจำนวนเพิ่มมากขึ้นจากหลายๆปีก่อน หลายหน่วยงานให้ความสำคัญกับการควบคุมการระบาดของโรคให้ลดลงหรือหมดไป ทีมวิจัยมหาวิทยาลัยมหิดล จุฬาลงกรณ์มหาวิทยาลัยและ กรมปศุสัตว์ได้มีความสนใจที่จะศึกษาเชิงระบาดวิทยา โดยมุ่งเน้นไปที่การเก็บข้อมูลประชากรสุนัขพื้นฐานเพื่อให้เข้าใจการเปลี่ยนแปลงประชากรสุนัขและรูปแบบการเคลื่อนที่ของสุนัขในพื้นที่ก่อนนำไปพิจารณาเรื่องการระบาดของโรคพิษสุนัขบ้าต่อไป
         \n\t\t\tความร่วมมือของท่านในการให้ข้อมูลสุนัขจะเป็นประโยชน์อย่างยิ่งในการทำงานของทีมวิจัยและหวังเป็นอย่างยิ่งว่าจะได้รับความร่วมมือจากท่านตลอดการทำงานในโครงการนี้ หากท่านมีคำถามหรือข้อสงสัยเกี่ยวกับโครงการท่านสามารถติดต่อทีมวิจัยได้ทุกเมื่อตามที่อยู่ที่ทีมวิจัยให้ไว้กับท่าน

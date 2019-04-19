@@ -3,6 +3,8 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +26,7 @@ import java.util.Date;
 public class AddVaccineDropdown extends AppCompatActivity {
 
     private Spinner vaccineSpinner;
-    private ArrayList<String> vaccineList = new ArrayList<String>();
+    private String[] vaccineList;
     private Button confirmButton;
     private String curDate, selectedValue;
     private CalendarView calendarView;
@@ -36,7 +38,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -46,10 +48,10 @@ public class AddVaccineDropdown extends AppCompatActivity {
         prevBundle = getIntent().getExtras();
 
         // Setup var //
-
-        confirmButton = (Button) findViewById(R.id.vaccine_dropdown_confirmbutton);
-        calendarView = (CalendarView) findViewById(R.id.addvaccine_dropdown_calendar);
-        addVaccineDataToList();
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        getVaccineList(preferences.getString("lang", "th"));
+        confirmButton = findViewById(R.id.vaccine_dropdown_confirmbutton);
+        calendarView = findViewById(R.id.addvaccine_dropdown_calendar);
         mHelper = new DBHelper(this);
         selectedValue = "";
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -57,7 +59,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
 
 
         // Setup Spinner //
-        vaccineSpinner = (Spinner) findViewById(R.id.vaccine_dropdown_spinner);
+        vaccineSpinner = findViewById(R.id.vaccine_dropdown_spinner);
         ArrayAdapter<String> adapterVaccine = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, vaccineList);
         adapterVaccine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -70,9 +72,9 @@ public class AddVaccineDropdown extends AppCompatActivity {
                     selectedValue = "";
                 } else {
                     Toast.makeText(AddVaccineDropdown.this,
-                            "Select : " + vaccineList.get(position),
+                            "Select : " + vaccineList[position],
                             Toast.LENGTH_SHORT).show();
-                    selectedValue = vaccineList.get(position);
+                    selectedValue = vaccineList[position];
                 }
 
             }
@@ -145,13 +147,10 @@ public class AddVaccineDropdown extends AppCompatActivity {
         editVaccine();
     }
 
-    private void addVaccineDataToList() {
-        vaccineList.add(0, "Select a vaccine");
-        vaccineList.add(1, "Rabies");
-        vaccineList.add(2, "DHPP");
-        vaccineList.add(3, "Distemper");
-        vaccineList.add(4, "Measles");
-        vaccineList.add(5, "Parainfluenza");
+    private void getVaccineList(String lang) {
+        Context context = LocalHelper.setLocale(this, lang);
+        Resources resources = context.getResources();
+        vaccineList = resources.getStringArray(R.array.vaccineList);
     }
 
     public void removeVaccineBundle() {
