@@ -164,12 +164,6 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("province", jsonObject.getString("province"));
                     if (!jsonObject.getString("phone").equals("null"))
                         editor.putString("phone", jsonObject.getString("phone"));
-                    if (!jsonObject.getString("lineID").equals("null"))
-                        editor.putString("lineID", jsonObject.getString("lineID"));
-                    if (!jsonObject.getString("facebookID").equals("null"))
-                        editor.putString("facebookID", jsonObject.getString("facebookID"));
-                    if (!jsonObject.getString("googleID").equals("null"))
-                        editor.putString("googleID", jsonObject.getString("googleID"));
                     if (!jsonObject.getString("email").equals("null"))
                         editor.putString("email", jsonObject.getString("email"));
                     if (!jsonObject.getString("profilePicture").equals("null")) {
