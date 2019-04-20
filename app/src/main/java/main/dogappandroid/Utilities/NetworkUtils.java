@@ -40,8 +40,6 @@ public class NetworkUtils {
     private static final String ADD_DOG_IMAGE_URL = "http://3.1.206.5:9000/dog/image/add";
     private static final String RETRIEVE_DOG_DATA_URL = "http://3.1.206.5:9000/dog/retrieve";
 
-
-
     public static String retrieveDogData(String ownerID, String username, String token) {
         String urlParams = "username=" + username + "&";
         urlParams += "ownerID=" + ownerID + "&";
@@ -730,6 +728,7 @@ public class NetworkUtils {
         urlParams += "province=" + dog.getProvince() + "&";
         urlParams += "latitude=" + dog.getLatitude() + "&";
         urlParams += "longitude=" + dog.getLongitude() + "&";
+        urlParams += "isDelete=" + dog.getIsDelete() + "&";
         urlParams += "ownerID=" + ownerID;
         if (dog.getColor() != "") urlParams += "&color=" + dog.getColor();
         if (dog.getName() != "") urlParams += "&name=" + dog.getName();
@@ -811,6 +810,7 @@ public class NetworkUtils {
         urlParams += "province=" + dog.getProvince() + "&";
         urlParams += "latitude=" + dog.getLatitude() + "&";
         urlParams += "longitude=" + dog.getLongitude() + "&";
+        urlParams += "isDelete=" + dog.getIsDelete() + "&";
         urlParams += "dogID=" + dog.getDogID() + "&";
         urlParams += "ownerID=" + ownerID;
         if (dog.getColor() != "") urlParams += "&color=" + dog.getColor();

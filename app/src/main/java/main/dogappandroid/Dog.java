@@ -16,29 +16,11 @@ import java.util.List;
 
 public final class Dog {
 
-    private int id, dogID, age, isSubmit;
+    private int id, dogID, age, isDelete, isSubmit;
     private String dogType, gender, color, name, breed, ageRange, address, subdistrict, district, province;
     private double latitude, longitude;
 
     public Dog() {
-    }
-
-    public Dog(Bundle bundle) {
-        dogType = bundle.getString("dogType");
-        dogID = bundle.getInt("dogID", -1);
-        name = bundle.getString("name");
-        gender = bundle.getString("gender");
-        color = bundle.getString("color");
-        breed = bundle.getString("breed");
-        age = bundle.getInt("age", -1);
-        ageRange = bundle.getString("ageRange");
-        address = bundle.getString("address");
-        subdistrict = bundle.getString("subdistrict");
-        district = bundle.getString("district");
-        province = bundle.getString("province");
-        latitude = bundle.getDouble("latitude");
-        longitude = bundle.getDouble("longitude");
-        isSubmit = bundle.getInt("isSubmit", -1);
     }
 
     public static class DogEntry implements BaseColumns {
@@ -58,6 +40,7 @@ public final class Dog {
         public static final String PROVINCE = "province";
         public static final String LATITUDE = "latitude";
         public static final String LONGITUDE = "longitude";
+        public static final String IS_DELETE = "isDelete";
         public static final String IS_SUBMIT = "isSubmit";
     }
 
@@ -78,6 +61,7 @@ public final class Dog {
                     DogEntry.PROVINCE + " TEXT," +
                     DogEntry.LATITUDE + " REAL," +
                     DogEntry.LONGITUDE + " REAL," +
+                    DogEntry.IS_DELETE + " INTEGER," +
                     DogEntry.IS_SUBMIT + " INTEGER)";
 
     public static final String SQL_DELETE_ENTRIES =
@@ -209,5 +193,13 @@ public final class Dog {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(int isDelete) {
+        this.isDelete = isDelete;
     }
 }

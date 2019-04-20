@@ -154,6 +154,7 @@ public class AddStray4 extends AppCompatActivity {
                     dog.setLatitude(latitude);
                     dog.setLongitude(longitude);
                     dog.setDogID(-1);
+                    dog.setIsDelete(0);
                     dog.setIsSubmit(0);
 
                     int newDogID = (int) mHelper.addDog(dog);
@@ -177,7 +178,6 @@ public class AddStray4 extends AppCompatActivity {
                         int newDogInfo = (int) mHelper.addDogInformation(dogInformation);
                         if (newDogInfo == -1) {
                             Toast.makeText(AddStray4.this, "there is some conflict occur, please try again.", Toast.LENGTH_LONG).show();
-                            // TODO: 13-Apr-19 delete dog from internal db
                         }
                         for (DogVaccine v : rabiesVaccine) {
                             v.setDogID(newDogID);

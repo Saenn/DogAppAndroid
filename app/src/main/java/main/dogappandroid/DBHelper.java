@@ -176,6 +176,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Dog.DogEntry.PROVINCE, dog.getProvince());
         values.put(Dog.DogEntry.LATITUDE, dog.getLatitude());
         values.put(Dog.DogEntry.LONGITUDE, dog.getLongitude());
+        values.put(Dog.DogEntry.IS_DELETE, dog.getIsDelete());
         values.put(Dog.DogEntry.IS_SUBMIT, dog.getIsSubmit());
 
         long index = sqLiteDatabase.insert(Dog.DogEntry.TABLE_NAME, null, values);
@@ -229,7 +230,8 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setProvince(cursor.getString(12));
             tmp.setLatitude(cursor.getDouble(13));
             tmp.setLongitude(cursor.getDouble(14));
-            tmp.setIsSubmit(cursor.getInt(15));
+            tmp.setIsDelete(cursor.getInt(15));
+            tmp.setIsSubmit(cursor.getInt(16));
             cursor.moveToNext();
         }
 
@@ -237,7 +239,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return tmp;
     }
 
-    synchronized public List<Dog> getDog() {
+    synchronized public List<Dog> getAllDog() {
 
         List<Dog> dogs = new ArrayList<Dog>();
 
@@ -267,7 +269,47 @@ public class DBHelper extends SQLiteOpenHelper {
             tmp.setProvince(cursor.getString(12));
             tmp.setLatitude(cursor.getDouble(13));
             tmp.setLongitude(cursor.getDouble(14));
-            tmp.setIsSubmit(cursor.getInt(15));
+            tmp.setIsDelete(cursor.getInt(15));
+            tmp.setIsSubmit(cursor.getInt(16));
+            dogs.add(tmp);
+            cursor.moveToNext();
+        }
+        sqLiteDatabase.close();
+        return dogs;
+    }
+
+    synchronized public List<Dog> getShowDog() {
+
+        List<Dog> dogs = new ArrayList<Dog>();
+
+        sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query
+                (Dog.DogEntry.TABLE_NAME, null, Dog.DogEntry.IS_DELETE + " = 0", null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        while (!cursor.isAfterLast()) {
+            Dog tmp = new Dog();
+            tmp.setId(cursor.getInt(0));
+            tmp.setDogID(cursor.getInt(1));
+            tmp.setDogType(cursor.getString(2));
+            tmp.setGender(cursor.getString(3));
+            tmp.setColor(cursor.getString(4));
+            tmp.setBreed(cursor.getString(5));
+            tmp.setName(cursor.getString(6));
+            tmp.setAge(cursor.getInt(7));
+            tmp.setAgeRange(cursor.getString(8));
+            tmp.setAddress(cursor.getString(9));
+            tmp.setSubdistrict(cursor.getString(10));
+            tmp.setDistrict(cursor.getString(11));
+            tmp.setProvince(cursor.getString(12));
+            tmp.setLatitude(cursor.getDouble(13));
+            tmp.setLongitude(cursor.getDouble(14));
+            tmp.setIsDelete(cursor.getInt(15));
+            tmp.setIsSubmit(cursor.getInt(16));
             dogs.add(tmp);
             cursor.moveToNext();
         }
@@ -295,20 +337,26 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Dog.DogEntry.PROVINCE, dog.getProvince());
         values.put(Dog.DogEntry.LATITUDE, dog.getLatitude());
         values.put(Dog.DogEntry.LONGITUDE, dog.getLongitude());
+        values.put(Dog.DogEntry.IS_DELETE, dog.getIsDelete());
         values.put(Dog.DogEntry.IS_SUBMIT, dog.getIsSubmit());
 
-        int row = sqLiteDatabase.update(Dog.DogEntry.TABLE_NAME,
+        sqLiteDatabase.update(Dog.DogEntry.TABLE_NAME,
                 values,
                 Dog.DogEntry.ID + " = ? ",
                 new String[]{String.valueOf(dog.getId())});
-
         sqLiteDatabase.close();
+
     }
 
-    synchronized public void deleteDog(String id) {
-
+    synchronized public void deleteDog(int dogID) {
         sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(Dog.DogEntry.TABLE_NAME, Dog.DogEntry.ID + " = " + id, null);
+        ContentValues values = new ContentValues();
+        values.put(Dog.DogEntry.IS_DELETE, 1);
+        values.put(Dog.DogEntry.IS_SUBMIT, 0);
+        sqLiteDatabase.update(Dog.DogEntry.TABLE_NAME,
+                values,
+                Dog.DogEntry.ID + " = ? ",
+                new String[]{String.valueOf(dogID)});
         sqLiteDatabase.close();
     }
 

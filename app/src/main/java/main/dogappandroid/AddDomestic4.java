@@ -157,6 +157,7 @@ public class AddDomestic4 extends AppCompatActivity {
                     dog.setProvince(extras.getString("province"));
                     dog.setLatitude(latitude);
                     dog.setLongitude(longitude);
+                    dog.setIsDelete(0);
                     dog.setIsSubmit(0);
 //                    insert data into dog table -- put data into table
                     int newDogID = (int) mHelper.addDog(dog);

@@ -229,6 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                             dog.setProvince(tmp.getString("province"));
                             dog.setLatitude(tmp.getDouble("latitude"));
                             dog.setLongitude(tmp.getDouble("longitude"));
+                            dog.setIsDelete(0);
                             dog.setIsSubmit(1);
                             dbHelper.addDog(dog);
                         }

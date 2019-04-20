@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Dog> mDataset;
+    private List<Dog> allDogList, showDogList;
     private DBHelper mHelper;
     private BottomNavigationView bottomNavigationView;
     private SharedPreferences preferences;
@@ -78,18 +78,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         mHelper = new DBHelper(this);
-        mDataset = mHelper.getDog();
 
-//        handle recycler view
-        recyclerView = (RecyclerView) findViewById(R.id.dogListView);
+        allDogList = mHelper.getAllDog();
+        showDogList = mHelper.getShowDog();
+
+        recyclerView = findViewById(R.id.dogListView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new DogListAdapter(mDataset);
+        mAdapter = new DogListAdapter(showDogList);
         recyclerView.setAdapter(mAdapter);
 
-
-//        handle navigation bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -213,8 +212,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        mDataset = mHelper.getDog();
-        mAdapter = new DogListAdapter(mDataset);
+
+        allDogList = mHelper.getAllDog();
+        showDogList = mHelper.getShowDog();
+
+        mAdapter = new DogListAdapter(showDogList);
         recyclerView.setAdapter(mAdapter);
         NavigationView navigationView = findViewById(R.id.nav_view);
         LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
@@ -225,7 +227,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
         navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
         if (isNetworkAvailable()) {
-            for (Dog dog : mDataset) {
+            for (Dog dog : allDogList) {
                 if (dog.getIsSubmit() == 0 && dog.getDogID() == -1) {
                     new addNewDog().execute(dog);
                 } else if (dog.getIsSubmit() == 0) {
@@ -332,11 +334,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             final DogImage image = mHelper.getDogFrontImageById(dog.getId());
 
             // need to set image //
-            if (dog.getName() == null || dog.getName().equals("")) {
-                holder.name.setVisibility(View.GONE);
-            } else {
-                holder.name.setText(dog.getName().toUpperCase());
-            }
+            holder.name.setText(dog.getName());
             if (info.getAge() == -1) {
                 if (info.getAgeRange().equals("1")) {
                     if (language.equals("en")) {
@@ -384,19 +382,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             holder.setOnClickListener(new ClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
-
                     if (isLongClick) {
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(HomeActivity.this);
                         builder.setMessage("Are you sure to delete this vaccine?");
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-
-                                // DB Helper Delete //
-
-                                mHelper.deleteDog(String.valueOf(dog.getId()));
+                                mHelper.deleteDog(dog.getId());
                                 reload();
-
                             }
                         });
                         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
