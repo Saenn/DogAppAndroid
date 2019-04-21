@@ -60,6 +60,16 @@ public class LoginActivity extends AppCompatActivity {
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
 
+        //set App Language
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        String language = preferences.getString("lang", "th");
+        if(language.equals("th")) {
+            setAppLocale(language,"TH");
+        }else{
+            setAppLocale(language,"US");
+
+        }
+
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         dbHelper = new DBHelper(this);
 
@@ -74,6 +84,13 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword = findViewById(R.id.forgotPassword);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
+
+        //set text
+        username.setHint(getResources().getString(R.string.usernameLogin));
+        password.setHint(getResources().getString(R.string.passwordLogin));
+        forgotPassword.setText(getResources().getString(R.string.forgotPassword));
+        loginButton.setText(getResources().getString(R.string.loginButton));
+        registerButton.setText(getResources().getString(R.string.registerButton));
 
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,18 +123,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //set App Language
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        setAppLocale(preferences.getString("lang","th"));
-
     }
 
-    private void setAppLocale(String appLocale) {
+    private void setAppLocale(String appLocale, String country) {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(appLocale.toLowerCase()));
+        conf.setLocale(new Locale(appLocale.toLowerCase(),country));
         res.updateConfiguration(conf,dm);
+        createConfigurationContext(conf);
     }
 
     public class onLogin extends AsyncTask<Map<String, String>, Void, String> {

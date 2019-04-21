@@ -26,37 +26,22 @@ public class LocalHelper {
 
     public static Context setLocale(Context context, String lang) {
         persist(context,lang);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            return updateResource(context,lang);
-        }
-        return updateResourceLagacy(context,lang);
+        return updateResource(context,lang);
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    private static Context updateResource(Context context, String lang) {
+    private static Context updateResource(Context context, String lang){
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
 
-        Configuration config = context.getResources().getConfiguration();
-        config.setLocale(locale);
-        config.setLayoutDirection(locale);
-
-        return context.createConfigurationContext(config);
-    }
-
-    @SuppressWarnings("deprecation")
-    private static Context updateResourceLagacy(Context context, String lang) {
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-
-        Resources resources = context.getResources();
-
-        Configuration config = resources.getConfiguration();
-        config.locale = locale;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-            config.setLayoutDirection(locale);
+        Resources res = context.getResources();
+        Configuration config = new Configuration(res.getConfiguration());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            config.setLocale(locale);
+            context = context.createConfigurationContext(config);
+        } else {
+            config.locale = locale;
+            res.updateConfiguration(config, res.getDisplayMetrics());
         }
-        resources.updateConfiguration(config,resources.getDisplayMetrics());
         return context;
     }
 

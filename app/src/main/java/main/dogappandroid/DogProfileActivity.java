@@ -38,7 +38,9 @@ public class DogProfileActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
     private String language;
-    private String[] vaccineListFromResource;
+    private String[] vaccineListFromResource, dataprovinceList;
+    private Integer pvalue = 0;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -190,7 +192,19 @@ public class DogProfileActivity extends AppCompatActivity {
         address.setText(dog.getAddress());
         subdistrict.setText(dog.getSubdistrict());
         district.setText(dog.getDistrict());
-        province.setText(dog.getProvince());
+        if(language.equals("th")){
+            dataprovinceList = getResources().getStringArray(R.array.provinceListTHEN);
+            for(int i = 0 ; i < dataprovinceList.length ; i++){
+                if(dataprovinceList[i] == dog.getProvince()){
+                    pvalue = i;
+                    break;
+                }
+            }
+            dataprovinceList = getResources().getStringArray(R.array.provinceList);
+            province.setText(dataprovinceList[pvalue]);
+        }else {
+            province.setText(dog.getProvince());
+        }
     }
 
     private void showDogStatus() {

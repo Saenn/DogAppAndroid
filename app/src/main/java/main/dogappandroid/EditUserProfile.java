@@ -310,9 +310,6 @@ public class EditUserProfile extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditUserProfile.this,
-                        "Select : " + provinceList[position],
-                        Toast.LENGTH_SHORT).show();
                 provinceValue = provinceList[position];
                 Log.i("selectedvale : ", provinceValue);
 

@@ -66,6 +66,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private BottomNavigationView bottomNavigationView;
     private SharedPreferences preferences;
     private String language;
+    private Toolbar header;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -76,6 +77,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //set App Language
+        preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        language = preferences.getString("lang", "th");
+        if(language.equals("th")) {
+            setAppLocale(language,"TH");
+        }else{
+            setAppLocale(language,"US");
+
+        }
+
+        //set header
+        header = findViewById(R.id.toolbar);
+        header.setTitle(R.string.title_activity_home);
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         mHelper = new DBHelper(this);
@@ -97,6 +112,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(0).setTitle(getResources().getString(R.string.home));
+        navigationView.getMenu().getItem(1).setTitle(getResources().getString(R.string.news));
+        navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.report));
+        navigationView.getMenu().getItem(3).setTitle(getResources().getString(R.string.setting));
+        navigationView.getMenu().getItem(4).setTitle(getResources().getString(R.string.logout));
+
         navigationView.setNavigationItemSelectedListener(this);
         LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
         if (mPreferences.getString("profilePicturePath", "") != "") {
@@ -105,6 +126,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
         navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
+        TextView navInfo = navigationHeader.findViewById(R.id.navInfo);
+        navInfo.setText(getResources().getString(R.string.navInfo));
 
         navigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +139,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.getMenu().getItem(0).setTitle(getResources().getString(R.string.domestic));
+        bottomNavigationView.getMenu().getItem(1).setTitle(getResources().getString(R.string.stray));
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -153,19 +179,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //set App Language
-        preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
-        language = preferences.getString("lang", "th");
-        setAppLocale(language);
+
 
     }
 
-    private void setAppLocale(String appLocale) {
-        Context context = LocalHelper.setLocale(this,appLocale);
-        Resources res = context.getResources();
+    private void setAppLocale(String appLocale, String country) {
+        Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
-        res.updateConfiguration(conf, dm);
+        conf.setLocale(new Locale(appLocale.toLowerCase(),country));
+        res.updateConfiguration(conf,dm);
+        createConfigurationContext(conf);
     }
 
     @Override

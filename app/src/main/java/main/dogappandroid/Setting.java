@@ -69,7 +69,10 @@ public class Setting extends AppCompatActivity {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(appLocale.toLowerCase()));
+        Locale locale = new Locale(appLocale.toLowerCase());
+        Locale.setDefault(locale);
+        conf.setLocale(locale);
+        conf.setLayoutDirection(locale);
         res.updateConfiguration(conf,dm);
     }
 
