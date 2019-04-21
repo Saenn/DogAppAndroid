@@ -69,25 +69,18 @@ public class Report extends AppCompatActivity {
                 email = (EditText) myview.findViewById(R.id.report_csv_email);
 
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Check username password
-
-                        String s = email.getText().toString();
-                        usermail = email.getText().toString().trim();
-                        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-                        if (usermail.matches(emailPattern) && s.length() > 0)
-                        {
-                            Toast.makeText(getApplicationContext(),"Email are sent!, please check your mailbox",Toast.LENGTH_SHORT).show();
-                            new Report.onReportCsv().execute(s);
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String s = email.getText().toString();
+                                usermail = email.getText().toString().trim();
+                                String emailPattern = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+                                if (usermail.matches(emailPattern) && s.length() > 0) {
+                                    new Report.onReportCsv().execute(s);
+                                } else {
+                                    Toast.makeText(Report.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
                 );
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -113,7 +106,18 @@ public class Report extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                JSONObject jsonObject = new JSONObject(s);
+                if (s != null) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("Success")) {
+                        String message = jsonObject.getString("message");
+                        Toast.makeText(Report.this, message, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(Report.this, "This service is not available, please try again.", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(Report.this, "This service is not available, please try again.", Toast.LENGTH_LONG).show();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
