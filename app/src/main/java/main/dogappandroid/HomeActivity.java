@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -160,10 +161,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setAppLocale(String appLocale) {
-        Resources res = getResources();
+        Context context = LocalHelper.setLocale(this,appLocale);
+        Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(appLocale.toLowerCase()));
         res.updateConfiguration(conf, dm);
     }
 

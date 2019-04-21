@@ -89,7 +89,9 @@ public class AddDomestic2 extends AppCompatActivity {
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
 
-
+        if(preferences.getString("lang","th").equals("th")) {
+            provinceList = getResources().getStringArray(R.array.provinceListTHEN);
+        }
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
