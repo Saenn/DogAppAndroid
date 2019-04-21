@@ -357,7 +357,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             if (language.equals("en")) {
-                holder.gender.setText("Gender : " + dog.getGender());
+                if(dog.getGender().equals("F")){
+                    holder.gender.setText("Gender : " + getResources().getString(R.string.dogfemale));
+                }else {
+                    holder.gender.setText("Gender : " + getResources().getString(R.string.dogmale));
+                }
                 if (dog.getColor() == null) holder.color.setText("Color : ");
                 else holder.color.setText("Color : " + dog.getColor());
                 if (dog.getBreed() == null) holder.breed.setText("Breed :");
@@ -369,15 +373,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     holder.gender.setText("เพศ : ตัวผู้");
                 }
                 if (dog.getColor() == null) holder.color.setText("สี : ");
-                else holder.color.setText("Color : " + dog.getColor());
+                else holder.color.setText("สี : " + dog.getColor());
                 if (dog.getBreed() == null) holder.breed.setText("พันธุ์ :");
-                else holder.breed.setText("Breed :" + dog.getBreed());
+                else holder.breed.setText("พันธุ์ :" + dog.getBreed());
             }
 
             if (image.getImagePath() != null) {
                 holder.pic.setImageBitmap(BitmapFactory.decodeFile(image.getImagePath()));
             }
-
 
             holder.setOnClickListener(new ClickListener() {
                 @Override
@@ -385,7 +388,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (isLongClick) {
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(HomeActivity.this);
-                        builder.setMessage("Are you sure to delete this vaccine?");
+                        builder.setMessage(getResources().getString(R.string.delete_dog));
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 mHelper.deleteDog(dog.getId());

@@ -253,7 +253,7 @@ public class AddDomestic4 extends AppCompatActivity {
                         //LongClick//
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(AddDomestic4.this);
-                        builder.setMessage("Are you sure to delete this adddomestic4?");
+                        builder.setMessage(getResources().getString(R.string.delete_vaccine));
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 

@@ -125,7 +125,7 @@ public class EditVaccine extends AppCompatActivity {
                         //LongClick//
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(EditVaccine.this);
-                        builder.setMessage("Are you sure to delete this vaccine?");
+                        builder.setMessage(getResources().getString(R.string.delete_vaccine));
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
