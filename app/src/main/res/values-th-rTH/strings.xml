@@ -327,6 +327,8 @@
     <string name="not_yet">ยังไม่ได้ทำ</string>
     <string name="sterilized">ทำแล้ว</string>
     <string name="sterilized_on">ทำแล้วเมื่อวันที่</string>
+    <string name="delete_vaccine">คุณแน่ใจที่ต้องการลบวัคซีนนี้?</string>
+    <string name="delete_dog">คุณแน่ใจที่ต้องการลบสุนัขตัวนี้?</string>
 
 
 

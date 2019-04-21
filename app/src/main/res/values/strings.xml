@@ -318,4 +318,6 @@
     <string name="dead">Dead</string>
     <string name="notpregnant">Not yet</string>
     <string name="pregnant">Yes</string>
+    <string name="delete_vaccine">Are you sure to delete this vaccine?</string>
+    <string name="delete_dog">Are you sure to delete this dog?</string>
 </resources>
