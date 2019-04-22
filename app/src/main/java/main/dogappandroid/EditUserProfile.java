@@ -297,7 +297,7 @@ public class EditUserProfile extends AppCompatActivity {
 
 
         // Setup Spinner //
-        provinceValue = "";
+        provinceValue = "Bangkok";
         provinceSpinner = (Spinner) findViewById(R.id.provinceEditUserSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
