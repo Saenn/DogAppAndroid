@@ -537,12 +537,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void reload() {
-        Intent intent = getIntent();
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
+        showDogList = mHelper.getShowDog();
+        mAdapter = new DogListAdapter(showDogList);
+        recyclerView.setAdapter(mAdapter);
     }
 
     private boolean isNetworkAvailable() {

@@ -97,7 +97,6 @@ public class UpdateDog extends AppCompatActivity {
                 vaccineDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(UpdateDog.this, i + "", Toast.LENGTH_LONG).show();
                         selectedVaccinePosition = i;
                         Log.i("SelectedPosition", selectedVaccinePosition + "");
                     }
@@ -203,9 +202,9 @@ public class UpdateDog extends AppCompatActivity {
                     dogInformationTmp.setAge(dog.getAge());
                     if (yesPregnant.isChecked()) {
                         dogInformationTmp.setPregnant(1);
-                        try{
+                        try {
                             dogInformationTmp.setChildNumber(Integer.parseInt(children.getText().toString()));
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else if (noPregnant.isChecked()) {
@@ -475,7 +474,7 @@ public class UpdateDog extends AppCompatActivity {
         dbHelper.deleteNull();
     }
 
-    protected class RecyclerViewAdapter extends RecyclerView.Adapter<UpdateDog.ViewHolder> {
+    protected class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private List<DogVaccine> myDataset;
 
@@ -484,19 +483,40 @@ public class UpdateDog extends AppCompatActivity {
         }
 
         @Override
-        public UpdateDog.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.vaccine_list_item, parent, false);
-            UpdateDog.ViewHolder vh = new UpdateDog.ViewHolder(v);
+            ViewHolder vh = new ViewHolder(v);
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(UpdateDog.ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            Log.i("UpdateDog", v.getPosition() + "");
             holder.vaccine.setText(vaccineListFromResource[v.getPosition()]);
             holder.vaccinatedDate.setText(v.getDate());
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(UpdateDog.this);
+                    builder.setMessage(getResources().getString(R.string.delete_vaccine));
+                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dbHelper.deleteVaccine(String.valueOf(v.getId()));
+                            reload();
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -516,5 +536,12 @@ public class UpdateDog extends AppCompatActivity {
             vaccinatedDate = v.findViewById(R.id.vaccine_date);
         }
 
+    }
+
+    public void reload() {
+        vaccineList = dbHelper.getRabiesVaccineList();
+        vaccineList.addAll(dbHelper.getOtherVaccineList());
+        vaccineAdapter = new UpdateDog.RecyclerViewAdapter(vaccineList);
+        vaccineListRecycler.setAdapter(vaccineAdapter);
     }
 }
