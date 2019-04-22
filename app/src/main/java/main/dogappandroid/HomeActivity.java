@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import main.dogappandroid.Utilities.BitmapUtils;
 import main.dogappandroid.Utilities.NetworkUtils;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,10 +82,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //set App Language
         preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         language = preferences.getString("lang", "th");
-        if(language.equals("th")) {
-            setAppLocale(language,"TH");
-        }else{
-            setAppLocale(language,"US");
+        if (language.equals("th")) {
+            setAppLocale(language, "TH");
+        } else {
+            setAppLocale(language, "US");
 
         }
 
@@ -122,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
         if (mPreferences.getString("profilePicturePath", "") != "") {
             ImageView navProfilePicture = navigationHeader.findViewById(R.id.navProfilePicture);
-            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", "")));
+            navProfilePicture.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""), 90, 90));
         }
         TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
         navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
@@ -180,15 +181,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
     }
 
     private void setAppLocale(String appLocale, String country) {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(appLocale.toLowerCase(),country));
-        res.updateConfiguration(conf,dm);
+        conf.setLocale(new Locale(appLocale.toLowerCase(), country));
+        res.updateConfiguration(conf, dm);
         createConfigurationContext(conf);
     }
 
@@ -382,9 +382,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             if (language.equals("en")) {
-                if(dog.getGender().equals("F")){
+                if (dog.getGender().equals("F")) {
                     holder.gender.setText("Gender : " + getResources().getString(R.string.dogfemale));
-                }else {
+                } else {
                     holder.gender.setText("Gender : " + getResources().getString(R.string.dogmale));
                 }
                 if (dog.getColor() == null) holder.color.setText("Color : ");
@@ -404,7 +404,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             if (image.getImagePath() != null) {
-                holder.pic.setImageBitmap(BitmapFactory.decodeFile(image.getImagePath()));
+                holder.pic.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(image.getImagePath(), 125, 125));
             }
 
             holder.setOnClickListener(new ClickListener() {

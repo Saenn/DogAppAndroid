@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import main.dogappandroid.Utilities.BitmapUtils;
+
 public class EditDomestic extends AppCompatActivity {
     private EditText dogname, dogage, dogbreed, dogcolor, dogaddress, dogsubdistrict, dogdistrict, dogprovince;
     private TextView ageView, genderView, nameView, colorage, colorgender;
@@ -284,49 +286,12 @@ public class EditDomestic extends AppCompatActivity {
 
 
         if (!imageFront.getImagePath().equals("")) {
-            frontview.setImageBitmap(decodeSampledBitmapFromImagePath(imageFront.getImagePath(), 200, 200));
+            frontview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imageFront.getImagePath(), 200, 200));
         }
         if (!imageSide.getImagePath().equals("")) {
-            sideview.setImageBitmap(decodeSampledBitmapFromImagePath(imageSide.getImagePath(), 200, 200));
+            sideview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imageSide.getImagePath(), 200, 200));
         }
 
-    }
-
-    public static Bitmap decodeSampledBitmapFromImagePath(String path, int reqWidth, int reqHeight) {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(path, options);
-    }
-
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
