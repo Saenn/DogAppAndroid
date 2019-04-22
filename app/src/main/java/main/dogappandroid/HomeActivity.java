@@ -459,32 +459,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (image.getImagePath() != null) {
                 holder.pic.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(image.getImagePath(), 125, 125));
             }
-
-            holder.setOnClickListener(new ClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
-                    if (isLongClick) {
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(HomeActivity.this);
-                        builder.setMessage(getResources().getString(R.string.delete_dog));
-                        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                mHelper.deleteDog(dog.getId());
-                                reload();
-                            }
-                        });
-                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        builder.show();
-                    } else {
-                        Intent I = new Intent(HomeActivity.this, DogProfileActivity.class);
-                        I.putExtra("internalDogID", dog.getId());
-                        startActivity(I);
-                    }
+                public void onClick(View view) {
+                    Intent I = new Intent(HomeActivity.this, DogProfileActivity.class);
+                    I.putExtra("internalDogID", dog.getId());
+                    startActivity(I);
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(HomeActivity.this);
+                    builder.setMessage(getResources().getString(R.string.delete_dog));
+                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            mHelper.deleteDog(dog.getId());
+                            reload();
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    return true;
                 }
             });
         }
@@ -495,16 +497,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public class DogListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
+    public class DogListViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView age, gender, breed, color, name;
         public ImageView pic;
-        private ClickListener myListener;
 
         public DogListViewHolder(View v) {
             super(v);
-            v.setOnLongClickListener(this);
-            v.setOnClickListener(this);
             name = (TextView) v.findViewById(R.id.dog_list_name);
             age = (TextView) v.findViewById(R.id.dog_list_age);
             gender = (TextView) v.findViewById(R.id.dog_list_gender);
@@ -513,26 +512,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             pic = (ImageView) v.findViewById(R.id.dog_list_image);
         }
 
-        @Override
-        public void onClick(View v) {
-            myListener.onClick(v, getAdapterPosition(), false, null);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            myListener.onClick(view, getAdapterPosition(), true, null);
-            return true;
-        }
-
-        public void setOnClickListener(ClickListener listener) {
-            this.myListener = listener;
-        }
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            myListener.onClick(view, getAdapterPosition(), false, motionEvent);
-            return true;
-        }
     }
 
 

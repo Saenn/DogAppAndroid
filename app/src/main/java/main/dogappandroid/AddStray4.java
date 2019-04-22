@@ -34,8 +34,6 @@ public class AddStray4 extends AppCompatActivity {
     private List<DogVaccine> rabiesVaccine, othersVaccine;
     private Button addButton, doneButton;
     private DBHelper mHelper;
-    private ClickListener rabiesListener, othersListener;
-    private ProgressBar bar;
     private SharedPreferences preferences;
     private String[] vaccineList;
     private double latitude, longitude;
@@ -97,7 +95,6 @@ public class AddStray4 extends AppCompatActivity {
         othersVaccine = new ArrayList<DogVaccine>();
         addButton = (Button) findViewById(R.id.addstray4_addbutton);
         doneButton = (Button) findViewById(R.id.addstray4_doneButton);
-        bar = (ProgressBar) findViewById(R.id.addstray4_progressbar);
 
         rabiesVaccine = mHelper.getRabiesVaccineList();
         othersVaccine = mHelper.getOtherVaccineList();
@@ -249,46 +246,30 @@ public class AddStray4 extends AppCompatActivity {
             final DogVaccine v = myDataset.get(position);
             holder.addstray4.setText(vaccineList[v.getPosition()]);
             holder.vaccinatedDate.setText(v.getDate());
-
-            holder.setOnClickListener(new ClickListener() {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
-                    if (isLongClick) {
-                        //LongClick//
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(AddStray4.this);
-                        builder.setMessage(getResources().getString(R.string.delete_vaccine));
-                        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(AddStray4.this);
+                    builder.setMessage(getResources().getString(R.string.delete_vaccine));
+                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                                // DB Helper Delete //
+                            // DB Helper Delete //
 
-                                mHelper.deleteVaccine(String.valueOf(v.getId()));
-                                reload();
+                            mHelper.deleteVaccine(String.valueOf(v.getId()));
+                            reload();
 
-                            }
-                        });
-                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        builder.show();
-
-                    } else {
-                        //not LongClick
-                        Intent I = new Intent(AddStray4.this, AddVaccineDropdown.class);
-                        Bundle extras = getIntent().getExtras();
-                        I.putExtras(extras);
-                        I.putExtra("isAdding", 1);
-                        I.putExtra("vid", v.getId());
-                        I.putExtra("vname", v.getName());
-                        I.putExtra("vdate", v.getDate());
-                        startActivity(I);
-                        finish();
-                    }
-
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    return true;
                 }
             });
         }
@@ -301,38 +282,14 @@ public class AddStray4 extends AppCompatActivity {
 
     }
 
-    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
+    protected class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextView addstray4, vaccinatedDate;
-        private ClickListener myListener;
 
         public ViewHolder(View v) {
             super(v);
-            v.setOnClickListener(this);
-            v.setOnLongClickListener(this);
             addstray4 = (TextView) v.findViewById(R.id.vaccine_name_label);
             vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_date);
-        }
-
-        @Override
-        public void onClick(View v) {
-            myListener.onClick(v, getAdapterPosition(), false, null);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            myListener.onClick(view, getAdapterPosition(), true, null);
-            return true;
-        }
-
-        public void setOnClickListener(ClickListener listener) {
-            this.myListener = listener;
-        }
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            myListener.onClick(view, getAdapterPosition(), false, motionEvent);
-            return true;
         }
 
     }

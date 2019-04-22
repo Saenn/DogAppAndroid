@@ -27,12 +27,10 @@ public class EditVaccine extends AppCompatActivity {
     private List<DogVaccine> rabiesVaccine, othersVaccine;
     private Button doneButton;
     private DBHelper dbHelper;
-    private ClickListener rabiesListener, othersListener;
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -45,7 +43,7 @@ public class EditVaccine extends AppCompatActivity {
         // set var //
         dbHelper = new DBHelper(this);
         queryFromDB();
-        if(rabiesVaccine != null || othersVaccine != null) {
+        if (rabiesVaccine != null || othersVaccine != null) {
             for (DogVaccine dv : rabiesVaccine) {
                 Log.d("This is rabiesVaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
             }
@@ -54,12 +52,12 @@ public class EditVaccine extends AppCompatActivity {
             }
 
             bindRecyclerView();
-        }else{
+        } else {
             rabiesVaccine = new ArrayList<DogVaccine>();
             othersVaccine = new ArrayList<DogVaccine>();
             rabiesVaccine = dbHelper.getRabiesVaccineList();
             othersVaccine = dbHelper.getOtherVaccineList();
-            Log.d("no Vaccine Detected","no Vaccine Detected");
+            Log.d("no Vaccine Detected", "no Vaccine Detected");
             bindRecyclerView();
         }
         doneButton = (Button) findViewById(R.id.vaccine_doneButton);
@@ -117,93 +115,42 @@ public class EditVaccine extends AppCompatActivity {
             final DogVaccine v = myDataset.get(position);
             holder.vaccine.setText(v.getName());
             holder.vaccinatedDate.setText(v.getDate());
-
-            holder.setOnClickListener(new ClickListener() {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
-                    if (isLongClick) {
-                        //LongClick//
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(EditVaccine.this);
-                        builder.setMessage(getResources().getString(R.string.delete_vaccine));
-                        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                // DB Helper Delete //
-
-                                dbHelper.deleteVaccine(String.valueOf(v.getId()));
-                                reload();
-
-                            }
-                        });
-                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        builder.show();
-
-                    } else {
-                        //not LongClick
-                        Intent I = new Intent(EditVaccine.this, AddVaccineDropdown.class);
-                        Bundle extras = getIntent().getExtras();
-                        I.putExtras(extras);
-                        I.putExtra("isEditVaccine",1);
-                        I.putExtra("isAdding", 1);
-                        I.putExtra("vid", v.getId());
-                        I.putExtra("vname", v.getName());
-                        I.putExtra("vdate", v.getDate());
-                        startActivity(I);
-                        finish();
-                    }
-
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(EditVaccine.this);
+                    builder.setMessage(getResources().getString(R.string.delete_vaccine));
+                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dbHelper.deleteVaccine(String.valueOf(v.getId()));
+                            reload();
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    return true;
                 }
             });
         }
-
         @Override
         public int getItemCount() {
             return myDataset.size();
         }
-
-
     }
 
-    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
-        // each data item is just a string in this case
+    protected class ViewHolder extends RecyclerView.ViewHolder {
         TextView vaccine, vaccinatedDate;
-        private ClickListener myListener;
-
         public ViewHolder(View v) {
             super(v);
-            v.setOnClickListener(this);
-            v.setOnLongClickListener(this);
-            vaccine = (TextView) v.findViewById(R.id.vaccine_name_label);
-            vaccinatedDate = (TextView) v.findViewById(R.id.vaccine_date);
+            vaccine = v.findViewById(R.id.vaccine_name_label);
+            vaccinatedDate = v.findViewById(R.id.vaccine_date);
         }
-
-        @Override
-        public void onClick(View v) {
-            myListener.onClick(v, getAdapterPosition(), false, null);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            myListener.onClick(view, getAdapterPosition(), true, null);
-            return true;
-        }
-
-        public void setOnClickListener(ClickListener listener) {
-            this.myListener = listener;
-        }
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            myListener.onClick(view, getAdapterPosition(), false, motionEvent);
-            return true;
-        }
-
     }
 
     public void reload() {
@@ -223,7 +170,7 @@ public class EditVaccine extends AppCompatActivity {
         }
     }
 
-    private void bindRecyclerView(){
+    private void bindRecyclerView() {
         //set rebies recycler
         recyclerViewRabies = (RecyclerView) findViewById(R.id.vaccine_listview_rabies);
         layoutManagerRabies = new LinearLayoutManager(EditVaccine.this);

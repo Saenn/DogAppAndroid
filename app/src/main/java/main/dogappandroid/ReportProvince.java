@@ -29,6 +29,7 @@ public class ReportProvince extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private List<String> mDataset = new ArrayList<>();
     private DBHelper mHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,16 +65,14 @@ public class ReportProvince extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
             final String provinceName = mDataset.get(position);
             holder.name.setText(provinceName);
-            if(position % 2 != 0){
+            if (position % 2 != 0) {
                 holder.layout.setBackgroundColor(getResources().getColor(R.color.pink100));
-            }
-            else{
+            } else {
                 holder.layout.setBackgroundColor(getResources().getColor(R.color.pink50));
             }
-            holder.setOnClickListener(new ClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
-
+                public void onClick(View view) {
                     Intent I = new Intent(ReportProvince.this, ReportProvince2.class);
                     I.putExtra("province", provinceName);
                     startActivity(I);
@@ -87,43 +86,19 @@ public class ReportProvince extends AppCompatActivity {
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
-        // each data item is just a string in this case
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         private LinearLayout layout;
-        private ClickListener myListener;
 
         public ViewHolder(View v) {
             super(v);
-            v.setOnClickListener(this);
             name = (TextView) v.findViewById(R.id.province_name);
             layout = (LinearLayout) v.findViewById(R.id.province_list_linear);
         }
-
-        @Override
-        public void onClick(View v) {
-            myListener.onClick(v, getAdapterPosition(), false, null);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            myListener.onClick(view, getAdapterPosition(), true, null);
-            return true;
-        }
-
-        public void setOnClickListener(ClickListener listener) {
-            this.myListener = listener;
-        }
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            myListener.onClick(view, getAdapterPosition(), false, motionEvent);
-            return true;
-        }
     }
 
-    private void AddProvinceData(){
-        mDataset.add(0,"Bangkok");
+    private void AddProvinceData() {
+        mDataset.add(0, "Bangkok");
         mDataset.add("Pattaya");
         mDataset.add("Krabi");
         mDataset.add("Kanchanaburi");
