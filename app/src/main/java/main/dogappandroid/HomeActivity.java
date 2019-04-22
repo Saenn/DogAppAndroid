@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -155,10 +156,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     REQUEST_LOCATION_PERMISSION_DOMESTIC);
                         } else {
-                            Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
-                            startActivity(addDomestic);
+                            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                                builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                dialog.cancel();
+                                                Toast.makeText(HomeActivity.this, "You cannot access this service if GPS is not available.", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            } else {
+                                Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
+                                startActivity(addDomestic);
+                            }
                         }
-                        Log.i("Test", "Hello, Domestic");
                         return true;
                     }
                     case R.id.add_stray: {
@@ -169,10 +189,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     REQUEST_LOCATION_PERMISSION_STRAY);
                         } else {
-                            Intent addStray = new Intent(HomeActivity.this, AddStray.class);
-                            startActivity(addStray);
+                            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                                builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                dialog.cancel();
+                                                Toast.makeText(HomeActivity.this, "You cannot access this service if GPS is not available.", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            } else {
+                                Intent addStray = new Intent(HomeActivity.this, AddStray.class);
+                                startActivity(addStray);
+                            }
                         }
-                        Log.i("Test", "Hello, Stray");
                         return true;
                     }
                 }
