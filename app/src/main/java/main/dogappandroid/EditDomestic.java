@@ -98,13 +98,12 @@ public class EditDomestic extends AppCompatActivity {
         getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
-        selectedValue = "";
+        selectedValue = "Bangkok";
         provinceSpinner = (Spinner) findViewById(R.id.provinceEditSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
-
         if(preferences.getString("lang","th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
         }
@@ -113,7 +112,6 @@ public class EditDomestic extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedValue = provinceList[position];
                 Log.i("selectedvale : ", selectedValue);
-
             }
 
             @Override

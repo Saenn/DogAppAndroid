@@ -82,7 +82,7 @@ public class AddDomestic2 extends AppCompatActivity {
         getListInfo(preferences.getString("lang","th"));
 
         // Setup Spinner //
-        provinceValue = "";
+        provinceValue = "Bangkok";
         provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,

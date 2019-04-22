@@ -192,19 +192,7 @@ public class DogProfileActivity extends AppCompatActivity {
         address.setText(dog.getAddress());
         subdistrict.setText(dog.getSubdistrict());
         district.setText(dog.getDistrict());
-        if(language.equals("th")){
-            dataprovinceList = getResources().getStringArray(R.array.provinceListTHEN);
-            for(int i = 0 ; i < dataprovinceList.length ; i++){
-                if(dataprovinceList[i] == dog.getProvince()){
-                    pvalue = i;
-                    break;
-                }
-            }
-            dataprovinceList = getResources().getStringArray(R.array.provinceList);
-            province.setText(dataprovinceList[pvalue]);
-        }else {
-            province.setText(dog.getProvince());
-        }
+        province.setText(dog.getProvince());
     }
 
     private void showDogStatus() {
