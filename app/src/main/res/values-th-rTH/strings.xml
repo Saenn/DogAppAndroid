@@ -409,6 +409,8 @@
     <string name="delete_vaccine">คุณแน่ใจที่ต้องการลบวัคซีนนี้?</string>
     <string name="delete_dog">คุณแน่ใจที่ต้องการลบสุนัขตัวนี้?</string>
 
-
-
+    <string name="calibratingLocationText">กรุณารอสักครู่ ระบบกำลังจับตำแหน่งของท่าน</string>
+    <string name="requestForGPSServiceOnAdding">กรุณาเปิด GPS เพื่อดำเนินการต่อไป</string>
+    <string name="requestForGPSService">กรุณาเปิด GPS เพื่อใช้งานสิ่งนี้</string>
+    <string name="askForGPSService">ระบบที่คุณต้องการใช้งานต้องการ GPS กรุณาเปิด GPS ของคุณก่อน</string>
 </resources>

@@ -319,4 +319,9 @@
     <string name="pregnant">Yes</string>
     <string name="delete_vaccine">Are you sure to delete this vaccine?</string>
     <string name="delete_dog">Are you sure to delete this dog?</string>
+
+    <string name="calibratingLocationText">Calibrating location ...</string>
+    <string name="requestForGPSServiceOnAdding">GPS is required to proceed to the next step.</string>
+    <string name="requestForGPSService">You cannot access this service if GPS is not available.</string>
+    <string name="askForGPSService">Your GPS seems to be disabled, do you want to enable it?</string>
 </resources>

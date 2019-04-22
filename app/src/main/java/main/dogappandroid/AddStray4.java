@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -41,6 +39,8 @@ public class AddStray4 extends AppCompatActivity {
     private SharedPreferences preferences;
     private String[] vaccineList;
     private double latitude, longitude;
+    private Toast calibratingToast, gpsServiceToast;
+    private LocationManager locationManager;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -83,24 +83,7 @@ public class AddStray4 extends AppCompatActivity {
             }
         };
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
@@ -134,8 +117,39 @@ public class AddStray4 extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Double.isNaN(latitude) || Double.isNaN(longitude)) {
-                    Toast.makeText(AddStray4.this, "Calibrating location ...", Toast.LENGTH_LONG).show();
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddStray4.this);
+                    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int id) {
+                                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int id) {
+                                    dialog.cancel();
+                                    if (gpsServiceToast != null) {
+                                        gpsServiceToast.cancel();
+                                        gpsServiceToast = Toast.makeText(AddStray4.this, R.string.requestForGPSServiceOnAdding, Toast.LENGTH_LONG);
+                                        gpsServiceToast.show();
+                                    } else {
+                                        gpsServiceToast = Toast.makeText(AddStray4.this, R.string.requestForGPSServiceOnAdding, Toast.LENGTH_LONG);
+                                        gpsServiceToast.show();
+                                    }
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else if (Double.isNaN(latitude) || Double.isNaN(longitude) || latitude == 0 || longitude == 0) {
+                    if (calibratingToast != null) {
+                        calibratingToast.cancel();
+                        calibratingToast = Toast.makeText(AddStray4.this, R.string.calibratingLocationText, Toast.LENGTH_LONG);
+                        calibratingToast.show();
+                    } else {
+                        calibratingToast = Toast.makeText(AddStray4.this, R.string.calibratingLocationText, Toast.LENGTH_LONG);
+                        calibratingToast.show();
+                    }
                 } else {
                     Bundle extras = getIntent().getExtras();
 //                    insert data into dog table -- prepare data
@@ -187,14 +201,7 @@ public class AddStray4 extends AppCompatActivity {
                             v.setDogID(newDogID);
                             mHelper.updateVaccine(v);
                         }
-                        List<DogVaccine> dvr = mHelper.getRabiesVaccineListById(newDogID);
-                        List<DogVaccine> dvo = mHelper.getOtherVaccineListById(newDogID);
-                        for (DogVaccine v : dvr) {
-                            Log.i("DogVaccineRabies", v.getId() + " " + v.getDate());
-                        }
-                        for (DogVaccine v : dvo) {
-                            Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
-                        }
+
                         addPicToSqlite(extras.getString("frontview"), 1, newDogID);
                         addPicToSqlite(extras.getString("sideview"), 2, newDogID);
                     }
