@@ -41,7 +41,7 @@
 
     <!-- addDomestic4 -->
     <string name="addvaccine">เพิ่มวัคซีน</string>
-    <string name="rabies_vaccine">วัคซีนพิสษุนัขบ้า</string>
+    <string name="rabies_vaccine">วัคซีนพิษสุนัขบ้า</string>
     <string name="other">วัคซีนอื่นๆ</string>
     <string name="add">เพิ่ม</string>
     <string name="done">เสร็จสิ้น</string>
