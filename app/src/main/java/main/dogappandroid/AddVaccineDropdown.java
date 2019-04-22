@@ -3,7 +3,6 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -69,7 +67,6 @@ public class AddVaccineDropdown extends AppCompatActivity {
         vaccineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AddVaccineDropdown.this, position + "", Toast.LENGTH_LONG).show();
                 selectedValue = position;
             }
 
@@ -205,9 +202,7 @@ public class AddVaccineDropdown extends AppCompatActivity {
     }
 
     protected void editVaccine() {
-        // TODO: 19-Apr-19 edit vaccine doesn't support new vaccine list
         if (prevBundle.containsKey("vname")) {
-
             ID = prevBundle.getInt("vid");
             String vname = prevBundle.getString("vname");
             String vdate = prevBundle.getString("vdate");
@@ -221,20 +216,23 @@ public class AddVaccineDropdown extends AppCompatActivity {
             calendar.set(Calendar.DAY_OF_MONTH, day);
 
             long milliTime = calendar.getTimeInMillis();
-            if (vname.equals("Rabies")) {
+
+            if (vname.equals("Rabies") || vname.equals("พิษสุนัขบ้า")) {
+                vaccineSpinner.setSelection(0);
+            } else if (vname.equals("Canine Distemper Virus") || vname.equals("ไวรัสไข้หัด")) {
                 vaccineSpinner.setSelection(1);
-
-            } else if (vname.equals("DHPP")) {
+            } else if (vname.equals("Canine hepatitis Adenovirus type 2") || vname.equals("ตับอักเสบ")) {
                 vaccineSpinner.setSelection(2);
-
-            } else if (vname.equals("Distemper")) {
+            } else if (vname.equals("Parvovirus/Coronavirus") || vname.equals("ลำไส้อักเสบ")) {
                 vaccineSpinner.setSelection(3);
-
-            } else if (vname.equals("Measles")) {
+            } else if (vname.equals("Parainfluenza") || vname.equals("ไข้หวัดหรือพาราอินฟลูเอนซา")) {
                 vaccineSpinner.setSelection(4);
-
-            } else if (vname.equals("Parainfluenza")) {
+            } else if (vname.equals("Leptospirosis") || vname.equals("ไข้ฉี่หนู")) {
                 vaccineSpinner.setSelection(5);
+            } else if (vname.equals("Canine 5-way") || vname.equals("ัคซีนรวม 5 โรค")) {
+                vaccineSpinner.setSelection(6);
+            } else if (vname.equals("Others") || vname.equals("อื่นๆ")) {
+                vaccineSpinner.setSelection(7);
             }
 
             calendarView.setDate(milliTime, true, true);
