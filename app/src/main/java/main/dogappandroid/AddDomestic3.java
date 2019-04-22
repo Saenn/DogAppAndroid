@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import main.dogappandroid.Utilities.BitmapUtils;
+
 public class AddDomestic3 extends AppCompatActivity {
 
     private Button nextButton;
@@ -48,7 +50,7 @@ public class AddDomestic3 extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -207,15 +209,15 @@ public class AddDomestic3 extends AppCompatActivity {
             File imgFile = new File(frontImagePath);
             if (imgFile.exists()) {
                 frontImagePath = imgFile.getPath();
-                frontview.setImageURI(Uri.fromFile(imgFile));
-                galleryAddPic(frontImagePath);
+                frontview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imgFile.getPath(), 200, 200));
+                galleryAddPic(imgFile.getAbsolutePath());
             }
         } else if (requestCode == REQUEST_TAKE_PHOTO_SIDE && resultCode == RESULT_OK) {
             File imgFile = new File(sideImagePath);
             if (imgFile.exists()) {
                 sideImagePath = imgFile.getPath();
-                sideview.setImageURI(Uri.fromFile(imgFile));
-                galleryAddPic(sideImagePath);
+                sideview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imgFile.getPath(), 200, 200));
+                galleryAddPic(imgFile.getAbsolutePath());
             }
         } else if (requestCode == RESULT_LOAD_IMAGE_FRONT && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
@@ -226,7 +228,7 @@ public class AddDomestic3 extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             frontImagePath = picturePath;
-            frontview.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            frontview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(picturePath, 200, 200));
         } else if (requestCode == RESULT_LOAD_IMAGE_SIDE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -236,7 +238,7 @@ public class AddDomestic3 extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             sideImagePath = picturePath;
-            sideview.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            sideview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(picturePath, 200, 200));
         }
     }
 
@@ -257,7 +259,6 @@ public class AddDomestic3 extends AppCompatActivity {
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
     }
-
 
 
 }

@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.dogappandroid.Utilities.BitmapUtils;
 import main.dogappandroid.Utilities.NetworkUtils;
 
 
@@ -262,8 +263,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             File imgFile = new File(userImagePath);
             if (imgFile.exists()) {
                 userImagePath = imgFile.getPath();
-//              add image into gallery
-                userImage.setImageURI(Uri.fromFile(imgFile));
+                userImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imgFile.getPath(),150,150));
                 galleryAddPic();
             }
         }
@@ -276,7 +276,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             userImagePath = picturePath;
-            userImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            userImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(picturePath,150,150));
         }
     }
 

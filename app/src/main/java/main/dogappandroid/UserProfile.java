@@ -8,9 +8,12 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import main.dogappandroid.Utilities.BitmapUtils;
 
 public class UserProfile extends AppCompatActivity {
 
@@ -19,7 +22,7 @@ public class UserProfile extends AppCompatActivity {
 
     ImageView profileImage;
     TextView userID, fullname, address, subdistrict, district, province, phone, email, registered, latestUpdate, question, answer;
-    ImageButton editProfileBtn, editSecurityBtn;
+    Button editProfileBtn;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -66,7 +69,7 @@ public class UserProfile extends AppCompatActivity {
     private void showUserImage() {
 
         if (mPreferences.getString("profilePicturePath", "") != "") {
-            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", ""));
+            Bitmap userPicture = BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""),150,150);
             profileImage.setImageBitmap(userPicture);
         }
     }

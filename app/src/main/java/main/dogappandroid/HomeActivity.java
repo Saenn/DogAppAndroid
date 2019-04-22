@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -48,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import main.dogappandroid.Utilities.BitmapUtils;
 import main.dogappandroid.Utilities.NetworkUtils;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,10 +83,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //set App Language
         preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         language = preferences.getString("lang", "th");
-        if(language.equals("th")) {
-            setAppLocale(language,"TH");
-        }else{
-            setAppLocale(language,"US");
+        if (language.equals("th")) {
+            setAppLocale(language, "TH");
+        } else {
+            setAppLocale(language, "US");
 
         }
 
@@ -122,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         LinearLayout navigationHeader = (LinearLayout) navigationView.getHeaderView(0);
         if (mPreferences.getString("profilePicturePath", "") != "") {
             ImageView navProfilePicture = navigationHeader.findViewById(R.id.navProfilePicture);
-            navProfilePicture.setImageBitmap(BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", "")));
+            navProfilePicture.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""), 90, 90));
         }
         TextView navFullname = navigationHeader.findViewById(R.id.navFullname);
         navFullname.setText(mPreferences.getString("firstName", "") + " " + mPreferences.getString("lastName", ""));
@@ -154,10 +156,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     REQUEST_LOCATION_PERMISSION_DOMESTIC);
                         } else {
-                            Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
-                            startActivity(addDomestic);
+                            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                                builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                dialog.cancel();
+                                                Toast.makeText(HomeActivity.this, "You cannot access this service if GPS is not available.", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            } else {
+                                Intent addDomestic = new Intent(HomeActivity.this, AddDomestic.class);
+                                startActivity(addDomestic);
+                            }
                         }
-                        Log.i("Test", "Hello, Domestic");
                         return true;
                     }
                     case R.id.add_stray: {
@@ -168,10 +189,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     REQUEST_LOCATION_PERMISSION_STRAY);
                         } else {
-                            Intent addStray = new Intent(HomeActivity.this, AddStray.class);
-                            startActivity(addStray);
+                            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                                builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(final DialogInterface dialog, final int id) {
+                                                dialog.cancel();
+                                                Toast.makeText(HomeActivity.this, "You cannot access this service if GPS is not available.", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            } else {
+                                Intent addStray = new Intent(HomeActivity.this, AddStray.class);
+                                startActivity(addStray);
+                            }
                         }
-                        Log.i("Test", "Hello, Stray");
                         return true;
                     }
                 }
@@ -180,15 +220,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
     }
 
     private void setAppLocale(String appLocale, String country) {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(appLocale.toLowerCase(),country));
-        res.updateConfiguration(conf,dm);
+        conf.setLocale(new Locale(appLocale.toLowerCase(), country));
+        res.updateConfiguration(conf, dm);
         createConfigurationContext(conf);
     }
 
@@ -382,9 +421,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             if (language.equals("en")) {
-                if(dog.getGender().equals("F")){
+                if (dog.getGender().equals("F")) {
                     holder.gender.setText("Gender : " + getResources().getString(R.string.dogfemale));
-                }else {
+                } else {
                     holder.gender.setText("Gender : " + getResources().getString(R.string.dogmale));
                 }
                 if (dog.getColor() == null) holder.color.setText("Color : ");
@@ -404,7 +443,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             if (image.getImagePath() != null) {
-                holder.pic.setImageBitmap(BitmapFactory.decodeFile(image.getImagePath()));
+                holder.pic.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(image.getImagePath(), 125, 125));
             }
 
             holder.setOnClickListener(new ClickListener() {

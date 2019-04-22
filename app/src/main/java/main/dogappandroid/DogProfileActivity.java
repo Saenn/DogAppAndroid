@@ -141,7 +141,7 @@ public class DogProfileActivity extends AppCompatActivity {
     }
 
     private void showDogData() {
-        if (!dogImageData.getImagePath().equals("")) {
+        if (dogImageData.getImagePath() != null && !dogImageData.getImagePath().equals("")) {
             dogImage.setImageBitmap(BitmapFactory.decodeFile(dogImageData.getImagePath()));
         }
         name.setText(dog.getName());

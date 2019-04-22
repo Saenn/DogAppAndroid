@@ -32,6 +32,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.dogappandroid.Utilities.BitmapUtils;
+
 public class EditUserProfile extends AppCompatActivity {
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
@@ -73,7 +75,7 @@ public class EditUserProfile extends AppCompatActivity {
     private void bindAndShowUserImage() {
         profileImage = (ImageView) findViewById(R.id.userImage);
         if (mPreferences.getString("profilePicturePath", "") != "") {
-            Bitmap userPicture = BitmapFactory.decodeFile(mPreferences.getString("profilePicturePath", ""));
+            Bitmap userPicture = BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""),150,150);
             profileImage.setImageBitmap(userPicture);
         }
     }
