@@ -42,44 +42,30 @@ public class ReportProvince2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_province2);
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        setTextview();
 
         pieChart = (PieChart) findViewById(R.id.chart);
-        initData();
-    }
-
-    private void setTextview(){
-
         provinceName = (TextView) findViewById(R.id.reportTop);
         indoor = (TextView) findViewById(R.id.report_indoor);
         outdoor = (TextView) findViewById(R.id.report_outdoor);
         stray = (TextView) findViewById(R.id.report_stray);
         total = (TextView) findViewById(R.id.report_total);
-
         if(getIntent().getExtras().containsKey("province")){
             provinceName.setText(getIntent().getExtras().getString("province"));
             new ReportProvince2.onReportProvince().execute(getIntent().getExtras().getString("province"));
         }
 
-        indoor.setText("Indoor : " + indoornum);
-        outdoor.setText("Outdoor : " + outdoornum);
-        stray.setText("Stray : " + straynum);
-        total.setText("Total : " + totalnum);
     }
 
     private void initData() {
 
-        entries.add(new PieEntry(indoornum, "Indoor"));
-        entries.add(new PieEntry(outdoornum, "Outdoor"));
-        entries.add(new PieEntry(straynum, "Stray"));
+        if(indoornum != 0) entries.add(new PieEntry(indoornum, "Indoor"));
+        if(outdoornum != 0) entries.add(new PieEntry(outdoornum, "Outdoor"));
+        if(straynum != 0) entries.add(new PieEntry(straynum, "Stray"));
 
         PieDataSet set = new PieDataSet(entries,"");
         set.setValueTextSize(12f);
         if(indoornum == 0 && outdoornum == 0 && straynum == 0){
             pieChart.setCenterText("No Data");
-        }
-        else{
-            pieChart.setCenterText("Doggy");
         }
         pieChart.setCenterTextSize(18f);
         set.setColors(new int[]{Color.parseColor("#8CEBFF"),
@@ -92,11 +78,6 @@ public class ReportProvince2 extends AppCompatActivity {
         pieChart.animateXY(2000, 2000);
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setEntryLabelTextSize(16f);
-
-
-
-//        pieChart.invalidate(); // refresh
-
     }
 
     public class onReportProvince extends AsyncTask<String, Void, String> {
@@ -116,6 +97,12 @@ public class ReportProvince2 extends AppCompatActivity {
                 indoornum = jsonObject.getInt("indoor");
                 outdoornum = jsonObject.getInt("outdoor");
                 straynum = jsonObject.getInt("stray");
+
+                initData();
+                indoor.setText("Indoor : " + indoornum);
+                outdoor.setText("Outdoor : " + outdoornum);
+                stray.setText("Stray : " + straynum);
+                total.setText("Total : " + totalnum);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
