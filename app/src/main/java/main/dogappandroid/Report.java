@@ -55,43 +55,47 @@ public class Report extends AppCompatActivity {
             }
         });
 
-        fullButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(mPreferences.getString("username","").equals("admin")){
+            fullButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(Report.this);
-                LayoutInflater inflater = getLayoutInflater();
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(Report.this);
+                    LayoutInflater inflater = getLayoutInflater();
 
-                View myview = inflater.inflate(R.layout.custom_dialog_report_csv, null);
-                builder.setView(myview);
+                    View myview = inflater.inflate(R.layout.custom_dialog_report_csv, null);
+                    builder.setView(myview);
 
-                email = (EditText) myview.findViewById(R.id.report_csv_email);
+                    email = (EditText) myview.findViewById(R.id.report_csv_email);
 
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String s = email.getText().toString();
-                                usermail = email.getText().toString().trim();
-                                String emailPattern = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-                                if (usermail.matches(emailPattern) && s.length() > 0) {
-                                    new Report.onReportCsv().execute(s);
-                                } else {
-                                    Toast.makeText(Report.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                    builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String s = email.getText().toString();
+                                    usermail = email.getText().toString().trim();
+                                    String emailPattern = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+                                    if (usermail.matches(emailPattern) && s.length() > 0) {
+                                        new Report.onReportCsv().execute(s);
+                                    } else {
+                                        Toast.makeText(Report.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
+                    );
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
                         }
-                );
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    });
 
-                    }
-                });
-
-                builder.show();
-            }
-        });
+                    builder.show();
+                }
+            });
+        }else{
+            fullButton.setVisibility(View.GONE);
+        }
     }
 
     public class onReportCsv extends AsyncTask<String, Void, String> {
