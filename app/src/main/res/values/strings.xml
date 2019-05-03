@@ -208,7 +208,7 @@
     <string name="takePictureButton">TakePictureButton</string>
     <string name="loadPictureButton">Load Picture Button</string>
     <string name="anonymousPicture">Anonymous Picture</string>
-    <string name="usernameLabel">Username</string>
+    <string name="usernameLabel">Username (English)</string>
     <string name="usernameHint">Enter your username</string>
     <string name="mandatorySign">*</string>
     <string name="forgotPassword">forgot password ?</string>

@@ -27,7 +27,7 @@
     <string name="subdistrictLabel">ตำบล/แขวง</string>
     <string name="subdistrictHint">วังใหม่</string>
     <string name="districtHint">ปทุมวัน</string>
-    <string name="districtLabel">เขต</string>
+    <string name="districtLabel">อำเภอ/เขต</string>
     <string name="provinceLabel">จังหวัด</string>
     <string name="provinceHint">กรุงเทพ</string>
     <string name="lifestyle_question_1">บ้านคุณมีรั้วล้อมรอบบ้านหรือไม่</string>
@@ -299,7 +299,7 @@
     <string name="takePictureButton">TakePictureButton</string>
     <string name="loadPictureButton">Load Picture Button</string>
     <string name="anonymousPicture">ยังไม่มีรูปภาพ</string>
-    <string name="usernameLabel">ชื่อผู้ใช้งาน</string>
+    <string name="usernameLabel">ชื่อผู้ใช้งาน (ภาษาอังกฤษ)</string>
     <string name="usernameHint">ใส่ชื่อผู้ใช้งาน</string>
     <string name="mandatorySign">*</string>
     <string name="forgotPassword">ลืมรหัสผ่าน ?</string>
