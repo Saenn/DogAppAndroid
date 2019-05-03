@@ -250,10 +250,10 @@ public class EditStray extends AppCompatActivity {
                     dbHelper.updateDog(dog);
                     //add Picture to Sqlite
                     if (!frontImagePath.equals("")) {
-                        addPicToSqlite(frontImagePath, 1, dog.getDogID());
+                        addPicToSqlite(frontImagePath, 1, getIntent().getExtras().getInt("internalDogID"));
                     }
                     if (!sideImagePath.equals("")) {
-                        addPicToSqlite(sideImagePath, 2, dog.getDogID());
+                        addPicToSqlite(sideImagePath, 2, getIntent().getExtras().getInt("internalDogID"));
                     }
                     Intent editVaccine = new Intent(EditStray.this, EditVaccine.class);
                     editVaccine.putExtra("internal_dog_id", dog.getId());
