@@ -138,7 +138,7 @@ public class AddStray4 extends AppCompatActivity {
                             });
                     AlertDialog alert = builder.create();
                     alert.show();
-                } else if (Double.isNaN(latitude) || Double.isNaN(longitude) || latitude == 0 || longitude == 0) {
+                } else if (Double.isNaN(latitude) || Double.isNaN(longitude)) {
                     if (calibratingToast != null) {
                         calibratingToast.cancel();
                         calibratingToast = Toast.makeText(AddStray4.this, R.string.calibratingLocationText, Toast.LENGTH_LONG);

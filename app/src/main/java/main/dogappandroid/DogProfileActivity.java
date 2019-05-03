@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
+
+import main.dogappandroid.Utilities.BitmapUtils;
 
 public class DogProfileActivity extends AppCompatActivity {
 
@@ -142,7 +145,8 @@ public class DogProfileActivity extends AppCompatActivity {
 
     private void showDogData() {
         if (dogImageData.getImagePath() != null && !dogImageData.getImagePath().equals("")) {
-            dogImage.setImageBitmap(BitmapFactory.decodeFile(dogImageData.getImagePath()));
+            Bitmap dogImageBitmap = BitmapUtils.decodeSampledBitmapFromImagePath(dogImageData.getImagePath(),150,150);
+            dogImage.setImageBitmap(dogImageBitmap);
         }
         name.setText(dog.getName());
         if (dog.getDogType().equals("3")) {

@@ -169,7 +169,7 @@ public class EditUserProfile extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
+                    String regex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
                     if (!address.getText().toString().matches(regex))
                         address.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else address.setBackground(originalStyle);
@@ -284,7 +284,7 @@ public class EditUserProfile extends AppCompatActivity {
 
     protected boolean validateAllInput() {
         String phoneRegex = "[0-9]*";
-        String addressRegex = "[a-zA-Z\\u0E00-\\u0E7F/., ]*";
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
         if (phone.getText().toString().matches(phoneRegex) && address.getText().toString().matches(addressRegex) &&
                 subdistrict.getText().toString().matches(regex) && district.getText().toString().matches(regex))
@@ -296,7 +296,6 @@ public class EditUserProfile extends AppCompatActivity {
         //Set Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         getListInfo(preferences.getString("lang", "th"));
-
 
         // Setup Spinner //
         provinceValue = "Bangkok";
