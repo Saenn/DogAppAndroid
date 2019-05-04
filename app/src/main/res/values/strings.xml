@@ -220,7 +220,7 @@
     <string name="lifestyle_question_3">Where is the place that your puppy stays during night time?</string>
     <string name="outdoor">Outdoor</string>
     <string name="indoor">Indoor</string>
-    <string name="dogFront_label">Face</string>
+    <string name="dogFront_label">Front</string>
     <string name="dogSide_label">Side</string>
     <string name="dog_profile_content_description">This is an image of your puppy</string>
     <string name="dog_profile_header">Dog Profile</string>

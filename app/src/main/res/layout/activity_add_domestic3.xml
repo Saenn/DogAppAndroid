@@ -73,7 +73,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frontDomesticLabel"
-                app:srcCompat="@drawable/dog_face_silhouette" />
+                app:srcCompat="@drawable/anonymous_user" />
 
             <ImageButton
                 android:id="@+id/takePhotoDomesticFace"
@@ -148,7 +148,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sideDomesticLabel"
-                app:srcCompat="@drawable/dog_side_silhouette" />
+                app:srcCompat="@drawable/anonymous_user" />
 
             <Button
                 android:id="@+id/nextDomestic3"

@@ -107,7 +107,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frontStrayLabel"
-                app:srcCompat="@drawable/dog_face_silhouette" />
+                app:srcCompat="@drawable/anonymous_user" />
 
             <ImageButton
                 android:id="@+id/takePhotoStrayFace"
@@ -182,7 +182,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sideStrayLabel"
-                app:srcCompat="@drawable/dog_side_silhouette" />
+                app:srcCompat="@drawable/anonymous_user" />
 
             <TextView
                 android:id="@+id/nameDomesticLabel"
