@@ -29,8 +29,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import main.dogappandroid.Utilities.BitmapUtils;
 
@@ -75,6 +73,7 @@ public class EditUserProfile extends AppCompatActivity {
     private void bindAndShowUserImage() {
         profileImage = (ImageView) findViewById(R.id.userImage);
         if (mPreferences.getString("profilePicturePath", "") != "") {
+            userImagePath = mPreferences.getString("profilePicturePath", "");
             Bitmap userPicture = BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""),150,150);
             profileImage.setImageBitmap(userPicture);
         }
