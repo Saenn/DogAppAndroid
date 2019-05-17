@@ -654,19 +654,23 @@ public class NetworkUtils {
             responseFromRequest = contentBuilder.toString();
         } catch (IOException e) {
             try {
-                reader = new BufferedReader(new InputStreamReader(
-                        httpConnection.getErrorStream()));
-                String line;
-                StringBuilder contentBuilder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    contentBuilder.append(line);
-                    contentBuilder.append("\n");
+                if(httpConnection.getErrorStream() != null){
+                    reader = new BufferedReader(new InputStreamReader(
+                            httpConnection.getErrorStream()));
+                    String line;
+                    StringBuilder contentBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        contentBuilder.append(line);
+                        contentBuilder.append("\n");
+                    }
+                    reader.close();
+                    if (contentBuilder.length() == 0) {
+                        return "";
+                    }
+                    responseFromRequest = contentBuilder.toString();
+                }else{
+                    return "Your internet is disconnected, please try again";
                 }
-                reader.close();
-                if (contentBuilder.length() == 0) {
-                    return "";
-                }
-                responseFromRequest = contentBuilder.toString();
             } catch (IOException e2) {
                 e2.printStackTrace();
             }

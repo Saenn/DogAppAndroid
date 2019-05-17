@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -68,10 +68,10 @@ public class LoginActivity extends AppCompatActivity {
         //set App Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         String language = preferences.getString("lang", "th");
-        if(language.equals("th")) {
-            setAppLocale(language,"TH");
-        }else{
-            setAppLocale(language,"US");
+        if (language.equals("th")) {
+            setAppLocale(language, "TH");
+        } else {
+            setAppLocale(language, "US");
 
         }
 
@@ -108,27 +108,26 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    loginButton.setEnabled(false);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // This method will be executed once the timer is over
-                            loginButton.setEnabled(true);
-                        }
-                    },750);
-                    Map<String, String> params = new HashMap<>();
-                    if (!username.getText().toString().equals("") && !password.getText().toString().equals("")) {
-
-                        params.put("username", username.getText().toString());
-                        params.put("password", password.getText().toString());
-                        new onLogin().execute(params);
-                    } else {
-                        Toast toast = Toast.makeText(LoginActivity.this, "Please input your username and password before proceeding.", Toast.LENGTH_LONG);
-                        toast.show();
+                loginButton.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // This method will be executed once the timer is over
+                        loginButton.setEnabled(true);
                     }
-                }
-        });
+                }, 750);
+                Map<String, String> params = new HashMap<>();
+                if (!username.getText().toString().equals("") && !password.getText().toString().equals("")) {
 
+                    params.put("username", username.getText().toString());
+                    params.put("password", password.getText().toString());
+                    new onLogin().execute(params);
+                } else {
+                    Toast toast = Toast.makeText(LoginActivity.this, "Please input your username and password before proceeding.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
 
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -145,8 +144,8 @@ public class LoginActivity extends AppCompatActivity {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(appLocale.toLowerCase(),country));
-        res.updateConfiguration(conf,dm);
+        conf.setLocale(new Locale(appLocale.toLowerCase(), country));
+        res.updateConfiguration(conf, dm);
         createConfigurationContext(conf);
     }
 
@@ -171,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Toast.makeText(LoginActivity.this, "Your internet is disconnected.", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -338,14 +338,14 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private int calculateVaccinePosition(String vaccine){
-        if(vaccine.equals("Rabies")) return 0;
-        else if(vaccine.equals("Canine Distemper Virus")) return 1;
-        else if(vaccine.equals("Canine hepatitis Adenovirus type 2")) return 2;
-        else if(vaccine.equals("Parvovirus/Coronavirus")) return 3;
-        else if(vaccine.equals("Parainfluenza")) return 4;
-        else if(vaccine.equals("Leptospirosis")) return 5;
-        else if(vaccine.equals("Canine 5-way")) return 6;
+    private int calculateVaccinePosition(String vaccine) {
+        if (vaccine.equals("Rabies")) return 0;
+        else if (vaccine.equals("Canine Distemper Virus")) return 1;
+        else if (vaccine.equals("Canine hepatitis Adenovirus type 2")) return 2;
+        else if (vaccine.equals("Parvovirus/Coronavirus")) return 3;
+        else if (vaccine.equals("Parainfluenza")) return 4;
+        else if (vaccine.equals("Leptospirosis")) return 5;
+        else if (vaccine.equals("Canine 5-way")) return 6;
         else return 7;
     }
 
