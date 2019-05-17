@@ -411,6 +411,11 @@
     <string name="full_report_header">Report\' ll be sent to an email</string>
     <string name="email_error">Please enter your email first</string>
     <string name="unknownSterilized">Unknown</string>
-
+    <string name="newPasswordLabel">New password</string>
+    <string name="confirmNewPasswordLabel">Confirm new password</string>
+    <string name="usernameError">username cannot be empty and can only be 0-9 a-z A-Z . _ -</string>
+    <string name="passwordIsNotMatchError">your new password and confirm new password are not matched</string>
+    <string name="emptyPasswordError">password cannot be empty</string>
+    <string name="emptySecurityAnswerError">Security answer cannot be empty</string>
 
 </resources>
