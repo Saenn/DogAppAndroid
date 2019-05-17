@@ -23,13 +23,9 @@
 
     <!-- addDomestic2,3 -->
     <string name="addressLabel">ที่อยู่</string>
-    <string name="addressHint">254 ถนนพญาไท</string>
     <string name="subdistrictLabel">ตำบล/แขวง</string>
-    <string name="subdistrictHint">วังใหม่</string>
-    <string name="districtHint">ปทุมวัน</string>
     <string name="districtLabel">อำเภอ/เขต</string>
     <string name="provinceLabel">จังหวัด</string>
-    <string name="provinceHint">กรุงเทพ</string>
     <string name="lifestyle_question_1">บ้านคุณมีรั้วล้อมรอบบ้านหรือไม่</string>
     <string name="lifestyle_question_2">สุนัขของคุณอยู่ภายในบ้านหรือนอกบ้านเป็นส่วนใหญ่ในตอนกลางวัน</string>
     <string name="lifestyle_question_3">สุนัขของคุณอยู่ภายในบ้านหรือนอกบ้านเป็นส่วนใหญ่ในตอนกลางคืน</string>
@@ -114,7 +110,7 @@
     <string name="repasswordHint">ใส่รหัสผ่านของคุณอีกครั้ง</string>
     <string name="registrationHeader">ลงทะเบียน</string>
     <string name="phoneLabel">หมายเลขโทรศัพท์</string>
-    <string name="phoneHint">022153555</string>
+    <string name="phoneHint">ใส่แต่ตัวเลขเท่านั้น</string>
     <string name="registrationHeader2">ลงทะเบียน (ไม่จำเป็นต้องกรอก)</string>
     <string-array name="provinceList">
         <item>กรุงเทพมหานคร</item>

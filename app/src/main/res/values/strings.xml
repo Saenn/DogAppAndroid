@@ -94,15 +94,11 @@
     <string name="nextButton">Next</string>
     <string name="registrationHeader">Registeration</string>
     <string name="phoneLabel">Phone</string>
-    <string name="phoneHint">022153555</string>
+    <string name="phoneHint">Enter number only</string>
     <string name="addressLabel">Address</string>
-    <string name="addressHint">254 Phayathai Rd</string>
     <string name="subdistrictLabel">Subdistrict</string>
-    <string name="subdistrictHint">Wang Mai</string>
-    <string name="districtHint">Pathum Wan</string>
     <string name="districtLabel">District</string>
     <string name="provinceLabel">Province</string>
-    <string name="provinceHint">Bangkok</string>
     <string name="registrationHeader2">Registration (Optional)</string>
     <string-array name="provinceList">
         <item>Amnat Charoen</item>
