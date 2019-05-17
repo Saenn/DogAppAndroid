@@ -74,19 +74,19 @@ public class EditUserProfile extends AppCompatActivity {
         profileImage = (ImageView) findViewById(R.id.userImage);
         if (mPreferences.getString("profilePicturePath", "") != "") {
             userImagePath = mPreferences.getString("profilePicturePath", "");
-            Bitmap userPicture = BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""),150,150);
+            Bitmap userPicture = BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""), 150, 150);
             profileImage.setImageBitmap(userPicture);
         }
     }
 
     private void bindAndShowInformation() {
-        firstname = (TextView) findViewById(R.id.firstNameEditText);
-        lastname = (TextView) findViewById(R.id.lastNameEditText);
-        address = (TextView) findViewById(R.id.addressEditText);
-        subdistrict = (TextView) findViewById(R.id.subdistrictEditText);
-        district = (TextView) findViewById(R.id.districtEditText);
-        phone = (TextView) findViewById(R.id.phoneEditText);
-        email = (TextView) findViewById(R.id.emailRegister);
+        firstname = findViewById(R.id.firstNameEditText);
+        lastname = findViewById(R.id.lastNameEditText);
+        address = findViewById(R.id.addressEditText);
+        subdistrict = findViewById(R.id.subdistrictEditText);
+        district = findViewById(R.id.districtEditText);
+        phone = findViewById(R.id.phoneEditText);
+        email = findViewById(R.id.emailRegister);
 
         firstname.setText(mPreferences.getString("firstName", ""));
         lastname.setText(mPreferences.getString("lastName", ""));
@@ -98,11 +98,11 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     private void bindAndShowSecurity() {
-        question = (Spinner) findViewById(R.id.securityQuestion);
+        question = findViewById(R.id.securityQuestion);
         ArrayAdapter<String> securityQuestionSet = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.securityQuestionArray));
-        answer = (TextView) findViewById(R.id.securityAnswer);
+        answer = findViewById(R.id.securityAnswer);
         Log.d("No. of Question : ", securityQuestionSet.getCount() + "");
         for (int i = 0; i < securityQuestionSet.getCount(); i++) {
             Log.d("secureQuestion is : ", securityQuestionSet.getItem(i));
@@ -117,7 +117,7 @@ public class EditUserProfile extends AppCompatActivity {
     private void bindButton() {
         originalStyle = address.getBackground();
 
-        takePhotoButton = (ImageButton) findViewById(R.id.takePhotoButton);
+        takePhotoButton = findViewById(R.id.takePhotoButton);
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +142,7 @@ public class EditUserProfile extends AppCompatActivity {
             }
         });
 
-        loadPhotoButton = (ImageButton) findViewById(R.id.loadPhotoButton);
+        loadPhotoButton = findViewById(R.id.loadPhotoButton);
         loadPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,43 +164,7 @@ public class EditUserProfile extends AppCompatActivity {
             }
         });
 
-        address.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
-                    if (!address.getText().toString().matches(regex))
-                        address.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else address.setBackground(originalStyle);
-                }
-            }
-        });
-
-        subdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-                    if (!subdistrict.getText().toString().matches(regex))
-                        subdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else subdistrict.setBackground(originalStyle);
-                }
-            }
-        });
-
-        district.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-                    if (!district.getText().toString().matches(regex))
-                        district.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else district.setBackground(originalStyle);
-                }
-            }
-        });
-
-        doneBtn = (Button) findViewById(R.id.doneButton);
+        doneBtn = findViewById(R.id.doneButton);
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,10 +247,7 @@ public class EditUserProfile extends AppCompatActivity {
 
     protected boolean validateAllInput() {
         String phoneRegex = "[0-9]*";
-        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
-        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-        if (phone.getText().toString().matches(phoneRegex) && address.getText().toString().matches(addressRegex) &&
-                subdistrict.getText().toString().matches(regex) && district.getText().toString().matches(regex))
+        if (phone.getText().toString().matches(phoneRegex))
             return true;
         return false;
     }
@@ -298,13 +259,13 @@ public class EditUserProfile extends AppCompatActivity {
 
         // Setup Spinner //
         provinceValue = "Bangkok";
-        provinceSpinner = (Spinner) findViewById(R.id.provinceEditUserSpinner);
+        provinceSpinner = findViewById(R.id.provinceEditUserSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
 
-        if(preferences.getString("lang","th").equals("th")) {
+        if (preferences.getString("lang", "th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
         }
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -312,7 +273,6 @@ public class EditUserProfile extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 provinceValue = provinceList[position];
                 Log.i("selectedvale : ", provinceValue);
-
             }
 
             @Override

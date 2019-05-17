@@ -166,42 +166,6 @@ public class RegisterActivity2 extends AppCompatActivity {
             }
         });
 
-        addressEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[0-9a-zA-Z\\u0E00-\\u0E7F/., ]*";
-                    if (!addressEditText.getText().toString().matches(regex))
-                        addressEditText.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else addressEditText.setBackground(originalStyle);
-                }
-            }
-        });
-
-        subdistrictEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-                    if (!subdistrictEditText.getText().toString().matches(regex))
-                        subdistrictEditText.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else subdistrictEditText.setBackground(originalStyle);
-                }
-            }
-        });
-
-        districtEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-                    if (!districtEditText.getText().toString().matches(regex))
-                        districtEditText.setBackgroundColor(getResources().getColor(R.color.pink100));
-                    else districtEditText.setBackground(originalStyle);
-                }
-            }
-        });
-
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
