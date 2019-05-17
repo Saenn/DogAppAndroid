@@ -33,6 +33,11 @@ public class ReportProvince extends AppCompatActivity {
     private DBHelper mHelper;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_province);
@@ -68,8 +73,9 @@ public class ReportProvince extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            final String provinceName = mDataset[position];
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            final String[] provinceListFromResource = getResources().getStringArray(R.array.provinceListTHEN);
+            String provinceName = mDataset[position];
             holder.name.setText(provinceName);
             if (position % 2 != 0) {
                 holder.layout.setBackgroundColor(getResources().getColor(R.color.pink100));
@@ -80,7 +86,8 @@ public class ReportProvince extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent I = new Intent(ReportProvince.this, ReportProvince2.class);
-                    I.putExtra("province", provinceName);
+                    I.putExtra("province", provinceListFromResource[position]);
+                    I.putExtra("provincePosition", position);
                     startActivity(I);
                 }
             });

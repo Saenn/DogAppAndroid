@@ -57,12 +57,11 @@
     <!-- Strings related to editdog -->
     <string name="header_edit_domestic">แก้ไขสุนัข</string>
     <string name="header_stray">เพิ่มสุนัขจรจัด</string>
-    <string name="choose_report">Choose report type</string>
-    <string name="report_1">Province</string>
-    <string name="report_2">Region</string>
-    <string name="report_3">Full Report</string>
-    <string name="selectprovince">Choose Province</string>
-
+    <string name="choose_report">เลือกประเภทรายงาน</string>
+    <string name="report_1">จังหวัด</string>
+    <string name="report_2">ภูมิภาค</string>
+    <string name="report_3">ส่งออกข้อมูล</string>
+    <string name="selectprovince">เลือกจังหวัด</string>
 
     <!-- Strings related to adddog -->
     <string name="editdogprofilebutton">โปรไฟล์</string>
@@ -83,7 +82,6 @@
     <string name="editvaccinemessage">คุณแน่ใจที่ต้องการแก้ไขข้อมูลนี้หรือไม่?</string>
     <string name="delete">Del</string>
     <string name="not_sterilized">Not yet</string>
-    <string name="sterilized_hint">16-02-2018</string>
     <string name="header_vaccine">วัคซีน</string>
     <string name="confirm">ยืนยัน</string>
     <string name="vaccine">วัคซีน :</string>
@@ -411,5 +409,14 @@
     <string name="askForGPSService">ระบบที่คุณต้องการใช้งานต้องการ GPS กรุณาเปิด GPS ของคุณก่อน</string>
     <string name="noData">คุณยังไม่ได้กรอกข้อมูลที่อยู่ของคุณ</string>
     <string name="gotouserprofile">คุณต้องการกรอกข้อมูลที่อยู่ของคุณตอนนี้เลยหรือไม่</string>
+
+    <string name="reportHeader">รายงาน</string>
+    <string name="nodata">ไม่มีข้อมูล</string>
+    <string name="indoorNumber">ในบริเวณบ้าน : </string>
+    <string name="outdoorNumber">นอกบริเวณบ้าน : </string>
+    <string name="strayNumber">สุนัขจรจัด : </string>
+    <string name="totalNumber">ทั้งหมด : </string>
+    <string name="full_report_header">รายงานจะถูกส่งไปยังอีเมล์ที่คุณกรอก</string>
+    <string name="email_error">กรุณากรอกอีเมล์ของคุณก่อน</string>
 
 </resources>

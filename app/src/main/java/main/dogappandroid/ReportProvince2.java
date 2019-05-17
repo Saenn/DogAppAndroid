@@ -1,6 +1,7 @@
 package main.dogappandroid;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -30,12 +31,17 @@ import main.dogappandroid.Utilities.NetworkUtils;
 public class ReportProvince2 extends AppCompatActivity {
 
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
-    private TextView provinceName,indoor , outdoor, stray, total;
-    private int indoornum,outdoornum,straynum,totalnum;
+    private TextView provinceName, indoor, outdoor, stray, total;
+    private int indoornum, outdoornum, straynum, totalnum;
     private DBHelper mHelper;
     SharedPreferences mPreferences;
     List<PieEntry> entries = new ArrayList<>();
     private PieChart pieChart;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +55,9 @@ public class ReportProvince2 extends AppCompatActivity {
         outdoor = (TextView) findViewById(R.id.report_outdoor);
         stray = (TextView) findViewById(R.id.report_stray);
         total = (TextView) findViewById(R.id.report_total);
-        if(getIntent().getExtras().containsKey("province")){
-            provinceName.setText(getIntent().getExtras().getString("province"));
+        if (getIntent().getExtras().containsKey("province")) {
+            String[] provinceList = getResources().getStringArray(R.array.provinceList);
+            provinceName.setText(provinceList[getIntent().getExtras().getInt("provincePosition")]);
             new ReportProvince2.onReportProvince().execute(getIntent().getExtras().getString("province"));
         }
 
@@ -58,14 +65,14 @@ public class ReportProvince2 extends AppCompatActivity {
 
     private void initData() {
 
-        if(indoornum != 0) entries.add(new PieEntry(indoornum, "Indoor"));
-        if(outdoornum != 0) entries.add(new PieEntry(outdoornum, "Outdoor"));
-        if(straynum != 0) entries.add(new PieEntry(straynum, "Stray"));
+        if (indoornum != 0) entries.add(new PieEntry(indoornum, getString(R.string.indoor)));
+        if (outdoornum != 0) entries.add(new PieEntry(outdoornum, getString(R.string.outdoor)));
+        if (straynum != 0) entries.add(new PieEntry(straynum, getString(R.string.stray)));
 
-        PieDataSet set = new PieDataSet(entries,"");
+        PieDataSet set = new PieDataSet(entries, "");
         set.setValueTextSize(12f);
-        if(indoornum == 0 && outdoornum == 0 && straynum == 0){
-            pieChart.setCenterText("No Data");
+        if (indoornum == 0 && outdoornum == 0 && straynum == 0) {
+            pieChart.setCenterText(getString(R.string.nodata));
         }
         pieChart.setCenterTextSize(18f);
         set.setColors(new int[]{Color.parseColor("#8CEBFF"),
@@ -99,10 +106,10 @@ public class ReportProvince2 extends AppCompatActivity {
                 straynum = jsonObject.getInt("stray");
 
                 initData();
-                indoor.setText("Indoor : " + indoornum);
-                outdoor.setText("Outdoor : " + outdoornum);
-                stray.setText("Stray : " + straynum);
-                total.setText("Total : " + totalnum);
+                indoor.setText(getString(R.string.indoorNumber) + indoornum);
+                outdoor.setText(getString(R.string.outdoorNumber) + outdoornum);
+                stray.setText(getString(R.string.strayNumber) + straynum);
+                total.setText(getString(R.string.totalNumber) + totalnum);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
