@@ -3,6 +3,8 @@ package main.dogappandroid;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +29,7 @@ public class EditVaccine extends AppCompatActivity {
     private List<DogVaccine> rabiesVaccine, othersVaccine;
     private Button doneButton;
     private DBHelper dbHelper;
+    private String[] vaccineListFromResource;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -40,17 +43,12 @@ public class EditVaccine extends AppCompatActivity {
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
 
+        vaccineListFromResource = getResources().getStringArray(R.array.vaccineList);
+
         // set var //
         dbHelper = new DBHelper(this);
         queryFromDB();
         if (rabiesVaccine != null || othersVaccine != null) {
-            for (DogVaccine dv : rabiesVaccine) {
-                Log.d("This is rabiesVaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
-            }
-            for (DogVaccine dv : othersVaccine) {
-                Log.d("This is otherVaccine", dv.getDogID() + " / " + dv.getName() + " / " + dv.getDate());
-            }
-
             bindRecyclerView();
         } else {
             rabiesVaccine = new ArrayList<DogVaccine>();
@@ -75,18 +73,11 @@ public class EditVaccine extends AppCompatActivity {
                     v.setDogID(extras.getInt("internal_dog_id"));
                     dbHelper.updateVaccine(v);
                 }
-                List<DogVaccine> dvr = dbHelper.getRabiesVaccineListById(extras.getInt("internal_dog_id"));
-                List<DogVaccine> dvo = dbHelper.getOtherVaccineListById(extras.getInt("internal_dog_id"));
-                for (DogVaccine v : dvr) {
-                    Log.i("DogVaccineRabies", v.getId() + " " + v.getDate());
-                }
-                for (DogVaccine v : dvo) {
-                    Log.i("DogVaccineOthers", v.getId() + " " + v.getDate());
-                }
 
                 Intent DogProfile = new Intent(EditVaccine.this, DogProfileActivity.class);
                 DogProfile.putExtra("internalDogID", extras.getInt("internal_dog_id"));
                 DogProfile.putExtras(extras);
+                DogProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(DogProfile);
                 finish();
             }
@@ -113,7 +104,7 @@ public class EditVaccine extends AppCompatActivity {
         @Override
         public void onBindViewHolder(EditVaccine.ViewHolder holder, int position) {
             final DogVaccine v = myDataset.get(position);
-            holder.vaccine.setText(v.getName());
+            holder.vaccine.setText(vaccineListFromResource[v.getPosition()]);
             holder.vaccinatedDate.setText(v.getDate());
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
