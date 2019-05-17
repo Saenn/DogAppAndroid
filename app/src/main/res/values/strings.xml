@@ -44,7 +44,7 @@
     <string name="delete">Del</string>
     <string name="header_mandatory">Add Domestic Dog</string>
     <string name="header_optional">Dog Info (optional)</string>
-    <string name="age_label">Age</string>
+    <string name="age_label">Age (years)</string>
     <string name="age_hint">Enter your puppy\'s age (years)</string>
     <string name="color_label">Color</string>
     <string name="color_hint">Enter your puppy\'s color</string>
@@ -324,4 +324,7 @@
     <string name="requestForGPSServiceOnAdding">GPS is required to proceed to the next step.</string>
     <string name="requestForGPSService">You cannot access this service if GPS is not available.</string>
     <string name="askForGPSService">Your GPS seems to be disabled, do you want to enable it?</string>
+    <string name="noData">You have yet to submit your address data</string>
+    <string name="gotouserprofile">Do you want to go add your address now?</string>
+
 </resources>

@@ -6,7 +6,7 @@
     <string name="dogname">ชื่อ</string>
     <string name="dogname_hint">ใส่ชื่อของสุนัข</string>
     <string name="gender">เพศ</string>
-    <string name="age_label">อายุ</string>
+    <string name="age_label">อายุ (ปี)</string>
     <string name="age_hint">ใส่อายุของสุนัข (ปี)</string>
     <string name="dogmale">ตัวผู้</string>
     <string name="dogfemale">ตัวเมีย</string>
@@ -413,4 +413,7 @@
     <string name="requestForGPSServiceOnAdding">กรุณาเปิด GPS เพื่อดำเนินการต่อไป</string>
     <string name="requestForGPSService">กรุณาเปิด GPS เพื่อใช้งานสิ่งนี้</string>
     <string name="askForGPSService">ระบบที่คุณต้องการใช้งานต้องการ GPS กรุณาเปิด GPS ของคุณก่อน</string>
+    <string name="noData">คุณยังไม่ได้กรอกข้อมูลที่อยู่ของคุณ</string>
+    <string name="gotouserprofile">คุณต้องการกรอกข้อมูลที่อยู่ของคุณตอนนี้เลยหรือไม่</string>
+
 </resources>

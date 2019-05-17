@@ -1,9 +1,11 @@
 package main.dogappandroid;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,7 +105,21 @@ public class AddStray2 extends AppCompatActivity {
                             || mPreferences.getString("subdistrict", "").equals("")
                             || mPreferences.getString("district", "").equals("")
                             || mPreferences.getString("province", "").equals(""))
-                        Toast.makeText(AddStray2.this, "You have yet to submit your address data", Toast.LENGTH_LONG).show();
+                        new AlertDialog.Builder(AddStray2.this)
+                                .setTitle(R.string.noData)
+                                .setMessage(R.string.gotouserprofile)
+
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent editUser = new Intent(AddStray2.this, EditUserProfile.class);
+                                        startActivity(editUser);
+                                    }
+                                })
+                                // A null listener allows the button to dismiss the dialog and take no further action.
+                                .setNegativeButton(R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+//                        Toast.makeText(AddStray2.this, "You have yet to submit your address data", Toast.LENGTH_LONG).show();
                     else {
                         extras.putString("address", mPreferences.getString("address", null));
                         extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
