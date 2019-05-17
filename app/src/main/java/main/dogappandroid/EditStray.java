@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import main.dogappandroid.Utilities.BitmapUtils;
+import main.dogappandroid.Utilities.ProvinceUtils;
 
 public class EditStray extends AppCompatActivity {
 
@@ -129,6 +130,7 @@ public class EditStray extends AppCompatActivity {
         // Setup Spinner //
         selectedValue = dog.getProvince();
         provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
+        provinceSpinner.setSelection(ProvinceUtils.calculateProvincePosition(selectedValue));
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 provinceList);

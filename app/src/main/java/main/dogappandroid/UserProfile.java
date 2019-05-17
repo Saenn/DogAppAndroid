@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import main.dogappandroid.Utilities.BitmapUtils;
+import main.dogappandroid.Utilities.ProvinceUtils;
 
 public class UserProfile extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class UserProfile extends AppCompatActivity {
     ImageView profileImage;
     TextView userID, fullname, address, subdistrict, district, province, phone, email, registered, latestUpdate, question, answer;
     Button editProfileBtn;
+    String[] provinceListFromResource;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -35,6 +37,7 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        provinceListFromResource = getResources().getStringArray(R.array.provinceList);
         bindAllData();
         showUserImage();
         showInformation();
@@ -81,7 +84,7 @@ public class UserProfile extends AppCompatActivity {
         address.setText(mPreferences.getString("address", ""));
         subdistrict.setText(mPreferences.getString("subdistrict", ""));
         district.setText(mPreferences.getString("district", ""));
-        province.setText(mPreferences.getString("province", ""));
+        province.setText(provinceListFromResource[ProvinceUtils.calculateProvincePosition(mPreferences.getString("province", ""))]);
         phone.setText(mPreferences.getString("phone", ""));
         email.setText(mPreferences.getString("email", ""));
         registered.setText(mPreferences.getString("registerDate", ""));

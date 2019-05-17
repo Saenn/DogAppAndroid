@@ -10,12 +10,12 @@
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="55dp"
             android:background="@color/pink400"
-            android:textColor="@color/white"
-            android:textSize="20sp"
             android:gravity="center_vertical|center_horizontal"
-            android:text="Report' ll be sent to an email"
-            android:layout_height="55dp" />
+            android:text="@string/full_report_header"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/report_csv_email"

@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -32,6 +33,11 @@ public class ReportRegion extends AppCompatActivity {
     private int outdoor_central, outdoor_north, outdoor_neast, outdoor_south;
     private int stray_central, stray_north, stray_neast, stray_south;
     private int all_central, all_north, all_south, all_neast;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -31,7 +31,7 @@ public class AddDomestic extends AppCompatActivity {
     private EditText name, age, breed, color;
     private TextView sterilizedDateLabel;
     private CalendarView sterilizedDate;
-    private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
+    private RadioButton maleBtn, femaleBtn, yesBtn, noBtn, unknownButton;
     private RadioGroup gender, sterilized;
     private Button nextBtn;
     private CheckBox knownSterilizedDate;
@@ -62,6 +62,7 @@ public class AddDomestic extends AppCompatActivity {
         nextBtn = findViewById(R.id.nextDomesticButton);
         sterilizedDateLabel = findViewById(R.id.sterilizedDateLabel);
         knownSterilizedDate = findViewById(R.id.knownSterilizedDate);
+        unknownButton = findViewById(R.id.unknownSterilizedButton2);
 
         sterilizedDateLabel.setVisibility(View.GONE);
         knownSterilizedDate.setVisibility(View.GONE);
@@ -73,11 +74,11 @@ public class AddDomestic extends AppCompatActivity {
                 if (yesBtn.isChecked()) {
                     sterilizedDateLabel.setVisibility(View.VISIBLE);
                     knownSterilizedDate.setVisibility(View.VISIBLE);
-                    sterilizedDate.setVisibility(View.GONE);
-                } else if (noBtn.isChecked()) {
+                } else {
                     sterilizedDateLabel.setVisibility(View.GONE);
                     knownSterilizedDate.setVisibility(View.GONE);
                     sterilizedDate.setVisibility(View.GONE);
+                    knownSterilizedDate.setChecked(false);
                 }
             }
         });
@@ -127,14 +128,17 @@ public class AddDomestic extends AppCompatActivity {
                     extras.putString("breed", breed.getText().toString());
                     extras.putString("color", color.getText().toString());
                     if (yesBtn.isChecked()) {
-                        extras.putBoolean("sterilized", true);
+                        extras.putString("sterilized", "1");
                         if (knownSterilizedDate.isChecked()) {
                             extras.putString("sterilizedDate", sterilizedDateSelected);
                         } else {
                             extras.putString("sterilizedDate", "");
                         }
                     } else if (noBtn.isChecked()) {
-                        extras.putBoolean("sterilized", false);
+                        extras.putString("sterilized", "0");
+                        extras.putString("sterilizedDate", "");
+                    } else if (unknownButton.isChecked()) {
+                        extras.putString("sterilized", "2");
                         extras.putString("sterilizedDate", "");
                     }
                     Intent addDomestic2 = new Intent(AddDomestic.this, AddDomestic2.class);

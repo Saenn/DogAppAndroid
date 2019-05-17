@@ -1,5 +1,6 @@
 package main.dogappandroid;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,9 +26,13 @@ public class Report extends AppCompatActivity {
 
     private Button provinceButton, regionButton, fullButton;
     private EditText email;
-    private String usermail;
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,7 @@ public class Report extends AppCompatActivity {
             }
         });
 
-        if(mPreferences.getString("username","").equals("admin")){
+        if (mPreferences.getString("username", "").equals("admin")) {
             fullButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -73,12 +78,10 @@ public class Report extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     String s = email.getText().toString();
-                                    usermail = email.getText().toString().trim();
-                                    String emailPattern = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-                                    if (usermail.matches(emailPattern) && s.length() > 0) {
+                                    if (s.length() > 0) {
                                         new Report.onReportCsv().execute(s);
                                     } else {
-                                        Toast.makeText(Report.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Report.this, R.string.email_error, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
@@ -93,7 +96,7 @@ public class Report extends AppCompatActivity {
                     builder.show();
                 }
             });
-        }else{
+        } else {
             fullButton.setVisibility(View.GONE);
         }
     }

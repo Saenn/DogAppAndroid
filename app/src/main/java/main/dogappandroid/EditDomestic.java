@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import main.dogappandroid.Utilities.BitmapUtils;
+import main.dogappandroid.Utilities.ProvinceUtils;
 
 public class EditDomestic extends AppCompatActivity {
     private EditText dogname, dogage, dogbreed, dogcolor, dogaddress, dogsubdistrict, dogdistrict, dogprovince;
@@ -104,6 +105,7 @@ public class EditDomestic extends AppCompatActivity {
                 R.layout.support_simple_spinner_dropdown_item,
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
+        provinceSpinner.setSelection(ProvinceUtils.calculateProvincePosition(selectedValue));
         if (preferences.getString("lang", "th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
         }
@@ -352,6 +354,5 @@ public class EditDomestic extends AppCompatActivity {
         Resources resources = context.getResources();
         provinceList = resources.getStringArray(R.array.provinceList);
     }
-
 }
 
