@@ -53,7 +53,7 @@ public class EditDomestic extends AppCompatActivity {
 
     private Spinner provinceSpinner;
     private String[] provinceList;
-    private String selectedValue = "";
+    private String selectedValue;
 
 
     @Override
@@ -98,13 +98,13 @@ public class EditDomestic extends AppCompatActivity {
         getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
-        selectedValue = "Bangkok";
+        selectedValue = dog.getProvince();
         provinceSpinner = (Spinner) findViewById(R.id.provinceEditSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
-        if(preferences.getString("lang","th").equals("th")) {
+        if (preferences.getString("lang", "th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
         }
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -228,10 +228,7 @@ public class EditDomestic extends AppCompatActivity {
                     Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
                     editVaccine.putExtra("internal_dog_id", dog.getId());
                     editVaccine.putExtras(extras);
-                    overridePendingTransition(0, 0);
-                    editVaccine.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(editVaccine);
-                    finish();
                 }
             }
         });

@@ -289,6 +289,7 @@ public class LoginActivity extends AppCompatActivity {
                             DogVaccine dogVaccine = new DogVaccine();
                             dogVaccine.setDogID(dbHelper.getInternalDogIDbyExternalID(tmp.getInt("dogID")));
                             dogVaccine.setName(tmp.getString("vaccineName"));
+                            dogVaccine.setPosition(calculateVaccinePosition(tmp.getString("vaccineName")));
                             try {
                                 SimpleDateFormat fromRDS = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                                 Date rdsDate = fromRDS.parse(tmp.getString("injectedDate"));
@@ -316,6 +317,17 @@ public class LoginActivity extends AppCompatActivity {
                     mPreferences.getString("username", ""),
                     mPreferences.getString("token", ""));
         }
+    }
+
+    private int calculateVaccinePosition(String vaccine){
+        if(vaccine.equals("Rabies")) return 0;
+        else if(vaccine.equals("Canine Distemper Virus")) return 1;
+        else if(vaccine.equals("Canine hepatitis Adenovirus type 2")) return 2;
+        else if(vaccine.equals("Parvovirus/Coronavirus")) return 3;
+        else if(vaccine.equals("Parainfluenza")) return 4;
+        else if(vaccine.equals("Leptospirosis")) return 5;
+        else if(vaccine.equals("Canine 5-way")) return 6;
+        else return 7;
     }
 
     private String saveToInternalStorage(Bitmap bitmapImage) {

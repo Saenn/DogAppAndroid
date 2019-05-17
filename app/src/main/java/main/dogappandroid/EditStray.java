@@ -127,7 +127,7 @@ public class EditStray extends AppCompatActivity {
         getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
-        selectedValue = "Bangkok";
+        selectedValue = dog.getProvince();
         provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,

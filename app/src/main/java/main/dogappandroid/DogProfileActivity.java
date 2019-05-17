@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.LayoutInflater;
@@ -41,8 +42,7 @@ public class DogProfileActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
     private String language;
-    private String[] vaccineListFromResource, dataprovinceList;
-    private Integer pvalue = 0;
+    private String[] vaccineListFromResource;
 
 
     @Override
@@ -57,9 +57,7 @@ public class DogProfileActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         language = preferences.getString("lang", "th");
-        Context context = LocalHelper.setLocale(this, preferences.getString("lang", "th"));
-        Resources resources = context.getResources();
-        vaccineListFromResource = resources.getStringArray(R.array.vaccineList);
+        vaccineListFromResource = getResources().getStringArray(R.array.vaccineList);
         bindData();
         retriveDogDataFromInternalDB();
         showDogStatus();
@@ -98,6 +96,7 @@ public class DogProfileActivity extends AppCompatActivity {
         Intent home = new Intent(DogProfileActivity.this, HomeActivity.class);
         home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(home);
+        finish();
     }
 
     private void bindData() {
@@ -134,6 +133,9 @@ public class DogProfileActivity extends AppCompatActivity {
         dogInformation = dbHelper.getLastestDogInformationByDogID(extras.getInt("internalDogID"));
         vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
         vaccines.addAll(dbHelper.getOtherVaccineListById(extras.getInt("internalDogID")));
+        for (DogVaccine dv : vaccines) {
+            Log.i("Vaccine", dv.getName());
+        }
     }
 
     private void showVaccineList() {
@@ -145,25 +147,25 @@ public class DogProfileActivity extends AppCompatActivity {
 
     private void showDogData() {
         if (dogImageData.getImagePath() != null && !dogImageData.getImagePath().equals("")) {
-            Bitmap dogImageBitmap = BitmapUtils.decodeSampledBitmapFromImagePath(dogImageData.getImagePath(),150,150);
+            Bitmap dogImageBitmap = BitmapUtils.decodeSampledBitmapFromImagePath(dogImageData.getImagePath(), 150, 150);
             dogImage.setImageBitmap(dogImageBitmap);
         }
         name.setText(dog.getName());
         if (dog.getDogType().equals("3")) {
             if (dog.getAgeRange().equals("1")) {
-                if(language.equals("en")){
+                if (language.equals("en")) {
                     age.setText("Puppy");
-                }else{
+                } else {
                     age.setText("ลูกสุนัข");
                 }
             } else {
-                if(language.equals("en")){
+                if (language.equals("en")) {
                     age.setText("Adult");
-                }else {
+                } else {
                     age.setText("โตเต็มวัย");
                 }
             }
-        }else{
+        } else {
             if (dog.getAgeRange().equals("1")) {
                 if (dog.getAge() != -1) {
                     if (language.equals("en")) {
