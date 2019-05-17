@@ -35,7 +35,7 @@ public class ForgotPassword extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -47,39 +47,23 @@ public class ForgotPassword extends AppCompatActivity {
         username = (EditText) findViewById(R.id.usernameForgotPassword);
         password = (EditText) findViewById(R.id.passwordForgot);
         repassword = (EditText) findViewById(R.id.repasswordForgot);
-        securityAnswer = (EditText) findViewById(R.id.securityAnswer2);
-        securityQuestion = (Spinner) findViewById(R.id.securityQuestion2);
         nextBtn = (Button) findViewById(R.id.nextButtonForgot);
         originalStyle = username.getBackground();
-//        Initiate adapter for spinner
-        ArrayAdapter<String> securityQuestionSet = new ArrayAdapter<>(this,
-                R.layout.support_simple_spinner_dropdown_item,
-                getResources().getStringArray(R.array.securityQuestionArray));
-//        set adapter for spinner
-        securityQuestion.setAdapter(securityQuestionSet);
-        securityQuestion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                securityQuestionSelect = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                securityQuestionSelect = 400;
-            }
-        });
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Map<String, String> params = new HashMap<>();
-                if (validateInputs()) {
+                int checkInput = validateInputs();
+                if (checkInput == 4) {
                     params.put("username", username.getText().toString());
                     params.put("password", password.getText().toString());
-                    params.put("forgotQuestion", securityQuestionSelect + "");
-                    params.put("forgotAnswer", securityAnswer.getText().toString());
                     new onRequestForgot().execute(params);
-                } else {
-                    Toast.makeText(ForgotPassword.this, "Your inputs are wrong, please try again.", Toast.LENGTH_LONG).show();
+                } else if (checkInput == 1) {
+                    Toast.makeText(ForgotPassword.this, "username cannot be empty and can only be 0-9 a-z A-Z . _ -", Toast.LENGTH_LONG).show();
+                } else if (checkInput == 2) {
+                    Toast.makeText(ForgotPassword.this, "your new password and confirm new password are not matched", Toast.LENGTH_LONG).show();
+                } else if (checkInput == 3) {
+                    Toast.makeText(ForgotPassword.this, "password cannot be empty", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -89,7 +73,7 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z0-9.]+";
+                    String regex = "[a-zA-Z0-9._-]+";
                     if (!username.getText().toString().matches(regex))
                         username.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else {
@@ -102,7 +86,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
 
-    public void logout(){
+    public void logout() {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.clear();
         editor.commit();
@@ -110,14 +94,12 @@ public class ForgotPassword extends AppCompatActivity {
         startActivity(login);
     }
 
-    private boolean validateInputs() {
-        String usernameRegex = "[a-zA-Z0-9.]+";
-        if (username.getText().toString().matches(usernameRegex)
-                && password.getText().toString().equals(repassword.getText().toString())
-                && !password.getText().toString().equals("")
-                && !securityAnswer.getText().toString().equals(""))
-            return true;
-        return false;
+    private int validateInputs() {
+        String usernameRegex = "[a-zA-Z0-9._-]+";
+        if (!username.getText().toString().matches(usernameRegex)) return 1;
+        else if (!password.getText().toString().equals(repassword.getText().toString())) return 2;
+        else if (password.getText().toString().equals("")) return 3;
+        else return 4;
     }
 
     public class onRequestForgot extends AsyncTask<Map<String, String>, Void, String> {
