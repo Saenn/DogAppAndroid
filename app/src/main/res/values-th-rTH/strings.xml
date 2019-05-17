@@ -420,4 +420,19 @@
     <string name="email_error">กรุณากรอกอีเมล์ของคุณก่อน</string>
     <string name="unknownSterilized">ไม่ทราบ</string>
     <string name="loading">กรุณารอซักครู่...</string>
+    <string name="editProfile">แก้ไขโปรไฟล์</string>
+
+    <!--ERROR TXT-->
+    <string name="username_error">ชื่อผู้ใช้งานไม่ถูกต้อง(รองรับแค่ภาษาอังกฤษเท่านั้น)</string>
+    <string name="firstname_error">ชื่อไม่ถูกต้อง(ไม่รองรับอักขระพิเศษ)</string>
+    <string name="lastname_error">นามสกุลไม่ถูกต้อง(ไม่รองรับอักขระพิเศษ)</string>
+    <string name="emails_error">อีเมลไม่ถูกต้อง</string>
+    <string name="password_error">รหัสผ่านไม่ตรงกัน</string>
+    <string name="securityquestion_error">ยังไม่ได้เลือกคำถามความปลอดภัย</string>
+    <string name="securityanswer_error">กรุณาใส่คำตอบความปลอดภัย</string>
+    <string name="phone_error">หมายเลขโทรศัพท์ไม่ถูกต้อง</string>
+    <string name="address_error">ที่อยู่ไม่ถูกต้อง(ไม่รองรับอักขระพิเศษ)</string>
+    <string name="district_error">อำเภอ/เขตไม่ถูกต้อง(ไม่รองรับอักขระพิเศษ)</string>
+    <string name="subdistrict_error">ตำบล/แขวงไม่ถูกต้อง(ไม่รองรับอักขระพิเศษ)</string>
+
 </resources>

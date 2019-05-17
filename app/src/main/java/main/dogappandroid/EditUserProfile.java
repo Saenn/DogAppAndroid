@@ -185,7 +185,39 @@ public class EditUserProfile extends AppCompatActivity {
                     editor.apply();
                     finish();
                 } else {
-                    Toast toast = Toast.makeText(EditUserProfile.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
+                    String errorTxt = "";
+                    Log.d("errorType",getWrongType() + "");
+                    if(getWrongType() == 0){
+                        errorTxt = getResources().getString(R.string.phone_error);
+
+                    }else if(getWrongType() == 1){
+                        errorTxt = getResources().getString(R.string.firstname_error);
+
+                    }else if(getWrongType() == 2){
+                        errorTxt = getResources().getString(R.string.lastname_error);
+
+                    }else if(getWrongType() == 3){
+                        errorTxt = getResources().getString(R.string.emails_error);
+
+                    }else if(getWrongType() == 4){
+                        errorTxt = getResources().getString(R.string.address_error);
+
+                    }else if(getWrongType() == 5){
+                        errorTxt = getResources().getString(R.string.securityquestion_error);
+
+                    }else if(getWrongType() == 6){
+                        errorTxt = getResources().getString(R.string.securityanswer_error);
+
+                    }else if(getWrongType() == 7){
+                        errorTxt = getResources().getString(R.string.subdistrict_error);
+
+                    }else if(getWrongType() == 8){
+                        errorTxt = getResources().getString(R.string.district_error);
+
+                    }else{
+                        errorTxt = "None";
+                    }
+                    Toast toast = Toast.makeText(EditUserProfile.this, errorTxt, Toast.LENGTH_LONG);
                     toast.show();
                 }
             }
@@ -247,9 +279,57 @@ public class EditUserProfile extends AppCompatActivity {
 
     protected boolean validateAllInput() {
         String phoneRegex = "[0-9]*";
-        if (phone.getText().toString().matches(phoneRegex))
+        String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
+        String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
+        if (firstname.getText().toString().matches(fullnameRegex)
+                && lastname.getText().toString().matches(fullnameRegex)
+                && (email.getText().toString().length() == 0 || email.getText().toString().matches(emailRegex))
+                && securityQuestionSelect != 400
+                && !answer.getText().toString().equals("")
+                && (email.getText().toString().length() == 0 ||phone.getText().toString().matches(phoneRegex))
+                && (address.getText().toString().length() == 0 ||address.getText().toString().matches(addressRegex))
+                && (subdistrict.getText().toString().length() == 0 ||subdistrict.getText().toString().matches(regex))
+                && (district.getText().toString().length() == 0 ||district.getText().toString().matches(regex)))
             return true;
         return false;
+    }
+
+    private int getWrongType(){
+        String phoneRegex = "[0-9]*";
+        String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
+        String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
+        if(!phone.getText().toString().matches(phoneRegex)){
+            return 0 ;
+        }
+        if(!firstname.getText().toString().matches(fullnameRegex)){
+            return 1;
+        }
+        if(!lastname.getText().toString().matches(fullnameRegex)){
+            return 2;
+        }
+        if(email.getText().toString().length() != 0 && !email.getText().toString().matches(emailRegex)){
+            return 3;
+        }
+        if(!address.getText().toString().matches(addressRegex)){
+            return 4;
+        }
+        if(securityQuestionSelect == 400){
+            return 5;
+        }
+        if(answer.getText().toString().equals("")){
+            return 6;
+        }
+        if(!subdistrict.getText().toString().matches(regex)){
+            return 7;
+        }
+        if(!district.getText().toString().matches(regex)){
+            return 8;
+        }
+        return -1;
     }
 
     private void bindAndSetSpinner() {

@@ -401,6 +401,7 @@
     <string name="noData">You have yet to submit your address data</string>
     <string name="gotouserprofile">Do you want to go add your address now?</string>
     <string name="loading">Loading...</string>
+    <string name="editProfile">Edit Profile</string>
 
     <string name="reportHeader">Report</string>
     <string name="nodata">No Data</string>
@@ -411,6 +412,20 @@
     <string name="full_report_header">Report\' ll be sent to an email</string>
     <string name="email_error">Please enter your email first</string>
     <string name="unknownSterilized">Unknown</string>
+
+    <!--ERROR TXT-->
+    <string name="username_error">Username Incorrect(English character only)</string>
+    <string name="firstname_error">Firstname Incorrect(Do not use special character)</string>
+    <string name="lastname_error">Lastname Incorrect(Do not use special character)</string>
+    <string name="emails_error">Email Incorrect</string>
+    <string name="password_error">Password not match</string>
+    <string name="securityquestion_error">Please select security question</string>
+    <string name="securityanswer_error">Please fill security answer</string>
+    <string name="phone_error">Phone incorrect</string>
+    <string name="address_error">Address Incorrect(Do not use special character)</string>
+    <string name="district_error">District Incorrect(Do not use special character)</string>
+    <string name="subdistrict_error">Subdistrict Incorrect(Do not use special character)</string>
+
 
 
 </resources>

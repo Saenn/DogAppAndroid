@@ -147,7 +147,33 @@ public class RegisterActivity extends AppCompatActivity {
                 if (validateAllInput()) {
                     new onCheckUsername().execute(username.getText().toString());
                 } else {
-                    Toast toast = Toast.makeText(RegisterActivity.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
+                    String errorTxt = "";
+                    Log.d("errorType",getWrongType() + "");
+                    if(getWrongType() == 0){
+                        errorTxt = getResources().getString(R.string.username_error);
+
+                    }else if(getWrongType() == 1){
+                        errorTxt = getResources().getString(R.string.firstname_error);
+
+                    }else if(getWrongType() == 2){
+                        errorTxt = getResources().getString(R.string.lastname_error);
+
+                    }else if(getWrongType() == 3){
+                        errorTxt = getResources().getString(R.string.emails_error);
+
+                    }else if(getWrongType() == 4){
+                        errorTxt = getResources().getString(R.string.password_error);
+
+                    }else if(getWrongType() == 5){
+                        errorTxt = getResources().getString(R.string.securityquestion_error);
+
+                    }else if(getWrongType() == 6){
+                        errorTxt = getResources().getString(R.string.securityanswer_error);
+
+                    }else{
+                        errorTxt = "None";
+                    }
+                    Toast toast = Toast.makeText(RegisterActivity.this, errorTxt, Toast.LENGTH_LONG);
                     toast.show();
                 }
             }
@@ -180,6 +206,35 @@ public class RegisterActivity extends AppCompatActivity {
                 && !securityAnswer.getText().toString().equals(""))
             return true;
         return false;
+
+    }
+
+    private int getWrongType(){
+        String usenameRegex = "[a-zA-Z0-9._-]+";
+        String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
+        String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+        if(!username.getText().toString().matches(usenameRegex)){
+            return 0 ;
+        }
+        if(!firstname.getText().toString().matches(fullnameRegex)){
+            return 1;
+        }
+        if(!lastname.getText().toString().matches(fullnameRegex)){
+            return 2;
+        }
+        if(email.getText().toString().length() != 0 && !email.getText().toString().matches(emailRegex)){
+            return 3;
+        }
+        if(!repassword.getText().toString().equals(password.getText().toString())){
+            return 4;
+        }
+        if(securityQuestionSelect == 400){
+            return 5;
+        }
+        if(securityAnswer.getText().toString().equals("")){
+            return 6;
+        }
+        return -1;
     }
 
     class onCheckUsername extends AsyncTask<String, Void, String> {

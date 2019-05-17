@@ -199,7 +199,23 @@ public class RegisterActivity2 extends AppCompatActivity {
                     Intent loginActivity = new Intent(RegisterActivity2.this, LoginActivity.class);
                     startActivity(loginActivity);
                 } else {
-                    Toast toast = Toast.makeText(RegisterActivity2.this, "Your inputs are incorrect", Toast.LENGTH_LONG);
+                    String errorTxt = "";
+                    Log.d("errorType",getWrongType() + "");
+                    if(getWrongType() == 0){
+                        errorTxt = getResources().getString(R.string.phone_error);
+
+                    }else if(getWrongType() == 1){
+                        errorTxt = getResources().getString(R.string.address_error);
+
+                    }else if(getWrongType() == 2){
+                        errorTxt = getResources().getString(R.string.subdistrict_error);
+
+                    }else if(getWrongType() == 3) {
+                        errorTxt = getResources().getString(R.string.district_error);
+                    }else{
+                        errorTxt = "None";
+                    }
+                    Toast toast = Toast.makeText(RegisterActivity2.this, errorTxt, Toast.LENGTH_LONG);
                     toast.show();
                 }
             }
@@ -269,6 +285,25 @@ public class RegisterActivity2 extends AppCompatActivity {
                 subdistrictEditText.getText().toString().matches(regex) && districtEditText.getText().toString().matches(regex))
             return true;
         return false;
+    }
+
+    private int getWrongType(){
+        String phoneRegex = "[0-9]*";
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
+        if(!phoneEditText.getText().toString().matches(phoneRegex)){
+            return 0 ;
+        }
+        if(!addressEditText.getText().toString().matches(addressRegex)){
+            return 1;
+        }
+        if(!subdistrictEditText.getText().toString().matches(regex)){
+            return 2;
+        }
+        if(!districtEditText.getText().toString().matches(regex)){
+            return 3;
+        }
+        return -1;
     }
 
     public class onRegister extends AsyncTask<Map<String, String>, Void, String> {
