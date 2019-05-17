@@ -157,6 +157,7 @@ public class AddStray4 extends AppCompatActivity {
                     if (extras.getString("name") != "") dog.setName(extras.getString("name"));
                     if (extras.getString("breed") != "") dog.setBreed(extras.getString("breed"));
                     dog.setAge(-1);
+                    Log.i("agerange" , extras.getString("ageRange"));
                     dog.setAgeRange(extras.getString("ageRange"));
                     dog.setAddress(extras.getString("address"));
                     dog.setSubdistrict(extras.getString("subdistrict"));

@@ -36,6 +36,7 @@ public class AddStray extends AppCompatActivity {
     private TextView sterilizedDateLabel;
     private CheckBox knownSterilizedDate;
     private String sterilizedDateSelected;
+    private int selectedPosition = 0;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -63,6 +64,7 @@ public class AddStray extends AppCompatActivity {
                     selectedValue = "";
                 } else {
                     selectedValue = ageList.get(position);
+                    selectedPosition = position;
                 }
 
             }
@@ -141,9 +143,11 @@ public class AddStray extends AppCompatActivity {
                     extras.putString("name", name.getText().toString());
                     if (maleBtn.isChecked()) extras.putString("gender", "M");
                     else if (femaleBtn.isChecked()) extras.putString("gender", "F");
-                    if (selectedValue.equals("Not exceed 3 years")) {
+                    if (selectedPosition == 1) {
+                        Log.i("selected" , selectedValue);
                         extras.putString("ageRange", "1"); // 1 represent less than or equal to 3
                     } else {
+                        Log.i("selected" , selectedValue);
                         extras.putString("ageRange", "2"); // 2 represent more than 3
                     }
                     extras.putString("breed", breed.getText().toString());

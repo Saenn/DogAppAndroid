@@ -82,6 +82,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         //set App Language
         preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         language = preferences.getString("lang", "th");
@@ -413,6 +414,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             // need to set image //
             holder.name.setText(dog.getName());
+            Log.i("Dog age range" , info.getAgeRange());
             if (info.getAge() == -1) {
                 if (info.getAgeRange().equals("1")) {
                     if (language.equals("en")) {
