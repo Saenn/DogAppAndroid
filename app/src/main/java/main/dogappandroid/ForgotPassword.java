@@ -59,11 +59,11 @@ public class ForgotPassword extends AppCompatActivity {
                     params.put("password", password.getText().toString());
                     new onRequestForgot().execute(params);
                 } else if (checkInput == 1) {
-                    Toast.makeText(ForgotPassword.this, "username cannot be empty and can only be 0-9 a-z A-Z . _ -", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ForgotPassword.this, R.string.usernameError, Toast.LENGTH_LONG).show();
                 } else if (checkInput == 2) {
-                    Toast.makeText(ForgotPassword.this, "your new password and confirm new password are not matched", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ForgotPassword.this, R.string.passwordIsNotMatchError, Toast.LENGTH_LONG).show();
                 } else if (checkInput == 3) {
-                    Toast.makeText(ForgotPassword.this, "password cannot be empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ForgotPassword.this, R.string.emptyPasswordError, Toast.LENGTH_LONG).show();
                 }
 
             }
