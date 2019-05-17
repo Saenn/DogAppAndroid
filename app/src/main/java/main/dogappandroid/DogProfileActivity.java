@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import main.dogappandroid.Utilities.BitmapUtils;
+import main.dogappandroid.Utilities.ProvinceUtils;
 
 public class DogProfileActivity extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class DogProfileActivity extends AppCompatActivity {
     private DogImage dogImageData;
     private DogInformation dogInformation;
     private List<DogVaccine> vaccines;
+    private String[] provinceListFromResource;
 
     private SharedPreferences preferences;
     private String language;
@@ -58,6 +60,7 @@ public class DogProfileActivity extends AppCompatActivity {
         preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         language = preferences.getString("lang", "th");
         vaccineListFromResource = getResources().getStringArray(R.array.vaccineList);
+        provinceListFromResource = getResources().getStringArray(R.array.provinceList);
         bindData();
         retriveDogDataFromInternalDB();
         showDogStatus();
@@ -198,7 +201,7 @@ public class DogProfileActivity extends AppCompatActivity {
         address.setText(dog.getAddress());
         subdistrict.setText(dog.getSubdistrict());
         district.setText(dog.getDistrict());
-        province.setText(dog.getProvince());
+        province.setText(provinceListFromResource[ProvinceUtils.calculateProvincePosition(dog.getProvince())]);
     }
 
     private void showDogStatus() {
