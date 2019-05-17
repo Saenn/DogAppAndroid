@@ -418,5 +418,5 @@
     <string name="totalNumber">ทั้งหมด : </string>
     <string name="full_report_header">รายงานจะถูกส่งไปยังอีเมล์ที่คุณกรอก</string>
     <string name="email_error">กรุณากรอกอีเมล์ของคุณก่อน</string>
-
+    <string name="unknownSterilized">ไม่ทราบ</string>
 </resources>

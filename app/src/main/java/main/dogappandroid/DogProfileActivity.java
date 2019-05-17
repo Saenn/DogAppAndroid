@@ -223,6 +223,8 @@ public class DogProfileActivity extends AppCompatActivity {
             }
             if (dogInformation.getSterilized() == 0) {
                 sterilized.setText(getResources().getString(R.string.not_yet));
+            } else if (dogInformation.getSterilized() == 2) {
+                sterilized.setText(R.string.unknownSterilized);
             } else {
                 if (dogInformation.getSterilizedDate().equals("")) {
                     sterilized.setText(getResources().getString(R.string.sterilized));

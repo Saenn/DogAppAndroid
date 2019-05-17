@@ -409,6 +409,7 @@
     <string name="totalNumber">Total : </string>
     <string name="full_report_header">Report\' ll be sent to an email</string>
     <string name="email_error">Please enter your email first</string>
+    <string name="unknownSterilized">Unknown</string>
 
 
 </resources>
