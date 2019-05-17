@@ -33,13 +33,13 @@ public class AddStray extends AppCompatActivity {
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn, unknownButton;
     private RadioGroup gender, sterilized;
     private Button nextBtn;
-    private TextView requiredSterilizedDateLabel, sterilizedDateLabel;
+    private TextView sterilizedDateLabel;
     private CheckBox knownSterilizedDate;
     private String sterilizedDateSelected;
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -84,11 +84,9 @@ public class AddStray extends AppCompatActivity {
         gender = findViewById(R.id.genderStray);
         sterilized = findViewById(R.id.sterilizedStray);
         nextBtn = findViewById(R.id.nextStrayButton);
-        requiredSterilizedDateLabel = findViewById(R.id.addDogRequired9);
         sterilizedDateLabel = findViewById(R.id.sterilizedStrayDateLabel);
         knownSterilizedDate = findViewById(R.id.knownSterilizedDate);
 
-        requiredSterilizedDateLabel.setVisibility(View.GONE);
         sterilizedDateLabel.setVisibility(View.GONE);
         knownSterilizedDate.setVisibility(View.GONE);
         sterilizedDate.setVisibility(View.GONE);
@@ -97,11 +95,9 @@ public class AddStray extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (yesBtn.isChecked()) {
-                    requiredSterilizedDateLabel.setVisibility(View.VISIBLE);
                     sterilizedDateLabel.setVisibility(View.VISIBLE);
                     knownSterilizedDate.setVisibility(View.VISIBLE);
                 } else {
-                    requiredSterilizedDateLabel.setVisibility(View.GONE);
                     sterilizedDateLabel.setVisibility(View.GONE);
                     knownSterilizedDate.setVisibility(View.GONE);
                     sterilizedDate.setVisibility(View.GONE);
@@ -175,12 +171,12 @@ public class AddStray extends AppCompatActivity {
     }
 
     private void addAgeDataToList() {
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        if(preferences.getString("lang","th") == "en") {
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        if (preferences.getString("lang", "th") == "en") {
             ageList.add(0, "Select an age");
             ageList.add(1, "Not exceed 3 years");
             ageList.add(2, "More than 3 years");
-        }else{
+        } else {
             ageList.add(0, "เลือกอายุของสุนัข");
             ageList.add(1, "ไม่เกิน 3 ปี");
             ageList.add(2, "มากกว่า 3 ปี");

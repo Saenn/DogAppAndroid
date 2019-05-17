@@ -29,7 +29,7 @@ import java.util.Locale;
 public class AddDomestic extends AppCompatActivity {
 
     private EditText name, age, breed, color;
-    private TextView requiredSterilizedDateLabel, sterilizedDateLabel;
+    private TextView sterilizedDateLabel;
     private CalendarView sterilizedDate;
     private RadioButton maleBtn, femaleBtn, yesBtn, noBtn;
     private RadioGroup gender, sterilized;
@@ -40,7 +40,7 @@ public class AddDomestic extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -60,11 +60,9 @@ public class AddDomestic extends AppCompatActivity {
         gender = findViewById(R.id.genderDomestic);
         sterilized = findViewById(R.id.sterilizedDomestic);
         nextBtn = findViewById(R.id.nextDomesticButton);
-        requiredSterilizedDateLabel = findViewById(R.id.addDogRequired3);
         sterilizedDateLabel = findViewById(R.id.sterilizedDateLabel);
         knownSterilizedDate = findViewById(R.id.knownSterilizedDate);
 
-        requiredSterilizedDateLabel.setVisibility(View.GONE);
         sterilizedDateLabel.setVisibility(View.GONE);
         knownSterilizedDate.setVisibility(View.GONE);
         sterilizedDate.setVisibility(View.GONE);
@@ -73,12 +71,10 @@ public class AddDomestic extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (yesBtn.isChecked()) {
-                    requiredSterilizedDateLabel.setVisibility(View.VISIBLE);
                     sterilizedDateLabel.setVisibility(View.VISIBLE);
                     knownSterilizedDate.setVisibility(View.VISIBLE);
                     sterilizedDate.setVisibility(View.GONE);
                 } else if (noBtn.isChecked()) {
-                    requiredSterilizedDateLabel.setVisibility(View.GONE);
                     sterilizedDateLabel.setVisibility(View.GONE);
                     knownSterilizedDate.setVisibility(View.GONE);
                     sterilizedDate.setVisibility(View.GONE);
