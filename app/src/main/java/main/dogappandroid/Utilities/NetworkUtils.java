@@ -547,7 +547,7 @@ public class NetworkUtils {
                 multipart.addFormField("forgotQuestion", queryParams.get("forgotQuestion"));
             if (!(queryParams.get("forgotAnswer") == ""))
                 multipart.addFormField("forgotAnswer", queryParams.get("forgotAnswer"));
-            if ((queryParams.get("profilePicturePath") != null))
+            if (!queryParams.get("profilePicturePath").equals(""))
                 multipart.addFilePart("profilePicture", new File(queryParams.get("profilePicturePath")));
             response = multipart.finish();
         } catch (IOException e) {

@@ -105,9 +105,9 @@
     <string name="provinceHint">Bangkok</string>
     <string name="registrationHeader2">Registration (Optional)</string>
     <string-array name="provinceList">
-        <item>Bangkok</item>
         <item>Amnat Charoen</item>
         <item>Ang Thong</item>
+        <item>Bangkok</item>
         <item>Bueng Kan</item>
         <item>Buri Ram</item>
         <item>Chachoengsao</item>
