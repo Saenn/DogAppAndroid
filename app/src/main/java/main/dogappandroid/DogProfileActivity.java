@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.LayoutInflater;
@@ -132,6 +133,9 @@ public class DogProfileActivity extends AppCompatActivity {
         dogInformation = dbHelper.getLastestDogInformationByDogID(extras.getInt("internalDogID"));
         vaccines = dbHelper.getRabiesVaccineListById(extras.getInt("internalDogID"));
         vaccines.addAll(dbHelper.getOtherVaccineListById(extras.getInt("internalDogID")));
+        for (DogVaccine dv : vaccines) {
+            Log.i("Vaccine", dv.getName());
+        }
     }
 
     private void showVaccineList() {

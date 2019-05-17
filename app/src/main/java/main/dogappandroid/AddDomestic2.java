@@ -99,7 +99,6 @@ public class AddDomestic2 extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 provinceValue = provinceList[position];
                 Log.i("selectedvale : ", provinceValue);
-
             }
 
             @Override

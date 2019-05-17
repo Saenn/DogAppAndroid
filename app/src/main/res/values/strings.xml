@@ -101,83 +101,83 @@
     <string name="provinceLabel">Province</string>
     <string name="registrationHeader2">Registration (Optional)</string>
     <string-array name="provinceList">
-        <item>Amnat Charoen</item>
-        <item>Ang Thong</item>
         <item>Bangkok</item>
-        <item>Bueng Kan</item>
-        <item>Buri Ram</item>
-        <item>Chachoengsao</item>
-        <item>Chai Nat</item>
-        <item>Chaiyaphum</item>
-        <item>Chanthaburi</item>
-        <item>Chiang Mai</item>
-        <item>Chiang Rai</item>
-        <item>Chon Buri</item>
-        <item>Chumphon</item>
+        <item>Krabi</item>
+        <item>Kanchanaburi</item>
         <item>Kalasin</item>
         <item>Kamphaeng Phet</item>
-        <item>Kanchanaburi</item>
         <item>Khon Kaen</item>
-        <item>Krabi</item>
-        <item>Lampang</item>
-        <item>Lamphun</item>
-        <item>Loei</item>
-        <item>Lop Buri</item>
-        <item>Mae Hong Son</item>
-        <item>Maha Sarakham</item>
-        <item>Mukdahan</item>
+        <item>Chanthaburi</item>
+        <item>Chachoengsao</item>
+        <item>Chon Buri</item>
+        <item>Chai Nat</item>
+        <item>Chaiyaphum</item>
+        <item>Chumphon</item>
+        <item>Chiang Rai</item>
+        <item>Chiang Mai</item>
+        <item>Trang</item>
+        <item>Trat</item>
+        <item>Tak</item>
         <item>Nakhon Nayok</item>
         <item>Nakhon Pathom</item>
         <item>Nakhon Phanom</item>
         <item>Nakhon Ratchasima</item>
-        <item>Nakhon Sawan</item>
         <item>Nakhon Si Thammarat</item>
-        <item>Nan</item>
-        <item>Narathiwat</item>
-        <item>Nong Bua Lam Phu</item>
-        <item>Nong Khai</item>
+        <item>Nakhon Sawan</item>
         <item>Nonthaburi</item>
+        <item>Narathiwat</item>
+        <item>Nan</item>
+        <item>Bueng Kan</item>
+        <item>Buri Ram</item>
         <item>Pathum Thani</item>
-        <item>Pattani</item>
-        <item>Phang Nga</item>
-        <item>Phatthalung</item>
-        <item>Phayao</item>
-        <item>Phetchabun</item>
-        <item>Phetchaburi</item>
-        <item>Phichit</item>
-        <item>Phitsanulok</item>
-        <item>Phra Nakhon Si Ayutthaya</item>
-        <item>Phrae</item>
-        <item>Phuket</item>
-        <item>Prachinburi</item>
         <item>Prachuap Khiri Khan</item>
-        <item>Ranong</item>
-        <item>Ratchaburi</item>
-        <item>Rayong</item>
+        <item>Prachinburi</item>
+        <item>Pattani</item>
+        <item>Phra Nakhon Si Ayutthaya</item>
+        <item>Phang Nga</item>
+        <item>Phichit</item>
+        <item>Phatthalung</item>
+        <item>Phitsanulok</item>
+        <item>Phetchaburi</item>
+        <item>Phetchabun</item>
+        <item>Phrae</item>
+        <item>Phayao</item>
+        <item>Phuket</item>
+        <item>Maha Sarakham</item>
+        <item>Mukdahan</item>
+        <item>Mae Hong Son</item>
+        <item>Yala</item>
+        <item>Yasothon</item>
         <item>Roi Et</item>
-        <item>Sa Kaeo</item>
-        <item>Sakon Nakhon</item>
-        <item>Samut Prakan</item>
-        <item>Samut Sakhon</item>
-        <item>Samut Songkhram</item>
-        <item>Saraburi</item>
-        <item>Satun</item>
-        <item>Sing Buri</item>
+        <item>Ranong</item>
+        <item>Rayong</item>
+        <item>Ratchaburi</item>
+        <item>Lop Buri</item>
+        <item>Lampang</item>
+        <item>Lamphun</item>
+        <item>Loei</item>
         <item>Sisaket</item>
+        <item>Sakon Nakhon</item>
         <item>Songkhla</item>
+        <item>Satun</item>
+        <item>Samut Prakan</item>
+        <item>Samut Songkhram</item>
+        <item>Samut Sakhon</item>
+        <item>Sa Kaeo</item>
+        <item>Saraburi</item>
+        <item>Sing Buri</item>
         <item>Sukhothai</item>
         <item>Suphan Buri</item>
         <item>Surat Thani</item>
         <item>Surin</item>
-        <item>Tak</item>
-        <item>Trang</item>
-        <item>Trat</item>
-        <item>Ubon Ratchathani</item>
+        <item>Nong Khai</item>
+        <item>Nong Bua Lam Phu</item>
+        <item>Ang Thong</item>
         <item>Udon Thani</item>
         <item>Uthai Thani</item>
         <item>Uttaradit</item>
-        <item>Yala</item>
-        <item>Yasothon</item>
+        <item>Ubon Ratchathani</item>
+        <item>Amnat Charoen</item>
     </string-array>
     <string-array name="provinceListTHEN">
         <item>Bangkok</item>
