@@ -122,17 +122,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/colorStray" />
 
-            <TextView
-                android:id="@+id/addDogRequired9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/mandatorySign"
-                android:textColor="@color/red"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sterilizedStray" />
-
             <RadioGroup
                 android:id="@+id/genderStray"
                 android:layout_width="0dp"
@@ -252,11 +241,11 @@
                 android:id="@+id/sterilizedStrayDateLabel"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/open_sans"
                 android:text="@string/sterilizedDateLabel"
-                app:layout_constraintStart_toEndOf="@+id/addDogRequired9"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sterilizedStray" />
 
             <RadioGroup
