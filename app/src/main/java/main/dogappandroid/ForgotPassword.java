@@ -35,7 +35,7 @@ public class ForgotPassword extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -72,14 +72,21 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Map<String, String> params = new HashMap<>();
-                if (validateInputs()) {
+                int checkInput = validateInputs();
+                if (checkInput == 5) {
                     params.put("username", username.getText().toString());
                     params.put("password", password.getText().toString());
                     params.put("forgotQuestion", securityQuestionSelect + "");
                     params.put("forgotAnswer", securityAnswer.getText().toString());
                     new onRequestForgot().execute(params);
-                } else {
-                    Toast.makeText(ForgotPassword.this, "Your inputs are wrong, please try again.", Toast.LENGTH_LONG).show();
+                } else if (checkInput == 1) {
+                    Toast.makeText(ForgotPassword.this, R.string.usernameError, Toast.LENGTH_LONG).show();
+                } else if (checkInput == 2) {
+                    Toast.makeText(ForgotPassword.this, R.string.passwordIsNotMatchError, Toast.LENGTH_LONG).show();
+                } else if (checkInput == 3) {
+                    Toast.makeText(ForgotPassword.this, R.string.emptyPasswordError, Toast.LENGTH_LONG).show();
+                } else if (checkInput == 4) {
+                    Toast.makeText(ForgotPassword.this, R.string.emptySecurityAnswerError, Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -89,7 +96,7 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z0-9.]+";
+                    String regex = "[a-zA-Z0-9._-]+";
                     if (!username.getText().toString().matches(regex))
                         username.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else {
@@ -102,7 +109,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
 
-    public void logout(){
+    public void logout() {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.clear();
         editor.commit();
@@ -110,14 +117,13 @@ public class ForgotPassword extends AppCompatActivity {
         startActivity(login);
     }
 
-    private boolean validateInputs() {
-        String usernameRegex = "[a-zA-Z0-9.]+";
-        if (username.getText().toString().matches(usernameRegex)
-                && password.getText().toString().equals(repassword.getText().toString())
-                && !password.getText().toString().equals("")
-                && !securityAnswer.getText().toString().equals(""))
-            return true;
-        return false;
+    private int validateInputs() {
+        String usernameRegex = "[a-zA-Z0-9._-]+";
+        if (!username.getText().toString().matches(usernameRegex)) return 1;
+        else if (!password.getText().toString().equals(repassword.getText().toString())) return 2;
+        else if (password.getText().toString().equals("")) return 3;
+        else if (securityAnswer.getText().toString().equals("")) return 4;
+        else return 5;
     }
 
     public class onRequestForgot extends AsyncTask<Map<String, String>, Void, String> {
