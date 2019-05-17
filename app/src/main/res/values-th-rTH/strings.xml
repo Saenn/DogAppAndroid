@@ -411,5 +411,5 @@
     <string name="askForGPSService">ระบบที่คุณต้องการใช้งานต้องการ GPS กรุณาเปิด GPS ของคุณก่อน</string>
     <string name="noData">คุณยังไม่ได้กรอกข้อมูลที่อยู่ของคุณ</string>
     <string name="gotouserprofile">คุณต้องการกรอกข้อมูลที่อยู่ของคุณตอนนี้เลยหรือไม่</string>
-
+    <string name="loading">กรุณารอซักครู่...</string>
 </resources>

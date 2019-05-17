@@ -9,8 +9,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import main.dogappandroid.Utilities.NetworkUtils;
 
@@ -43,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView forgotPassword;
     private Button loginButton;
     private Button registerButton;
-
+    private int click = 0;
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
     DBHelper dbHelper;
@@ -60,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
 
+
         //set App Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         String language = preferences.getString("lang", "th");
@@ -73,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         dbHelper = new DBHelper(this);
 
-        if (mPreferences.getString("token", "") != "") {
+        if (!mPreferences.getString("token", "").equals("")) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
@@ -103,17 +108,28 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, String> params = new HashMap<>();
-                if (username.getText().toString() != "" && password.getText().toString() != "") {
-                    params.put("username", username.getText().toString());
-                    params.put("password", password.getText().toString());
-                    new onLogin().execute(params);
-                } else {
-                    Toast toast = Toast.makeText(LoginActivity.this, "Please input your username and password before proceeding.", Toast.LENGTH_LONG);
-                    toast.show();
+                    loginButton.setEnabled(false);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // This method will be executed once the timer is over
+                            loginButton.setEnabled(true);
+                        }
+                    },750);
+                    Map<String, String> params = new HashMap<>();
+                    if (!username.getText().toString().equals("") && !password.getText().toString().equals("")) {
+
+                        params.put("username", username.getText().toString());
+                        params.put("password", password.getText().toString());
+                        new onLogin().execute(params);
+                    } else {
+                        Toast toast = Toast.makeText(LoginActivity.this, "Please input your username and password before proceeding.", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
                 }
-            }
         });
+
+
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +164,9 @@ public class LoginActivity extends AppCompatActivity {
                 jsonObject = new JSONObject(s);
                 saveDataFromsServerToLocal(jsonObject);
                 if (jsonObject.has("token")) {
+                    Intent i = new Intent(LoginActivity.this,
+                            SplashActivity.class);
+                    startActivity(i);
                     new fetchDogData().execute();
                 }
             } catch (JSONException e) {
@@ -359,8 +378,9 @@ public class LoginActivity extends AppCompatActivity {
             for (DogImage di : dogImages) {
                 dbHelper.addDogImage(di);
             }
-            Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(homeActivity);
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putString("finished", "1");
+            editor.apply();
             finish();
         }
 
