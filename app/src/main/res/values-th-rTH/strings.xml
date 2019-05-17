@@ -420,6 +420,8 @@
     <string name="email_error">กรุณากรอกอีเมล์ของคุณก่อน</string>
     <string name="unknownSterilized">ไม่ทราบ</string>
     <string name="loading">กรุณารอซักครู่...</string>
+    <string name="newPasswordLabel">รหัสผ่านใหม่</string>
+    <string name="confirmNewPasswordLabel">ยืนยันรหัสผ่านใหม่</string>
     <string name="usernameError">ชื่อผู้ใช้งานไม่สามารถปล่อยว่างได้และสามารถใส่ตัวอักษรได้เพียง 0-9 a-z A-Z . _ -</string>
     <string name="passwordIsNotMatchError">รหัสผ่านใหม่กับยืนยันรหัสผ่านใหม่ไม่สอดคล้องกัน</string>
     <string name="emptyPasswordError">รหัสผ่านใหม่ไม่สามารถปล่อยว่างได้</string>

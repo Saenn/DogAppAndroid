@@ -47,27 +47,8 @@ public class ForgotPassword extends AppCompatActivity {
         username = (EditText) findViewById(R.id.usernameForgotPassword);
         password = (EditText) findViewById(R.id.passwordForgot);
         repassword = (EditText) findViewById(R.id.repasswordForgot);
-        securityAnswer = (EditText) findViewById(R.id.securityAnswer2);
-        securityQuestion = (Spinner) findViewById(R.id.securityQuestion2);
         nextBtn = (Button) findViewById(R.id.nextButtonForgot);
         originalStyle = username.getBackground();
-//        Initiate adapter for spinner
-        ArrayAdapter<String> securityQuestionSet = new ArrayAdapter<>(this,
-                R.layout.support_simple_spinner_dropdown_item,
-                getResources().getStringArray(R.array.securityQuestionArray));
-//        set adapter for spinner
-        securityQuestion.setAdapter(securityQuestionSet);
-        securityQuestion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                securityQuestionSelect = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                securityQuestionSelect = 400;
-            }
-        });
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,8 +57,6 @@ public class ForgotPassword extends AppCompatActivity {
                 if (checkInput == 5) {
                     params.put("username", username.getText().toString());
                     params.put("password", password.getText().toString());
-                    params.put("forgotQuestion", securityQuestionSelect + "");
-                    params.put("forgotAnswer", securityAnswer.getText().toString());
                     new onRequestForgot().execute(params);
                 } else if (checkInput == 1) {
                     Toast.makeText(ForgotPassword.this, R.string.usernameError, Toast.LENGTH_LONG).show();
