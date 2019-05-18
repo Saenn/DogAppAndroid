@@ -96,7 +96,7 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String regex = "[a-zA-Z0-9.]+";
+                    String regex = "[a-zA-Z0-9._-]+";
                     if (!username.getText().toString().matches(regex))
                         username.setBackgroundColor(getResources().getColor(R.color.pink100));
                     else {
