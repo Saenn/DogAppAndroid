@@ -77,7 +77,7 @@ public class AddStray3 extends AppCompatActivity {
                     intent.putExtras(extras);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(AddStray3.this, "You have yet to take a photo of your puppy", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddStray3.this, R.string.empty_image_error, Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -54,13 +54,35 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/frontStrayLabel"
+                android:id="@+id/requiredFence3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/dogFront_label"
+                android:text="@string/mandatorySign"
+                android:textColor="@color/red"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dogFaceStray" />
+
+            <TextView
+                android:id="@+id/requiredFence2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/mandatorySign"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/frontStrayLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/dogFront_label"
+                app:layout_constraintStart_toEndOf="@+id/requiredFence2"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -132,10 +154,10 @@
                 android:id="@+id/sideStrayLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/dogSide_label"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/requiredFence3"
                 app:layout_constraintTop_toBottomOf="@+id/dogFaceStray" />
 
             <ImageView
