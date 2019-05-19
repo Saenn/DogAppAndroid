@@ -1,8 +1,10 @@
 package main.dogappandroid;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,6 +14,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -56,6 +61,8 @@ public class EditStray extends AppCompatActivity {
     public static final int RESULT_LOAD_IMAGE_SIDE = 2;
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT = 1000;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE = 2000;
     private String frontImagePath = "", sideImagePath = "";
     private String[] provinceList;
     private Drawable originalStyle;
@@ -170,13 +177,13 @@ public class EditStray extends AppCompatActivity {
         getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
-        selectedValue = dog.getProvince();
+        selectedValue2 = dog.getProvince();
         provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
-        provinceSpinner.setSelection(ProvinceUtils.calculateProvincePosition(selectedValue));
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
+        provinceSpinner.setSelection(ProvinceUtils.calculateProvincePosition(selectedValue2));
 
         if (preferences.getString("lang", "th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
@@ -184,9 +191,6 @@ public class EditStray extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditStray.this,
-                        "Select : " + provinceList[position],
-                        Toast.LENGTH_SHORT).show();
                 selectedValue2 = provinceList[position];
                 Log.i("selectedvale : ", selectedValue2);
 
@@ -251,18 +255,34 @@ public class EditStray extends AppCompatActivity {
         loadFrontPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                if (ContextCompat.checkSelfPermission(EditStray.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(EditStray.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                }
             }
         });
 
         loadSidePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                if (ContextCompat.checkSelfPermission(EditStray.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(EditStray.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                }
             }
         });
 
@@ -275,32 +295,28 @@ public class EditStray extends AppCompatActivity {
                     int checkInput = validateAddressInput();
                     if (checkInput == 0) {
                         Bundle extras = new Bundle();
-                        dog.setName(dogname.getText().toString());
+                        extras.putString("name", dogname.getText().toString());
                         if (maleBtn.isChecked()) {
-                            dog.setGender("M");
+                            extras.putString("gender", "M");
                         } else if (femaleBtn.isChecked()) {
-                            dog.setGender("F");
+                            extras.putString("gender", "F");
                         }
                         if (selectedValue.equals("Not exceed 3 years") || selectedValue.equals("ไม่เกิน 3 ปี")) {
-                            dog.setAgeRange("1");
+                            extras.putString("ageRange", "1");
                         } else {
-                            dog.setAgeRange("2");
+                            extras.putString("ageRange", "2");
                         }
-                        dog.setBreed(dogbreed.getText().toString());
-                        dog.setColor(dogcolor.getText().toString());
-                        dog.setAddress(dogaddress.getText().toString());
-                        dog.setSubdistrict(dogsubdistrict.getText().toString());
-                        dog.setDistrict(dogdistrict.getText().toString());
-                        dog.setProvince(selectedValue2);
-                        dog.setIsSubmit(0);
-                        dbHelper.updateDog(dog);
-                        //add Picture to Sqlite
-                        if (!frontImagePath.equals("")) {
-                            addPicToSqlite(frontImagePath, 1, getIntent().getExtras().getInt("internalDogID"));
-                        }
-                        if (!sideImagePath.equals("")) {
-                            addPicToSqlite(sideImagePath, 2, getIntent().getExtras().getInt("internalDogID"));
-                        }
+                        extras.putString("breed", dogbreed.getText().toString());
+                        extras.putString("color", dogcolor.getText().toString());
+                        extras.putString("address", dogaddress.getText().toString());
+                        extras.putString("subdistrict", dogsubdistrict.getText().toString());
+                        extras.putString("district", dogdistrict.getText().toString());
+                        extras.putString("province", selectedValue2);
+                        if (!frontImagePath.equals(""))
+                            extras.putString("frontImagePath", frontImagePath);
+                        if (!sideImagePath.equals(""))
+                            extras.putString("sideImagePath", sideImagePath);
+
                         Intent editVaccine = new Intent(EditStray.this, EditVaccine.class);
                         editVaccine.putExtra("internal_dog_id", dog.getId());
                         editVaccine.putExtras(extras);
@@ -333,19 +349,6 @@ public class EditStray extends AppCompatActivity {
         } else {
             return 0;
         }
-    }
-
-    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
-        DogImage dogImage = new DogImage();
-        dogImage.setDogInternalId(dogInternalID);
-        if (type == 1) {
-            dogImage.setType(1);
-        } else {
-            dogImage.setType(2);
-        }
-        dogImage.setImagePath(imagePath);
-        dogImage.setIsSubmit(0);
-        dbHelper.addDogImage(dogImage);
     }
 
     private void getEditDogInfo() {
@@ -383,6 +386,32 @@ public class EditStray extends AppCompatActivity {
         }
         if (!imageSide.getImagePath().equals("")) {
             sideview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imageSide.getImagePath(), 200, 200));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                } else {
+                    Toast.makeText(EditStray.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                } else {
+                    Toast.makeText(EditStray.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
         }
     }
 
