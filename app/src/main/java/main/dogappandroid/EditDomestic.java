@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -55,6 +56,7 @@ public class EditDomestic extends AppCompatActivity {
     private Spinner provinceSpinner;
     private String[] provinceList;
     private String selectedValue;
+    private Drawable originalStyle;
 
 
     @Override
@@ -90,9 +92,62 @@ public class EditDomestic extends AppCompatActivity {
         takeSidePhoto = (ImageButton) findViewById(R.id.takePhotoStraySide);
         loadFrontPhoto = (ImageButton) findViewById(R.id.loadPhotoStrayFace);
         loadSidePhoto = (ImageButton) findViewById(R.id.loadPhotoStraySide);
+        originalStyle = dogaddress.getBackground();
 
         getEditDogInfo();
         setAllButtonOnClick();
+
+        dogage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if(!focused){
+                    if(dogage.getText().toString().equals("")){
+                        dogage.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    }else{
+                        dogage.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogaddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogaddress.getText().toString().matches("[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+")) {
+                        dogaddress.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogaddress.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogsubdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogsubdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        dogsubdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogsubdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        dogdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
 
         //Set Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
@@ -194,48 +249,71 @@ public class EditDomestic extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dogage.getText().toString().equals("")) {
-                    Toast.makeText(EditDomestic.this, "Please enter your puppy's age", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditDomestic.this, R.string.dog_age_error, Toast.LENGTH_LONG).show();
                 } else if (gender.getCheckedRadioButtonId() == RadioButton.NO_ID) {
-                    Toast.makeText(EditDomestic.this, "Please enter your puppy's gender", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditDomestic.this, R.string.dog_gender_error, Toast.LENGTH_LONG).show();
                 } else {
-                    Bundle extras = new Bundle();
-                    dog.setName(dogname.getText().toString());
-                    if (maleBtn.isChecked()) {
-                        dog.setGender("M");
-                    } else if (femaleBtn.isChecked()) {
-                        dog.setGender("F");
+                    int checkInput = validateAddressInput();
+                    if (checkInput == 0) {
+                        Bundle extras = new Bundle();
+                        dog.setName(dogname.getText().toString());
+                        if (maleBtn.isChecked()) {
+                            dog.setGender("M");
+                        } else if (femaleBtn.isChecked()) {
+                            dog.setGender("F");
+                        }
+                        if (Integer.parseInt(dogage.getText().toString()) <= 3) {
+                            dog.setAgeRange("1");
+                        } else {
+                            dog.setAgeRange("2");
+                        }
+                        dog.setAge(Integer.parseInt(dogage.getText().toString()));
+                        dog.setBreed(dogbreed.getText().toString());
+                        dog.setColor(dogcolor.getText().toString());
+                        dog.setAddress(dogaddress.getText().toString());
+                        dog.setSubdistrict(dogsubdistrict.getText().toString());
+                        dog.setDistrict(dogdistrict.getText().toString());
+                        dog.setProvince(selectedValue);
+                        dog.setIsSubmit(0);
+                        dbHelper.updateDog(dog);
+                        //add Picture to Sqlite
+                        Bundle prevBundle = getIntent().getExtras();
+                        if (!frontImagePath.equals("")) {
+                            addPicToSqlite(frontImagePath, 1, prevBundle.getInt("internalDogID"));
+                        }
+                        if (!sideImagePath.equals("")) {
+                            addPicToSqlite(sideImagePath, 2, prevBundle.getInt("internalDogID"));
+                        }
+                        Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
+                        editVaccine.putExtra("internal_dog_id", dog.getId());
+                        editVaccine.putExtras(extras);
+                        startActivity(editVaccine);
+                    } else if (checkInput == 1) {
+                        Toast.makeText(EditDomestic.this, R.string.address_error, Toast.LENGTH_LONG).show();
+                    } else if (checkInput == 2) {
+                        Toast.makeText(EditDomestic.this, R.string.subdistrict_error, Toast.LENGTH_LONG).show();
+                    } else if (checkInput == 3) {
+                        Toast.makeText(EditDomestic.this, R.string.district_error, Toast.LENGTH_LONG).show();
                     }
-                    if (Integer.parseInt(dogage.getText().toString()) <= 3) {
-                        dog.setAgeRange("1");
-                    } else {
-                        dog.setAgeRange("2");
-                    }
-                    dog.setAge(Integer.parseInt(dogage.getText().toString()));
-                    dog.setBreed(dogbreed.getText().toString());
-                    dog.setColor(dogcolor.getText().toString());
-                    dog.setAddress(dogaddress.getText().toString());
-                    dog.setSubdistrict(dogsubdistrict.getText().toString());
-                    dog.setDistrict(dogdistrict.getText().toString());
-                    dog.setProvince(selectedValue);
-                    dog.setIsSubmit(0);
-                    dbHelper.updateDog(dog);
-                    //add Picture to Sqlite
-                    Bundle prevBundle = getIntent().getExtras();
-                    if (!frontImagePath.equals("")) {
-                        addPicToSqlite(frontImagePath, 1, prevBundle.getInt("internalDogID"));
-                    }
-                    if (!sideImagePath.equals("")) {
-                        addPicToSqlite(sideImagePath, 2, prevBundle.getInt("internalDogID"));
-                    }
-                    Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
-                    editVaccine.putExtra("internal_dog_id", dog.getId());
-                    editVaccine.putExtras(extras);
-                    startActivity(editVaccine);
                 }
             }
         });
 
 
+    }
+
+    private int validateAddressInput() {
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+        if (!dogaddress.getText().toString().matches(addressRegex)) {
+            return 1;
+        } else if (!dogsubdistrict.getText().toString().matches(regex)) {
+            return 2;
+        } else if (!dogdistrict.getText().toString().matches(regex)) {
+            return 3;
+        } else {
+            return 0;
+        }
     }
 
     private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
