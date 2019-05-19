@@ -14,6 +14,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import main.dogappandroid.Utilities.BitmapUtils;
 import main.dogappandroid.Utilities.ProvinceUtils;
 
@@ -73,7 +77,7 @@ public class UserProfile extends AppCompatActivity {
     private void showUserImage() {
         if (mPreferences.getString("profilePicturePath", "") != "") {
             Log.i("Image", "Loading");
-            Bitmap userPicture = BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""),150,150);
+            Bitmap userPicture = BitmapUtils.decodeSampledBitmapFromImagePath(mPreferences.getString("profilePicturePath", ""), 150, 150);
             profileImage.setImageBitmap(userPicture);
         }
     }
@@ -87,41 +91,53 @@ public class UserProfile extends AppCompatActivity {
         province.setText(provinceListFromResource[ProvinceUtils.calculateProvincePosition(mPreferences.getString("province", ""))]);
         phone.setText(mPreferences.getString("phone", ""));
         email.setText(mPreferences.getString("email", ""));
-        registered.setText(mPreferences.getString("registerDate", ""));
-        latestUpdate.setText(mPreferences.getString("latestUpdate", ""));
+        SimpleDateFormat fromRDS = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat toLocal = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            Date registerDate = fromRDS.parse(mPreferences.getString("registerDate", ""));
+            registered.setText(toLocal.format(registerDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            Date latestUpdateDate = fromRDS.parse(mPreferences.getString("latestUpdate", ""));
+            latestUpdate.setText(toLocal.format(latestUpdateDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showSecurity() {
         switch (mPreferences.getString("forgotQuestion", "")) {
             case "1":
-                question.setText("What is the name of the road you grew up on?");
+                question.setText(R.string.securityQ1);
                 break;
             case "2":
-                question.setText("What is your mother’s maiden name?");
+                question.setText(R.string.securityQ2);
                 break;
             case "3":
-                question.setText("What was the name of your first/current/favorite pet?");
+                question.setText(R.string.securityQ3);
                 break;
             case "4":
-                question.setText("What was the first company that you worked for?");
+                question.setText(R.string.securityQ4);
                 break;
             case "5":
-                question.setText("Where did you meet your spouse?");
+                question.setText(R.string.securityQ5);
                 break;
             case "6":
-                question.setText("Where did you go to high school/college?");
+                question.setText(R.string.securityQ6);
                 break;
             case "7":
-                question.setText("What is your favorite food?");
+                question.setText(R.string.securityQ7);
                 break;
             case "8":
-                question.setText("What city were you born in?");
+                question.setText(R.string.securityQ8);
                 break;
             case "9":
-                question.setText("Where is your favorite place to vacation?");
+                question.setText(R.string.securityQ9);
                 break;
             case "0":
-                question.setText("What Is your favorite book?");
+                question.setText(R.string.securityQ10);
                 break;
             default:
                 question.setText("");

@@ -447,5 +447,14 @@
     <string name="no_internet">กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตและลองอีกครั้ง</string>
     <string name="dog_age_error">กรุณากรอกอายุของสุนัขของคุณ</string>
     <string name="dog_gender_error">กรุณากรอกเพศของสุนัขของคุณ</string>
-
+    <string name="securityQ1">หนังสือที่คุณชอบที่สุด?</string>
+    <string name="securityQ2">ชื่อถนนที่คุณเติบโตมา?</string>
+    <string name="securityQ3">ชื่อแม่ของคุณในขณะที่ยังไม่แต่งงาน</string>
+    <string name="securityQ4">ชื่อสัตว์เลี้ยงตัวแรก/ปัจจุบัน/ตัวโปรดของคุณ?</string>
+    <string name="securityQ5">ชื่อบริษัทแรกที่คุณทำงาน?</string>
+    <string name="securityQ6">สถานที่ที่คุณเจอคู่สมรสครั้งแรก?</string>
+    <string name="securityQ7">โรงเรียน/มหาวิทยาลัยที่คุณเคยเรียน?</string>
+    <string name="securityQ8">อาหารจานโปรดของคุณ?</string>
+    <string name="securityQ9">จังหวัดที่คุณเกิด?</string>
+    <string name="securityQ10">สถานที่ที่คุณชอบจะไปเที่ยวมากที่สุด?</string>
 </resources>
