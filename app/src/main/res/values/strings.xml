@@ -431,7 +431,7 @@
     <string name="address_error">Address can only be Thai, English or some special characters(. / , _)</string>
     <string name="district_error">District can only be Thai or English characters</string>
     <string name="subdistrict_error">Subdistrict can only be Thai or English characters</string>
-
+    <string name="no_internet">Please check that you are conencted to the internet and try again</string>
 
 
 </resources>
