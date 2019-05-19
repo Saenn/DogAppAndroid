@@ -104,12 +104,12 @@ public class AddDomestic extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (age.getText().toString().equals("")) {
-                    Toast.makeText(AddDomestic.this, "Please enter your puppy's age", Toast.LENGTH_LONG).show();
-                } else if (gender.getCheckedRadioButtonId() == RadioButton.NO_ID) {
-                    Toast.makeText(AddDomestic.this, "Please enter your puppy's gender", Toast.LENGTH_LONG).show();
+                if (gender.getCheckedRadioButtonId() == RadioButton.NO_ID) {
+                    Toast.makeText(AddDomestic.this, R.string.dog_gender_error, Toast.LENGTH_LONG).show();
+                } else if (age.getText().toString().equals("")) {
+                    Toast.makeText(AddDomestic.this, R.string.dog_age_error, Toast.LENGTH_LONG).show();
                 } else if (sterilized.getCheckedRadioButtonId() == RadioButton.NO_ID) {
-                    Toast.makeText(AddDomestic.this, "Please answer if your puppy has been sterilized", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddDomestic.this, R.string.sterilized_error_update, Toast.LENGTH_LONG).show();
                 } else {
                     Bundle extras = new Bundle();
                     extras.putString("name", name.getText().toString());

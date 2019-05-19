@@ -139,11 +139,11 @@ public class AddStray extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (gender.getCheckedRadioButtonId() == RadioButton.NO_ID) {
-                    Toast.makeText(AddStray.this, "Please enter your puppy's gender", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddStray.this, R.string.dog_gender_error, Toast.LENGTH_LONG).show();
                 } else if (selectedValue.equals("")) {
-                    Toast.makeText(AddStray.this, "Please select your puppy's age", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddStray.this, R.string.dog_age_error, Toast.LENGTH_LONG).show();
                 } else if (sterilized.getCheckedRadioButtonId() == RadioButton.NO_ID) {
-                    Toast.makeText(AddStray.this, "Please answer if your puppy has been sterilized", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddStray.this, R.string.sterilized_error_update, Toast.LENGTH_LONG).show();
                 } else {
                     Bundle extras = new Bundle();
                     extras.putString("name", name.getText().toString());
