@@ -21,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddStray extends AppCompatActivity {
 
@@ -93,6 +95,10 @@ public class AddStray extends AppCompatActivity {
         knownSterilizedDate.setVisibility(View.GONE);
         sterilizedDate.setVisibility(View.GONE);
 
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sterilizedDateSelected = sdf.format(date);
+
         sterilized.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -134,11 +140,9 @@ public class AddStray extends AppCompatActivity {
             public void onClick(View v) {
                 if (gender.getCheckedRadioButtonId() == RadioButton.NO_ID) {
                     Toast.makeText(AddStray.this, "Please enter your puppy's gender", Toast.LENGTH_LONG).show();
-                }
-                else if (selectedValue.equals("")) {
+                } else if (selectedValue.equals("")) {
                     Toast.makeText(AddStray.this, "Please select your puppy's age", Toast.LENGTH_LONG).show();
-                }
-                else if (sterilized.getCheckedRadioButtonId() == RadioButton.NO_ID) {
+                } else if (sterilized.getCheckedRadioButtonId() == RadioButton.NO_ID) {
                     Toast.makeText(AddStray.this, "Please answer if your puppy has been sterilized", Toast.LENGTH_LONG).show();
                 } else {
                     Bundle extras = new Bundle();
@@ -146,10 +150,10 @@ public class AddStray extends AppCompatActivity {
                     if (maleBtn.isChecked()) extras.putString("gender", "M");
                     else if (femaleBtn.isChecked()) extras.putString("gender", "F");
                     if (selectedPosition == 1) {
-                        Log.i("selected" , selectedValue);
+                        Log.i("selected", selectedValue);
                         extras.putString("ageRange", "1"); // 1 represent less than or equal to 3
                     } else {
-                        Log.i("selected" , selectedValue);
+                        Log.i("selected", selectedValue);
                         extras.putString("ageRange", "2"); // 2 represent more than 3
                     }
                     extras.putString("breed", breed.getText().toString());
