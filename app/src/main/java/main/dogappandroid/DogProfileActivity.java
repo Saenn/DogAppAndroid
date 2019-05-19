@@ -216,6 +216,7 @@ public class DogProfileActivity extends AppCompatActivity {
                 pregnantLayout.setVisibility(View.VISIBLE);
                 if (dogInformation.getPregnant() == 0) {
                     pregnant.setText(getResources().getString(R.string.notpregnant));
+                    children.setText("");
                 } else if (dogInformation.getPregnant() == 1) {
                     pregnant.setText(getResources().getString(R.string.pregnant));
                     children.setText(String.valueOf(dogInformation.getChildNumber()));
