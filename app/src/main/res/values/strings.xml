@@ -433,7 +433,7 @@
     <string name="district_error">District can only be Thai or English characters</string>
     <string name="subdistrict_error">Subdistrict can only be Thai or English characters</string>
     <string name="internet_disconnect_error">Your internet is disconnected, please try again.</string>
-    <string name="no_internet">Please check that you are conencted to the internet and try again</string>
-
+    <string name="empty_field_error">Please fill up all the required fields</string>
+    <string name="empty_image_error">Please take a photo of your dog</string>
 
 </resources>

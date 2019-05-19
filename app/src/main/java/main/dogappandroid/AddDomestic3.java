@@ -85,7 +85,7 @@ public class AddDomestic3 extends AppCompatActivity {
                     intent.putExtras(extras);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(AddDomestic3.this, "You have yet to take a photo of your puppy", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddDomestic3.this, R.string.empty_image_error, Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class AddStray2 extends AppCompatActivity {
     private Spinner provinceSpinner;
     private String[] provinceList;
     private String provinceValue;
+    private Drawable originalStyle;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -57,6 +59,7 @@ public class AddStray2 extends AppCompatActivity {
         district = (EditText) findViewById(R.id.districtStray);
         sameAddress = (RadioGroup) findViewById(R.id.sameAddressStray);
         nextBtn = (Button) findViewById(R.id.nextStray2);
+        originalStyle = address.getBackground();
 
         //Set Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
@@ -70,7 +73,7 @@ public class AddStray2 extends AppCompatActivity {
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
 
-        if(preferences.getString("lang","th").equals("th")) {
+        if (preferences.getString("lang", "th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
         }
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -87,6 +90,45 @@ public class AddStray2 extends AppCompatActivity {
         });
 
         handleAddressField(View.GONE);
+
+        address.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!address.getText().toString().matches("[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+")) {
+                        address.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        address.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        subdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!subdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        subdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        subdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        district.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!district.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        district.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        district.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
 
         sameAddress.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -119,23 +161,32 @@ public class AddStray2 extends AppCompatActivity {
                                 .setNegativeButton(R.string.no, null)
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
-//                        Toast.makeText(AddStray2.this, "You have yet to submit your address data", Toast.LENGTH_LONG).show();
                     else {
-                        extras.putString("address", mPreferences.getString("address", null));
-                        extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
-                        extras.putString("district", mPreferences.getString("district", null));
-                        extras.putString("province", mPreferences.getString("province", null));
-                        extras.putString("dogType", "3");
-                        Intent addStray3 = new Intent(AddStray2.this, AddStray3.class);
-                        addStray3.putExtras(extras);
-                        startActivity(addStray3);
+                        int checkInput = validateAllInput();
+                        if (checkInput == 0) {
+                            extras.putString("address", mPreferences.getString("address", null));
+                            extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
+                            extras.putString("district", mPreferences.getString("district", null));
+                            extras.putString("province", mPreferences.getString("province", null));
+                            extras.putString("dogType", "3");
+                            Intent addStray3 = new Intent(AddStray2.this, AddStray3.class);
+                            addStray3.putExtras(extras);
+                            startActivity(addStray3);
+                        } else if (checkInput == 1) {
+                            Toast.makeText(AddStray2.this, R.string.address_error, Toast.LENGTH_LONG).show();
+                        } else if (checkInput == 2) {
+                            Toast.makeText(AddStray2.this, R.string.subdistrict_error, Toast.LENGTH_LONG).show();
+                        } else if (checkInput == 3) {
+                            Toast.makeText(AddStray2.this, R.string.district_error, Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 } else if (sameAddress.getCheckedRadioButtonId() == R.id.noSameAddressStray) {
                     if (address.getText().toString().equals("")
                             || subdistrict.getText().toString().equals("")
                             || district.getText().toString().equals("")
                             || provinceValue.equals(""))
-                        Toast.makeText(AddStray2.this, "Please fill up all the required fields", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddStray2.this, R.string.empty_field_error, Toast.LENGTH_LONG).show();
                     else {
                         extras.putString("address", address.getText().toString());
                         extras.putString("subdistrict", subdistrict.getText().toString());
@@ -149,6 +200,20 @@ public class AddStray2 extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    protected int validateAllInput() {
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+        if (!address.getText().toString().matches(addressRegex)) {
+            return 1;
+        } else if (!subdistrict.getText().toString().matches(regex)) {
+            return 2;
+        } else if (!district.getText().toString().matches(regex)) {
+            return 3;
+        } else {
+            return 0;
+        }
     }
 
     private void getListInfo(String lang) {
