@@ -56,6 +56,7 @@
 
     <!-- Strings related to editdog -->
     <string name="header_edit_domestic">แก้ไขสุนัข</string>
+    <string name="header_edit_stray">แก้ไขสุนัข</string>
     <string name="header_stray">เพิ่มสุนัขจรจัด</string>
     <string name="choose_report">เลือกประเภทรายงาน</string>
     <string name="report_1">จังหวัด</string>
@@ -440,6 +441,7 @@
     <string name="address_error">ที่อยู่สามารถกรอกเป็นภาษาไทยหรือภาษาอังกฤษและตัวอักษรพิเศษบางตัว(. / , _)เท่านั้น</string>
     <string name="district_error">อำเภอสามารถกรอกเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น</string>
     <string name="subdistrict_error">ตำบลสามารถกรอกเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น</string>
+    <string name="internet_disconnect_error">ไม่มีสัญญาณอินเทอร์เน็ต กรุณาลองใหม่อีกครั้ง</string>
     <string name="no_internet">กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตและลองอีกครั้ง</string>
 
 

@@ -110,17 +110,21 @@ public class ForgotPassword extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                JSONObject jsonObject = new JSONObject(s);
-                try {
-                    String message = jsonObject.getString("message");
-                    Toast.makeText(ForgotPassword.this, message, Toast.LENGTH_LONG).show();
-                    logout();
-                    Intent loginIntent = new Intent(ForgotPassword.this, LoginActivity.class);
-                    finish();
-                    startActivity(loginIntent);
-                } catch (JSONException e2) {
-                    String error = jsonObject.getString("error");
-                    Toast.makeText(ForgotPassword.this, error, Toast.LENGTH_LONG).show();
+                if (s != null) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    try {
+                        String message = jsonObject.getString("message");
+                        Toast.makeText(ForgotPassword.this, message, Toast.LENGTH_LONG).show();
+                        logout();
+                        Intent loginIntent = new Intent(ForgotPassword.this, LoginActivity.class);
+                        finish();
+                        startActivity(loginIntent);
+                    } catch (JSONException e2) {
+                        String error = jsonObject.getString("error");
+                        Toast.makeText(ForgotPassword.this, error, Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(ForgotPassword.this, R.string.internet_disconnect_error, Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

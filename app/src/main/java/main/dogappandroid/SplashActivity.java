@@ -34,6 +34,9 @@ public class SplashActivity extends AppCompatActivity {
                 counter++;
                 if (counter >= 500){
                     timer.cancel();
+                    Intent login = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(login);
+                    finish();
                 }
             }
         }, begin, timeInterval);

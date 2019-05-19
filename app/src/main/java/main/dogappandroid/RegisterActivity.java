@@ -261,7 +261,6 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             try {
-                Log.i("Register", s);
                 JSONObject jsonObject = new JSONObject(s);
                 String status = jsonObject.getString("status");
                 if (status.equals("Success")) {
@@ -287,6 +286,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
+                Toast.makeText(RegisterActivity.this, R.string.internet_disconnect_error, Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }
