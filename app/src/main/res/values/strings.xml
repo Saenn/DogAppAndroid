@@ -420,17 +420,17 @@
     <string name="emptySecurityAnswerError">Security answer cannot be empty</string>
 
     <!--ERROR TXT-->
-    <string name="username_error">Username Incorrect(English character only)</string>
-    <string name="firstname_error">Firstname Incorrect(Do not use special character)</string>
-    <string name="lastname_error">Lastname Incorrect(Do not use special character)</string>
-    <string name="emails_error">Email Incorrect</string>
-    <string name="password_error">Password not match</string>
+    <string name="firstname_error">Firstname cannot be empty and can only be Thai or English characters</string>
+    <string name="lastname_error">Lastname cannot be empty and can only be Thai or English characters</string>
+    <string name="emails_error">Email is incorrect</string>
+    <string name="password_error">Password cannot be empty</string>
+    <string name="password_not_match_error">Password and re-password are not match</string>
     <string name="securityquestion_error">Please select security question</string>
     <string name="securityanswer_error">Please fill security answer</string>
-    <string name="phone_error">Phone incorrect</string>
-    <string name="address_error">Address Incorrect(Do not use special character)</string>
-    <string name="district_error">District Incorrect(Do not use special character)</string>
-    <string name="subdistrict_error">Subdistrict Incorrect(Do not use special character)</string>
+    <string name="phone_error">Phone can only be number (0-9)</string>
+    <string name="address_error">Address can only be Thai, English or some special characters(. / , _)</string>
+    <string name="district_error">District can only be Thai or English characters</string>
+    <string name="subdistrict_error">Subdistrict can only be Thai or English characters</string>
 
 
 
