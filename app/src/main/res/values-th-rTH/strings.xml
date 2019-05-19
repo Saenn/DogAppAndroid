@@ -56,6 +56,7 @@
 
     <!-- Strings related to editdog -->
     <string name="header_edit_domestic">แก้ไขสุนัข</string>
+    <string name="header_edit_stray">แก้ไขสุนัข</string>
     <string name="header_stray">เพิ่มสุนัขจรจัด</string>
     <string name="choose_report">เลือกประเภทรายงาน</string>
     <string name="report_1">จังหวัด</string>
