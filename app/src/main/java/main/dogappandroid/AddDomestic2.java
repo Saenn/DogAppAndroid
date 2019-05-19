@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -36,6 +37,7 @@ public class AddDomestic2 extends AppCompatActivity {
     private Spinner provinceSpinner;
     private String[] provinceList;
     private String provinceValue;
+    private Drawable originalStyle;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -78,6 +80,7 @@ public class AddDomestic2 extends AppCompatActivity {
         noHomeBtn = (RadioButton) findViewById(R.id.noHomeCondition);
         yesSameBtn = (RadioButton) findViewById(R.id.yesSameAddressDomestic);
         noSameBtn = (RadioButton) findViewById(R.id.noSameAddressDomestic);
+        originalStyle = address.getBackground();
 
         //Set Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
@@ -108,6 +111,45 @@ public class AddDomestic2 extends AppCompatActivity {
 
         handleAddressField(View.GONE);
 
+        address.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!address.getText().toString().matches("[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+")) {
+                        address.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        address.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        subdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!subdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        subdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        subdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        district.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!district.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        district.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        district.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
         sameAddress.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -124,7 +166,7 @@ public class AddDomestic2 extends AppCompatActivity {
                         || dayLifestyle.getCheckedRadioButtonId() == RadioButton.NO_ID
                         || nightLifestyle.getCheckedRadioButtonId() == RadioButton.NO_ID
                         || sameAddress.getCheckedRadioButtonId() == RadioButton.NO_ID)
-                    Toast.makeText(AddDomestic2.this, "Please fill up all the required fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddDomestic2.this, R.string.empty_field_error, Toast.LENGTH_LONG).show();
                 else if (sameAddress.getCheckedRadioButtonId() == R.id.yesSameAddressDomestic) {
                     if (mPreferences.getString("address", "").equals("")
                             || mPreferences.getString("subdistrict", "").equals("")
@@ -144,8 +186,8 @@ public class AddDomestic2 extends AppCompatActivity {
                                 .setNegativeButton(R.string.no, null)
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
-//                        Toast.makeText(AddDomestic2.this, "You have yet to submit your address data", Toast.LENGTH_LONG).show();
                     } else {
+
                         extras.putString("address", mPreferences.getString("address", null));
                         extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
                         extras.putString("subdistrict", mPreferences.getString("subdistrict", null));
@@ -161,30 +203,53 @@ public class AddDomestic2 extends AppCompatActivity {
                             || subdistrict.getText().toString().equals("")
                             || district.getText().toString().equals("")
                             || provinceValue.equals(""))
-                        Toast.makeText(AddDomestic2.this, "Please fill up all the required fields", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddDomestic2.this, R.string.empty_field_error, Toast.LENGTH_LONG).show();
                     else {
-                        extras.putString("address", address.getText().toString());
-                        extras.putString("subdistrict", subdistrict.getText().toString());
-                        extras.putString("district", district.getText().toString());
-                        extras.putString("province", provinceValue);
-                        extras.putString("dogType", calculateDomesticType() + "");
-                        Intent prevAdd = getIntent();
-                        extras.putString("name", prevAdd.getStringExtra("name"));
-                        extras.putInt("age", prevAdd.getIntExtra("age", 0));
-                        extras.putString("ageRange", prevAdd.getStringExtra("ageRange"));
-                        extras.putString("gender", prevAdd.getStringExtra("gender"));
-                        extras.putString("breed", prevAdd.getStringExtra("breed"));
-                        extras.putString("color", prevAdd.getStringExtra("color"));
-                        extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
-                        extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
-                        Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
-                        addDomestic3.putExtras(extras);
-                        startActivity(addDomestic3);
+                        int checkInput = validateAllInput();
+                        if (checkInput == 0) {
+                            extras.putString("address", address.getText().toString());
+                            extras.putString("subdistrict", subdistrict.getText().toString());
+                            extras.putString("district", district.getText().toString());
+                            extras.putString("province", provinceValue);
+                            extras.putString("dogType", calculateDomesticType() + "");
+                            Intent prevAdd = getIntent();
+                            extras.putString("name", prevAdd.getStringExtra("name"));
+                            extras.putInt("age", prevAdd.getIntExtra("age", 0));
+                            extras.putString("ageRange", prevAdd.getStringExtra("ageRange"));
+                            extras.putString("gender", prevAdd.getStringExtra("gender"));
+                            extras.putString("breed", prevAdd.getStringExtra("breed"));
+                            extras.putString("color", prevAdd.getStringExtra("color"));
+                            extras.putBoolean("sterilized", prevAdd.getBooleanExtra("sterilized", false));
+                            extras.putString("sterilizedDate", prevAdd.getStringExtra("sterilizedDate"));
+                            Intent addDomestic3 = new Intent(AddDomestic2.this, AddDomestic3.class);
+                            addDomestic3.putExtras(extras);
+                            startActivity(addDomestic3);
+                        } else if (checkInput == 1) {
+                            Toast.makeText(AddDomestic2.this, R.string.address_error, Toast.LENGTH_LONG).show();
+                        } else if (checkInput == 2) {
+                            Toast.makeText(AddDomestic2.this, R.string.subdistrict_error, Toast.LENGTH_LONG).show();
+                        } else if (checkInput == 3) {
+                            Toast.makeText(AddDomestic2.this, R.string.district_error, Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             }
         });
 
+    }
+
+    protected int validateAllInput() {
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+        if (!address.getText().toString().matches(addressRegex)) {
+            return 1;
+        } else if (!subdistrict.getText().toString().matches(regex)) {
+            return 2;
+        } else if (!district.getText().toString().matches(regex)) {
+            return 3;
+        } else {
+            return 0;
+        }
     }
 
     private void handleAddressField(int visibility) {

@@ -1,16 +1,21 @@
 package main.dogappandroid;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -50,11 +55,14 @@ public class EditDomestic extends AppCompatActivity {
     public static final int RESULT_LOAD_IMAGE_SIDE = 2;
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT = 1000;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE = 2000;
     private String frontImagePath = "", sideImagePath = "";
 
     private Spinner provinceSpinner;
     private String[] provinceList;
     private String selectedValue;
+    private Drawable originalStyle;
 
 
     @Override
@@ -90,9 +98,62 @@ public class EditDomestic extends AppCompatActivity {
         takeSidePhoto = (ImageButton) findViewById(R.id.takePhotoStraySide);
         loadFrontPhoto = (ImageButton) findViewById(R.id.loadPhotoStrayFace);
         loadSidePhoto = (ImageButton) findViewById(R.id.loadPhotoStraySide);
+        originalStyle = dogaddress.getBackground();
 
         getEditDogInfo();
         setAllButtonOnClick();
+
+        dogage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (dogage.getText().toString().equals("")) {
+                        dogage.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogage.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogaddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogaddress.getText().toString().matches("[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+")) {
+                        dogaddress.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogaddress.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogsubdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogsubdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        dogsubdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogsubdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        dogdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
 
         //Set Language
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
@@ -175,18 +236,34 @@ public class EditDomestic extends AppCompatActivity {
         loadFrontPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                if (ContextCompat.checkSelfPermission(EditDomestic.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(EditDomestic.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                }
             }
         });
 
         loadSidePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                if (ContextCompat.checkSelfPermission(EditDomestic.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(EditDomestic.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                }
             }
         });
 
@@ -194,43 +271,47 @@ public class EditDomestic extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dogage.getText().toString().equals("")) {
-                    Toast.makeText(EditDomestic.this, "Please enter your puppy's age", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditDomestic.this, R.string.dog_age_error, Toast.LENGTH_LONG).show();
                 } else if (gender.getCheckedRadioButtonId() == RadioButton.NO_ID) {
-                    Toast.makeText(EditDomestic.this, "Please enter your puppy's gender", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditDomestic.this, R.string.dog_gender_error, Toast.LENGTH_LONG).show();
                 } else {
-                    Bundle extras = new Bundle();
-                    dog.setName(dogname.getText().toString());
-                    if (maleBtn.isChecked()) {
-                        dog.setGender("M");
-                    } else if (femaleBtn.isChecked()) {
-                        dog.setGender("F");
+                    int checkInput = validateAddressInput();
+                    if (checkInput == 0) {
+                        Bundle extras = new Bundle();
+                        extras.putString("name", dogname.getText().toString());
+                        extras.putInt("age", Integer.parseInt(dogage.getText().toString()));
+                        if (maleBtn.isChecked()) {
+                            extras.putString("gender", "M");
+                        } else if (femaleBtn.isChecked()) {
+                            extras.putString("gender", "F");
+                        }
+                        if (Integer.parseInt(dogage.getText().toString()) <= 3) {
+                            extras.putString("ageRange", "1");
+                        } else {
+                            extras.putString("ageRange", "2");
+                        }
+                        extras.putString("breed", dogbreed.getText().toString());
+                        extras.putString("color", dogcolor.getText().toString());
+                        extras.putString("address", dogaddress.getText().toString());
+                        extras.putString("subdistrict", dogsubdistrict.getText().toString());
+                        extras.putString("district", dogdistrict.getText().toString());
+                        extras.putString("province", selectedValue);
+                        if (!frontImagePath.equals(""))
+                            extras.putString("frontImagePath", frontImagePath);
+                        if (!sideImagePath.equals(""))
+                            extras.putString("sideImagePath", sideImagePath);
+
+                        Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
+                        editVaccine.putExtra("internal_dog_id", dog.getId());
+                        editVaccine.putExtras(extras);
+                        startActivity(editVaccine);
+                    } else if (checkInput == 1) {
+                        Toast.makeText(EditDomestic.this, R.string.address_error, Toast.LENGTH_LONG).show();
+                    } else if (checkInput == 2) {
+                        Toast.makeText(EditDomestic.this, R.string.subdistrict_error, Toast.LENGTH_LONG).show();
+                    } else if (checkInput == 3) {
+                        Toast.makeText(EditDomestic.this, R.string.district_error, Toast.LENGTH_LONG).show();
                     }
-                    if (Integer.parseInt(dogage.getText().toString()) <= 3) {
-                        dog.setAgeRange("1");
-                    } else {
-                        dog.setAgeRange("2");
-                    }
-                    dog.setAge(Integer.parseInt(dogage.getText().toString()));
-                    dog.setBreed(dogbreed.getText().toString());
-                    dog.setColor(dogcolor.getText().toString());
-                    dog.setAddress(dogaddress.getText().toString());
-                    dog.setSubdistrict(dogsubdistrict.getText().toString());
-                    dog.setDistrict(dogdistrict.getText().toString());
-                    dog.setProvince(selectedValue);
-                    dog.setIsSubmit(0);
-                    dbHelper.updateDog(dog);
-                    //add Picture to Sqlite
-                    Bundle prevBundle = getIntent().getExtras();
-                    if (!frontImagePath.equals("")) {
-                        addPicToSqlite(frontImagePath, 1, prevBundle.getInt("internalDogID"));
-                    }
-                    if (!sideImagePath.equals("")) {
-                        addPicToSqlite(sideImagePath, 2, prevBundle.getInt("internalDogID"));
-                    }
-                    Intent editVaccine = new Intent(EditDomestic.this, EditVaccine.class);
-                    editVaccine.putExtra("internal_dog_id", dog.getId());
-                    editVaccine.putExtras(extras);
-                    startActivity(editVaccine);
                 }
             }
         });
@@ -238,17 +319,18 @@ public class EditDomestic extends AppCompatActivity {
 
     }
 
-    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
-        DogImage dogImage = new DogImage();
-        dogImage.setDogInternalId(dogInternalID);
-        if (type == 1) {
-            dogImage.setType(1);
+    private int validateAddressInput() {
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+        if (!dogaddress.getText().toString().matches(addressRegex)) {
+            return 1;
+        } else if (!dogsubdistrict.getText().toString().matches(regex)) {
+            return 2;
+        } else if (!dogdistrict.getText().toString().matches(regex)) {
+            return 3;
         } else {
-            dogImage.setType(2);
+            return 0;
         }
-        dogImage.setImagePath(imagePath);
-        dogImage.setIsSubmit(0);
-        dbHelper.addDogImage(dogImage);
     }
 
     private void getEditDogInfo() {
@@ -289,6 +371,32 @@ public class EditDomestic extends AppCompatActivity {
             sideview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imageSide.getImagePath(), 200, 200));
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                } else {
+                    Toast.makeText(EditDomestic.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                } else {
+                    Toast.makeText(EditDomestic.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

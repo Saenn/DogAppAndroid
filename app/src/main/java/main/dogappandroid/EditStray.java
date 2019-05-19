@@ -1,16 +1,22 @@
 package main.dogappandroid;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -55,8 +61,11 @@ public class EditStray extends AppCompatActivity {
     public static final int RESULT_LOAD_IMAGE_SIDE = 2;
     private static final int REQUEST_TAKE_PHOTO_FRONT = 3;
     private static final int REQUEST_TAKE_PHOTO_SIDE = 4;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT = 1000;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE = 2000;
     private String frontImagePath = "", sideImagePath = "";
     private String[] provinceList;
+    private Drawable originalStyle;
 
 
     @Override
@@ -91,9 +100,49 @@ public class EditStray extends AppCompatActivity {
         takeSidePhoto = (ImageButton) findViewById(R.id.takePhotoStraySide);
         loadFrontPhoto = (ImageButton) findViewById(R.id.loadPhotoStrayFace);
         loadSidePhoto = (ImageButton) findViewById(R.id.loadPhotoStraySide);
+        originalStyle = dogaddress.getBackground();
 
         getEditDogInfo();
         setAllButtonOnClick();
+
+        dogaddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogaddress.getText().toString().matches("[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+")) {
+                        dogaddress.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogaddress.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogsubdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogsubdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        dogsubdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogsubdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
+        dogdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!dogdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]+")) {
+                        dogdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        dogdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
 
         // Setup Spinner //
         selectedValue = "";
@@ -128,13 +177,13 @@ public class EditStray extends AppCompatActivity {
         getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
-        selectedValue = dog.getProvince();
+        selectedValue2 = dog.getProvince();
         provinceSpinner = (Spinner) findViewById(R.id.provinceSpinner);
-        provinceSpinner.setSelection(ProvinceUtils.calculateProvincePosition(selectedValue));
         ArrayAdapter<String> adapterProvince = new ArrayAdapter<>(this,
                 R.layout.support_simple_spinner_dropdown_item,
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
+        provinceSpinner.setSelection(ProvinceUtils.calculateProvincePosition(selectedValue2));
 
         if (preferences.getString("lang", "th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
@@ -142,9 +191,6 @@ public class EditStray extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditStray.this,
-                        "Select : " + provinceList[position],
-                        Toast.LENGTH_SHORT).show();
                 selectedValue2 = provinceList[position];
                 Log.i("selectedvale : ", selectedValue2);
 
@@ -209,18 +255,34 @@ public class EditStray extends AppCompatActivity {
         loadFrontPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                if (ContextCompat.checkSelfPermission(EditStray.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(EditStray.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                }
             }
         });
 
         loadSidePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/jpg");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                if (ContextCompat.checkSelfPermission(EditStray.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(EditStray.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                }
             }
         });
 
@@ -228,42 +290,46 @@ public class EditStray extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (gender.getCheckedRadioButtonId() == RadioButton.NO_ID) {
-                    Toast.makeText(EditStray.this, "Please enter your puppy's gender", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditStray.this, R.string.dog_gender_error, Toast.LENGTH_LONG).show();
                 } else {
-                    Bundle extras = new Bundle();
-                    dog.setName(dogname.getText().toString());
-                    if (maleBtn.isChecked()) {
-                        dog.setGender("M");
-                    } else if (femaleBtn.isChecked()) {
-                        dog.setGender("F");
+                    int checkInput = validateAddressInput();
+                    if (checkInput == 0) {
+                        Bundle extras = new Bundle();
+                        extras.putString("name", dogname.getText().toString());
+                        if (maleBtn.isChecked()) {
+                            extras.putString("gender", "M");
+                        } else if (femaleBtn.isChecked()) {
+                            extras.putString("gender", "F");
+                        }
+                        if (selectedValue.equals("Not exceed 3 years") || selectedValue.equals("ไม่เกิน 3 ปี")) {
+                            extras.putString("ageRange", "1");
+                        } else {
+                            extras.putString("ageRange", "2");
+                        }
+                        extras.putString("breed", dogbreed.getText().toString());
+                        extras.putString("color", dogcolor.getText().toString());
+                        extras.putString("address", dogaddress.getText().toString());
+                        extras.putString("subdistrict", dogsubdistrict.getText().toString());
+                        extras.putString("district", dogdistrict.getText().toString());
+                        extras.putString("province", selectedValue2);
+                        if (!frontImagePath.equals(""))
+                            extras.putString("frontImagePath", frontImagePath);
+                        if (!sideImagePath.equals(""))
+                            extras.putString("sideImagePath", sideImagePath);
+
+                        Intent editVaccine = new Intent(EditStray.this, EditVaccine.class);
+                        editVaccine.putExtra("internal_dog_id", dog.getId());
+                        editVaccine.putExtras(extras);
+                        overridePendingTransition(0, 0);
+                        editVaccine.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(editVaccine);
+                    } else if (checkInput == 1) {
+                        Toast.makeText(EditStray.this, R.string.address_error, Toast.LENGTH_LONG).show();
+                    } else if (checkInput == 2) {
+                        Toast.makeText(EditStray.this, R.string.subdistrict_error, Toast.LENGTH_LONG).show();
+                    } else if (checkInput == 3) {
+                        Toast.makeText(EditStray.this, R.string.district_error, Toast.LENGTH_LONG).show();
                     }
-                    if (selectedValue.equals("Not exceed 3 years") || selectedValue.equals("ไม่เกิน 3 ปี")) {
-                        dog.setAgeRange("1");
-                    } else {
-                        dog.setAgeRange("2");
-                    }
-                    dog.setBreed(dogbreed.getText().toString());
-                    dog.setColor(dogcolor.getText().toString());
-                    dog.setAddress(dogaddress.getText().toString());
-                    dog.setSubdistrict(dogsubdistrict.getText().toString());
-                    dog.setDistrict(dogdistrict.getText().toString());
-                    dog.setProvince(selectedValue2);
-                    dog.setIsSubmit(0);
-                    dbHelper.updateDog(dog);
-                    //add Picture to Sqlite
-                    if (!frontImagePath.equals("")) {
-                        addPicToSqlite(frontImagePath, 1, getIntent().getExtras().getInt("internalDogID"));
-                    }
-                    if (!sideImagePath.equals("")) {
-                        addPicToSqlite(sideImagePath, 2, getIntent().getExtras().getInt("internalDogID"));
-                    }
-                    Intent editVaccine = new Intent(EditStray.this, EditVaccine.class);
-                    editVaccine.putExtra("internal_dog_id", dog.getId());
-                    editVaccine.putExtras(extras);
-                    overridePendingTransition(0, 0);
-                    editVaccine.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(editVaccine);
-                    finish();
                 }
             }
         });
@@ -271,17 +337,18 @@ public class EditStray extends AppCompatActivity {
 
     }
 
-    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
-        DogImage dogImage = new DogImage();
-        dogImage.setDogInternalId(dogInternalID);
-        if (type == 1) {
-            dogImage.setType(1);
+    private int validateAddressInput() {
+        String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+";
+        String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
+        if (!dogaddress.getText().toString().matches(addressRegex)) {
+            return 1;
+        } else if (!dogsubdistrict.getText().toString().matches(regex)) {
+            return 2;
+        } else if (!dogdistrict.getText().toString().matches(regex)) {
+            return 3;
         } else {
-            dogImage.setType(2);
+            return 0;
         }
-        dogImage.setImagePath(imagePath);
-        dogImage.setIsSubmit(0);
-        dbHelper.addDogImage(dogImage);
     }
 
     private void getEditDogInfo() {
@@ -319,6 +386,32 @@ public class EditStray extends AppCompatActivity {
         }
         if (!imageSide.getImagePath().equals("")) {
             sideview.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imageSide.getImagePath(), 200, 200));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_FRONT: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_FRONT);
+                } else {
+                    Toast.makeText(EditStray.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION_SIDE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/jpg");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE_SIDE);
+                } else {
+                    Toast.makeText(EditStray.this, R.string.requestPermissionDeny_EN, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
         }
     }
 

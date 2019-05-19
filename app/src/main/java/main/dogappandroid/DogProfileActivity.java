@@ -157,15 +157,15 @@ public class DogProfileActivity extends AppCompatActivity {
         if (dog.getDogType().equals("3")) {
             if (dog.getAgeRange().equals("1")) {
                 if (language.equals("en")) {
-                    age.setText("Puppy");
+                    age.setText("Puppy (0-3 years)");
                 } else {
-                    age.setText("ลูกสุนัข");
+                    age.setText("ลูกสุนัข (0-3 ปี)");
                 }
             } else {
                 if (language.equals("en")) {
-                    age.setText("Adult");
+                    age.setText("Adult (more than 3 years)");
                 } else {
-                    age.setText("โตเต็มวัย");
+                    age.setText("โตเต็มวัย (มากกว่า 3 ปี)");
                 }
             }
         } else {
