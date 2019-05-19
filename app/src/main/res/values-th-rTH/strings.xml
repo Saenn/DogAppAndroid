@@ -462,5 +462,5 @@
     <string name="pregnent_error_update">กรุณาใส่ข้อมูลการตั้งท้องของสุนัข</string>
     <string name="sterilized_error_update">กรุณาใส่ข้อมูลการทำหมันของสุนัข</string>
     <string name="vaccine_error_update">กรุณาใส่ข้อมูลการฉีดวัคซีนของสุนัข</string>
-
+    <string name="give_birth_null">ยังไม่คลอดลูก</string>
 </resources>
