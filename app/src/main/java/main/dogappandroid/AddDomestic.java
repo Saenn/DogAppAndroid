@@ -144,8 +144,5 @@ public class AddDomestic extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-
 }
