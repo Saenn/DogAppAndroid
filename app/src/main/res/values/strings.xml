@@ -438,5 +438,15 @@
     <string name="no_internet">Please check that you are conencted to the internet and try again</string>
     <string name="dog_age_error">Please input your dog\'s age</string>
     <string name="dog_gender_error">Please enter your dog\'s gender</string>
+    <string name="securityQ1">What is the name of the road you grew up on?</string>
+    <string name="securityQ2">What is your mother’s maiden name?</string>
+    <string name="securityQ3">What was the name of your first/current/favorite pet?</string>
+    <string name="securityQ4">What was the first company that you worked for?</string>
+    <string name="securityQ5">Where did you meet your spouse?</string>
+    <string name="securityQ6">Where did you go to high school/college?</string>
+    <string name="securityQ7">What is your favorite food?</string>
+    <string name="securityQ8">What city were you born in?</string>
+    <string name="securityQ9">Where is your favorite place to vacation?</string>
+    <string name="securityQ10">What Is your favorite book?</string>
 
 </resources>
