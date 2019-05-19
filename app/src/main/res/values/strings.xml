@@ -448,6 +448,7 @@
     <string name="securityQ8">What city were you born in?</string>
     <string name="securityQ9">Where is your favorite place to vacation?</string>
     <string name="securityQ10">What Is your favorite book?</string>
+    <string name="knownMissingDate">Check if you know exactly when did your dog goes missing</string>
 
     <string name="pregnent_error_update">Please fill dog pregnant information</string>
     <string name="sterilized_error_update">Please fill dog sterilized information</string>
