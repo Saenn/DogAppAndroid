@@ -457,4 +457,5 @@
     <string name="securityQ8">อาหารจานโปรดของคุณ?</string>
     <string name="securityQ9">จังหวัดที่คุณเกิด?</string>
     <string name="securityQ10">สถานที่ที่คุณชอบจะไปเที่ยวมากที่สุด?</string>
+    <string name="knownMissingDate">เลือกเมื่อคุณทราบวันที่สุนัขของคุณหายไป</string>
 </resources>
