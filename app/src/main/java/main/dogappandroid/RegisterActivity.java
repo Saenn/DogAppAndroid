@@ -115,6 +115,19 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (password.getText().toString().equals("")) {
+                        password.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        password.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+
         repassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -148,29 +161,32 @@ public class RegisterActivity extends AppCompatActivity {
                     new onCheckUsername().execute(username.getText().toString());
                 } else {
                     String errorTxt = "";
-                    Log.d("errorType",getWrongType() + "");
-                    if(getWrongType() == 0){
-                        errorTxt = getResources().getString(R.string.username_error);
-
-                    }else if(getWrongType() == 1){
+                    Log.d("errorType", getWrongType() + "");
+                    if (getWrongType() == 0) {
                         errorTxt = getResources().getString(R.string.firstname_error);
 
-                    }else if(getWrongType() == 2){
+                    } else if (getWrongType() == 1) {
                         errorTxt = getResources().getString(R.string.lastname_error);
 
-                    }else if(getWrongType() == 3){
-                        errorTxt = getResources().getString(R.string.emails_error);
+                    } else if (getWrongType() == 2) {
+                        errorTxt = getResources().getString(R.string.usernameError);
 
-                    }else if(getWrongType() == 4){
+                    } else if (getWrongType() == 3) {
                         errorTxt = getResources().getString(R.string.password_error);
 
-                    }else if(getWrongType() == 5){
+                    } else if (getWrongType() == 4) {
+                        errorTxt = getResources().getString(R.string.password_not_match_error);
+
+                    } else if (getWrongType() == 5) {
+                        errorTxt = getResources().getString(R.string.emails_error);
+
+                    } else if (getWrongType() == 6) {
                         errorTxt = getResources().getString(R.string.securityquestion_error);
 
-                    }else if(getWrongType() == 6){
+                    } else if (getWrongType() == 7) {
                         errorTxt = getResources().getString(R.string.securityanswer_error);
 
-                    }else{
+                    } else {
                         errorTxt = "None";
                     }
                     Toast toast = Toast.makeText(RegisterActivity.this, errorTxt, Toast.LENGTH_LONG);
@@ -200,8 +216,9 @@ public class RegisterActivity extends AppCompatActivity {
         if (username.getText().toString().matches(usenameRegex)
                 && firstname.getText().toString().matches(fullnameRegex)
                 && lastname.getText().toString().matches(fullnameRegex)
-                && (email.getText().toString().length() == 0 || email.getText().toString().matches(emailRegex))
+                && !password.getText().toString().equals("")
                 && repassword.getText().toString().equals(password.getText().toString())
+                && (email.getText().toString().length() == 0 || email.getText().toString().matches(emailRegex))
                 && securityQuestionSelect != 400
                 && !securityAnswer.getText().toString().equals(""))
             return true;
@@ -209,30 +226,33 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private int getWrongType(){
+    private int getWrongType() {
         String usenameRegex = "[a-zA-Z0-9._-]+";
         String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
         String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-        if(!username.getText().toString().matches(usenameRegex)){
-            return 0 ;
+        if (!firstname.getText().toString().matches(fullnameRegex)) {
+            return 0;
         }
-        if(!firstname.getText().toString().matches(fullnameRegex)){
+        if (!lastname.getText().toString().matches(fullnameRegex)) {
             return 1;
         }
-        if(!lastname.getText().toString().matches(fullnameRegex)){
+        if (!username.getText().toString().matches(usenameRegex)) {
             return 2;
         }
-        if(email.getText().toString().length() != 0 && !email.getText().toString().matches(emailRegex)){
+        if (password.getText().toString().equals("")) {
             return 3;
         }
-        if(!repassword.getText().toString().equals(password.getText().toString())){
+        if (!repassword.getText().toString().equals(password.getText().toString())) {
             return 4;
         }
-        if(securityQuestionSelect == 400){
+        if (email.getText().toString().length() != 0 && !email.getText().toString().matches(emailRegex)) {
             return 5;
         }
-        if(securityAnswer.getText().toString().equals("")){
+        if (securityQuestionSelect == 400) {
             return 6;
+        }
+        if (securityAnswer.getText().toString().equals("")) {
+            return 7;
         }
         return -1;
     }
@@ -241,7 +261,6 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             try {
-                Log.i("Register",s);
                 JSONObject jsonObject = new JSONObject(s);
                 String status = jsonObject.getString("status");
                 if (status.equals("Success")) {
@@ -267,6 +286,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
+                Toast.makeText(RegisterActivity.this, R.string.internet_disconnect_error, Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }

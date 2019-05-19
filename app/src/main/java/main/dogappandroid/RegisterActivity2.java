@@ -7,8 +7,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -60,14 +60,14 @@ public class RegisterActivity2 extends AppCompatActivity {
     private String userImagePath;
     private Spinner provinceSpinner;
     private String[] provinceList;
-    private String selectedValue ="";
+    private String selectedValue = "";
 
     private static final String sharedPrefFile = "main.dogappandroid.sharedpref";
     SharedPreferences mPreferences;
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocalHelper.onAttach(newBase,"th"));
+        super.attachBaseContext(LocalHelper.onAttach(newBase, "th"));
     }
 
     @Override
@@ -87,8 +87,8 @@ public class RegisterActivity2 extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         //Set Language
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage",Context.MODE_PRIVATE);
-        getListInfo(preferences.getString("lang","th"));
+        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
+        getListInfo(preferences.getString("lang", "th"));
 
         // Setup Spinner //
         selectedValue = "Bangkok";
@@ -98,14 +98,14 @@ public class RegisterActivity2 extends AppCompatActivity {
                 provinceList);
         provinceSpinner.setAdapter(adapterProvince);
 
-        if(preferences.getString("lang","th").equals("th")) {
+        if (preferences.getString("lang", "th").equals("th")) {
             provinceList = getResources().getStringArray(R.array.provinceListTHEN);
         }
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedValue = provinceList[position];
-                Log.i("selectedvale : " , selectedValue);
+                Log.i("selectedvale : ", selectedValue);
             }
 
             @Override
@@ -194,25 +194,31 @@ public class RegisterActivity2 extends AppCompatActivity {
                     params.put("forgotQuestion", intent.getStringExtra("forgotQuestion"));
                     params.put("forgotAnswer", intent.getStringExtra("forgotAnswer"));
                     params.put("profilePicturePath", userImagePath);
-                    new RegisterActivity2.onRegister().execute(params);
 
-                    Intent loginActivity = new Intent(RegisterActivity2.this, LoginActivity.class);
-                    startActivity(loginActivity);
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                            connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                        new RegisterActivity2.onRegister().execute(params);
+                        Intent loginActivity = new Intent(RegisterActivity2.this, LoginActivity.class);
+                        startActivity(loginActivity);
+                    } else {
+                        Toast.makeText(RegisterActivity2.this, R.string.internet_disconnect_error, Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     String errorTxt = "";
-                    Log.d("errorType",getWrongType() + "");
-                    if(getWrongType() == 0){
+                    Log.d("errorType", getWrongType() + "");
+                    if (getWrongType() == 0) {
                         errorTxt = getResources().getString(R.string.phone_error);
 
-                    }else if(getWrongType() == 1){
+                    } else if (getWrongType() == 1) {
                         errorTxt = getResources().getString(R.string.address_error);
 
-                    }else if(getWrongType() == 2){
+                    } else if (getWrongType() == 2) {
                         errorTxt = getResources().getString(R.string.subdistrict_error);
 
-                    }else if(getWrongType() == 3) {
+                    } else if (getWrongType() == 3) {
                         errorTxt = getResources().getString(R.string.district_error);
-                    }else{
+                    } else {
                         errorTxt = "None";
                     }
                     Toast toast = Toast.makeText(RegisterActivity2.this, errorTxt, Toast.LENGTH_LONG);
@@ -243,7 +249,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             File imgFile = new File(userImagePath);
             if (imgFile.exists()) {
                 userImagePath = imgFile.getPath();
-                userImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imgFile.getPath(),150,150));
+                userImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(imgFile.getPath(), 150, 150));
                 galleryAddPic();
             }
         }
@@ -256,7 +262,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             userImagePath = picturePath;
-            userImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(picturePath,150,150));
+            userImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromImagePath(picturePath, 150, 150));
         }
     }
 
@@ -287,20 +293,20 @@ public class RegisterActivity2 extends AppCompatActivity {
         return false;
     }
 
-    private int getWrongType(){
+    private int getWrongType() {
         String phoneRegex = "[0-9]*";
         String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-        if(!phoneEditText.getText().toString().matches(phoneRegex)){
-            return 0 ;
+        if (!phoneEditText.getText().toString().matches(phoneRegex)) {
+            return 0;
         }
-        if(!addressEditText.getText().toString().matches(addressRegex)){
+        if (!addressEditText.getText().toString().matches(addressRegex)) {
             return 1;
         }
-        if(!subdistrictEditText.getText().toString().matches(regex)){
+        if (!subdistrictEditText.getText().toString().matches(regex)) {
             return 2;
         }
-        if(!districtEditText.getText().toString().matches(regex)){
+        if (!districtEditText.getText().toString().matches(regex)) {
             return 3;
         }
         return -1;
@@ -327,7 +333,7 @@ public class RegisterActivity2 extends AppCompatActivity {
     }
 
     private void getListInfo(String lang) {
-        Context context = LocalHelper.setLocale(this,lang);
+        Context context = LocalHelper.setLocale(this, lang);
         Resources resources = context.getResources();
         provinceList = resources.getStringArray(R.array.provinceList);
     }
