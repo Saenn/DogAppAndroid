@@ -452,4 +452,6 @@
     <string name="pregnent_error_update">Please fill dog pregnant information</string>
     <string name="sterilized_error_update">Please fill dog sterilized information</string>
     <string name="vaccine_error_update">Please fill dog vaccine information</string>
+    <string name="give_birth_null">Have yet to give birth</string>
+
 </resources>
