@@ -205,11 +205,11 @@ public class AddStray2 extends AppCompatActivity {
     protected int validateAllInput() {
         String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]+";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]+";
-        if (!address.getText().toString().matches(addressRegex)) {
+        if (!address.getText().toString().matches(addressRegex) && sameAddress.getCheckedRadioButtonId() == R.id.noSameAddressStray) {
             return 1;
-        } else if (!subdistrict.getText().toString().matches(regex)) {
+        } else if (!subdistrict.getText().toString().matches(regex) && sameAddress.getCheckedRadioButtonId() == R.id.noSameAddressStray) {
             return 2;
-        } else if (!district.getText().toString().matches(regex)) {
+        } else if (!district.getText().toString().matches(regex) && sameAddress.getCheckedRadioButtonId() == R.id.noSameAddressStray) {
             return 3;
         } else {
             return 0;
