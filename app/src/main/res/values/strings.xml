@@ -436,5 +436,7 @@
     <string name="empty_field_error">Please fill up all the required fields</string>
     <string name="empty_image_error">Please take a photo of your dog</string>
     <string name="no_internet">Please check that you are conencted to the internet and try again</string>
+    <string name="dog_age_error">Please input your dog\'s age</string>
+    <string name="dog_gender_error">Please enter your dog\'s gender</string>
 
 </resources>
