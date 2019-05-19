@@ -219,7 +219,9 @@ public class DogProfileActivity extends AppCompatActivity {
                     children.setText("");
                 } else if (dogInformation.getPregnant() == 1) {
                     pregnant.setText(getResources().getString(R.string.pregnant));
-                    children.setText(String.valueOf(dogInformation.getChildNumber()));
+                    if(!String.valueOf(dogInformation.getChildNumber()).equals("-1")) {
+                        children.setText(String.valueOf(dogInformation.getChildNumber()));
+                    }
                 }
             }
             if (dogInformation.getSterilized() == 0) {
