@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -42,7 +43,7 @@ public class EditUserProfile extends AppCompatActivity {
     private Drawable originalStyle;
 
     private ImageView profileImage;
-    private TextView firstname, lastname, address, subdistrict, district, province, phone, email, answer;
+    private EditText firstname, lastname, address, subdistrict, district, phone, email, answer;
     private Button doneBtn;
     private ImageButton takePhotoButton, loadPhotoButton;
     private String userImagePath;
@@ -87,6 +88,7 @@ public class EditUserProfile extends AppCompatActivity {
         district = findViewById(R.id.districtEditText);
         phone = findViewById(R.id.phoneEditText);
         email = findViewById(R.id.emailRegister);
+        originalStyle = address.getBackground();
 
         firstname.setText(mPreferences.getString("firstName", ""));
         lastname.setText(mPreferences.getString("lastName", ""));
@@ -95,6 +97,80 @@ public class EditUserProfile extends AppCompatActivity {
         district.setText(mPreferences.getString("district", ""));
         phone.setText(mPreferences.getString("phone", ""));
         email.setText(mPreferences.getString("email", ""));
+
+        firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!firstname.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F. ]+")) {
+                        firstname.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        firstname.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+        lastname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!lastname.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F. ]+")) {
+                        lastname.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        lastname.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+        address.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!address.getText().toString().matches("[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*")) {
+                        address.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        address.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+        subdistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!subdistrict.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]*")) {
+                        subdistrict.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        subdistrict.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+        district.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!district.getText().toString().matches("[a-zA-Z\\u0E00-\\u0E7F ]*")) {
+                        district.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        district.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (!email.getText().toString().matches("^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$") &&
+                            !email.getText().toString().equals("")) {
+                        email.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        email.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
     }
 
     private void bindAndShowSecurity() {
@@ -112,11 +188,21 @@ public class EditUserProfile extends AppCompatActivity {
         question.setSelection(Integer.parseInt(questionNumber));
 
         answer.setText(mPreferences.getString("forgotAnswer", ""));
+        answer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                if (!focused) {
+                    if (answer.getText().toString().equals("")) {
+                        answer.setBackgroundColor(getResources().getColor(R.color.pink100));
+                    } else {
+                        answer.setBackground(originalStyle);
+                    }
+                }
+            }
+        });
     }
 
     private void bindButton() {
-        originalStyle = address.getBackground();
-
         takePhotoButton = findViewById(R.id.takePhotoButton);
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,35 +272,35 @@ public class EditUserProfile extends AppCompatActivity {
                     finish();
                 } else {
                     String errorTxt = "";
-                    Log.d("errorType",getWrongType() + "");
-                    if(getWrongType() == 0){
+                    Log.d("errorType", getWrongType() + "");
+                    if (getWrongType() == 0) {
                         errorTxt = getResources().getString(R.string.phone_error);
 
-                    }else if(getWrongType() == 1){
+                    } else if (getWrongType() == 1) {
                         errorTxt = getResources().getString(R.string.firstname_error);
 
-                    }else if(getWrongType() == 2){
+                    } else if (getWrongType() == 2) {
                         errorTxt = getResources().getString(R.string.lastname_error);
 
-                    }else if(getWrongType() == 3){
+                    } else if (getWrongType() == 3) {
                         errorTxt = getResources().getString(R.string.emails_error);
 
-                    }else if(getWrongType() == 4){
-                        errorTxt = getResources().getString(R.string.address_error);
-
-                    }else if(getWrongType() == 5){
+                    } else if (getWrongType() == 4) {
                         errorTxt = getResources().getString(R.string.securityquestion_error);
 
-                    }else if(getWrongType() == 6){
+                    } else if (getWrongType() == 5) {
                         errorTxt = getResources().getString(R.string.securityanswer_error);
 
-                    }else if(getWrongType() == 7){
+                    } else if (getWrongType() == 6) {
+                        errorTxt = getResources().getString(R.string.address_error);
+
+                    } else if (getWrongType() == 7) {
                         errorTxt = getResources().getString(R.string.subdistrict_error);
 
-                    }else if(getWrongType() == 8){
+                    } else if (getWrongType() == 8) {
                         errorTxt = getResources().getString(R.string.district_error);
 
-                    }else{
+                    } else {
                         errorTxt = "None";
                     }
                     Toast toast = Toast.makeText(EditUserProfile.this, errorTxt, Toast.LENGTH_LONG);
@@ -288,45 +374,45 @@ public class EditUserProfile extends AppCompatActivity {
                 && (email.getText().toString().length() == 0 || email.getText().toString().matches(emailRegex))
                 && securityQuestionSelect != 400
                 && !answer.getText().toString().equals("")
-                && (email.getText().toString().length() == 0 ||phone.getText().toString().matches(phoneRegex))
-                && (address.getText().toString().length() == 0 ||address.getText().toString().matches(addressRegex))
-                && (subdistrict.getText().toString().length() == 0 ||subdistrict.getText().toString().matches(regex))
-                && (district.getText().toString().length() == 0 ||district.getText().toString().matches(regex)))
+                && (email.getText().toString().length() == 0 || phone.getText().toString().matches(phoneRegex))
+                && (address.getText().toString().length() == 0 || address.getText().toString().matches(addressRegex))
+                && (subdistrict.getText().toString().length() == 0 || subdistrict.getText().toString().matches(regex))
+                && (district.getText().toString().length() == 0 || district.getText().toString().matches(regex)))
             return true;
         return false;
     }
 
-    private int getWrongType(){
+    private int getWrongType() {
         String phoneRegex = "[0-9]*";
         String fullnameRegex = "[a-zA-Z\\u0E00-\\u0E7F. ]+";
         String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
         String addressRegex = "[0-9a-zA-Z\\u0E00-\\u0E7F/.,_ ]*";
         String regex = "[a-zA-Z\\u0E00-\\u0E7F ]*";
-        if(!phone.getText().toString().matches(phoneRegex)){
-            return 0 ;
+        if (!phone.getText().toString().matches(phoneRegex)) {
+            return 0;
         }
-        if(!firstname.getText().toString().matches(fullnameRegex)){
+        if (!firstname.getText().toString().matches(fullnameRegex)) {
             return 1;
         }
-        if(!lastname.getText().toString().matches(fullnameRegex)){
+        if (!lastname.getText().toString().matches(fullnameRegex)) {
             return 2;
         }
-        if(email.getText().toString().length() != 0 && !email.getText().toString().matches(emailRegex)){
+        if (email.getText().toString().length() != 0 && !email.getText().toString().matches(emailRegex)) {
             return 3;
         }
-        if(!address.getText().toString().matches(addressRegex)){
+        if (securityQuestionSelect == 400) {
             return 4;
         }
-        if(securityQuestionSelect == 400){
+        if (answer.getText().toString().equals("")) {
             return 5;
         }
-        if(answer.getText().toString().equals("")){
+        if (!address.getText().toString().matches(addressRegex)) {
             return 6;
         }
-        if(!subdistrict.getText().toString().matches(regex)){
+        if (!subdistrict.getText().toString().matches(regex)) {
             return 7;
         }
-        if(!district.getText().toString().matches(regex)){
+        if (!district.getText().toString().matches(regex)) {
             return 8;
         }
         return -1;
