@@ -449,4 +449,8 @@
     <string name="securityQ9">Where is your favorite place to vacation?</string>
     <string name="securityQ10">What Is your favorite book?</string>
 
+    <string name="pregnent_error_update">Please fill dog pregnant information</string>
+    <string name="sterilized_error_update">Please fill dog sterilized information</string>
+    <string name="vaccine_error_update">Please fill dog vaccine information</string>
+
 </resources>
