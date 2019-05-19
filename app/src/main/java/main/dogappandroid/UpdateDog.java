@@ -196,49 +196,48 @@ public class UpdateDog extends AppCompatActivity {
             public void onClick(View view) {
                 if (dogStatus.getSelectedItem().toString().equals("Alive") ||
                         dogStatus.getSelectedItem().toString().equals("มีชีวิตอยู่")) {
-                    if(!yesPregnant.isChecked()
-                            && !noPregnant.isChecked()) {
+                    if (!yesPregnant.isChecked()
+                            && !noPregnant.isChecked() && dog.getGender().equals("F")) {
                         Toast.makeText(UpdateDog.this, R.string.pregnent_error_update, Toast.LENGTH_LONG).show();
-                    }else if(!yesSterilized.isChecked()
-                            && !noSterilized.isChecked()){
+                    } else if (!yesSterilized.isChecked()
+                            && !noSterilized.isChecked()) {
                         Toast.makeText(UpdateDog.this, R.string.sterilized_error_update, Toast.LENGTH_LONG).show();
-                    }else if(!yesVaccine.isChecked()
-                            && !noVaccine.isChecked()){
+                    } else if (!yesVaccine.isChecked()
+                            && !noVaccine.isChecked()) {
                         Toast.makeText(UpdateDog.this, R.string.vaccine_error_update, Toast.LENGTH_LONG).show();
-                    }else {
-                    DogInformation dogInformationTmp = new DogInformation();
-                    dogInformationTmp.setDogStatus("1");
-                    dogInformationTmp.setAgeRange(dog.getAgeRange());
-                    dogInformationTmp.setAge(dog.getAge());
-                    if (yesPregnant.isChecked()) {
-                        dogInformationTmp.setPregnant(1);
-                        try {
-                            dogInformationTmp.setChildNumber(Integer.parseInt(children.getText().toString()));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else if (noPregnant.isChecked()) {
-                        dogInformationTmp.setPregnant(0);
-                    }
-                    if (yesSterilized.isChecked()) {
-                        dogInformationTmp.setSterilized(1);
-                        if (knownSterilizedDate.isChecked()) {
-                            dogInformationTmp.setSterilizedDate(sterilizedDateSelected);
-                        }
-                    } else if (noSterilized.isChecked()) {
-                        dogInformationTmp.setSterilized(0);
-                    } else if (unknownSterilized.isChecked()) {
-                        dogInformationTmp.setSterilized(2);
                     } else {
-                        if (dogInformation.getSterilized() == 1) {
-                            dogInformationTmp.setSterilized(1);
-                            dogInformationTmp.setSterilizedDate(dogInformation.getSterilizedDate());
+                        DogInformation dogInformationTmp = new DogInformation();
+                        dogInformationTmp.setDogStatus("1");
+                        dogInformationTmp.setAgeRange(dog.getAgeRange());
+                        dogInformationTmp.setAge(dog.getAge());
+                        if (yesPregnant.isChecked()) {
+                            dogInformationTmp.setPregnant(1);
+                            try {
+                                dogInformationTmp.setChildNumber(Integer.parseInt(children.getText().toString()));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else if (noPregnant.isChecked()) {
+                            dogInformationTmp.setPregnant(0);
                         }
-                    }
-                    dogInformationTmp.setIsSubmit(0);
-                    dogInformationTmp.setDogID(getIntent().getExtras().getInt("internalDogID"));
-                    dbHelper.addDogInformation(dogInformationTmp);
-
+                        if (yesSterilized.isChecked()) {
+                            dogInformationTmp.setSterilized(1);
+                            if (knownSterilizedDate.isChecked()) {
+                                dogInformationTmp.setSterilizedDate(sterilizedDateSelected);
+                            }
+                        } else if (noSterilized.isChecked()) {
+                            dogInformationTmp.setSterilized(0);
+                        } else if (unknownSterilized.isChecked()) {
+                            dogInformationTmp.setSterilized(2);
+                        } else {
+                            if (dogInformation.getSterilized() == 1) {
+                                dogInformationTmp.setSterilized(1);
+                                dogInformationTmp.setSterilizedDate(dogInformation.getSterilizedDate());
+                            }
+                        }
+                        dogInformationTmp.setIsSubmit(0);
+                        dogInformationTmp.setDogID(getIntent().getExtras().getInt("internalDogID"));
+                        dbHelper.addDogInformation(dogInformationTmp);
                         if (yesVaccine.isChecked()) {
                             vaccineList = dbHelper.getRabiesVaccineList();
                             vaccineList.addAll(dbHelper.getOtherVaccineList());
@@ -256,8 +255,11 @@ public class UpdateDog extends AppCompatActivity {
                 } else if (dogStatus.getSelectedItem().toString().equals("Missing") ||
                         dogStatus.getSelectedItem().toString().equals("หาย")) {
                     DogInformation dogInformationTmp = new DogInformation();
+                    dogInformationTmp.setAge(dog.getAge());
+                    dogInformationTmp.setAgeRange(dog.getAgeRange());
                     dogInformationTmp.setDogStatus("2");
-                    dogInformationTmp.setMissingDate(latestSeenDateSelected);
+                    if (knownMissingDate.isChecked())
+                        dogInformationTmp.setMissingDate(latestSeenDateSelected);
                     dogInformationTmp.setDogID(getIntent().getExtras().getInt("internalDogID"));
                     dbHelper.addDogInformation(dogInformationTmp);
 

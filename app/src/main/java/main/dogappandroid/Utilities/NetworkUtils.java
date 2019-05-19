@@ -213,7 +213,7 @@ public class NetworkUtils {
             urlParams += "pregnant=" + dogInformation.getPregnant() + "&";
         if (dogInformation.getChildNumber() != -1)
             urlParams += "childNumber=" + dogInformation.getChildNumber() + "&";
-        if (!dogInformation.getMissingDate().equals(""))
+        if (dogInformation.getMissingDate() != null && !dogInformation.getMissingDate().equals(""))
             urlParams += "missingDate=" + dogInformation.getMissingDate() + "&";
         if (dogInformation.getSterilized() != -1)
             urlParams += "sterilized=" + dogInformation.getSterilized() + "&";
@@ -589,7 +589,7 @@ public class NetworkUtils {
             responseFromRequest = contentBuilder.toString();
         } catch (IOException e) {
             try {
-                if(httpConnection.getErrorStream() != null){
+                if (httpConnection.getErrorStream() != null) {
                     reader = new BufferedReader(new InputStreamReader(
                             httpConnection.getErrorStream()));
                     String line;
@@ -603,7 +603,7 @@ public class NetworkUtils {
                         return "";
                     }
                     responseFromRequest = contentBuilder.toString();
-                }else {
+                } else {
                     return "";
                 }
             } catch (IOException e2) {
@@ -658,7 +658,7 @@ public class NetworkUtils {
             responseFromRequest = contentBuilder.toString();
         } catch (IOException e) {
             try {
-                if(httpConnection.getErrorStream() != null){
+                if (httpConnection.getErrorStream() != null) {
                     reader = new BufferedReader(new InputStreamReader(
                             httpConnection.getErrorStream()));
                     String line;
@@ -672,7 +672,7 @@ public class NetworkUtils {
                         return "";
                     }
                     responseFromRequest = contentBuilder.toString();
-                }else{
+                } else {
                     return "Your internet is disconnected, please try again";
                 }
             } catch (IOException e2) {
