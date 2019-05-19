@@ -441,5 +441,7 @@
     <string name="district_error">อำเภอสามารถกรอกเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น</string>
     <string name="subdistrict_error">ตำบลสามารถกรอกเป็นภาษาไทยหรือภาษาอังกฤษเท่านั้น</string>
     <string name="internet_disconnect_error">ไม่มีสัญญาณอินเทอร์เน็ต กรุณาลองใหม่อีกครั้ง</string>
+    <string name="empty_field_error">กรุณากรอกข้อมูลที่จำเป็นให้ครบ</string>
+    <string name="empty_image_error">กรุณาถ่ายรูปสุนัขของคุณ</string>
 
 </resources>
