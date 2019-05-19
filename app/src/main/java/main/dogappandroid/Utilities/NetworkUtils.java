@@ -29,7 +29,7 @@ public class NetworkUtils {
     private static final String CHECK_USERNAME = "http://3.1.206.5:9000/checkUsername";
     private static final String UPDATE_USER_URL = "http://3.1.206.5:9000/user/update";
     private static final String LOGIN_URL = "http://3.1.206.5:9000/login";
-    private static final String FORGOT_URL = "http://3.1.206.5:9000/forgot";
+    private static final String FORGOT_URL = "http://3.1.206.5:9000/forgotForce";
     private static final String ADD_DOG_URL = "http://3.1.206.5:9000/dog/add";
     private static final String UPDATE_DOG_URL = "http://3.1.206.5:9000/dog/update";
     private static final String REPORT_PROVINCE = "http://3.1.206.5:9000/report/";
@@ -589,19 +589,23 @@ public class NetworkUtils {
             responseFromRequest = contentBuilder.toString();
         } catch (IOException e) {
             try {
-                reader = new BufferedReader(new InputStreamReader(
-                        httpConnection.getErrorStream()));
-                String line;
-                StringBuilder contentBuilder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    contentBuilder.append(line);
-                    contentBuilder.append("\n");
-                }
-                reader.close();
-                if (contentBuilder.length() == 0) {
+                if(httpConnection.getErrorStream() != null){
+                    reader = new BufferedReader(new InputStreamReader(
+                            httpConnection.getErrorStream()));
+                    String line;
+                    StringBuilder contentBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        contentBuilder.append(line);
+                        contentBuilder.append("\n");
+                    }
+                    reader.close();
+                    if (contentBuilder.length() == 0) {
+                        return "";
+                    }
+                    responseFromRequest = contentBuilder.toString();
+                }else {
                     return "";
                 }
-                responseFromRequest = contentBuilder.toString();
             } catch (IOException e2) {
                 e2.printStackTrace();
             }
