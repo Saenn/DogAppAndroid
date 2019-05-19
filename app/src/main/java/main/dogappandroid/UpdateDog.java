@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class UpdateDog extends AppCompatActivity {
@@ -65,6 +66,12 @@ public class UpdateDog extends AppCompatActivity {
         setContentView(R.layout.activity_update_dog);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        latestSeenDateSelected = sdf.format(date);
+        sterilizedDateSelected = sdf.format(date);
+
 
         languagePreferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         Context context = LocalHelper.setLocale(this, languagePreferences.getString("lang", "th"));
@@ -197,10 +204,12 @@ public class UpdateDog extends AppCompatActivity {
                 if (dogStatus.getSelectedItem().toString().equals("Alive") ||
                         dogStatus.getSelectedItem().toString().equals("มีชีวิตอยู่")) {
                     if (!yesPregnant.isChecked()
-                            && !noPregnant.isChecked() && dog.getGender().equals("F")) {
+                            && !noPregnant.isChecked()
+                            && dog.getGender().equals("F")) {
                         Toast.makeText(UpdateDog.this, R.string.pregnent_error_update, Toast.LENGTH_LONG).show();
                     } else if (!yesSterilized.isChecked()
-                            && !noSterilized.isChecked()) {
+                            && !noSterilized.isChecked()
+                            && dogInformation.getSterilized() != 1) {
                         Toast.makeText(UpdateDog.this, R.string.sterilized_error_update, Toast.LENGTH_LONG).show();
                     } else if (!yesVaccine.isChecked()
                             && !noVaccine.isChecked()) {
@@ -272,6 +281,8 @@ public class UpdateDog extends AppCompatActivity {
                         dogStatus.getSelectedItem().toString().equals("เสียชีวิต")) {
                     DogInformation dogInformationTmp = new DogInformation();
                     dogInformationTmp.setDogStatus("3");
+                    dogInformationTmp.setAge(dog.getAge());
+                    dogInformationTmp.setAgeRange(dog.getAgeRange());
                     dogInformationTmp.setDeathRemark(deadDescription.getText().toString());
                     dogInformationTmp.setDogID(getIntent().getExtras().getInt("internalDogID"));
                     dbHelper.addDogInformation(dogInformationTmp);

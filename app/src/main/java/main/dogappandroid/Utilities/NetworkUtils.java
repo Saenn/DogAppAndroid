@@ -213,6 +213,8 @@ public class NetworkUtils {
             urlParams += "pregnant=" + dogInformation.getPregnant() + "&";
         if (dogInformation.getChildNumber() != -1)
             urlParams += "childNumber=" + dogInformation.getChildNumber() + "&";
+        if (!dogInformation.getDeathRemark().equals(""))
+            urlParams += "deathRemark=" + dogInformation.getDeathRemark() + "&";
         if (dogInformation.getMissingDate() != null && !dogInformation.getMissingDate().equals(""))
             urlParams += "missingDate=" + dogInformation.getMissingDate() + "&";
         if (dogInformation.getSterilized() != -1)
