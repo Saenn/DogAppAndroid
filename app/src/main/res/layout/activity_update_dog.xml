@@ -124,6 +124,16 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/mandatory7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/mandatorySign"
+                        android:textColor="@color/red"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/progressRegister1" />
+
+                    <TextView
                         android:id="@+id/pregnantLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -201,6 +211,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mandatory8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/mandatorySign"
+                        android:textColor="@color/red"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/progressRegister1" />
 
                     <TextView
                         android:id="@+id/sterilizedLabel"
@@ -288,6 +308,13 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <CheckBox
+                    android:id="@+id/knownMissing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="@string/knownMissingDate" />
+
                 <CalendarView
                     android:id="@+id/lastestSeenDate"
                     android:layout_width="match_parent"
@@ -310,6 +337,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mandatory9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/mandatorySign"
+                        android:textColor="@color/red"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/progressRegister1" />
 
                     <TextView
                         android:id="@+id/vaccineLabel"
