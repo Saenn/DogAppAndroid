@@ -11,7 +11,7 @@
         android:id="@+id/reportTop"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/pink400"
+        android:background="@color/pink600"
         android:gravity="center_vertical"
         android:textAlignment="center"
         android:textColor="@color/white"
