@@ -417,15 +417,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (dog.getDogType().equals("3")) {
                 if (dog.getAgeRange().equals("1")) {
                     if (language.equals("en")) {
-                        holder.age.setText("Age : " + "Puppy (0-3 years)");
+                        holder.age.setText("Age : " + "Puppy");
                     } else {
-                        holder.age.setText("อายุ : " + "ลูกสุนัข (0-3 ปี)");
+                        holder.age.setText("อายุ : " + "ลูกสุนัข");
                     }
                 } else {
                     if (language.equals("en")) {
-                        holder.age.setText("Age : " + "Adult (more than 3 years)");
+                        holder.age.setText("Age : " + "Adult");
                     } else {
-                        holder.age.setText("อายุ : " + "โตเต็มวัย (มากกว่า 3 ปี)");
+                        holder.age.setText("อายุ : " + "โตเต็มวัย");
                     }
                 }
             } else {

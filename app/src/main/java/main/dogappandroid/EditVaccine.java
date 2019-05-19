@@ -65,6 +65,28 @@ public class EditVaccine extends AppCompatActivity {
             public void onClick(View view) {
 
                 Bundle extras = getIntent().getExtras();
+
+                Dog dog = dbHelper.getDogById(extras.getInt("internal_dog_id"));
+                dog.setName(extras.getString("name"));
+                if (!dog.getDogType().equals("3")) dog.setAge(extras.getInt("age"));
+                dog.setAgeRange(extras.getString("ageRange"));
+                dog.setGender(extras.getString("gender"));
+                dog.setBreed(extras.getString("breed"));
+                dog.setColor(extras.getString("color"));
+                dog.setAddress(extras.getString("address"));
+                dog.setSubdistrict(extras.getString("subdistrict"));
+                dog.setDistrict(extras.getString("district"));
+                dog.setProvince(extras.getString("province"));
+                dog.setIsSubmit(0);
+                dbHelper.updateDog(dog);
+
+                if (extras.getString("frontImagePath") != null) {
+                    addPicToSqlite(extras.getString("frontImagePath"), 1, dog.getId());
+                }
+                if (extras.getString("sideImagePath") != null) {
+                    addPicToSqlite(extras.getString("sideImagePath"), 2, dog.getId());
+                }
+
                 for (DogVaccine v : rabiesVaccine) {
                     v.setDogID(extras.getInt("internal_dog_id"));
                     dbHelper.updateVaccine(v);
@@ -129,6 +151,7 @@ public class EditVaccine extends AppCompatActivity {
                 }
             });
         }
+
         @Override
         public int getItemCount() {
             return myDataset.size();
@@ -137,11 +160,25 @@ public class EditVaccine extends AppCompatActivity {
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         TextView vaccine, vaccinatedDate;
+
         public ViewHolder(View v) {
             super(v);
             vaccine = v.findViewById(R.id.vaccine_name_label);
             vaccinatedDate = v.findViewById(R.id.vaccine_date);
         }
+    }
+
+    private void addPicToSqlite(String imagePath, int type, int dogInternalID) {
+        DogImage dogImage = new DogImage();
+        dogImage.setDogInternalId(dogInternalID);
+        if (type == 1) {
+            dogImage.setType(1);
+        } else {
+            dogImage.setType(2);
+        }
+        dogImage.setImagePath(imagePath);
+        dogImage.setIsSubmit(0);
+        dbHelper.addDogImage(dogImage);
     }
 
     public void reload() {
