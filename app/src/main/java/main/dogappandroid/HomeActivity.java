@@ -414,27 +414,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             // need to set image //
             holder.name.setText(dog.getName());
-            Log.i("Dog age range" , info.getAgeRange());
-            Log.i("Dog age range" , info.getAge() + "");
             if (dog.getDogType().equals("3")) {
-                if (info.getAgeRange().equals("1")) {
+                if (dog.getAgeRange().equals("1")) {
                     if (language.equals("en")) {
-                        holder.age.setText("Age : " + "0-3 years");
+                        holder.age.setText("Age : " + "Puppy (0-3 years)");
                     } else {
-                        holder.age.setText("อายุ : " + "0-3 ปี");
+                        holder.age.setText("อายุ : " + "ลูกสุนัข (0-3 ปี)");
                     }
                 } else {
                     if (language.equals("en")) {
-                        holder.age.setText("Age : " + "Older than 3");
+                        holder.age.setText("Age : " + "Adult (more than 3 years)");
                     } else {
-                        holder.age.setText("อายุ : " + "มากกว่า 3 ปี");
+                        holder.age.setText("อายุ : " + "โตเต็มวัย (มากกว่า 3 ปี)");
                     }
                 }
             } else {
                 if (language.equals("en")) {
-                    holder.age.setText("Age : " + info.getAge() + " years");
+                    holder.age.setText("Age : " + dog.getAge() + " years");
                 } else {
-                    holder.age.setText("อายุ : " + info.getAge() + " ปี");
+                    holder.age.setText("อายุ : " + dog.getAge() + " ปี");
                 }
             }
             if (language.equals("en")) {
