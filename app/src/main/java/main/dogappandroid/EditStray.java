@@ -237,7 +237,7 @@ public class EditStray extends AppCompatActivity {
                     } else if (femaleBtn.isChecked()) {
                         dog.setGender("F");
                     }
-                    if (selectedValue.equals("Not exceed 3 years")) {
+                    if (selectedValue.equals("Not exceed 3 years") || selectedValue.equals("ไม่เกิน 3 ปี")) {
                         dog.setAgeRange("1");
                     } else {
                         dog.setAgeRange("2");
@@ -384,7 +384,7 @@ public class EditStray extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
 
         if (dog.getAgeRange().equals("1")) {
-            if (preferences.getString("lang", "th") == "en") {
+            if (preferences.getString("lang", "th").equals("en")) {
                 ageList.add(0, "Not exceed 3 years");
                 ageList.add(1, "More than 3 years");
             } else {
@@ -392,7 +392,7 @@ public class EditStray extends AppCompatActivity {
                 ageList.add(1, "มากกว่า 3 ปี");
             }
         } else {
-            if (preferences.getString("lang", "th") == "en") {
+            if (preferences.getString("lang", "th").equals("en")) {
                 ageList.add(0, "More than 3 years");
                 ageList.add(1, "Not exceed 3 years");
 
