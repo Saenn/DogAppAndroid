@@ -444,5 +444,6 @@
     <string name="internet_disconnect_error">ไม่มีสัญญาณอินเทอร์เน็ต กรุณาลองใหม่อีกครั้ง</string>
     <string name="empty_field_error">กรุณากรอกข้อมูลที่จำเป็นให้ครบ</string>
     <string name="empty_image_error">กรุณาถ่ายรูปสุนัขของคุณ</string>
+    <string name="no_internet">กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตและลองอีกครั้ง</string>
 
 </resources>

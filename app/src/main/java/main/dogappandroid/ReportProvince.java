@@ -42,11 +42,8 @@ public class ReportProvince extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_province);
         mHelper = new DBHelper(this);
-        SharedPreferences preferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
 
-        if (preferences.getString("lang", "th").equals("th")) {
-            provinceList = getResources().getStringArray(R.array.provinceList);
-        }
+        provinceList = getResources().getStringArray(R.array.provinceList);
 
         //        handle recycler view
         recyclerView = (RecyclerView) findViewById(R.id.reportprovince_recycler);
