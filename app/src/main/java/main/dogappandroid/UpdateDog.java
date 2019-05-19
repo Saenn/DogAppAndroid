@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class UpdateDog extends AppCompatActivity {
@@ -65,6 +66,12 @@ public class UpdateDog extends AppCompatActivity {
         setContentView(R.layout.activity_update_dog);
         Intent service = new Intent(this, ServiceRunning.class);
         startService(service);
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        latestSeenDateSelected = sdf.format(date);
+        sterilizedDateSelected = sdf.format(date);
+
 
         languagePreferences = getSharedPreferences("defaultLanguage", Context.MODE_PRIVATE);
         Context context = LocalHelper.setLocale(this, languagePreferences.getString("lang", "th"));
