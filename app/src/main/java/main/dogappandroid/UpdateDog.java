@@ -36,7 +36,7 @@ public class UpdateDog extends AppCompatActivity {
     private LinearLayout missingLayout, deathLayout, pregnantLayout, childrenLayout, sterilizedLayout, vaccineLayout, vaccineListLayout;
     private CalendarView sterilizedCalendar, missingCalendar;
     private RadioButton yesSterilized, noSterilized, unknownSterilized, yesPregnant, noPregnant, yesVaccine, noVaccine;
-    private CheckBox knownSterilizedDate;
+    private CheckBox knownSterilizedDate, knownMissingDate;
     private RecyclerView vaccineListRecycler;
     private RecyclerView.LayoutManager vaccineLayoutManager;
     private RecyclerView.Adapter vaccineAdapter;
@@ -343,6 +343,17 @@ public class UpdateDog extends AppCompatActivity {
             }
         });
 
+        knownMissingDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (knownMissingDate.isChecked()) {
+                    missingCalendar.setVisibility(View.VISIBLE);
+                } else {
+                    missingCalendar.setVisibility(View.GONE);
+                }
+            }
+        });
+
         yesPregnant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,6 +408,7 @@ public class UpdateDog extends AppCompatActivity {
         deadDescription = findViewById(R.id.deathRemark);
         unknownSterilized = findViewById(R.id.unknownSterilized);
         knownSterilizedDate = findViewById(R.id.knownSterilized);
+        knownMissingDate = findViewById(R.id.knownMissing);
         sterilizedDateLabel = findViewById(R.id.sterilizedDateLabel);
     }
 
@@ -431,6 +443,7 @@ public class UpdateDog extends AppCompatActivity {
         sterilizedDateLabel.setVisibility(View.GONE);
         knownSterilizedDate.setVisibility(View.GONE);
         sterilizedCalendar.setVisibility(View.GONE);
+        missingCalendar.setVisibility(View.GONE);
         vaccineLayout.setVisibility(View.GONE);
         vaccineListLayout.setVisibility(View.GONE);
         if (dog.getDogType().equals("1")) {
