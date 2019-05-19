@@ -238,7 +238,6 @@ public class UpdateDog extends AppCompatActivity {
                         dogInformationTmp.setIsSubmit(0);
                         dogInformationTmp.setDogID(getIntent().getExtras().getInt("internalDogID"));
                         dbHelper.addDogInformation(dogInformationTmp);
-
                         if (yesVaccine.isChecked()) {
                             vaccineList = dbHelper.getRabiesVaccineList();
                             vaccineList.addAll(dbHelper.getOtherVaccineList());
@@ -263,6 +262,7 @@ public class UpdateDog extends AppCompatActivity {
                         dogInformationTmp.setMissingDate(latestSeenDateSelected);
                     dogInformationTmp.setDogID(getIntent().getExtras().getInt("internalDogID"));
                     dbHelper.addDogInformation(dogInformationTmp);
+
                     dbHelper.deleteNull();
                     Intent intent = new Intent(UpdateDog.this, DogProfileActivity.class);
                     intent.putExtra("internalDogID", getIntent().getExtras().getInt("internalDogID"));
@@ -282,7 +282,6 @@ public class UpdateDog extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-
             }
         });
 
