@@ -415,7 +415,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             // need to set image //
             holder.name.setText(dog.getName());
             Log.i("Dog age range" , info.getAgeRange());
-            if (info.getAge() == -1) {
+            Log.i("Dog age range" , info.getAge() + "");
+            if (dog.getDogType().equals("3")) {
                 if (info.getAgeRange().equals("1")) {
                     if (language.equals("en")) {
                         holder.age.setText("Age : " + "0-3 years");
