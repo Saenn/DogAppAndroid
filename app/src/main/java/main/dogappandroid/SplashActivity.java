@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
                 //call the method
                 splash();
                 counter++;
-                if (counter >= 500){
+                if (counter >= 500) {
                     timer.cancel();
                     Intent login = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(login);
@@ -42,10 +42,10 @@ public class SplashActivity extends AppCompatActivity {
         }, begin, timeInterval);
     }
 
-    private void splash(){
+    private void splash() {
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        if(mPreferences.contains("finished")){
+        if (mPreferences.contains("finished")) {
             counter += 500;
             Intent ii = new Intent(SplashActivity.this,
                     HomeActivity.class);
@@ -53,5 +53,11 @@ public class SplashActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        
+    }
+
 }
 
