@@ -95,7 +95,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frontDomesticLabel"
-                app:srcCompat="@drawable/anonymous_user" />
+                app:srcCompat="@drawable/front" />
 
             <ImageButton
                 android:id="@+id/takePhotoDomesticFace"
@@ -170,7 +170,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sideDomesticLabel"
-                app:srcCompat="@drawable/anonymous_user" />
+                app:srcCompat="@drawable/side" />
 
             <Button
                 android:id="@+id/nextDomestic3"

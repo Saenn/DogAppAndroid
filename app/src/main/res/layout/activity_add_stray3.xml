@@ -96,7 +96,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frontStrayLabel"
-                app:srcCompat="@drawable/anonymous_user" />
+                app:srcCompat="@drawable/front" />
 
             <ImageButton
                 android:id="@+id/takePhotoStrayFace"
@@ -171,7 +171,7 @@
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sideStrayLabel"
-                app:srcCompat="@drawable/anonymous_user" />
+                app:srcCompat="@drawable/side" />
 
             <Button
                 android:id="@+id/nextButtonStray3"
